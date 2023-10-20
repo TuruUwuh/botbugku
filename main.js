@@ -1196,13 +1196,13 @@ reply(global.wait)
 }
 break
 case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
-if (!q) return paycall( `Example : ${prefix + command} link`)
+if (!text) return paycall( `Example : ${prefix + command} link`)
+if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
 reply(global.wait)
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-};
+require('./lib/tiktok').Tiktok(q).then( data => {
+conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: m })
+})
+}
 break
 case 'tt2': {
 if (!q) return paycall( `Example : ${prefix + command} link`)
@@ -1212,6 +1212,15 @@ let data = await res.json()
 let json = data.respon
 let cap = `𝑨𝑼𝑻𝑯𝑶𝑹 = ${json.author}\n𝐋𝐢𝐤𝐞 = ${json.like}\n𝐂𝐨𝐦𝐦𝐞𝐧𝐭 = ${json.comment}\n𝐒𝐡𝐚𝐫𝐞 = ${json.share}\n𝑫𝑬𝑺𝑪𝑹𝑰𝑷𝑻𝑰𝑶𝑵 = ${json.description}`
 conn.sendMessage(m.chat, { video: { url: json.media }, caption: cap }, { quoted: fkontak})
+};
+break
+case 'ttmp3backup': {
+if (!q) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
+let data = await res.json()
+let json = data.respon
+conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
 };
 break
 

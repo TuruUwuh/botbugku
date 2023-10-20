@@ -1,7 +1,7 @@
 const fs = require('fs')
 const chalk = require('chalk')
 
-global.baileys = require('@whiskeysockets/baileys')
+global.baileys = require('@adiwajshing/baileys')
 
 global.autoReading = false //auto recording (true to on, false to off)
 global.autoTyping = false //auto tying (true to on, false to off)
