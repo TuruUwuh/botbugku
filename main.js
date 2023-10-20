@@ -25,7 +25,7 @@ const primbon = new Primbon()
 const { Configuration, OpenAIApi } = require('openai')
 const { exec, spawn, execSync } = require("child_process")
 const { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
-const { smsg, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
+const { smsg, hitungmundur, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
@@ -37,6 +37,7 @@ const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
 const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
+
 
 module.exports = conn = async (conn, m, chatUpdate, store) => {
  try {
@@ -53,8 +54,10 @@ const botNumber = await conn.decodeJid(conn.user.id)
 const isCreator = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
 const text = q = args.join(" ")
 const { type, quotedMsg, mentioned, now, fromMe } = m
+const { chats } = m
 const quoted = m.quoted ? m.quoted : m
 const mime = (quoted.msg || quoted).mimetype || ''
+const qmsg = (quoted.msg || quoted)
 const isMedia = /image|video|sticker|audio/.test(mime)
 const isPrem = prem.includes(m.sender)
 const from = mek.key.remoteJid
@@ -73,10 +76,33 @@ const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
 const mentionByTag = m.mtype == "extendedTextMessage" && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : []
 const Input = mentionByTag[0] ? mentionByTag[0] : q ? numberQuery : false
+const wita = moment(Date.now()).tz('Asia/Makassar').locale('id').format('HH:mm:ss z')
+const wit = moment(Date.now()).tz('Asia/Jayapura').locale('id').format('HH:mm:ss z')
 const time = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('HH:mm:ss z')
 const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
+const tanggal = moment().tz("Asia/Makassar").format("dddd, ll")
+const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-vn = true
+const vn = true
+const time2 = moment().tz('Asia/Kolkata').format('HH:mm:ss')
+         if(time2 < "23:59:00"){
+var shinchantime = `Selamat Malam 🌌`
+ }
+ if(time2 < "19:00:00"){
+var shinchantime = `Selamat Malam 🌃`
+ }
+ if(time2 < "18:00:00"){
+var shinchantime = `Selamat Sore 🌃`
+ }
+ if(time2 < "15:00:00"){
+var shinchantime = `Selamat Sore 🌅`
+ }
+ if(time2 < "11:00:00"){
+var shinchantime = `Siang  🌄`
+ }
+ if(time2 < "05:00:00"){
+var shinchantime = `Selamat Pagi 🌄`
+ } 
 //fake quoted
 const ftroli = {
          key: {
@@ -233,10 +259,20 @@ key: {
 					}
 					}
 //===================SHINCHAN XD=========================//
+if (vn) {
+let allct = await store.chats.all().map(v => v.id)
+if (m.message && m) {
+if (vn === false) return
+for (let jid of allct) {
+conn.sendPresenceUpdate('composing', jid)
+}
+}
+}
+//===================SHINCHAN XD=========================//
 const paycall = (teks) => {
 var scheduledCallCreationMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
-"callType": '1',
+"callType": 'call',
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `${teks}`,
 }
@@ -311,12 +347,16 @@ if (command) {
 conn.readMessages([m.key])
 }
 }
-let rn = ['unavailable']
+// Public & Self
+      if (!conn.self) {
+         if (!m.key.fromMe && !isCreator) return
+      }
+/*let rn = ['recording']
 let jd = rn[Math.floor(Math.random() * rn.length)];
 if (m.message) {
 conn.sendPresenceUpdate(jd, from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', from))
-}
+}*/
 // Anti Link
 if (AntiLink) {
 if (body.match(/(chat.whatsapp.com\/)/gi)) {
@@ -474,132 +514,283 @@ user.afkReason = ''
 
 switch(command) {
 case 'menu': {
-await loading()
+var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
 "callType": '2',
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `*Hay ${pushname} 👋*
-Selamat ${salam}
-
+${shinchantime}
+Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+  *FITUR FREE MENU* 
 ━━━━━━━━━━━━━━━
-  *FITUR MENU* 
-━━━━━━━━━━━━━━━
-➤ ai
-➤ hd
-➤ loli
-➤ waifu
-➤ remini
-➤ removebg
-➤ imgeditor 🅟
-➤ textimg 🅟
-➤ toanime 🅟
-➤ tocartoon 🅟
-➤ jojo 🅟
-➤ anime2d 🅟
-➤ cartoon3d 🅟
-➤ pretty 🅟
-➤ romancecomic 🅟
-➤ maid 🅟
-➤ superhero 🅟
-➤ watercolor 🅟
-➤ doodle 🅟
-➤ americacomic 🅟
-➤ starrygirl 🅟
-➤ aksarajawa
-➤ latin (translate aksara jawa)
-➤ lens / googlelens
-➤ tiktok (link)
-➤ tiktokmp3 (link)
-➤ sticker 
-➤ toimg
-➤ take
-➤ toaudio
-➤ tomp3
-➤ togif
-➤ tovn
-━━━━━━━━━━━━━━━
-  *NSFW MENU* 
-━━━━━━━━━━━━━━━
-➤ hentai 🅟
-➤ hneko 🅟
-➤ trap 🅟
-➤ blowjob 🅟
-➤ pussy 🅟
-➤ ecchi 🅟
-➤ solog 🅟
-━━━━━━━━━━━━━━━
+➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ remini [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ pixivdl [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ smeme [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ qc [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ sticker [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ toimg [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ take/wm [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ toaudio [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tomp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ togif [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tovn [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+━━━━━━━━━━━━━━━━━━━
+➤ premmenu
+➤ nsfwmenu
 ➤ grupmenu
 ➤ bugmenu
-━━━━━━━━━━━━━━━`,
+➤ tqto
+━━━━━━━━━━━━━━━
+`,
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
 break
 
-case 'grupmenu': {
-await loading()
+case 'premmenu': {
+var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
 "callType": '2',
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `*Hay ${pushname} 👋*
-Selamat ${salam}
+${shinchantime}
+Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━
+  *FITUR PREMIUM MENU* 
 ━━━━━━━━━━━━━━━
+➤ hd [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ textimg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ toanime/jadianime [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ tocartoon [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ jojo [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ anime2d [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ cartoon3d [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ pretty [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ romancecomic [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ maid [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ superhero [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ watercolor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ doodle [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ americacomic [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ starrygirl [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+━━━━━━━━━━━━━━━
+`,
+}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
+case 'nsfwmenu': {
+var mundur = await hitungmundur(4, 23)
+var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"scheduledCallCreationMessage": {
+"callType": '2',
+"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
+"title": `*Hay ${pushname} 👋*
+${shinchantime}
+Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+  *NSFW MENU* 
+━━━━━━━━━━━━━━━
+➤ hentai [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ hneko [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ trap [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ blowjob [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ pussy [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ ecchi [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ solog [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+━━━━━━━━━━━━━━━
+`,
+}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
+case 'grupmenu': {
+var mundur = await hitungmundur(4, 23)
+var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"scheduledCallCreationMessage": {
+"callType": '2',
+"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
+"title": `*Hay ${pushname} 👋*
+${shinchantime}
+Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
   *GROUP MENU* 
 ━━━━━━━━━━━━━━━
-➤ welcome on / off
-➤ antilink on / off
-➤ antitoxic on / off
-➤ pushkontak (textnya)
-➤ pushcontid (id group)
-➤ bcgc (textnya)
-➤ openai (textnya)
-➤ hidetag (textnya)
-➤ kick (628xx)
-➤ add (628xx)
-➤ promote (628xx)
-➤ demote (628xx)
-➤ sendlinkgc (628xx)
-➤ editgroup close / open
-➤ editinfo on / off
-➤ join (linknya)
-➤ editsubjek (textnya)
-➤ editdesk (textnya)
-➤ tagall (textnya)
-➤ linkgroup
-➤ resetlinkgc
-➤ promoteall
-➤ demoteall
-━━━━━━━━━━━━━━━`,
+➤ welcome on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antilink on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antitoxic on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ pushkontak (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ pushcontid (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ bcgc (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ hidetag (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ kick (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ add (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ promote (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ demote (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sendlinkgc (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ editgroup close / open [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ editinfo on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ join (linknya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ editsubjek (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ editdesk (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ tagall (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ linkgroup [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ resetlinkgc [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ promoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ demoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ repeat [ 𝗢𝗪𝗡𝗘𝗥 ]
+━━━━━━━━━━━━━━━
+`,
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
 break
 case 'bugmenu': {
-await loading()
+var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
 "callType": '2',
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `*Hay ${pushname} 👋*
-Selamat ${salam}
+${shinchantime}
+×_×
+Fitur hanya boleh di akses owner ${global.ownername}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━━━
+  *ONLY PRIVATE CHAT* 
+━━━━━━━━━━━━━━━━━━━━━━
+➤ sendbug (Bug Call) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sendbugtroli (Bug Troli) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sendbugpc (Bug Invite) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ jadikatalog (Reply Gambar/Stiker) [ 𝗢𝗪𝗡𝗘𝗥 ]
+━━━━━━━━━━━
+  *ONLY GRUP* 
+━━━━━━━━━━━
+➤ sendbuggc (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sendbugtroligc (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━━━━━
-  *BUG MENU* 
-━━━━━━━━━━━━━━━
-➤ bugtxt
-➤ sendbug
-➤ sendbugstik
-➤ sendbugtroli
-➤ sendbuggc (id group)
-➤ sendbugtroligc (id group)
-━━━━━━━━━━━━━━━`,
+`,
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
+break
+case 'tqto': {
+var mundur = await hitungmundur(4, 23)
+var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"scheduledCallCreationMessage": {
+"callType": '2',
+"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
+"title": `*Hay ${pushname} 👋*
+${shinchantime}
+Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+( REAL TIME )
+${tanggal}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( *HITUNG MUNDUR IDUL FITRI 🌜* )
+ ${mundur}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+  *THANKS BUAT TEMEN² KU* 
+━━━━━━━━━━━━━━━━━━━━━
+➤ Shield (Sauma)
+➤ Zulfa
+➤ Sawali
+➤ Kreyu
+➤ Ari
+➤ Zimura (Indra)
+➤ Bim-Bim
+➤ Bang Iman
+━━━━━━━━━━━━━━━
+`,
+}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
+
+case 'shutdown':
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+await loading()
+paycall(`Goodbye🖐`)
+await sleep(3000)
+process.exit()
+break
+case 'buatkan':
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+paycall(global.wait)
+await loading()
+break
+case 'restart':
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+paycall('In Process....')
+await loading()
+await sleep(15000)
+paytod('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰')
 break
 
 case 'pushkontak':{
@@ -731,6 +922,7 @@ break
 //========================NSFW=========================//
 
 case 'hd': {
+if (!isPrem) return replyprem(mess.premium)
 const alias = {
     "hd" : "torch-srgan",
   };
@@ -754,10 +946,9 @@ try {
     let anu = await TelegraPh(media);
     paycall(global.wait);
 
-    const response = `https://xzn.wtf/api/torch-srgan?url=${anu}&apikey=nerobot`
-    
+    const response = `https://xzn.wtf/api/waifu2x?url=${anu}&apikey=nerobot`
 
-    conn.sendMessage(from, { image: { url: response }, caption: 'nih' }, { quoted: fkontak });
+    conn.sendMessage(from, { image: { url: response }, caption: '𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️' }, { quoted: fkontak });
   }
 } catch (er) {
 					error = true;
@@ -769,6 +960,7 @@ try {
 					}
 break
 case 'removebg': {
+if (!isPrem) return replyprem(mess.premium)
 const alias = {
     "removebg" : "removebg"
   };
@@ -812,7 +1004,7 @@ case 'remini': {
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
 			}
 			break
 case 'imgeditor': {
@@ -949,7 +1141,6 @@ let json = data.respon
 conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
 };
 break
-
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
@@ -984,8 +1175,26 @@ let data = await response.json()
 }
 }
 break
-//=========================================================//
 
+case 'pixivdl': {
+if (args.length == 0) return reply(`Example: ${prefix + command} 63456028`)
+paycall(global.wait)
+pixivid = args[0]
+let ini_buffer = await fetch(`https://api.akuari.my.id/downloader/pixiv?id=${pixivid}&ext=.jpg`)
+await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: 'nih' }, { quoted: fkontak })
+}
+break
+case 'nhentai': {
+if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
+paycall(global.wait)
+henid = args[0]
+let res = await fetch(`https://xzn.wtf/api/nhentai?code=${henid}&apikey=nerobot`)
+let data = await res.json()
+let cap = `${data.title}`
+await conn.sendMessage(m.chat, { document: { url: data.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
+}
+break
+//=========================================================//
 /*case 'tt':{ 
 if (!text) return reply( `Example : ${prefix + command} link`)
 if (!q.includes('tiktok')) return reply(`Link Invalid!!`)
@@ -1111,7 +1320,7 @@ await sleep(60* secon)
 }
 break
 case 'sendbugstik': {
- if (!m.key.fromMe && !isCreator) return reply(lang.ownerOnly())
+if (!isCreator) return m.reply(`*khusus Owner*`)
 let memek = text.split("|")[0]+'@s.whatsapp.net'
 let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
@@ -1130,7 +1339,7 @@ await sleep(1000)
 }
 break
 case 'bugtxt': {
- if (!m.key.fromMe && !isCreator) return reply(lang.ownerOnly())
+if (!isCreator) return m.reply(`*khusus Owner*`)
  let memek = text.split("|")[0]+'@s.whatsapp.net'
 let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
@@ -1146,6 +1355,66 @@ await sleep(1000)
 conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
 await sleep(1000)
 }
+}
+break
+case 'jadikatalog': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+let media = await quoted.download()
+paycall(global.wait)
+var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
+var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+"productMessage": {
+"product": {
+"productImage": messa.imageMessage,
+"productId": "",
+"jpegThumbnail": thumb,
+"title": `${text} ${philips}`,
+"description": `${text} ${vapi()}`,
+"productImageCount": 999999999,
+"firstImageId": 1,
+"retailerId": `〔 ıll ☄︎ ⫹⫺ ᴺᵉʳᵒ☃︎ˢᵉⁿᵖᵃⁱ 浤 ☄︎ llı 〕`,
+"bodyText": `${text}`,
+"footerText": `${text}`,
+"url": "https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ"
+},
+"businessOwnerJid": "6282134110253@s.whatsapp.net",
+"contextInfo": {
+"forwardingScore": 150,
+"isForwarded": true
+}
+}
+}), { userJid: m.chat, quoted: fkontak })
+conn.relayMessage(m.chat, catalog.message, { messageId: catalog.key.id })
+}
+break
+case 'tokatalog': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+let media = await quoted.download()
+paycall(global.wait)
+var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
+var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+"productMessage": {
+"product": {
+"productImage": messa.imageMessage,
+"productId": "",
+"jpegThumbnail": thumb,
+"title": `${text}`,
+"description": `${text}`,
+"productImageCount": 999999999,
+"firstImageId": 1,
+"retailerId": `〔 ıll ☄︎ ⫹⫺ ᴺᵉʳᵒ☃︎ˢᵉⁿᵖᵃⁱ 浤 ☄︎ llı 〕`,
+"bodyText": `${text}`,
+"footerText": `${text}`,
+"url": "https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ"
+},
+"businessOwnerJid": "6282134110253@s.whatsapp.net",
+"contextInfo": {
+"forwardingScore": 150,
+"isForwarded": true
+}
+}
+}), { userJid: m.chat, quoted: fkontak })
+conn.relayMessage(m.chat, catalog.message, { messageId: catalog.key.id })
 }
 break
 case 'testaja': {
@@ -1192,25 +1461,55 @@ conn.relayMessage(from, interactiveMessage.message, { messageId: interactiveMess
 }
 break
 //========================BUG WHATSAPP=========================//
-
+case 'setpp': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
+if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+paycall(global.wait)
+var media = await conn.downloadAndSaveMediaMessage(quoted)
+try {
+if (args[0] == "/full") {
+const { generateProfilePicture } = require("./lib/myfunc")
+var { img } = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
+} else { await conn.updateProfilePicture(botNumber, { url: media }) }
+paycall('DONE')
+} catch { paycall('Gagal Mengganti Photo Profile') }
+}
+break
 //STICKER
 case 's': case 'sticker': case 'stiker': {
 if (!quoted) return paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
 await loading()
-if (/image/.test(mime)) {
-let media = await quoted.download()
-let encmedia = await conn.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
-
-} else if (/video/.test(mime)) {
-if ((quoted.msg || quoted).seconds > 11) return paycall('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
-let media = await quoted.download()
-let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
-
-} else {
-paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
-}
-}
-break
+if (quoted.isAnimated) {
+               let media = await conn.downloadAndSaveMediaMessage(quoted)
+               let webpToMp4 = await webp2mp4File(media)
+               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+               await fs.unlinkSync(encmedia)
+            } else if (/image/.test(mime)) {
+               let media = await quoted.download()
+               let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+               await fs.unlinkSync(encmedia)
+            } else if (/video/.test(mime)) {
+               if ((quoted.msg || quoted).seconds > 11) return paycall('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
+               let media = await quoted.download()
+               let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+               await fs.unlinkSync(encmedia)
+            } else {
+               paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
+            }
+         }
+         break
 case 'toimg': {
 	paycall(global.wait)
 	const getRandom = (ext) => {
@@ -1305,6 +1604,37 @@ case 'swm': case 'take':
             }
             }
          break
+         case 'smeme': {
+                let respond = `Send/Reply image/sticker with caption ${prefix + command} text1|text2`
+                if (!/image/.test(mime)) return paycall(respond)
+                if (!text) return paycall(respond)
+                paycall(global.wait)
+                atas = text.split('|')[0] ? text.split('|')[0] : '-'
+                bawah = text.split('|')[1] ? text.split('|')[1] : '-'
+                let dwnld = await conn.downloadAndSaveMediaMessage(qmsg)
+                let fatGans = await TelegraPh(dwnld)
+                let smeme = `https://api.memegen.link/images/custom/${encodeURIComponent(atas)}/${encodeURIComponent(bawah)}.png?background=${fatGans}`
+                let pop = await conn.sendImageAsSticker(m.chat, smeme, m, {
+                    packname: packname,
+                    author: author
+                })
+                fs.unlinkSync(pop)
+            }
+            break
+            case 'qc': {
+                const {
+                    quote
+                } = require('./lib/quote.js')
+                if (!q) return paycall('Enter Text')
+                let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
+                const rest = await quote(q, pushname, ppnyauser)
+                paycall(global.wait)
+                conn.sendImageAsSticker(m.chat, rest.result, m, {
+                    packname: `${global.packname}`,
+                    author: `${global.author}`
+                })
+            }
+            break
 //END STICKER
 case 'tes':
          case 'runtime':
@@ -1385,14 +1715,22 @@ await conn.groupParticipantsUpdate(from, [users], 'demote')
 }
 break
 
-case 'hidetag': {
+case 'hidetag': case 'hid':
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-await loading()
-conn.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)}, {quoted:m})
-}
+conn.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)
+})
 break
-
+case 'totag':
+                if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
+if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
+if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
+                conn.sendMessage(m.chat, {
+                    forward: m.quoted.fakeObj,
+                    mentions: participants.map(a => a.id)
+                })
+                break
 
 case 'editgroup': {   
 if (!isCreator) return m.reply(`*khusus Owner*`)
@@ -1628,6 +1966,20 @@ await conn.updateBlockStatus(users, 'unblock').then((res) => m.reply(jsonformat(
 break
 //END GROUP MENU
 
+//========================REPEAT WHATSAPP=========================//
+case 'repeat':
+if (!isCreator) return paycall(global.ownercuy)
+if (!text) return paycall('Masukan Text|jumlah')
+paycall(global.wait)
+var shinchan_kawaii = `${args.join(' ')}`
+var kata = shinchan_kawaii.split("|")[0];
+var angka = shinchan_kawaii.split("|")[1]
+let katanya = `${kata}`.repeat(angka)
+await conn.sendMessage(m.chat, { text: `${katanya}` }, { quoted: fkontak})
+break
+//END REPEAT
+
+
 default:
 if (budy.startsWith('=>')) {
 if (!isCreator) return m.reply(`*khusus Owner*`)
@@ -1658,10 +2010,12 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
                }
             }
 if (budy.startsWith('$')) {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-exec(budy.slice(2), (err, stdout) => {
-if(err) return m.reply(err)
-if (stdout) return m.reply(stdout)})}
+                    if (!isCreator) return m.reply(`*khusus Owner*`)
+                    exec(budy.slice(2), (err, stdout) => {
+                        if (err) return reply(err)
+                        if (stdout) return reply(stdout)
+                    })
+                }
 
 if (isCmd && budy.toLowerCase() != undefined) {
 if (from.endsWith('broadcast')) return

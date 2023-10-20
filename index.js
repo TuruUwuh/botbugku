@@ -1,11 +1,13 @@
 require('./config')
-const { default: makeWASocket, useMultiFileAuthState, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, getAggregateVotesInPollMessage, proto } = global.baileys
+const { default: makeWASocket, delay, useMultiFileAuthState, PHONENUMBER_MCC, makeCacheableSignalKeyStore, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, getAggregateVotesInPollMessage, proto } = global.baileys
 const fs = require('fs')
 const pino = require('pino')
 const chalk = require('chalk')
 const path = require('path')
 const axios = require('axios')
 const FileType = require('file-type')
+const readline = require("readline")
+const NodeCache = require("node-cache")
 const yargs = require('yargs/yargs')
 const _ = require('lodash')
 const { Boom } = require('@hapi/boom')
@@ -54,14 +56,77 @@ sticker: {},
   global.db.chain = _.chain(global.db.data)}
 loadDatabase()
 //=================================================//
-//=================================================//
+let phoneNumber = "6282134110253"
+let owner = JSON.parse(fs.readFileSync('./database/owner.json'))
+
+const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
+const useMobile = process.argv.includes("--mobile")
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
+const question = (text) => new Promise((resolve) => rl.question(text, resolve))
+         
 async function startConnect() {
-const { state, saveCreds } = await useMultiFileAuthState(global.sessionName)
-const conn = makeWASocket({
-logger: pino({ level: 'silent' }),
-printQRInTerminal: true,
-browser: ['HW VERSION 19','Safari','1.0.0'],
-auth: state})
+//------------------------------------------------------
+let { version, isLatest } = await fetchLatestBaileysVersion()
+const {  state, saveCreds } =await useMultiFileAuthState(`./session`)
+    const msgRetryCounterCache = new NodeCache() // for retry message, "waiting message"
+    const conn = makeWASocket({
+        logger: pino({ level: 'silent' }),
+        printQRInTerminal: !pairingCode, // popping up QR in terminal log
+      mobile: useMobile, // mobile api (prone to bans)
+      browser: ['Chrome (Linux)', '', ''], // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
+     auth: {
+         creds: state.creds,
+         keys: makeCacheableSignalKeyStore(state.keys, pino({ level: "fatal" }).child({ level: "fatal" })),
+      },
+      browser: ['Chrome (Linux)', '', ''], // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
+      markOnlineOnConnect: true, // set false for offline
+      generateHighQualityLinkPreview: true, // make high preview link
+      getMessage: async (key) => {
+         let jid = jidNormalizedUser(key.remoteJid)
+         let msg = await store.loadMessage(jid, key.id)
+
+         return msg?.message || ""
+      },
+      msgRetryCounterCache, // Resolve waiting messages
+      defaultQueryTimeoutMs: undefined, // for this issues https://github.com/WhiskeySockets/Baileys/issues/276
+   })
+   
+   store.bind(conn.ev)
+
+    // login use pairing code
+   // source code https://github.com/WhiskeySockets/Baileys/blob/master/Example/example.ts#L61
+   if (pairingCode && !conn.authState.creds.registered) {
+      if (useMobile) throw new Error('Cannot use pairing code with mobile api')
+
+      let phoneNumber
+      if (!!phoneNumber) {
+         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+
+         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+            console.log(chalk.bgBlack(chalk.redBright("Mulailah dengan kode negara Nomor WhatsApp Anda, Contoh : +6282134110253")))
+            process.exit(0)
+         }
+      } else {
+         phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Silakan ketik nomor WhatsApp Anda 😍\nContoh: +6282134110253 : `)))
+         phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+
+         // Ask again when entering the wrong number
+         if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+            console.log(chalk.bgBlack(chalk.redBright("Mulailah dengan kode negara Nomor WhatsApp Anda, Contoh : +6282134110253")))
+
+            phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Silakan ketik nomor WhatsApp Anda 😍\nContoh: +6282134110253 : `)))
+            phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+            rl.close()
+         }
+      }
+
+      setTimeout(async () => {
+         let code = await conn.requestPairingCode(phoneNumber)
+         code = code?.match(/.{1,4}/g)?.join("-") || code
+         console.log(chalk.black(chalk.bgGreen(`Your Pairing Code : `)), chalk.black(chalk.white(code)))
+      }, 3000)
+   }
 //=================================================//
 conn.decodeJid = (jid) => {
 if (!jid) return jid
@@ -166,19 +231,29 @@ conn.sendMessage(jid, { contacts: { displayName: `${list.length} Kontak`, contac
 conn.public = true
 //=================================================//
 conn.serializeM = (m) => smsg(conn, m, store)
-conn.ev.on('connection.update', async (update) => {
-const { connection, lastDisconnect } = update
-if (connection === 'close') {
-let reason = new Boom(lastDisconnect?.error)?.output.statusCode
-if (reason === DisconnectReason.badSession) {conn.logout();}
-else if (reason === DisconnectReason.connectionClosed) {startConnect(); }
-else if (reason === DisconnectReason.connectionLost) {startConnect(); }
-else if (reason === DisconnectReason.connectionReplaced) {conn.logout(); }
-else if (reason === DisconnectReason.loggedOut) {conn.logout(); }
-else if (reason === DisconnectReason.restartRequired) {startConnect(); }
-else if (reason === DisconnectReason.timedOut) {startConnect(); }
-else conn.end(`Unknown DisconnectReason: ${reason}|${connection}`)}
-console.log('Connected...', update)})
+
+conn.ev.on("connection.update",async  (s) => {
+        const { connection, lastDisconnect } = s
+        if (connection == "open") {
+        	console.log(chalk.magenta(` `))
+            console.log(chalk.yellow(`🌿Connected to => ` + JSON.stringify(conn.user, null, 2)))
+			await delay(1999)
+            console.log(chalk.yellow(`\n\n                  ${chalk.bold.blue(`[ 𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 𝘽𝙊𝙏 𝙒𝙃𝘼𝙏𝙎𝘼𝙋𝙋 ]`)}\n\n`))
+            console.log(chalk.cyan(`< ================================================== >`))
+            console.log(chalk.magenta(`\n🐼 𝙂𝙄𝙏𝙃𝙐𝘽: https://github.com/ShinChanYucan/ `))
+            console.log(chalk.magenta(`🐼 𝙄𝙉𝙎𝙏𝘼𝙂𝙍𝘼𝙈: @shinchan.senpai `))
+            console.log(chalk.magenta(`🐼 𝙒𝙃𝘼𝙏𝙎𝘼𝙋𝙋: ${owner}`))
+            console.log(chalk.magenta(`🐼 𝘾𝙍𝙀𝘿𝙄𝙏: 𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 𝘼𝙉𝘼𝙆 𝙂𝘼𝙉𝙏𝙀𝙉𝙂\n`))
+        }
+        if (
+            connection === "close" &&
+            lastDisconnect &&
+            lastDisconnect.error &&
+            lastDisconnect.error.output.statusCode != 401
+        ) {
+            startConnect()
+        }
+    })
 //=================================================//
 conn.ev.on('creds.update', saveCreds)
  //=================================================//

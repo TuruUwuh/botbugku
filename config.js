@@ -5,12 +5,12 @@ global.baileys = require('@whiskeysockets/baileys')
 
 global.autoReading = false //auto recording (true to on, false to off)
 global.autoTyping = false //auto tying (true to on, false to off)
-global.autoRecord = true 
+global.autoRecord = false
 global.autoOff = false 
 global.gr = 'https://chat.whatsapp.com/-' // Ubah jadi grup lu
 global.ig = 'https://instagram.com/shinchan.senpai' // ubah aja
 global.email = 'shinchansenpai57@gmail.com' //bebas
-global.region = 'indonesia' // bebas
+global.region = 'indonesia 🇮🇩' // bebas
 //—————「 Set Nama Own & Bot 」—————//
 global.ownername = '𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏' //ubah jadi nama mu, note tanda ' gausah di hapus!
 //=================================================//
@@ -36,6 +36,7 @@ global.wlcm = []
 global.wlcmm = []
 global.wait = '⏳ Sedang Di Proses...'
 global.done = '🤗Done, Oke Desu~'
+global.ownercuy = '❌ Khusus Owner Cuy'
 //messages
 global.mess = {
     success: 'Here you go!', 
