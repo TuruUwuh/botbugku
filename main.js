@@ -31,6 +31,7 @@ const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews,
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'))
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'))
+const pengguna = JSON.parse(fs.readFileSync('./database/user.json'))
 const docunye = JSON.parse(fs.readFileSync('./database/docu.json'))
 const zipnye = JSON.parse(fs.readFileSync('./database/zip.json'))
 const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
@@ -83,7 +84,7 @@ const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const tanggal = moment().tz("Asia/Makassar").format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-const vn = true
+const vn = false
 const time2 = moment().tz('Asia/Kolkata').format('HH:mm:ss')
          if(time2 < "23:59:00"){
 var shinchantime = `Selamat Malam 🌌`
@@ -294,7 +295,20 @@ var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.f
 conn.relayMessage(m.chat, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
 const reply = (teks) => {
-return conn.sendMessage(from, { text: teks, contextInfo:{"externalAdReply": {"title": `DEVELOPER ${botname}`,"body": `Selamat ${salam} kak ${pushname}`, "previewType": "PHOTO","thumbnailUrl": 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',"thumbnail": thumb,"sourceUrl": `https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ`}}}, { quoted: fkontak})} 
+return conn.sendMessage(from, { text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `DEVELOPER ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: fkontak})} 
 
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
@@ -304,7 +318,7 @@ function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 async function replyprem(teks) {
-    paycall(`Fitur ini untuk pengguna premium, hubungi pemilik untuk menjadi pengguna premium`)
+    reply(`Fitur ini untuk pengguna premium, hubungi pemilik untuk menjadi pengguna premium`)
 }
 async function loading () {
 var shinchanehe = [
@@ -540,6 +554,8 @@ ${wit}
 ➤ remini [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ pixivdl [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ smeme [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ spotify [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ spotifysearch [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ qc [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -776,21 +792,16 @@ break
 case 'shutdown':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 await loading()
-paycall(`Goodbye🖐`)
+reply(`Goodbye🖐`)
 await sleep(3000)
 process.exit()
 break
-case 'buatkan':
-if (!isCreator) return paycall('*Khusus Owner Bot*')
-paycall(global.wait)
-await loading()
-break
 case 'restart':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-paycall('In Process....')
+reply('In Process....')
 await loading()
 await sleep(15000)
-paytod('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰')
+exec('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰')
 break
 
 case 'pushkontak':{
@@ -799,12 +810,12 @@ if (!m.isGroup) return paycall(`di group coy`)
 if (!text) return paycall(`Teks Nya Kak?`)
 let mem = await participants.filter(v => v.id.endsWith('.net')).map(v => v.id)
 let teksnye = `${q}`
-paycall(`*Mengirim pesan ke ${mem.length} orang, waktu selesai ${mem.length * 3} detik*`)
+reply(`*Mengirim pesan ke ${mem.length} orang, waktu selesai ${mem.length * 3} detik*`)
 for (let m of mem) {
 await sleep(3000)
 conn.sendMessage(m, {text: `${teksnye}`}, {quoted: fkontak})
 }
-paycall(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
+reply(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
 }
 break
 case 'owner': case 'crator':{
@@ -813,27 +824,27 @@ case 'owner': case 'crator':{
 break
 case 'addprem':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-if (!args[0]) return paycall(`Use ${prefix+command} number\nExample ${prefix+command} 6282134110253`)
+if (!args[0]) return reply(`Use ${prefix+command} number\nExample ${prefix+command} 6282134110253`)
 prrkek = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
 let ceknya = await conn.onWhatsApp(prrkek)
-if (ceknya.length == 0) return paycall(`Enter a valid and registered number on WhatsApp!!!`)
+if (ceknya.length == 0) return reply(`Enter a valid and registered number on WhatsApp!!!`)
 prem.push(prrkek)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
-paycall(`The Number ${prrkek} Has Been Premium!`)
+reply(`The Number ${prrkek} Has Been Premium!`)
 break
 case 'delprem':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-if (!args[0]) return paycall(`Use ${prefix+command} nomor\nExample ${prefix+command} 6282134110253`)
+if (!args[0]) return reply(`Use ${prefix+command} nomor\nExample ${prefix+command} 6282134110253`)
 ya = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
 unp = prem.indexOf(ya)
 prem.splice(unp, 1)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
-paycall(`The Number ${ya} Has Been Removed Premium!`)
+reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //AI MENU
 case 'ai': {
 if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
-paycall(global.wait)
+reply(global.wait)
   if (!text) return m.reply('Apa yang bisa saya bantu?')
     let response = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`)
     let data = await response.json()
@@ -851,7 +862,7 @@ if (!quoted) throw `*Send/Reply the Video/Image Caption* ${prefix + command}`
 let media = await conn.downloadAndSaveMediaMessage(quoted)
 if (/image/.test(mime)) {
 let anu = await TelegraPh(media)
-paycall(global.wait)
+reply(global.wait)
   let response = `https://xzn.wtf/api/toanime?url=${util.format(anu)}&apikey=${global.wtf}`
 
 conn.sendMessage(from, { image: { url: response}, caption: command },{ quoted: fkontak });
@@ -860,7 +871,7 @@ conn.sendMessage(from, { image: { url: response}, caption: command },{ quoted: f
 break
 //========================WAIFU=========================//
 case 'waifu': {
-paycall(global.wait)
+reply(global.wait)
             axios.get(`https://api.waifu.pics/sfw/waifu`)
                .then(({
                   data
@@ -870,7 +881,7 @@ paycall(global.wait)
          }
          break
          case 'loli':{
-         paycall(global.wait)
+         reply(global.wait)
 let heyy
 if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/master/loli.json')
 let yeha = heyy[Math.floor(Math.random() * heyy.length)]
@@ -882,41 +893,41 @@ break
 //========================NSFW=========================//
          case 'hentai' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)         
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'hneko' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'trap' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/trap`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'blowjob' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/blowjob`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'pussy' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
 break
 case 'ecchi' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` } })
 break
 case 'solog' :
 if (!isPrem) return replyprem(mess.premium)
-paycall(global.wait)
+reply(global.wait)
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
 break
 //========================NSFW=========================//
@@ -944,7 +955,7 @@ try {
 
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    paycall(global.wait);
+    reply(global.wait);
 
     const response = `https://xzn.wtf/api/waifu2x?url=${anu}&apikey=nerobot`
 
@@ -954,7 +965,7 @@ try {
 					error = true;
 				} finally {
 					if (error) {
-						paycall("Proses Gagal :(");
+						reply("Proses Gagal :(");
 					}
 					}
 					}
@@ -982,7 +993,7 @@ try {
 
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    paycall(global.wait);
+    reply(global.wait);
 
     const response = `https://xzn.wtf/api/removebg?url=${anu}&apikey=nerobot`
     
@@ -993,14 +1004,14 @@ try {
 					error = true;
 				} finally {
 					if (error) {
-						paycall("Proses Gagal :(");
+						reply("Proses Gagal :(");
 					}
 					}
 					}
 break
 case 'remini': {
 			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			paycall(global.wait)
+			reply(global.wait)
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
@@ -1084,7 +1095,7 @@ try {
 
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    paycall(global.wait);
+    reply(global.wait);
 
     const response = await fetchJson(`https://xzn.wtf/api/aimirror?&apikey=kreya&url=${anu}&filter=${aliasCommand}`);
    
@@ -1094,7 +1105,7 @@ try {
 					error = true;
 				} finally {
 					if (error) {
-						paycall("Proses Gagal :(");
+						reply("Proses Gagal :(");
 					}
 					}
 					}
@@ -1121,10 +1132,81 @@ if (!text) return m.reply(`${command} smile face with blush and blue hair`)
 					}
   //END AI MENU
 break
+//========================SPOTIFY=========================//
+case 'spotifysearch': {
+if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;  
+  let teks = '';
+  try {
+    const api = await fetch(`https://api.betabotz.org/api/search/spotify?query=${text}&apikey=hYnG4TVp`);
+    let json = await api.json();
+    let res = json.result.data;    
+    for (let i in res) {
+      teks += `*${parseInt(i) + 1}.* *Title:* ${res[i].title}\n`;
+      teks += `*Duration:* ${res[i].duration}\n`;
+      teks += `*Popularity:* ${res[i].popularity}\n`;
+      teks += `*Link:* ${res[i].url}\n\n`;
+    }     
+    await conn.relayMessage(m.chat, {
+     extendedTextMessage:{
+                text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://www.scdn.co/i/_global/open-graph-default.png',
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }
+                }, mentions: [m.sender]
+    }}, {})
+  } catch (e) {
+    throw `🚩 *Gagal Memuat Data!*`;
+  }
+};
+break
+case "spotify":{
+if (!text) return paycall(`Di mana tautannya?`)
+reply(global.wait)
+        const Spotify = require('./lib/spotify')
+        const spotify = new Spotify(text)
+        const info = await spotify.getInfo()
+        if ((info).error) return paytod(`The link you provided is not spotify link`)
+        const { name, artists, album_name, release_date, cover_url } = info
+        const details = `🐼 *Title:* ${name || ''}\n🐼 *Artists:* ${(artists || []).join(
+            ','
+        )}\n🐼 *Album:* ${album_name}\n🐼 *Release Date:* ${release_date || ''}`
+       const response = await conn.sendMessage(m.chat, { image: { url: cover_url }, caption: details }, { quoted: fkontak })
+        const bufferpotify = await spotify.download()
+        await conn.sendMessage(m.chat, { audio: bufferpotify }, { quoted: response })
+        }
+break
 //========================TIKTOK=========================//
 case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
-if (!q) return reply( `Example : ${prefix + command} link`)
-paycall(global.wait)
+if (!args[0]) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+  let res = await fetch(`https://api.zeltoria.my.id/api/download/tiktok?url=${args[0]}&apikey=Elistz`)
+  let x = await res.json()
+  let anu = x.result
+  let cap = `${global.done}`
+  conn.sendMessage(m.chat, { video: { url: anu.video.no_watermark_hd }, caption: cap }, { quoted: fkontak})
+}
+break
+case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
+if (!q) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
+let data = await res.json()
+let json = data.respon
+conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
+};
+break
+case 'tt2': {
+if (!q) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
 let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
 let data = await res.json()
 let json = data.respon
@@ -1132,19 +1214,11 @@ let cap = `𝑨𝑼𝑻𝑯𝑶𝑹 = ${json.author}\n𝐋𝐢𝐤𝐞 = ${json.
 conn.sendMessage(m.chat, { video: { url: json.media }, caption: cap }, { quoted: fkontak})
 };
 break
-case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
-if (!q) return reply( `Example : ${prefix + command} link`)
-paycall(global.wait)
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-};
-break
+
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
-paycall(global.wait)
+reply(global.wait)
 let response = await fetch(`https://api.akuari.my.id/other/latinkeaksara?query=${text}`)
 let data = await response.json()
    
@@ -1153,7 +1227,7 @@ let data = await response.json()
 break
 case 'latin': {
 if (!text) return paycall( `Caranya kirim teks aksara jawa biar di translate in sama bot`)
-paycall(global.wait)
+reply(global.wait)
 let response = await fetch(`https://api.akuari.my.id/other/aksarakelatin?query=${text}`)
 let data = await response.json()
    
@@ -1163,7 +1237,7 @@ break
 
 case 'lens': case 'googlelens': {
 if (!/image/.test(mime)) return paycall(`Fitur Lens/Google Lens adalah fitur untuk mengambil teks di gambar, kegunaannya biar mudah ambil teks yang di foto, fitur ini masih tahap beta yang di kembangkan oleh developer shinchan senpai💖, cara pakainya kalian kirim foto yang ada teks nya lalu kalian (ketik : ${prefix} lens / ${prefix} googlelens).`)
-paycall(global.wait)
+reply(global.wait)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 
   if (/image/.test(mime)) {
@@ -1177,16 +1251,16 @@ let data = await response.json()
 break
 
 case 'pixivdl': {
-if (args.length == 0) return reply(`Example: ${prefix + command} 63456028`)
-paycall(global.wait)
+if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
+reply(global.wait)
 pixivid = args[0]
 let ini_buffer = await fetch(`https://api.akuari.my.id/downloader/pixiv?id=${pixivid}&ext=.jpg`)
 await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: 'nih' }, { quoted: fkontak })
 }
 break
 case 'nhentai': {
-if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
-paycall(global.wait)
+if (args.length == 0) return paycall(`Example: ${prefix + command} 344253`)
+reply(global.wait)
 henid = args[0]
 let res = await fetch(`https://xzn.wtf/api/nhentai?code=${henid}&apikey=nerobot`)
 let data = await res.json()
@@ -1358,9 +1432,9 @@ await sleep(1000)
 }
 break
 case 'jadikatalog': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isCreator) return paycall(`*khusus Owner*`)
 let media = await quoted.download()
-paycall(global.wait)
+reply(global.wait)
 var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
 var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
@@ -1390,7 +1464,7 @@ break
 case 'tokatalog': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 let media = await quoted.download()
-paycall(global.wait)
+reply(global.wait)
 var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
 var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
@@ -1466,7 +1540,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-paycall(global.wait)
+reply(global.wait)
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
@@ -1474,14 +1548,14 @@ const { generateProfilePicture } = require("./lib/myfunc")
 var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
-paycall('DONE')
-} catch { paycall('Gagal Mengganti Photo Profile') }
+reply('DONE')
+} catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
 //STICKER
 case 's': case 'sticker': case 'stiker': {
 if (!quoted) return paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
-await loading()
+reply(global.wait)
 if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
@@ -1511,7 +1585,7 @@ if (quoted.isAnimated) {
          }
          break
 case 'toimg': {
-	paycall(global.wait)
+	reply(global.wait)
 	const getRandom = (ext) => {
             return `${Math.floor(Math.random() * 10000)}${ext}`
         }
@@ -1534,7 +1608,7 @@ fs.unlinkSync(name)
 case 'toaud': case 'toaudio': {
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
-            paycall(global.wait)
+            reply(global.wait)
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
@@ -1545,7 +1619,7 @@ case 'toaud': case 'toaudio': {
             if (/document/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
-            paycall(global.wait)
+            reply(global.wait)
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
@@ -1555,7 +1629,7 @@ case 'toaud': case 'toaudio': {
             case 'tovn': case 'toptt': {
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
-            paycall(global.wait)
+            reply(global.wait)
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
             let audio = await toPTT(media, 'mp4')
@@ -1565,7 +1639,7 @@ case 'toaud': case 'toaudio': {
             case 'togif': {
                 if (!quoted) return paycall('Reply video')
                 if (!/webp/.test(mime)) return paycall(`reply sticker with caption *${prefix + command}*`)
-                paycall(global.wait)
+                reply(global.wait)
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await conn.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
@@ -1608,7 +1682,7 @@ case 'swm': case 'take':
                 let respond = `Send/Reply image/sticker with caption ${prefix + command} text1|text2`
                 if (!/image/.test(mime)) return paycall(respond)
                 if (!text) return paycall(respond)
-                paycall(global.wait)
+                reply(global.wait)
                 atas = text.split('|')[0] ? text.split('|')[0] : '-'
                 bawah = text.split('|')[1] ? text.split('|')[1] : '-'
                 let dwnld = await conn.downloadAndSaveMediaMessage(qmsg)
@@ -1628,7 +1702,7 @@ case 'swm': case 'take':
                 if (!q) return paycall('Enter Text')
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
-                paycall(global.wait)
+                reply(global.wait)
                 conn.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
@@ -1948,6 +2022,61 @@ await fs.unlinkSync(media)
 }
 
 break
+case 'toonce':
+            case 'nyehh': {
+            if (!isCreator) return paycall(global.ownercuy)
+                if (!quoted) return replygcxeon(`Reply Image/Video`)
+                if (/image/.test(mime)) {
+                    anuan = await conn.downloadAndSaveMediaMessage(quoted)
+                    conn.sendMessage(m.chat, {
+                        image: {
+                            url: anuan
+                        },
+                        caption: `${done}`,
+                        fileLength: "9999999999999999",
+                        viewOnce: true
+                    }, {
+                        quoted: m
+                    })
+                    } else if (/audio/.test(mime)) {
+                    anuan = await conn.downloadAndSaveMediaMessage(quoted)
+                    conn.sendMessage(m.chat, {
+                        audio: {
+                            url: anuan
+                        },
+                        caption: `${done}`,
+                        fileLength: "19",
+                        viewOnce: true
+                    }, {
+                        quoted: m
+                    })
+                    } else if (/document/.test(mime)) {
+                    anuan = await conn.downloadAndSaveMediaMessage(quoted)
+                    conn.sendMessage(m.chat, {
+                        document: {
+                            url: anuan
+                        },
+                        caption: `${done}`,
+                        fileLength: "9999999999999999",
+                        viewOnce: true
+                    }, {
+                        quoted: m
+                    })
+                } else if (/video/.test(mime)) {
+                    anuanuan = await conn.downloadAndSaveMediaMessage(quoted)
+                    conn.sendMessage(m.chat, {
+                        video: {
+                            url: anuanuan
+                        },
+                        caption: `${done}`,
+                        fileLength: "9999999999999999",
+                        viewOnce: true
+                    }, {
+                        quoted: m
+                    })
+                }
+            }
+            break
 
 case 'block': {
 if (!isCreator) return m.reply('*Khusus Owner Bot*')
@@ -1970,12 +2099,19 @@ break
 case 'repeat':
 if (!isCreator) return paycall(global.ownercuy)
 if (!text) return paycall('Masukan Text|jumlah')
-paycall(global.wait)
+reply(global.wait)
 var shinchan_kawaii = `${args.join(' ')}`
 var kata = shinchan_kawaii.split("|")[0];
 var angka = shinchan_kawaii.split("|")[1]
 let katanya = `${kata}`.repeat(angka)
 await conn.sendMessage(m.chat, { text: `${katanya}` }, { quoted: fkontak})
+break
+case 'getcase':
+if (!isCreator) return paycall(global.ownercuy)
+const getCase = (cases) => {
+return "case" + `'${cases}'` + fs.readFileSync("main.js").toString().split('case \'' + cases + '\'')[1].split("break")[0] + "break"
+}
+reply(`${getCase(q)}`)
 break
 //END REPEAT
 
