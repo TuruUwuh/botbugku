@@ -1324,8 +1324,8 @@ if (!/[0-9]/.test(body)) throw ('only number')
 reply(global.wait)
 let response = await fetch(`https://xzn.wtf/api/nhentai?code=${body}&apikey=nerobot`)
 let wtf = await response.json()
-let cap = wtf.title.japanese
-return await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
+let cap = `${wtf.title.english}`
+await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
 }
 break
 //=========================================================//
