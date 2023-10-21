@@ -1264,14 +1264,6 @@ let data = await response.json()
 }
 break
 //========================WALLPAPER=========================//
-case 'wallpaper2':{
-reply(global.wait)
- waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
-            await conn.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: global.done}, { quoted:m }).catch(err => {
-                    return('Error!')
-                })
-                }
-break
 case 'wallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
@@ -1288,7 +1280,14 @@ const i = Math.floor(Math.random() * wallpaper.length)
                 })
 //conn.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
 break
-
+case 'wallpaper2':{
+reply(global.wait)
+ waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
+            await conn.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: global.done}, { quoted:m }).catch(err => {
+                    return('Error!')
+                })
+                }
+break
 case 'wall2': {
                 if (!args.join(" ")) return paycall("Wallpaper apa yang kamu cari??")
                 reply(global.wait)
@@ -1314,9 +1313,10 @@ if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
 pixivid = args[0]
 let ini_buffer = await fetch(`https://api.akuari.my.id/downloader/pixiv?id=${pixivid}&ext=.jpg`)
-await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: 'nih' }, { quoted: fkontak })
+await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: `${global.done}` }, { quoted: fkontak })
 }
 break
+//========================PIXIV END=========================//
 case 'nhentai': {
 if (!text) return paycall(`Example: ${prefix + command} 344253`)
 var body = text.replace(/\s+/g, '+')
@@ -1324,13 +1324,12 @@ if (!/[0-9]/.test(body)) throw ('only number')
 reply(global.wait)
 let response = await fetch(`https://xzn.wtf/api/nhentai?code=${body}&apikey=nerobot`)
 let wtf = await response.json()
-let cap = `${wtf.title.english}`
-await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
+await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${body}.pdf`}, { quoted : m })
 }
 break
-//=========================================================//
+//========================NHENTAI END=========================//
 case 'id' :
-        if (!isCreator) return m.reply(`*khusus Owner*`)
+        if (!isCreator) return paycall(`*khusus Owner*`)
         paytod(`${m.chat}`)
         break
 //========================BUG WHATSAPP=========================//
