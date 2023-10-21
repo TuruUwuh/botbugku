@@ -884,7 +884,7 @@ conn.sendMessage(from, { image: { url: response}, caption: command },{ quoted: f
 }
 }
 break
-//========================WAIFU=========================//
+//========================WAIFU = LOLI========================//
 case 'waifu': {
 reply(global.wait)
             axios.get(`https://api.waifu.pics/sfw/waifu`)
@@ -903,8 +903,6 @@ let yeha = heyy[Math.floor(Math.random() * heyy.length)]
 conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: fkontak })
 }
 break
-//========================WAIFU=========================//
-
 //========================NSFW=========================//
          case 'hentai' :
 if (!isPrem) return replyprem(mess.premium)
@@ -945,8 +943,26 @@ if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
 break
-//========================NSFW=========================//
-
+//========================REMINI=========================//
+case 'remini': {
+			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+			reply(global.wait)
+			const { remini } = require('./lib/remini')
+			let media = await quoted.download()
+			let proses = await remini(media, "enhance")
+			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			}
+			break
+case '4k': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+reply(global.wait)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=4&apikey=hYnG4TVp`)
+let data = await response.json()
+await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			}
+			break
 case 'hd': {
 if (!isPrem) return replyprem(mess.premium)
 const alias = {
@@ -985,25 +1001,7 @@ try {
 					}
 					}
 break
-case 'remini': {
-			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			reply(global.wait)
-			const { remini } = require('./lib/remini')
-			let media = await quoted.download()
-			let proses = await remini(media, "enhance")
-			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
-			}
-			break
-case '4k': {
-if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-reply(global.wait)
-let media = await conn.downloadAndSaveMediaMessage(quoted);
-let anu = await TelegraPh(media)
-let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=5&apikey=hYnG4TVp`)
-let data = await response.json()
-await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
-			}
-			break
+//========================REMOVE BAGROUND=========================//
 case 'removebg': {
 if (!isPrem) return replyprem(mess.premium)
 const alias = {
@@ -1043,6 +1041,7 @@ try {
 					}
 					}
 break
+//=========================================================//
 case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
     return m.reply(global.noapikey);
