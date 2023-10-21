@@ -1318,13 +1318,14 @@ await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: 'nih' },
 }
 break
 case 'nhentai': {
-if (args.length == 0) return paycall(`Example: ${prefix + command} 344253`)
+if (!text) return paycall(`Example: ${prefix + command} 344253`)
+var body = text.replace(/\s+/g, '+')
+if (!/[0-9]/.test(body)) throw ('only number')
 reply(global.wait)
-henid = args[0]
-let res = await fetch(`https://xzn.wtf/api/nhentai?code=${henid}&apikey=nerobot`)
-let data = await res.json()
-let cap = `${data.title.english}`
-await conn.sendMessage(m.chat, { document: { url: data.download }, mimetype: 'application/pdf' }, { fileName: `${henid}.pdf`}, { quoted : m })
+let response = await fetch(`https://xzn.wtf/api/nhentai?code=${body}&apikey=nerobot`)
+let wtf = await response.json()
+let cap = wtf.title.japanese
+return await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
 }
 break
 //=========================================================//
