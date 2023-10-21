@@ -608,7 +608,7 @@ ${wit}
 ━━━━━━━━━━━━━━━━━━━━
   *FITUR PREMIUM MENU* 
 ━━━━━━━━━━━━━━━
-➤ hd [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ 4k [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ nhentai (code hentai) [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
@@ -851,6 +851,16 @@ case 'ai': {
 if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
 reply(global.wait)
   if (!text) return m.reply('Apa yang bisa saya bantu?')
+    let response = await fetch(`https://xzn.wtf/api/openai?text=${text}&apikey=nerobot`)
+    let data = await response.json()
+   
+  conn.sendText(from, data.result, fkontak)
+}
+break
+case 'neroai': {
+if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
+reply(global.wait)
+  if (!text) return m.reply('Apa yang bisa saya bantu?')
     let response = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`)
     let data = await response.json()
    
@@ -975,6 +985,25 @@ try {
 					}
 					}
 break
+case 'remini': {
+			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+			reply(global.wait)
+			const { remini } = require('./lib/remini')
+			let media = await quoted.download()
+			let proses = await remini(media, "enhance")
+			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			}
+			break
+case '4k': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+reply(global.wait)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=5&apikey=hYnG4TVp`)
+let data = await response.json()
+await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			}
+			break
 case 'removebg': {
 if (!isPrem) return replyprem(mess.premium)
 const alias = {
@@ -1014,15 +1043,6 @@ try {
 					}
 					}
 break
-case 'remini': {
-			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			reply(global.wait)
-			const { remini } = require('./lib/remini')
-			let media = await quoted.download()
-			let proses = await remini(media, "enhance")
-			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
-			}
-			break
 case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
     return m.reply(global.noapikey);
@@ -1044,7 +1064,7 @@ try{
     let anu = await TelegraPh(media);
     m.reply(global.wait);
 
-    let response = `https://xzn.wtf/api/image-editor?url=${anu}&text=${text}&apikey=kreya`
+    let response = `https://xzn.wtf/api/image-editor?url=${anu}&text=${text}&apikey=nerobot`
     conn.sendMessage(from, { image: { url: response}, caption: 'nih' }, { quoted: fkontak });
   }
 } catch (er) {
@@ -1102,7 +1122,7 @@ try {
     let anu = await TelegraPh(media);
     reply(global.wait);
 
-    const response = await fetchJson(`https://xzn.wtf/api/aimirror?&apikey=kreya&url=${anu}&filter=${aliasCommand}`);
+    const response = await fetchJson(`https://xzn.wtf/api/aimirror?&apikey=nerobot&url=${anu}&filter=${aliasCommand}`);
    
     conn.sendMessage(from, { image: { url: response.generated_image_addresses[0] }, caption: 'nih' }, { quoted: fkontak });
   }
@@ -1122,7 +1142,7 @@ if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
 
 if (!isPrem) return replyprem(mess.premium)
 if (!text) return m.reply(`${command} smile face with blush and blue hair`)
-    const response = await fetchJson(`https://xzn.wtf/api/midjourney?text=${text}&apikey=kreya`);
+    const response = await fetchJson(`https://xzn.wtf/api/midjourney?text=${text}&apikey=nerobot`);
    if (response.status == 'FAILURE') return m.reply('gagal')
    let error;
    try {
