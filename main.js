@@ -556,6 +556,7 @@ ${wit}
 ➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ spotifysearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ pinterest (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wall2 (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1323,7 +1324,7 @@ henid = args[0]
 let res = await fetch(`https://xzn.wtf/api/nhentai?code=${henid}&apikey=nerobot`)
 let data = await res.json()
 let cap = `${data.title.english}`
-await conn.sendMessage(m.chat, { document: { url: data.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
+await conn.sendMessage(m.chat, { document: { url: data.download }, mimetype: 'application/pdf' }, { fileName: `${henid}.pdf`}, { quoted : m })
 }
 break
 //=========================================================//
