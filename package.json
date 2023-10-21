@@ -15,6 +15,7 @@
 "@hapi/boom": "^10.0.1",
 "awesome-phonenumber": "^5.10.0",
 "@ffmpeg-installer/ffmpeg": "^1.1.0",
+"anime-wallpaper": "^1.0.2",
 "axios": "^1.4.0",
 "chalk": "^4.1.2",
 "cookie": "^0.5.0",

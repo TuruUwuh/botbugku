@@ -551,12 +551,15 @@ ${wit}
 ➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ remini [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ pixivdl [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ smeme [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ spotify [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ spotifysearch [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ qc [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ pixivdl (perlu code pixiv) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ spotifysearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ wall2 (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -605,6 +608,7 @@ ${wit}
   *FITUR PREMIUM MENU* 
 ━━━━━━━━━━━━━━━
 ➤ hd [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
+➤ nhentai (code hentai) [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ textimg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
@@ -1258,7 +1262,52 @@ let data = await response.json()
 }
 }
 break
+//========================WALLPAPER=========================//
+case 'wallpaper2':{
+reply(global.wait)
+ waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
+            await conn.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: global.done}, { quoted:m }).catch(err => {
+                    return('Error!')
+                })
+                }
+break
+case 'wallpaper':
+const { AnimeWallpaper } =require("anime-wallpaper")
+if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
+reply(global.wait)
+const wall = new AnimeWallpaper()
+    const pages = [1,2,3,4]
+        const random=pages[Math.floor(Math.random() * pages.length)]
+        const wallpaper = await wall
+            .getAnimeWall4({ title: q, type: "sfw", page: pages })
+            .catch(() => null)
+const i = Math.floor(Math.random() * wallpaper.length)    
+            await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
+                    return('Error!')
+                })
+//conn.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
+break
 
+case 'wall2': {
+                if (!args.join(" ")) return paycall("Wallpaper apa yang kamu cari??")
+                reply(global.wait)
+		let { wallpaper } = require('./lib/scraperW')
+                anu = await wallpaper(args)
+                result = anu[Math.floor(Math.random() * anu.length)]
+                conn.sendMessage(m.chat, { caption: `Title : ${result.title}\nCategory : ${result.type}\nDetail : ${result.source}\nMedia Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] } } , { quoted: m })
+            }
+            break
+//========================WALLPAPER END=========================//
+            case 'pinterest': {
+              	if (!text) return paycall(`Apa yang mau kamu cari?`)
+reply(global.wait)
+let { pinterest } = require('./lib/scraper')
+anutrest = await pinterest(text)
+result = anutrest[Math.floor(Math.random() * anutrest.length)]
+conn.sendMessage(m.chat, { image: { url: result }, caption: '⭔ Media Url : '+result }, { quoted: m })
+}
+break
+//========================PINTEREST END=========================//
 case 'pixivdl': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
@@ -1273,30 +1322,11 @@ reply(global.wait)
 henid = args[0]
 let res = await fetch(`https://xzn.wtf/api/nhentai?code=${henid}&apikey=nerobot`)
 let data = await res.json()
-let cap = `${data.title}`
+let cap = `${data.title.english}`
 await conn.sendMessage(m.chat, { document: { url: data.download }, mimetype: 'application/pdf' }, { fileName: `${cap}.pdf`}, { quoted : m })
 }
 break
 //=========================================================//
-/*case 'tt':{ 
-if (!text) return reply( `Example : ${prefix + command} link`)
-if (!q.includes('tiktok')) return reply(`Link Invalid!!`)
-paytod(global.wait)
-require('./lib/tiktok').Tiktok(q).then( data => {
-conn.sendMessage(m.chat, { video: { url: data.nowm }, mimetype: 'video/mp4'}, {quoted: fkontak })
-})
-}
-break
-case 'ttaudio':{
-if (!text) return reply( `Example : ${prefix + command} link`)
-if (!q.includes('tiktok')) return reply(`Link Invalid!!`)
-paytod(global.wait)
-require('./lib/tiktok').Tiktok(q).then( data => {
-conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-})
-}
-break*/
-//========================TIKTOK=========================//
 case 'id' :
         if (!isCreator) return m.reply(`*khusus Owner*`)
         paytod(`${m.chat}`)
