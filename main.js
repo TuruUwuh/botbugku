@@ -549,6 +549,8 @@ ${wit}
   *FITUR FREE MENU* 
 ━━━━━━━━━━━━━━━
 ➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ aijs (Khusus Coding JavaScript) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ aipy (Khusus Coding Python) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -846,15 +848,31 @@ prem.splice(unp, 1)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${ya} Has Been Removed Premium!`)
 break
-//AI MENU
+//========================CHAT GPT VIP=========================//
 case 'ai': {
 if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
-reply(global.wait)
-  if (!text) return m.reply('Apa yang bisa saya bantu?')
+  if (!text) return paycall('Apa yang bisa saya bantu?')
+  reply(global.wait)
     let response = await fetch(`https://xzn.wtf/api/openai?text=${text}&apikey=nerobot`)
     let data = await response.json()
    
   conn.sendText(from, data.result, fkontak)
+}
+break
+case 'aijs': {
+  if (!text) return paycall('Ai khusus coding javascript')
+  reply(global.wait)
+    let res = await fetch(`https://xzn.wtf/api/ai-code-generator?text=${text}&lang_code=javascript&apikey=nerobot`)
+    let data = await res.json()   
+  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: fkontak})
+}
+break
+case 'aipy': {
+  if (!text) return paycall('Ai khusus coding Python')
+  reply(global.wait)
+    let res = await fetch(`https://xzn.wtf/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
+    let data = await res.json()   
+  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: fkontak})
 }
 break
 case 'neroai': {
@@ -863,10 +881,10 @@ reply(global.wait)
   if (!text) return m.reply('Apa yang bisa saya bantu?')
     let response = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`)
     let data = await response.json()
-   
-  conn.sendText(from, data.respon, fkontak)
+conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
 }
 break
+//========================END CHAT GPT=========================//
 case 'jadianime': 
 case 'toanime': {
 if (!isPrem) return replyprem(mess.premium)
