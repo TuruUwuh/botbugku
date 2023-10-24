@@ -362,7 +362,7 @@ conn.readMessages([m.key])
 }
 }
 // Public & Self
-      if (!conn.self) {
+      if (!conn.public) {
          if (!m.key.fromMe && !isCreator) return
       }
 /*let rn = ['recording']
@@ -1872,7 +1872,7 @@ if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 conn.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)
 })
 break
-case 'totag':
+case 'totag': case 'tg':
                 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
