@@ -231,7 +231,7 @@ key: {
 "buttons": [
 {
 "name": "review_and_pay",
-"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":999999999}]}}"
+"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":7777777}]}}"
 }
 ]
 }
@@ -344,6 +344,21 @@ return conn.sendMessage(from, { text: teks,
                         previewType: 0,
                         renderLargerThumbnail: true,
                         thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})}
+const replyhentai = (teks) => {
+return conn.sendMessage(from, { text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `DEVELOPER ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/b2d62575b1b5cadaeb1e2.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
@@ -600,6 +615,8 @@ ${wit}
 ➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wall2 (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ carihentai (Lu mo nyari apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ nhentai (code hentai) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -654,7 +671,6 @@ ${wit}
   *FITUR PREMIUM MENU* 
 ━━━━━━━━━━━━━━━
 ➤ 4k [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ nhentai (code hentai) [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ textimg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
@@ -1397,32 +1413,32 @@ await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: `${globa
 }
 break
 //========================PIXIV END=========================//
-/*case 'nhentai': {
+case 'carihentai':
+if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
+query = args.join(" ")
+get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${apikey}&query=${query}`)
+get_result = get_result.result
+ini_txt = "🥵𝘿𝘼𝙏𝘼 𝘾𝙊𝘿𝙀 𝙃𝙀𝙉𝙏𝘼𝙄🥵 : \n"
+for (var x of get_result) {
+ini_txt += `Id : ${x.id}\n`
+ini_txt += `Title English : ${x.title_english}\n`
+ini_txt += `Title Japanese : ${x.title_japanese}\n`
+ini_txt += `Native : ${x.title_native}\n`
+ini_txt += `Page : ${x.page}\n\n`
+}
+replyhentai(ini_txt)
+break
+case 'nhentai':
+case 'ncode':
 if (!text) return paycall(`Example: ${prefix + command} 344253`)
 var body = text.replace(/\s+/g, '+')
 if (!/[0-9]/.test(body)) throw ('only number')
 reply(global.wait)
-let response = await fetch(`https://xzn.wtf/api/nhentai?code=${body}&apikey=nerobot`)
-let wtf = await response.json()
-await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${body}.pdf`}, { quoted : m })
-}
-break*/
-case 'nhentai':
-                    if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
-                    henid = args[0]
-                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${henid}?apikey=haikalgans`)
-                    get_result = get_result.result
-                    ini_txt = `Title Romaji : ${get_result.title_romaji}\n`
-                    ini_txt += `Title Native : ${get_result.title_native}\n`
-                    reply(ini_txt)
-                    break
-                    case 'ncode':
-                    if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
-                    henid = args[0]
-                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${henid}?apikey=haikalgans`)
-                    get_result = get_result.result
-                    await conn.sendMessage(m.chat, { document: { url: get_result }, mimetype: 'application/pdf' }, { fileName: `${henid}.pdf`}, { quoted : m })
-                    break
+let res = await fetch(`https://api.lolhuman.xyz/api/nhentaipdf/${body}?apikey=haikalgans`)
+let kontol = await res.json()
+let anu = kontol.result
+await conn.sendFile(from, anu, `${body}.pdf`, blue)
+break
 //========================NHENTAI END=========================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
