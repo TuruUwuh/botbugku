@@ -586,9 +586,9 @@ ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *FITUR FREE MENU* 
 ━━━━━━━━━━━━━━━
-➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ aijs (Khusus Coding JavaScript) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ aipy (Khusus Coding Python) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
+➤ aijs (Khusus Coding JavaScript) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
+➤ aipy (Khusus Coding Python) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -606,6 +606,11 @@ ${wit}
 ➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ttp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ttp2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ttp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ttp4 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ attp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ sticker [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ toimg [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ take/wm [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1392,7 +1397,7 @@ await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: `${globa
 }
 break
 //========================PIXIV END=========================//
-case 'nhentai': {
+/*case 'nhentai': {
 if (!text) return paycall(`Example: ${prefix + command} 344253`)
 var body = text.replace(/\s+/g, '+')
 if (!/[0-9]/.test(body)) throw ('only number')
@@ -1401,7 +1406,23 @@ let response = await fetch(`https://xzn.wtf/api/nhentai?code=${body}&apikey=nero
 let wtf = await response.json()
 await conn.sendMessage(m.chat, { document: { url: wtf.download }, mimetype: 'application/pdf' }, { fileName: `${body}.pdf`}, { quoted : m })
 }
-break
+break*/
+case 'nhentai':
+                    if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
+                    henid = args[0]
+                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentai/${henid}?apikey=haikalgans`)
+                    get_result = get_result.result
+                    ini_txt = `Title Romaji : ${get_result.title_romaji}\n`
+                    ini_txt += `Title Native : ${get_result.title_native}\n`
+                    reply(ini_txt)
+                    break
+                    case 'ncode':
+                    if (args.length == 0) return reply(`Example: ${prefix + command} 344253`)
+                    henid = args[0]
+                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaipdf/${henid}?apikey=haikalgans`)
+                    get_result = get_result.result
+                    await conn.sendMessage(m.chat, { document: { url: get_result }, mimetype: 'application/pdf' }, { fileName: `${henid}.pdf`}, { quoted : m })
+                    break
 //========================NHENTAI END=========================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
@@ -1845,6 +1866,21 @@ case 'swm': case 'take':
                 })
             }
             break
+case 'ttp':
+case 'ttp2':
+case 'ttp3':
+case 'ttp4':
+case 'attp': {
+if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
+reply(global.wait)
+ini_txt = args.join(" ")
+ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
+conn.sendImageAsSticker(m.chat, ini_buffer, blue, {
+                    packname: `${global.packname}`,
+                    author: `${global.author}`
+                })
+       }
+break
 //END STICKER
 case 'tes':
          case 'runtime':
