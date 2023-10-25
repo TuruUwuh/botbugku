@@ -909,13 +909,12 @@ reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
 case 'ai': {
-if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
   if (!text) return paycall('Apa yang bisa saya bantu?')
   reply(global.wait)
-    let response = await fetch(`https://xzn.wtf/api/openai?text=${text}&apikey=nerobot`)
+    let response = await fetch(`https://api.lolhuman.xyz/api/openai-turbo?apikey=haikalgans&text=${text}`)
     let data = await response.json()
    
-  conn.sendText(from, data.result, fkontak)
+  conn.sendText(from, data.result, blue)
 }
 break
 case 'aijs': {
@@ -1404,6 +1403,17 @@ conn.sendMessage(m.chat, { image: { url: result }, caption: '⭔ Media Url : '+r
 }
 break
 //========================PINTEREST END=========================//
+case 'pixiv': {
+if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
+reply(global.wait)
+query = args.join(" ")
+let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
+let data = await res.json()
+let memek = data.result
+await conn.sendMessage(from, { image: { url: memek.images }, caption: `${global.done}` }, { quoted: fkontak })
+await conn.sendFile2(from, memek.images, `image`, done, blue)
+}
+break
 case 'pixivdl': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
