@@ -214,6 +214,28 @@ key: {
 }
 }
 }
+const blue = { 
+key: {
+            fromMe: false,
+            "participant": "0@s.whatsapp.net",
+            "remoteJid": "status@broadcast"
+         },
+'message': {
+"interactiveMessage": {
+"header": {
+						
+"hasMediaAttachment": [],
+"jpegThumbnail": thumb,
+},
+"nativeFlowMessage": {
+"buttons": [
+{
+"name": "review_and_pay",
+"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":999999999}]}}"
+}
+]
+}
+}}}
 const ftest = {
 key: { 
             fromMe: false, 
@@ -259,6 +281,22 @@ key: {
 					}
 					}
 					}
+const fpayment = {
+         key: {
+            fromMe: false,
+            "participant": "0@s.whatsapp.net",
+            "remoteJid": "status@broadcast"
+         },
+         message: {
+"requestPaymentMessage": {
+"currencyCodeIso4217": "IDR",
+"amount1000": "10000000000",
+"requestFrom": `@s.whatsapp.net`,
+"noteMessage": {
+"extendedTextMessage": {
+"text": `𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏`,
+}
+}}}}
 //===================SHINCHAN XD=========================//
 if (vn) {
 let allct = await store.chats.all().map(v => v.id)
@@ -308,7 +346,7 @@ return conn.sendMessage(from, { text: teks,
                         thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: fkontak})} 
+                    }}}, { quoted: blue})} 
 
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
@@ -820,13 +858,13 @@ let teksnye = `${q}`
 reply(`*Mengirim pesan ke ${mem.length} orang, waktu selesai ${mem.length * 3} detik*`)
 for (let m of mem) {
 await sleep(3000)
-conn.sendMessage(m, {text: `${teksnye}`}, {quoted: fkontak})
+conn.sendMessage(m, {text: `${teksnye}`}, {quoted: blue})
 }
 reply(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
 }
 break
 case 'owner': case 'crator':{
- conn.sendContact(from, global.owner, m)
+ conn.sendContact(from, global.owner, blue)
 }
 break
 case 'addprem':
@@ -909,7 +947,7 @@ reply(global.wait)
                .then(({
                   data
                }) => {
-                  conn.sendImage(m.chat, data.url, done, fkontak)
+                  conn.sendImage(m.chat, data.url, done, blue)
                })
          }
          break
@@ -918,7 +956,7 @@ reply(global.wait)
 let heyy
 if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/master/loli.json')
 let yeha = heyy[Math.floor(Math.random() * heyy.length)]
-conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: fkontak })
+conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: blue })
 }
 break
 //========================NSFW=========================//
@@ -968,7 +1006,7 @@ case 'remini': {
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
 			}
 			break
 case '4k': {
@@ -978,10 +1016,10 @@ let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=4&apikey=hYnG4TVp`)
 let data = await response.json()
-await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: fkontak})
+await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
 			}
 			break
-case 'hd': {
+/*case 'hd': {
 if (!isPrem) return replyprem(mess.premium)
 const alias = {
     "hd" : "torch-srgan",
@@ -1018,7 +1056,7 @@ try {
 					}
 					}
 					}
-break
+break*/
 //========================REMOVE BAGROUND=========================//
 case 'removebg': {
 if (!isPrem) return replyprem(mess.premium)
@@ -1234,7 +1272,7 @@ reply(global.wait)
   let x = await res.json()
   let anu = x.result
   let cap = `${global.done}`
-  conn.sendMessage(m.chat, { video: { url: anu.video.no_watermark_hd }, caption: cap }, { quoted: fkontak})
+  conn.sendMessage(m.chat, { video: { url: anu.video.no_watermark_hd }, caption: cap }, { quoted: blue})
 }
 break
 case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
@@ -1242,7 +1280,7 @@ if (!text) return paycall( `Example : ${prefix + command} link`)
 if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
 reply(global.wait)
 require('./lib/tiktok').Tiktok(q).then( data => {
-conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: m })
+conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: blue })
 })
 }
 break
@@ -1568,6 +1606,27 @@ var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 conn.relayMessage(m.chat, catalog.message, { messageId: catalog.key.id })
 }
 break
+case 'listaja': {
+var listMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"listMessage": {
+"description": `ShinChan Anak Ganteng`,
+					"buttonText": "ShinChanX7",
+					"listType": "SINGLE_SELECT",
+					"sections": [
+						{
+							"rows": [
+								{
+									"title": "ShinChan",
+									"rowId": "Uwu"
+								},
+							]
+						}
+					]
+				}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, listMessage.message, { messageId: listMessage.key.id })
+}
+break
 case 'testaja': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 var interactiveMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
@@ -1636,14 +1695,14 @@ reply(global.wait)
 if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
-               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, m, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, blue, {
                   packname: global.packname,
                   author: global.author
                })
                await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
-               let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
+               let encmedia = await conn.sendImageAsSticker(m.chat, media, blue, {
                   packname: global.packname,
                   author: global.author
                })
@@ -1651,7 +1710,7 @@ if (quoted.isAnimated) {
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
                let media = await quoted.download()
-               let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, media, blue, {
                   packname: global.packname,
                   author: global.author
                })
@@ -1675,7 +1734,7 @@ if (mime =="imageMessage" || mime =="stickerMessage")
         exec(`ffmpeg -i ${media} ${name}`, (err) => {
         	fs.unlinkSync(media)
             let buffer = fs.readFileSync(name)
-            conn.sendMessage(m.chat, { image: buffer }, { quoted: fkontak })      
+            conn.sendMessage(m.chat, { image: buffer }, { quoted: blue })      
 fs.unlinkSync(name)
         })
         
@@ -1689,7 +1748,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            conn.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
+            conn.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : blue })
             }
             break
             case 'tomp3': {
@@ -1700,7 +1759,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            conn.sendMessage(m.chat, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${conn.user.name}.mp3`}, { quoted : m })
+            conn.sendMessage(m.chat, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${conn.user.name}.mp3`}, { quoted : blue })
             }
             break
             case 'tovn': case 'toptt': {
@@ -1710,7 +1769,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
             let audio = await toPTT(media, 'mp4')
-            conn.sendMessage(m.chat, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted:m})
+            conn.sendMessage(m.chat, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted: blue})
             }
             break
             case 'togif': {
@@ -1720,7 +1779,7 @@ case 'toaud': case 'toaudio': {
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await conn.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
-                await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
+                await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: blue })
                 await fs.unlinkSync(media)
             }
             break
@@ -1730,14 +1789,14 @@ case 'swm': case 'take':
             if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
-               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, m, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, blue, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
                await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
-               let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
+               let encmedia = await conn.sendImageAsSticker(m.chat, media, blue, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
@@ -1745,7 +1804,7 @@ case 'swm': case 'take':
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Maximum 10 Seconds!')
                let media = await quoted.download()
-               let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, media, blue, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
@@ -1765,7 +1824,7 @@ case 'swm': case 'take':
                 let dwnld = await conn.downloadAndSaveMediaMessage(qmsg)
                 let fatGans = await TelegraPh(dwnld)
                 let smeme = `https://api.memegen.link/images/custom/${encodeURIComponent(atas)}/${encodeURIComponent(bawah)}.png?background=${fatGans}`
-                let pop = await conn.sendImageAsSticker(m.chat, smeme, m, {
+                let pop = await conn.sendImageAsSticker(m.chat, smeme, blue, {
                     packname: packname,
                     author: author
                 })
@@ -1780,7 +1839,7 @@ case 'swm': case 'take':
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
                 reply(global.wait)
-                conn.sendImageAsSticker(m.chat, rest.result, m, {
+                conn.sendImageAsSticker(m.chat, rest.result, blue, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
                 })
@@ -1958,7 +2017,7 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
 for (let mem of participants) {
 teks += `⭔ @${mem.id.split('@')[0]}\n`
 }
-conn.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted:m })
+conn.sendMessage(m.chat, { text: teks, mentions: participants.map(a => a.id) }, { quoted: blue })
 }
 break
 
@@ -2181,7 +2240,7 @@ var shinchan_kawaii = `${args.join(' ')}`
 var kata = shinchan_kawaii.split("|")[0];
 var angka = shinchan_kawaii.split("|")[1]
 let katanya = `${kata}`.repeat(angka)
-await conn.sendMessage(m.chat, { text: `${katanya}` }, { quoted: fkontak})
+await conn.sendMessage(m.chat, { text: `${katanya}` }, { quoted: blue})
 break
 case 'getcase':
 if (!isCreator) return paycall(global.ownercuy)
@@ -2189,6 +2248,13 @@ const getCase = (cases) => {
 return "case" + `'${cases}'` + fs.readFileSync("main.js").toString().split('case \'' + cases + '\'')[1].split("break")[0] + "break"
 }
 reply(`${getCase(q)}`)
+break
+case 'q': case 'quoted': {
+if (!m.quoted) return paycall('Reply the Message!!')
+let shinuwu= await conn.serializeM(await m.getQuotedObj())
+if (!shinuwu.quoted) return paycall('Pesan yang Anda balas tidak dikirim oleh bot')
+await shinuwu.quoted.copyNForward(m.chat, true)
+}
 break
 //END REPEAT
 
