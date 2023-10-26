@@ -357,7 +357,7 @@ return fs.promises.unlink(pathFile)}
 conn.parseMention = async(text) => {
 return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map(v => v[1] + '@s.whatsapp.net')}
 //=================================================//
-conn.sendFile2 = async (jid, path, filename = '', caption = '', quoted, ptt = false, options = {}) => {
+conn.sendFile2 = async (jid, path, fileName, caption = '', quoted, ptt = false, options = {}) => {
         let type = await conn.getFile(path, true)
         let {
             res,

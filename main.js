@@ -415,7 +415,7 @@ conn.readMessages([m.key])
 }
 }
 // Public & Self
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
 /*let rn = ['recording']
@@ -601,7 +601,7 @@ ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *FITUR FREE MENU* 
 ━━━━━━━━━━━━━━━
-➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
+➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ aijs (Khusus Coding JavaScript) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
 ➤ aipy (Khusus Coding Python) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝙀𝙧𝙧𝙤𝙧 ]
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -623,6 +623,8 @@ ${wit}
 ➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ bypassouo (anti iklan boss) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ bypassmirror (langsung ke inti) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1434,7 +1436,8 @@ ini_txt += `Id : ${x.id}\n`
 ini_txt += `Title English : ${x.title_english}\n`
 ini_txt += `Title Japanese : ${x.title_japanese}\n`
 ini_txt += `Native : ${x.title_native}\n`
-ini_txt += `Page : ${x.page}\n\n`
+ini_txt += `Page : ${x.page}\n`
+ini_txt += "▬▭▬▭▬▭▬▭▬▬▭▬▭▬▬▭▬▭▬▭▬▭▬▬▭▬▭▬\n\n"
 }
 replyhentai(ini_txt)
 break
@@ -1447,7 +1450,25 @@ reply(global.wait)
 let res = await fetch(`https://api.lolhuman.xyz/api/nhentaipdf/${body}?apikey=haikalgans`)
 let kontol = await res.json()
 let anu = kontol.result
-await conn.sendFile(from, anu, `${body}.pdf`, blue)
+await conn.sendFile(m.chat, anu, `${body}.pdf`, blue)
+break
+case 'bypassouo': {
+if (!args[0]) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+  let res = await fetch(`https://api.lolhuman.xyz/api/ouo?apikey=haikalgans&url=${args[0]}`)
+  let data = await res.json()
+  let bypassnya = data.result
+ await conn.sendMessage(m.chat, { text: bypassnya }, {quoted: blue})
+}
+break
+case 'bypassmirror': {
+if (!args[0]) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+  let res = await fetch(`https://api.lolhuman.xyz/api/mirrorcreator?apikey=haikalgans&url=${args[0]}`)
+  let pemanggil = await res.json()
+  let anuan = pemanggil.result
+ await conn.sendMessage(m.chat, { text: anuan.dropapk }, {quoted: blue})
+}
 break
 //========================NHENTAI END=========================//
 case 'id' :
@@ -2223,7 +2244,7 @@ break
 case 'toonce':
             case 'nyehh': {
             if (!isCreator) return paycall(global.ownercuy)
-                if (!quoted) return replygcxeon(`Reply Image/Video`)
+                if (!quoted) return paycall(`Reply Image/Video`)
                 if (/image/.test(mime)) {
                     anuan = await conn.downloadAndSaveMediaMessage(quoted)
                     conn.sendMessage(m.chat, {
