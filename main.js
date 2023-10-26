@@ -415,7 +415,7 @@ conn.readMessages([m.key])
 }
 }
 // Public & Self
-      if (!conn.self) {
+      if (!conn.public) {
          if (!m.key.fromMe && !isCreator) return
       }
 /*let rn = ['recording']
@@ -1353,7 +1353,7 @@ let media = await conn.downloadAndSaveMediaMessage(quoted);
 
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media)
-let response = await fetch(`https://api.akuari.my.id/other/ocr?img=${anu}`)
+let response = await fetch(`https://api.lolhuman.xyz/api/ocr?apikey=haikalgans&img=${anu}`)
 let data = await response.json()
 
   conn.sendText(from, data.result, fkontak)
