@@ -242,9 +242,10 @@ const fpayment = {
 }}}}
 const shinuwu = { 
 key: {
+fromMe: false,
             participant: `0@s.whatsapp.net`,
             ...(from ? {
-               remoteJid: ``
+               remoteJid: `0@s.whatsapp.net`
             } : {})
          },
          message: {
