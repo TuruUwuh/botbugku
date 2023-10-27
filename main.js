@@ -439,7 +439,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.self) {
+      if (!conn.public) {
          if (!m.key.fromMe && !isCreator) return
       }
 /*let rn = ['recording']
