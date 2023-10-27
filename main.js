@@ -202,20 +202,6 @@ const fbugtext = {
         }
         }
         }
-        const fbugcall = {
-key: { 
-            fromMe: false, 
-            participant: `0@s.whatsapp.net`, 
-            ...({ remoteJid: "" }) 
-        }, 
-        message: { 
-        "scheduledCallCreationMessage": {
-"callType": '1',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `test`,
-}
-}
-}
 const blue = { 
 key: {
             fromMe: false,
@@ -231,58 +217,13 @@ key: {
 },
 "nativeFlowMessage": {
 "buttons": [
-{
+				{
 "name": "review_and_pay",
-"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":7777777}]}}"
+"buttonParamsJson": `{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "","order":{"status": "completed","items":[{"retailer_id": "","name":"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖","amount":{"value":10000,"offset":100},"quantity":7777777}]}}`
 }
 ]
 }
 }}}
-const ftest = {
-key: { 
-            fromMe: false, 
-            participant: `0@s.whatsapp.net`, 
-            ...({ remoteJid: "" }) 
-        }, 
-        message: { 
-"interactiveMessage": {
-						"header": {
-							"title": "ShinChan",
-							"subtitle": "Jumlah 1"
-						},
-						"nativeFlowMessage": {
-							"buttons": [
-								{
-									"name": "review_and_pay",
-									"buttonParamsJson": { 
-									"currency": "IDR",
-									"external_payment_configurations":[
-									{
-									"uri": "",
-									"type": "payment_instruction",
-									"payment_instruction": "Anu"
-									}
-									],
-									"payment_configuration":"",
-									"payment_type":"",
-									"total_amount": 10000,
-									"reference_id":"4N003CFPZ6N",
-									"type":"physical-goods",
-									"payment_status":"captured",
-									"payment_timestamp": 1696052026,
-									"order":{"status":"completed","description":"","subtotal": 10000,
-									"items":[
-									{
-									"retailer_id": "custom-item-ef3e2769-f40f-410f-9da4-5b3478de1bc4",
-									"name":"ShinChan",
-									"amount": 10000,
-									"quantity":1}]}}
-								}
-							]
-						}
-					}
-					}
-					}
 const fpayment = {
          key: {
             fromMe: false,
@@ -300,24 +241,23 @@ const fpayment = {
 }
 }}}}
 const shinuwu = { 
-key: { 
-            fromMe: false, 
-            participant: `0@s.whatsapp.net`, 
-            ...({ remoteJid: "" }) 
-        },
-
-'message': {
+key: {
+            participant: `0@s.whatsapp.net`,
+            ...(from ? {
+               remoteJid: ``
+            } : {})
+         },
+         message: {
 	"interactiveMessage": {
 						"header": {
-						
-							"hasMediaAttachment": [],
-							"jpegThumbnail": virusgambar,
-													},
+						"title": "ShinChan",
+						"subtitle": "Jumlah 1"
+					},
 						"nativeFlowMessage": {
 "buttons": [
-{
-"name": "review_and_pay",
-"buttonParamsJson": "{\"currency\":\"IDR\",\"external_payment_configurations\":[{\"uri\":\"\",\"type\":\"payment_instruction\",\"payment_instruction\":\"hey ini test\"}],\"payment_configuration\":\"\",\"payment_type\":\"\",\"total_amount\":{\"value\":2500000,\"offset\":100},\"reference_id\":\"4MX98934S0D\",\"type\":\"physical-goods\",\"order\":{\"status\":\"pending\",\"description\":\"\",\"subtotal\":{\"value\":2500000,\"offset\":100},\"items\":[{\"retailer_id\":\"6348642505244872\",\"product_id\":\"6348642505244872\",\"name\":\"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖\",\"amount\":{\"value\":2500000,\"offset\":100},\"quantity\":7777777}]}}"
+				{
+					"name": "review_and_pay",
+					"buttonParamsJson": `{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "","order":{"status": "completed","items":[{"retailer_id": "","name":"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖","amount":{"value":10000,"offset":100},"quantity":7777777}]}}`
 }
 ]
 			}
@@ -1669,7 +1609,7 @@ await sleep(1000)
 break
 case 'tesaja': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
-conn.sendMessage(m.chat, {text: `nyenye`}, {quoted: kalgans})
+conn.sendMessage(m.chat, {text: `nyenye`}, {quoted: shinuwu})
 await sleep(1000)
 }
 break
