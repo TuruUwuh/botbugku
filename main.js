@@ -87,6 +87,9 @@ const tanggal = moment().tz("Asia/Makassar").format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
 const vn = false
+const timestampi = speed();
+const latensii = speed() - timestampi
+const ini_mark = `0@s.whatsapp.net`
 const time2 = moment().tz('Asia/Kolkata').format('HH:mm:ss')
          if(time2 < "23:59:00"){
 var shinchantime = `Selamat Malam 🌌`
@@ -547,6 +550,22 @@ user.afkReason = ''
 
 switch(command) {
 case 'menu': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -556,14 +575,26 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 ${shinchantime}
 Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+「 \`\`\`DATABASE\`\`\` 」
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ( REAL TIME )
-${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
  ${mundur}
+ Hijriah : ${dateIslamic}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *FITUR FREE MENU* 
 ━━━━━━━━━━━━━━━
@@ -573,6 +604,7 @@ ${wit}
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ 4k (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ pixivdl (perlu code pixiv) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -604,11 +636,10 @@ ${wit}
 ➤ togif [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tovn [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ━━━━━━━━━━━━━━━━━━━
-➤ premmenu
-➤ nsfwmenu
-➤ grupmenu
-➤ bugmenu
-➤ tqto
+➤ nsfwmenu (18+)
+➤ grupmenu (Owner)
+➤ bugmenu (Owner)
+➤ tqto (Thanks)
 ━━━━━━━━━━━━━━━
 `,
 }
@@ -617,7 +648,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 
-case 'premmenu': {
+/*case 'premmenu': {
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -638,7 +669,6 @@ ${wit}
 ━━━━━━━━━━━━━━━━━━━━
   *FITUR PREMIUM MENU* 
 ━━━━━━━━━━━━━━━
-➤ 4k [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ textimg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
@@ -661,8 +691,24 @@ ${wit}
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
-break
+break*/
 case 'nsfwmenu': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -672,14 +718,26 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 ${shinchantime}
 Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+「 \`\`\`DATABASE\`\`\` 」
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ( REAL TIME )
-${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
  ${mundur}
+ Hijriah : ${dateIslamic}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *NSFW MENU* 
 ━━━━━━━━━━━━━━━
@@ -698,6 +756,22 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'grupmenu': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -707,14 +781,26 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 ${shinchantime}
 Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+「 \`\`\`DATABASE\`\`\` 」
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ( REAL TIME )
-${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
  ${mundur}
+ Hijriah : ${dateIslamic}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *GROUP MENU* 
 ━━━━━━━━━━━━━━━
@@ -749,6 +835,22 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'bugmenu': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -759,15 +861,27 @@ ${shinchantime}
 ×_×
 Fitur hanya boleh di akses owner ${global.ownername}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+「 \`\`\`DATABASE\`\`\` 」
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ( REAL TIME )
-${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
  ${mundur}
-━━━━━━━━━━━━━━━━━━━━━━
+ Hijriah : ${dateIslamic}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
   *ONLY PRIVATE CHAT* 
 ━━━━━━━━━━━━━━━━━━━━━━
 ➤ sendbug (Bug Call) [ 𝗢𝗪𝗡𝗘𝗥 ]
@@ -787,6 +901,22 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'tqto': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -796,14 +926,26 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 ${shinchantime}
 Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+「 \`\`\`DATABASE\`\`\` 」
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ( REAL TIME )
-${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
  ${mundur}
+ Hijriah : ${dateIslamic}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *THANKS BUAT TEMEN² KU* 
 ━━━━━━━━━━━━━━━━━━━━━
@@ -823,6 +965,44 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 
+case 'datajam': {
+stod = `${sender}`
+let dnew = new Date(new Date + 3600000)
+let week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            let date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
+var mundur = await hitungmundur(4, 23)
+var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"scheduledCallCreationMessage": {
+"callType": '2',
+"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
+"title": `𝙎𝙀𝙆𝘼𝙍𝘼𝙉𝙂 𝙒𝘼𝙆𝙏𝙐 𝙈𝙀𝙉𝙐𝙉𝙅𝙐𝙆𝙆𝘼𝙉
+${week} ${weton}, ${date}
+${time}
+${wita}
+${wit}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+ ${mundur}
+ Hijriah : ${dateIslamic}
+━━━━━━━━━━━━━━━
+`,
+}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
 case 'shutdown':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 await loading()
