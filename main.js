@@ -588,7 +588,6 @@ ${wit}
 ➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ttslide (link foto tiktok) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ bypassouo (anti iklan boss) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ bypassmirror (langsung ke inti) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1273,16 +1272,6 @@ conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, 
 })
 }
 break
-case 'ttslide': {
-if (!args[0]) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-  let res = await fetch(`https://api.lolhuman.xyz/api/tiktokslide?apikey=haikalgans&url=${args[0]}`)
-  let x = await res.json()
-  let anu = x.result
-  let cap = `${global.done}`
-  conn.sendMessage(m.chat, { image: { url: anu }, caption: cap }, { quoted: blue})
-}
-break
 case 'tt2': {
 if (!q) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
@@ -1389,7 +1378,6 @@ query = args.join(" ")
 let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
 let data = await res.json()
 let memek = data.result
-await conn.sendMessage(from, { image: { url: memek.images }, caption: `${global.done}` }, { quoted: fkontak })
 await conn.sendFile2(from, memek.images, `image`, done, blue)
 }
 break
