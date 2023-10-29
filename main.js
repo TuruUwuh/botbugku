@@ -1458,11 +1458,11 @@ break
 case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
-  let res = await fetch(`https://api.zeltoria.my.id/api/download/tiktok?url=${args[0]}&apikey=Elistz`)
+  let res = await fetch(`https://api.lolhuman.xyz/api/tiktok2?apikey=haikalgans&url=${args[0]}`)
   let x = await res.json()
   let anu = x.result
   let cap = `${global.done}`
-  conn.sendMessage(m.chat, { video: { url: anu.video.no_watermark_hd }, caption: cap }, { quoted: blue})
+  conn.sendMessage(m.chat, { video: { url: anu }, caption: cap }, { quoted: blue})
 }
 break
 case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
