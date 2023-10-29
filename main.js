@@ -22,6 +22,7 @@ const { apikey } = require('./apikey.json')
 const { uptotelegra } = require('./lib/upload')
 const { Primbon } = require('scrape-primbon')
 const speed = require('performance-now')
+const path = require('path')
 const primbon = new Primbon()
 const { Configuration, OpenAIApi } = require('openai')
 const { exec, spawn, execSync } = require("child_process")
@@ -360,6 +361,26 @@ a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEP
 }
 }
 
+//auto restart bot
+function start() {
+   let args = [path.join(__dirname, 'shinchan.js'), ...process.argv.slice(2)]
+   console.log([process.argv[0], ...args].join('\n'))
+   let p = spawn(process.argv[0], args, {
+         stdio: ['inherit', 'inherit', 'inherit', 'ipc']
+      })
+      .on('message', data => {
+         if (data == 'reset') {
+            console.log('Restarting Bot...')
+            p.kill()
+            start()
+            delete p
+         }
+      })
+      .on('exit', code => {
+         console.error('Exited with code:', code)
+         if (code == '.' || code == 1 || code == 0) start()
+      })
+}
 //auto off
 if (global.autoOff) {
 if (command) {
@@ -1013,10 +1034,10 @@ process.exit()
 break
 case 'restart':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-reply('In Process....')
 await loading()
-await sleep(15000)
-exec('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰')
+await sleep(3000)
+paytod('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰\n\n\nNote: Jika bot mengalami on/off dengan sendirinya, itu tandanya lagi reset sessions biar tidak delay (Jadi harap di tunggu sampai bener bener dipulihkan 😁)')
+await start()
 break
 
 case 'pushkontak':{
