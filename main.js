@@ -1655,7 +1655,7 @@ const wall = new AnimeWallpaper()
         const wallpaper = await wall
             .getAnimeWall4({ title: q, type: "sfw", page: pages })
             .catch(() => null)
-const i = Math.floor(Math.random() * wallpaper.length)    
+const i = Math.floor(Math.random() * wallpaper.length)
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
