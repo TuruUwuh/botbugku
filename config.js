@@ -3,7 +3,7 @@ const chalk = require('chalk')
 
 global.baileys = require('@adiwajshing/baileys')
 
-global.autoReading = false //auto recording (true to on, false to off)
+global.autoReading = true //auto recording (true to on, false to off)
 global.autoTyping = false //auto tying (true to on, false to off)
 global.autoRecord = false
 global.autoOff = false 

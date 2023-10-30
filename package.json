@@ -40,7 +40,9 @@
 "moment-timezone": "^0.5.43",
 "node-cron": "^3.0.2",
 "node-fetch": "^2.6.1",
+"node-id3": "^0.2.3",
 "node-webpmux": "^3.1.7",
+"node-youtube-music": "^0.8.3",
 "os": "^0.1.2",
 "path": "^0.12.7",
 "pm2": "^5.2.2",
@@ -57,7 +59,8 @@
 "spotifydl-x": "^0.3.0",
 "scrape-primbon": "^1.1.0",
 "yargs": "^17.7.2",
-"ytdl-core": "^4.11.4",
-"youtubedl-core": "^4.11.4"
+"youtube-yts": "^2.0.0",
+"ytdl-core": "^4.11.5",
+"youtubedl-core": "^4.11.5"
 }
 }
