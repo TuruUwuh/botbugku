@@ -84,7 +84,7 @@ const wita = moment(Date.now()).tz('Asia/Makassar').locale('id').format('HH:mm:s
 const wit = moment(Date.now()).tz('Asia/Jayapura').locale('id').format('HH:mm:ss z')
 const time = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('HH:mm:ss z')
 const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
-const tanggal = moment().tz("Asia/Makassar").format("dddd, ll")
+const tanggal = moment(Date.now()).tz("Asia/Makassar").locale('id').format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
 const vn = false
@@ -647,7 +647,6 @@ ${wit}
 ➤ pinterest (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ wall2 (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ carihentai (Lu mo nyari apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ nhentai (code hentai) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1670,7 +1669,7 @@ reply(global.wait)
                 })
                 }
 break
-case 'wall2': {
+/*case 'wallpaper3': {
                 if (!args.join(" ")) return paycall("Wallpaper apa yang kamu cari??")
                 reply(global.wait)
 		let { wallpaper } = require('./lib/scraperW')
@@ -1678,7 +1677,7 @@ case 'wall2': {
                 result = anu[Math.floor(Math.random() * anu.length)]
                 conn.sendMessage(m.chat, { caption: `Title : ${result.title}\nCategory : ${result.type}\nDetail : ${result.source}\nMedia Url : ${result.image[2] || result.image[1] || result.image[0]}`, image: { url: result.image[0] } } , { quoted: m })
             }
-            break
+            break*/
 //========================WALLPAPER END=========================//
             case 'pinterest': {
               	if (!text) return paycall(`Apa yang mau kamu cari?`)
