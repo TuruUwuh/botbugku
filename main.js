@@ -92,6 +92,21 @@ const vn = false
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
+const dnew = new Date(new Date + 3600000)
+const week = dnew.toLocaleDateString('in', {
+               weekday: 'long'
+            })
+            const weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
+            const date = dnew.toLocaleDateString('in', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            })
+            const dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
+               day: 'numeric',
+               month: 'long',
+               year: 'numeric'
+            }).format(dnew)
 const time2 = moment().tz('Asia/Kolkata').format('HH:mm:ss')
          if(time2 < "23:59:00"){
 var shinchantime = `Selamat Malam 🌌`
