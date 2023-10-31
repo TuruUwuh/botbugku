@@ -12,7 +12,7 @@ global.ig = 'https://instagram.com/shinchan.senpai' // ubah aja
 global.email = 'shinchansenpai57@gmail.com' //bebas
 global.region = 'indonesia 🇮🇩' // bebas
 //—————「 Set Nama Own & Bot 」—————//
-global.ownername = '𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏' //ubah jadi nama mu, note tanda ' gausah di hapus!
+global.ownername = '💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖' //ubah jadi nama mu, note tanda ' gausah di hapus!
 //=================================================//
 global.owner = ['6282134110253'] // ubah aja pake nomor lu
 

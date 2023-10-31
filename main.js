@@ -10,6 +10,7 @@ const fsx = require('fs-extra')
 const crypto = require('crypto')
 const ffmpeg = require('fluent-ffmpeg')
 const moment = require('moment-timezone')
+const yts = require('yt-search')
 const { JSDOM } = require('jsdom')
 const { color, bgcolor } = require('./lib/color')
 const maker = require('mumaker')
@@ -364,6 +365,21 @@ return conn.sendMessage(from, { text: teks,
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
+const ytreply = (teks) => {
+return conn.sendMessage(from, { text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `DEVELOPER ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/97f426edef5a6326065a9.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})} 
 
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
@@ -680,6 +696,7 @@ ${wit}
 ﹗
 ━━━━━━━━━━━━━━━━( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )━━━━━━━━━━━━━━━━━
 ➤ spotifysearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
+➤ ytsearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ pinterest (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
 ➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
@@ -1813,6 +1830,7 @@ await conn.sendFile(m.chat, anu, `${body}.pdf`, blue)
 					}
 					}
 break
+//========================NHENTAI END=========================//
 case 'bypassouo': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
@@ -1849,6 +1867,19 @@ try {
 					}
 }
 break
+//========================DOWNLOAD YOUTUBE=========================//
+case 'yts': case 'ytsearch': {
+if (!isCreator) return paycall('*khusus Premium*')
+if (!text) return paycall(`Example : ${prefix + command} Dj malam pagi`)
+let search = await yts(text)
+let teks = '*YouTube Search*\n\n Result From '+text+'\n\n'
+let no = 1
+for (let i of search.all) {
+teks += `⭔ No : ${no++}\n⭔ Type : ${i.type}\n⭔ Video ID : ${i.videoId}\n⭔ Title : ${i.title}\n⭔ Views : ${i.views}\n⭔ Duration : ${i.timestamp}\n⭔ Upload At : ${i.ago}\n⭔ Url : ${i.url}\n\n─────────────────\n\n`
+}
+ytreply(teks)
+}
+break
 case 'play':  case 'song': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM INI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
@@ -1863,8 +1894,10 @@ await conn.sendMessage(m.chat,{
     mimetype: 'audio/mp4', ptt: false,
     contextInfo:{
         externalAdReply:{
+            showAdAttribution: true,
+            containsAutoReply: true,
             title:anup3k.title,
-            body: botname,
+            body: ownername,
             thumbnail: await fetchBuffer(pl.meta.image),
             mediaType:2,
             mediaUrl:anup3k.url,
@@ -1885,8 +1918,10 @@ await conn.sendMessage(m.chat,{
     mimetype: 'audio/mp4', ptt: false,
     contextInfo:{
         externalAdReply:{
+            showAdAttribution: true,
+            containsAutoReply: true,
             title:audio.meta.title,
-            body: botname,
+            body: ownername,
             thumbnail: await fetchBuffer(audio.meta.image),
             mediaType:2,
             mediaUrl:text,
@@ -1912,7 +1947,7 @@ await conn.sendMessage(m.chat,{
 },{quoted: fkontak})
 }
 break
-//========================NHENTAI END=========================//
+//========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
         paytod(`${m.chat}`)
