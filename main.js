@@ -93,7 +93,7 @@ const vn = false
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
-const dnew = new Date(new Date + 3600000)
+const dnew = new Date(Date.now())
 const week = dnew.toLocaleDateString('in', {
                weekday: 'long'
             })
@@ -255,7 +255,7 @@ const fpayment = {
 "requestPaymentMessage": {
 "currencyCodeIso4217": "IDR",
 "amount1000": "10000000000",
-"requestFrom": `@s.whatsapp.net`,
+"requestFrom": m.sender,
 "noteMessage": {
 "extendedTextMessage": {
 "text": `𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏`,
@@ -264,7 +264,7 @@ const fpayment = {
 const shinuwu = { 
 key: {
 fromMe: false,
-            participant: ``,
+            participant: m.chat,
             ...(from ? {
                remoteJid: `0@s.whatsapp.net`
             } : {})
@@ -280,7 +280,8 @@ fromMe: false,
 "buttons": [
 				{
 "name": "review_and_pay",
-"buttonParamsJson": '{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "6348642505244872","order":{"status": "completed","items":[{"retailer_id": "6348642505244872","name": "","amount":{"value":10000,"offset":100},"quantity":7777777}]}}'
+"buttonParamsJson": '{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "6348642505244872","order":{"status": "completed","items":[{"retailer_id": "6348642505244872","name": "","amount":{"value":10000,"offset":100},"quantity":7777777}]}}',
+mentions: []
 }
 ]
 }
@@ -312,7 +313,7 @@ var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.f
 "requestPaymentMessage": {
 "currencyCodeIso4217": "INR",
 "amount1000": "10000000000",
-"requestFrom": `@${me.split('@')[0]}`,
+"requestFrom": m.sender,
 "noteMessage": {
 "extendedTextMessage": {
 "text": `${teks}`,
@@ -634,30 +635,20 @@ user.afkReason = ''
 switch(command) {
 case 'menu': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
-var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
-"scheduledCallCreationMessage": {
-"callType": '2',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `*Hay ${pushname} 👋*
+var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+"requestPaymentMessage": {
+"currencyCodeIso4217": "INR",
+"amount1000": "7777777",
+"requestFrom": m.sender,
+"noteMessage": {
+"extendedTextMessage": {
+"text": `*Hay ${pushname} 👋*
 ${shinchantime}
-Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」━━━━━━━━━━━━━━━━━
+Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━
+╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
+━━━━━━━━━━━━━━━━━━━
 _Status : ${isCreator ? 'Owner' : 'User'}_
 _Nama : ${pushname}_
 _Nomor : @${stod.split('@')[0]}_
@@ -667,72 +658,78 @@ _Speed : ${latensii.toFixed(4)} Second_
 Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )━━━━━━━━━━━━━━━━
-${week} ${weton}, ${date}
-${time}
-${wita}
-${wit}
-━━━━━━━━━━━━━━━( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
+━━━━━━━━━━━━━━━━━━━
+𝐇𝐚𝐫𝐢: ${week} ${weton}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐉𝐚𝐦: ${time}
+𝐉𝐚𝐦: ${wita}
+𝐉𝐚𝐦: ${wit}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
  ${mundur}
  Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )━━━━━━━━━━━━━━━━━
-﹗
-➤ pixivdl (perlu code pixiv) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ spotify (link Spotify) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ nhentai (code hentai) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tiktok (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tiktokmp3 (link) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ play (cari lagu apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ytmp3 (link yt) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ytmp4 (link yt) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )━━━━━━━━━━━━━━━━━
-﹗
-➤ ai/openai [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ loli [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ waifu [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ remini (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ 4k (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )━━━━━━━━━━━━━━━━━
-➤ spotifysearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ytsearch (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ pinterest (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ wallpaper (search) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ wallpaper2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ carihentai (Lu mo nyari apa?) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )━━━━━━━━━━━━━━━━━
-﹗
-➤ aksarajawa [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ latin (translate aksara jawa) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ lens / googlelens [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝙎𝙏𝙄𝙆𝙀𝙍 )━━━━━━━━━━━━━━━━━
-﹗
-➤ ttp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ttp2 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ttp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ ttp4 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ attp [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ sticker [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ qc (Masukan Teks) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ smeme (reply gambar) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )━━━━━━━━━━━━━━━━━
-﹗
-➤ toimg [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ take/wm [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ toaudio [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tomp3 [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ togif [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ tovn [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
-━━━━━━━━━━━━━━━━( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )━━━━━━━━━━━━━━━━━
-﹗
-➤ bypassouo (anti iklan boss) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-➤ bypassmirror (langsung ke inti) [ 𝗦𝘁𝗮𝘁𝘂𝘀 : 𝗔𝗞𝗧𝗜𝗙 ]
-﹗
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
+━━━━━━━━━━━━━━━━━━━
+➤ pixivdl (perlu code pixiv)
+➤ spotify (link Spotify)
+➤ nhentai (code hentai)
+➤ tiktok (link)
+➤ tiktokmp3 (link)
+➤ play (cari lagu apa?)
+➤ ytmp3 (link yt)
+➤ ytmp4 (link yt)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
+━━━━━━━━━━━━━━━━━━━
+➤ ai/openai
+➤ loli
+➤ waifu
+➤ remini (reply gambar)
+➤ 4k (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
+━━━━━━━━━━━━━━━━━━━
+➤ spotifysearch (search)
+➤ ytsearch (search)
+➤ pinterest (search)
+➤ wallpaper (search)
+➤ wallpaper2
+➤ carihentai (Lu mo nyari apa?)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
+━━━━━━━━━━━━━━━━━━━
+➤ aksarajawa
+➤ latin (translate aksara jawa)
+➤ lens / googlelens
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
+━━━━━━━━━━━━━━━━━━━
+➤ ttp
+➤ ttp2
+➤ ttp3
+➤ ttp4
+➤ attp
+➤ sticker
+➤ qc (Masukan Teks)
+➤ smeme (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )
+━━━━━━━━━━━━━━━━━━━
+➤ toimg
+➤ take/wm
+➤ toaudio
+➤ tomp3
+➤ togif
+➤ tovn
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
+━━━━━━━━━━━━━━━━━━━
+➤ bypassouo (anti iklan boss)
+➤ bypassmirror (langsung ke inti)
 ━━━━━━━━━━━━━━━━━━━
 ➤ nsfwmenu (18+)
 ➤ grupmenu (Owner)
@@ -740,9 +737,8 @@ ${wit}
 ➤ tqto (Thanks)
 ━━━━━━━━━━━━━━━
 `,
-}
-}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}}}}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
 break
 
@@ -792,31 +788,20 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 break*/
 case 'nsfwmenu': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
-var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
-"scheduledCallCreationMessage": {
-"callType": '2',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `*Hay ${pushname} 👋*
+var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+"requestPaymentMessage": {
+"currencyCodeIso4217": "INR",
+"amount1000": "7777777",
+"requestFrom": m.sender,
+"noteMessage": {
+"extendedTextMessage": {
+"text": `*Hay ${pushname} 👋*
 ${shinchantime}
-Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-「 \`\`\`DATABASE\`\`\` 」
+Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━
+╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
+━━━━━━━━━━━━━━━━━━━
 _Status : ${isCreator ? 'Owner' : 'User'}_
 _Nama : ${pushname}_
 _Nomor : @${stod.split('@')[0]}_
@@ -826,18 +811,21 @@ _Speed : ${latensii.toFixed(4)} Second_
 Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-( REAL TIME )
-${week} ${weton}, ${date}
-${time}
-${wita}
-${wit}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
+━━━━━━━━━━━━━━━━━━━
+𝐇𝐚𝐫𝐢: ${week} ${weton}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐉𝐚𝐦: ${time}
+𝐉𝐚𝐦: ${wita}
+𝐉𝐚𝐦: ${wit}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
  ${mundur}
  Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  *NSFW MENU* 
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( *NSFW MENU* )
 ━━━━━━━━━━━━━━━
 ➤ hentai [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ➤ hneko [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
@@ -848,38 +836,26 @@ ${wit}
 ➤ solog [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
 ━━━━━━━━━━━━━━━
 `,
-}
-}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}}}}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
 break
 case 'grupmenu': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
-var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
-"scheduledCallCreationMessage": {
-"callType": '2',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `*Hay ${pushname} 👋*
+var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
+"requestPaymentMessage": {
+"currencyCodeIso4217": "INR",
+"amount1000": "7777777",
+"requestFrom": m.sender,
+"noteMessage": {
+"extendedTextMessage": {
+"text": `*Hay ${pushname} 👋*
 ${shinchantime}
-Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-「 \`\`\`DATABASE\`\`\` 」
+Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━━━
+╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
+━━━━━━━━━━━━━━━━━━━━━
 _Status : ${isCreator ? 'Owner' : 'User'}_
 _Nama : ${pushname}_
 _Nomor : @${stod.split('@')[0]}_
@@ -889,19 +865,22 @@ _Speed : ${latensii.toFixed(4)} Second_
 Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-( REAL TIME )
-${week} ${weton}, ${date}
-${time}
-${wita}
-${wit}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-( 𝑯𝑰𝑻𝑼𝑵𝑮 𝑴𝑼𝑵𝑫𝑼𝑹 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
+━━━━━━━━━━━━━━━━━━━
+𝐇𝐚𝐫𝐢: ${week} ${weton}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐉𝐚𝐦: ${time}
+𝐉𝐚𝐦: ${wita}
+𝐉𝐚𝐦: ${wit}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
  ${mundur}
  Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-  *GROUP MENU* 
-━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( *GROUP MENU* )
+━━━━━━━━━━━━━━━━━━━
 ➤ welcome on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ antilink on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ antitoxic on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
@@ -929,28 +908,13 @@ ${wit}
 ➤ id [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━━━━━
 `,
-}
-}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}}}}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
 break
+
 case 'bugmenu': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -1004,21 +968,6 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 break
 case 'tqto': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -1026,7 +975,7 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `*Hay ${pushname} 👋*
 ${shinchantime}
-Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 「 \`\`\`DATABASE\`\`\` 」
 _Status : ${isCreator ? 'Owner' : 'User'}_
@@ -1069,21 +1018,6 @@ break
 
 case 'datajam': {
 stod = `${sender}`
-let dnew = new Date(new Date + 3600000)
-let week = dnew.toLocaleDateString('in', {
-               weekday: 'long'
-            })
-            let weton = ['Pahing', 'Pon', 'Wage', 'Kliwon', 'Legi'][Math.floor(dnew / 84600000) % 5]
-            let date = dnew.toLocaleDateString('in', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            })
-            let dateIslamic = Intl.DateTimeFormat('in' + '-TN-u-ca-islamic', {
-               day: 'numeric',
-               month: 'long',
-               year: 'numeric'
-            }).format(dnew)
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -2233,7 +2167,6 @@ break
 //STICKER
 case 's': case 'sticker': case 'stiker': {
 if (!quoted) return paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
-reply(global.wait)
 if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
@@ -2447,7 +2380,7 @@ ${cpus[0].model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type =>
 _CPU Core(s) Usage (${cpus.length} Core CPU)_
 ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Object.keys(cpu.times).map(type => `- *${(type + '*').padEnd(6)}: ${(100 * cpu.times[type] / cpu.total).toFixed(2)}%`).join('\n')}`).join('\n\n')}` : ''}
                 `.trim()
-            paycall(respon)
+            paytod(respon)
             }
             break
             
