@@ -691,7 +691,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -846,7 +846,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -900,7 +900,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -1048,14 +1048,13 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 break
 
 case 'datajam': {
-stod = `${sender}`
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
 "callType": '2',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
+"scheduledTimestampMs": Date.now(),
 "title": `𝙎𝙀𝙆𝘼𝙍𝘼𝙉𝙂 𝙒𝘼𝙆𝙏𝙐 𝙈𝙀𝙉𝙐𝙉𝙅𝙐𝙆𝙆𝘼𝙉
-${week} ${weton}, ${tanggal}
+${week} ${weton}, ${date}
 ${time}
 ${wita}
 ${wit}
