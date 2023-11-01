@@ -89,7 +89,7 @@ const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const tanggal = moment(Date.now()).tz("Asia/Makassar").locale('id').format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-const vn = false
+const vn = true
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
@@ -485,18 +485,11 @@ if (m.message) {
 conn.sendPresenceUpdate(jd, from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', from))
 }*/
-//Grup Only
-if(isCmd && !isCreator && grup_only){
+//Grup Only By ShinChan_Kawaii
+if(isCmd && !m.isGroup && !isCreator && grup_only){
           paycall("Bot hanya bisa digunakan dalam grup")
           return
         }
-//Anti ViewOnce
-if (m.isGroup && m.mtype == 'viewOnceMessage') {
-let teks = `╭「 *Anti ViewOnce* 」\n├ *Name* : ${pushname}\n├ *User* : @${m.sender.split("@")[0]}\n├ *Clock* : ${time2}\n└ *Message* : ${m.mtype}`
-conn.sendMessage(m.chat, { text: teks, mentions: [m.sender] }, { quoted: m })
-await sleep(500)
-m.copyNForward(m.chat, true, {readViewOnce: true}, {quoted: m})
-}
 // Anti Link
 if (AntiLink) {
 if (body.match(/(chat.whatsapp.com\/)/gi)) {
