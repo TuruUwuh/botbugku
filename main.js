@@ -397,6 +397,22 @@ return conn.sendMessage(from, { text: teks,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 
+const replybokep = (teks) => {
+return conn.sendMessage(from, { text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/6bdd8ea22025d0afe0497.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})} 
+                    
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
 }
@@ -690,6 +706,7 @@ Platform : ${os.platform()}
 ➤ pixivdl (perlu code pixiv)
 ➤ spotify (link Spotify)
 ➤ nhentai (code hentai)
+➤ xnxx/xnxxdl (link bokep xnxx)
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
 ➤ play (cari lagu apa?)
@@ -707,6 +724,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ spotifysearch (search)
+➤ xnxxsearch (search)
 ➤ ytsearch (search)
 ➤ pinterest (search)
 ➤ wallpaper (search)
@@ -1766,7 +1784,29 @@ await conn.sendFile(m.chat, anu, `${body}.pdf`, blue)
 					}
 					}
 break
-//========================NHENTAI END=========================//
+//========================BOKEPNYA=========================//
+case 'xnxx': case 'xnxxdl': {
+	if (!text) return paycall(`Kirim Link Bokep di situs XNXX`)
+        if (!text.includes('xnxx.com')) return paytod(`Kirim Link Bokep di situs XNXX`)
+        reply(global.wait)
+        const fg = require('api-dylux')
+            let xn = await fg.xnxxdl(text)
+conn.sendMessage(m.chat, { caption: `≡  *XNXX DOWNLOAD*
+        
+▢ *📌Title*: ${xn.title}
+▢ *⌚Duration:* ${xn.duration}
+▢ *🎞️Quality:* ${xn.quality}`, video: {url: xn.url_dl} }, { quoted: blue })
+}
+break
+case 'xnxxsearch': {
+	if (!text) return paycall(`Kirim Judul Bokep`)
+	const fg = require('api-dylux')
+	let res = await fg.xnxxSearch(text)
+            let ff = res.result.map((v, i) => `${i + 1}┃ *Title* : ${v.title}\n*Link:* ${v.link}\n`).join('\n') 
+              if (res.status) replybokep(ff)
+              }
+              break
+//=============================================================//
 case 'bypassouo': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
