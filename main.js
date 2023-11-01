@@ -93,7 +93,7 @@ const vn = true
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
-const dnew = new Date(Date.now())
+const dnew = new Date(Date.now()).tz('Asia/Jakarta')
 const week = dnew.toLocaleDateString('in', {
                weekday: 'long'
             })
