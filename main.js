@@ -93,7 +93,7 @@ const vn = true
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
-const dnew = new Date(Date.now()).tz("Asia/Makassar")
+const dnew = new Date(Date.now())
 const week = dnew.toLocaleDateString('in', {
                weekday: 'long'
             })
@@ -691,7 +691,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -846,7 +846,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -900,7 +900,7 @@ Platform : ${os.platform()}
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
 𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}
 𝐉𝐚𝐦: ${time}
 𝐉𝐚𝐦: ${wita}
 𝐉𝐚𝐦: ${wit}
@@ -1055,7 +1055,7 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 "callType": '2',
 "scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
 "title": `𝙎𝙀𝙆𝘼𝙍𝘼𝙉𝙂 𝙒𝘼𝙆𝙏𝙐 𝙈𝙀𝙉𝙐𝙉𝙅𝙐𝙆𝙆𝘼𝙉
-${week} ${weton}, ${date}
+${week} ${weton}, ${tanggal}
 ${time}
 ${wita}
 ${wit}
