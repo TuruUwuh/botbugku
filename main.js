@@ -342,7 +342,7 @@ return conn.sendMessage(from, { text: teks,
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `DEVELOPER ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙔 : ${global.ownername}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -357,7 +357,7 @@ return conn.sendMessage(from, { text: teks,
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `DEVELOPER ${global.ownername}`,
+                        title: `𝙀𝙍𝙍𝙊𝙍 404 𝘽𝙔: ${global.ownername}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -372,12 +372,27 @@ return conn.sendMessage(from, { text: teks,
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `DEVELOPER ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙔 : ${global.ownername}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
                         renderLargerThumbnail: true,
                         thumbnailUrl: 'https://telegra.ph/file/97f426edef5a6326065a9.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})} 
+const spotifyreply = (teks) => {
+return conn.sendMessage(from, { text: teks, 
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://www.scdn.co/i/_global/open-graph-default.png',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
@@ -1491,7 +1506,8 @@ break*/
 case 'spotifysearch': {
 if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;  
   let teks = '';
-  try {
+let error18;
+try {
     const api = await fetch(`https://api.betabotz.org/api/search/spotify?query=${text}&apikey=hYnG4TVp`);
     let json = await api.json();
     let res = json.result.data;    
@@ -1500,28 +1516,16 @@ if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;
       teks += `*Duration:* ${res[i].duration}\n`;
       teks += `*Popularity:* ${res[i].popularity}\n`;
       teks += `*Link:* ${res[i].url}\n\n`;
-    }     
-    await conn.relayMessage(m.chat, {
-     extendedTextMessage:{
-                text: teks, 
-                contextInfo: {
-                     externalAdReply: {
-                        showAdAttribution: true,
-                        containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
-                        body: `${tanggal} ××× ${time}`,
-                        mediaType: 1,
-                        previewType: 0,
-                        renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://www.scdn.co/i/_global/open-graph-default.png',
-                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }
-                }, mentions: [m.sender]
-    }}, {})
-  } catch (e) {
-    throw `🚩 *Gagal Memuat Data!*`;
-  }
-};
+    }
+     } catch (er) {
+					error18 = true;
+				} finally {
+					if (error18) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+spotifyreply(teks)
+}
 break
 case "spotify":{
 if (!text) return paycall(`Di mana tautannya?`)
