@@ -723,6 +723,7 @@ Platform : ${os.platform()}
 ➤ waifu
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
+➤ removebg (reply gambar)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1366,16 +1367,7 @@ try {
 					}
 break*/
 //========================REMOVE BAGROUND=========================//
-/*case 'removebg': {
-if (!isPrem) return replyprem(mess.premium)
-const alias = {
-    "removebg" : "removebg"
-  };
-  const aliasCommand = alias[command] || command;
-  if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
-    return m.reply(global.noapikey);
-  }
-
+case 'removebg': {
   if (!/video/.test(mime) && !/image/.test(mime)) {
     throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
   }
@@ -1386,15 +1378,13 @@ const alias = {
   let error;
 try {
   let media = await conn.downloadAndSaveMediaMessage(quoted);
-
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
     reply(global.wait);
-
-    const response = `https://xzn.wtf/api/removebg?url=${anu}&apikey=nerobot`
+    const response = `https://api.lolhuman.xyz/api/removebg?apikey=haikalgans&img=${anu}`
     
 
-    conn.sendMessage(from, { image: { url: response }, caption: 'nih' }, { quoted: fkontak });
+    conn.sendMessage(from, { image: { url: response }, caption: done }, { quoted: fkontak });
   }
 } catch (er) {
 					error = true;
@@ -1404,7 +1394,7 @@ try {
 					}
 					}
 					}
-break*/
+break
 //=========================================================//
 /*case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
