@@ -710,6 +710,8 @@ Platform : ${os.platform()}
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
 ➤ tiktokslide/ttslide (link)
+➤ igvid/igvideo (link video ig)
+➤ igimg/igfoto (link foto ig)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -1946,6 +1948,43 @@ await conn.sendMessage(m.chat,{
     caption: ytc
 },{quoted: fkontak})
 }
+break
+//========================INSTAGRAM DL============================//
+case 'igvid': case 'igvideo': case 'igreels':
+			if (args.length == 0) return reply(`Example: ${prefix + command} link video ig`)
+			paycall(global.wait)
+			let error20;
+try {
+			axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=haikalgans&url=${args[0]}`).then(({ data }) => {
+				conn.sendMessage(from, { video: { url: data.result }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
+			})
+			 } catch (er) {
+					error20 = true;
+				} finally {
+					if (error20) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+			break
+case 'igimg': case 'igfoto': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} link foto Instagram`
+        reply(global.wait)
+        let error21;
+try {
+        let res = await fetch(`https://api.lolhuman.xyz/api/instagram2?apikey=haikalgans&url=${args[0]}`)
+        let data = await res.json()
+        let cap = `${done}`
+            for (let i of data.result.media) {
+                conn.sendImage(m.chat, i, cap, blue)
+            }
+                              } catch (er) {
+					error21 = true;
+				} finally {
+					if (error21) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
 break
 //========================END============================//
 case 'id' :
