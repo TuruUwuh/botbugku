@@ -709,6 +709,7 @@ Platform : ${os.platform()}
 ➤ xnxx/xnxxdl (link bokep xnxx)
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
+➤ tiktokslide/ttslide (link)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -1586,6 +1587,30 @@ require('./lib/tiktok').Tiktok(q).then( data => {
 conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: blue })
 })
 }
+break
+case 'tiktokslide': case 'ttslide': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+        reply(global.wait)
+        let error19;
+try {
+        let res = await fetch(`https://api.fgmods.xyz/api/downloader/tiktok2?url=${args[0]}&apikey=Wvc5v8l7`)
+        let data = await res.json()
+        let cap = `${done}
+▢ *Likes:* ${data.result.stats.likeCount}
+▢ *Deskripsi:* ${data.result.title}
+`
+            for (let tt of data.result.images) {
+                conn.sendImage(m.chat, tt.url, cap, blue)
+            }
+                              } catch (er) {
+					error19 = true;
+				} finally {
+					if (error19) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
 break
 case 'tt2': {
 if (!q) return paycall( `Example : ${prefix + command} link`)
