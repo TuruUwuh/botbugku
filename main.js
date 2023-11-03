@@ -327,7 +327,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `DEVELOPER ${global.ownername}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -1141,24 +1141,6 @@ conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
 					}
 }
 break
-//========================END CHAT GPT=========================//
-/*case 'jadianime': 
-case 'toanime': {
-if (!isPrem) return replyprem(mess.premium)
-if (`${global.wtf}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
-
-if (!/video/.test(mime) && !/image/.test(mime)) throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`
-if (!quoted) throw `*Send/Reply the Video/Image Caption* ${prefix + command}`
-let media = await conn.downloadAndSaveMediaMessage(quoted)
-if (/image/.test(mime)) {
-let anu = await TelegraPh(media)
-reply(global.wait)
-  let response = `https://xzn.wtf/api/toanime?url=${util.format(anu)}&apikey=${global.wtf}`
-
-conn.sendMessage(from, { image: { url: response}, caption: command },{ quoted: fkontak });
-}
-}
-break*/
 //========================WAIFU = LOLI========================//
 case 'waifu': {
 reply(global.wait)
@@ -1842,7 +1824,7 @@ const shinchanplaymp3 = require('./lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
-        paycall(global.wait)
+        reply(global.wait)
 const pl= await shinchanplaymp3.mp3(anup3k.url)
 await conn.sendMessage(m.chat,{
     audio: fs.readFileSync(pl.path),
@@ -1867,7 +1849,7 @@ break
 case "ytmp3": case "ytaudio":
 const shinchanmp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
-paycall(global.wait)
+reply(global.wait)
 const audio=await shinchanmp3.mp3(text)
 await conn.sendMessage(m.chat,{
     audio: fs.readFileSync(audio.path),
@@ -1890,7 +1872,7 @@ break
 case 'ytmp4': case 'ytvideo': {
 const shinchanmp4 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
-paycall(global.wait)
+reply(global.wait)
 const vid=await shinchanmp4.mp4(text)
 const ytc=`
 *🐼Tittle:* ${vid.title}
@@ -1906,7 +1888,7 @@ break
 //========================INSTAGRAM DL============================//
 case 'igvid': case 'igvideo': case 'igreels':
 			if (args.length == 0) return reply(`Example: ${prefix + command} link video ig`)
-			paycall(global.wait)
+			reply(global.wait)
 			let error20;
 try {
 			axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=haikalgans&url=${args[0]}`).then(({ data }) => {
