@@ -322,12 +322,12 @@ var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.f
 conn.relayMessage(m.chat, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
 const reply = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙐𝙉𝙂𝙂𝙐 𝙔𝘼🤗`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `DEVELOPER ${global.ownername}`,
+                        title: `DEVELOPER ${global.ownername}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -337,12 +337,12 @@ return conn.sendMessage(from, { text: teks,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replyhentai = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🥵𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙔 : ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -352,7 +352,7 @@ return conn.sendMessage(from, { text: teks,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replyerror = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍🥲`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -367,12 +367,12 @@ return conn.sendMessage(from, { text: teks,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 const ytreply = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐼𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃🐼`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙔 : ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -382,12 +382,12 @@ return conn.sendMessage(from, { text: teks,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 const spotifyreply = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐣𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃🐣`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -398,12 +398,12 @@ return conn.sendMessage(from, { text: teks,
                     }}}, { quoted: blue})} 
 
 const replybokep = (teks) => {
-return conn.sendMessage(from, { text: teks, 
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
                         containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃 𝘽𝙮 : ${global.ownername}`,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
                         body: `${tanggal} ××× ${time}`,
                         mediaType: 1,
                         previewType: 0,
@@ -416,6 +416,113 @@ return conn.sendMessage(from, { text: teks,
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
 }
+//document randomizer
+let documents = [doc1,doc2,doc3,doc4,doc5,doc6]
+let docs = pickRandom(documents)
+
+stod = `${sender}`
+var mundur = await hitungmundur(4, 23)
+const menulist = `*Hay ${pushname} 👋*
+${shinchantime}
+Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
+━━━━━━━━━━━━━━━━━━━
+╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
+━━━━━━━━━━━━━━━━━━━
+_Status : ${isCreator ? 'Owner' : 'User'}_
+_Nama : ${pushname}_
+_Nomor : @${stod.split('@')[0]}_
+_Sponsored :  @${ini_mark.split('@')[0]}_
+Prefix :   ${prefix}
+_Speed : ${latensii.toFixed(4)} Second_
+Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+Hostname : ${os.hostname()}
+Platform : ${os.platform()}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
+━━━━━━━━━━━━━━━━━━━
+𝐇𝐚𝐫𝐢: ${week} ${weton}
+𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
+𝐉𝐚𝐦: ${time}
+𝐉𝐚𝐦: ${wita}
+𝐉𝐚𝐦: ${wit}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
+━━━━━━━━━━━━━━━━━━━
+ ${mundur}
+ Hijriah : ${dateIslamic}
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
+━━━━━━━━━━━━━━━━━━━
+➤ pixivdl (perlu code pixiv)
+➤ spotify (link Spotify)
+➤ nhentai (code hentai)
+➤ xnxx/xnxxdl (link bokep xnxx)
+➤ tiktok (link)
+➤ tiktokmp3 (link)
+➤ tiktokslide/ttslide (link)
+➤ igvid/igvideo (link video ig)
+➤ igimg/igfoto (link foto ig)
+➤ play (cari lagu apa?)
+➤ ytmp3 (link yt)
+➤ ytmp4 (link yt)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
+━━━━━━━━━━━━━━━━━━━
+➤ ai/openai
+➤ loli
+➤ waifu
+➤ remini (reply gambar)
+➤ 4k (reply gambar)
+➤ removebg (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
+━━━━━━━━━━━━━━━━━━━
+➤ spotifysearch (search)
+➤ xnxxsearch (search)
+➤ ytsearch (search)
+➤ pinterest (search)
+➤ wallpaper (search)
+➤ wallpaper2
+➤ carihentai (Lu mo nyari apa?)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
+━━━━━━━━━━━━━━━━━━━
+➤ aksarajawa
+➤ latin (translate aksara jawa)
+➤ lens / googlelens
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
+━━━━━━━━━━━━━━━━━━━
+➤ ttp
+➤ ttp2
+➤ ttp3
+➤ ttp4
+➤ attp
+➤ sticker
+➤ qc (Masukan Teks)
+➤ smeme (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )
+━━━━━━━━━━━━━━━━━━━
+➤ toimg
+➤ take/wm
+➤ toaudio
+➤ tomp3
+➤ togif
+➤ tovn
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
+━━━━━━━━━━━━━━━━━━━
+➤ bypassouo (anti iklan boss)
+➤ bypassmirror (langsung ke inti)
+━━━━━━━━━━━━━━━━━━━
+➤ nsfwmenu (18+)
+➤ grupmenu (Owner)
+➤ bugmenu (Owner)
+➤ tqto (Thanks)
+━━━━━━━━━━━━━━━
+`
+
 // DELAY FUNCTION
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -663,164 +770,21 @@ user.afkReason = ''
 
 switch(command) {
 case 'menu': {
-stod = `${sender}`
-var mundur = await hitungmundur(4, 23)
-var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-"requestPaymentMessage": {
-"currencyCodeIso4217": "INR",
-"amount1000": "7777777",
-"requestFrom": m.sender,
-"noteMessage": {
-"extendedTextMessage": {
-"text": `*Hay ${pushname} 👋*
-${shinchantime}
-Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━
-╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
-━━━━━━━━━━━━━━━━━━━
-_Status : ${isCreator ? 'Owner' : 'User'}_
-_Nama : ${pushname}_
-_Nomor : @${stod.split('@')[0]}_
-_Sponsored :  @${ini_mark.split('@')[0]}_
-Prefix :   ${prefix}
-_Speed : ${latensii.toFixed(4)} Second_
-Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-Hostname : ${os.hostname()}
-Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
-━━━━━━━━━━━━━━━━━━━
-𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
-𝐉𝐚𝐦: ${time}
-𝐉𝐚𝐦: ${wita}
-𝐉𝐚𝐦: ${wit}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
-━━━━━━━━━━━━━━━━━━━
- ${mundur}
- Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
-━━━━━━━━━━━━━━━━━━━
-➤ pixivdl (perlu code pixiv)
-➤ spotify (link Spotify)
-➤ nhentai (code hentai)
-➤ xnxx/xnxxdl (link bokep xnxx)
-➤ tiktok (link)
-➤ tiktokmp3 (link)
-➤ tiktokslide/ttslide (link)
-➤ igvid/igvideo (link video ig)
-➤ igimg/igfoto (link foto ig)
-➤ play (cari lagu apa?)
-➤ ytmp3 (link yt)
-➤ ytmp4 (link yt)
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
-━━━━━━━━━━━━━━━━━━━
-➤ ai/openai
-➤ loli
-➤ waifu
-➤ remini (reply gambar)
-➤ 4k (reply gambar)
-➤ removebg (reply gambar)
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
-━━━━━━━━━━━━━━━━━━━
-➤ spotifysearch (search)
-➤ xnxxsearch (search)
-➤ ytsearch (search)
-➤ pinterest (search)
-➤ wallpaper (search)
-➤ wallpaper2
-➤ carihentai (Lu mo nyari apa?)
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
-━━━━━━━━━━━━━━━━━━━
-➤ aksarajawa
-➤ latin (translate aksara jawa)
-➤ lens / googlelens
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
-━━━━━━━━━━━━━━━━━━━
-➤ ttp
-➤ ttp2
-➤ ttp3
-➤ ttp4
-➤ attp
-➤ sticker
-➤ qc (Masukan Teks)
-➤ smeme (reply gambar)
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )
-━━━━━━━━━━━━━━━━━━━
-➤ toimg
-➤ take/wm
-➤ toaudio
-➤ tomp3
-➤ togif
-➤ tovn
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
-━━━━━━━━━━━━━━━━━━━
-➤ bypassouo (anti iklan boss)
-➤ bypassmirror (langsung ke inti)
-━━━━━━━━━━━━━━━━━━━
-➤ nsfwmenu (18+)
-➤ grupmenu (Owner)
-➤ bugmenu (Owner)
-➤ tqto (Thanks)
-━━━━━━━━━━━━━━━
-`,
-}}}}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
-}
-break
-
-/*case 'premmenu': {
-var mundur = await hitungmundur(4, 23)
-var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
-"scheduledCallCreationMessage": {
-"callType": '2',
-"scheduledTimestampMs": `${moment(1000).tz("Asia/Jakarta").format("DD/MM/YYYY HH:mm:ss")}`,
-"title": `*Hay ${pushname} 👋*
-${shinchantime}
-Saya Bot ${global.botname} yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-( REAL TIME )
-${tanggal}
-${time}
-${wita}
-${wit}
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-( *HITUNG MUNDUR IDUL FITRI 🌜* )
- ${mundur}
-━━━━━━━━━━━━━━━━━━━━
-  *FITUR PREMIUM MENU* 
-━━━━━━━━━━━━━━━
-➤ removebg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ imgeditor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ textimg [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ toanime/jadianime [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ tocartoon [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ jojo [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ anime2d [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ cartoon3d [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ pretty [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ romancecomic [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ maid [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ superhero [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ watercolor [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ doodle [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ americacomic [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ starrygirl [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-━━━━━━━━━━━━━━━
-`,
-}
-}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
-}
-break*/
+conn.sendMessage(m.chat, { caption: menulist, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `💖𝙇𝙄𝙎𝙏 𝙈𝙀𝙉𝙐 𝘽𝙊𝙏💖`,
+contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `${ownername}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})}
+                    break
 case 'nsfwmenu': {
 stod = `${sender}`
 var mundur = await hitungmundur(4, 23)
