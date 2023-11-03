@@ -15,6 +15,14 @@ global.region = 'indonesia 🇮🇩' // bebas
 //—————「 Set Nama Own & Bot 」—————//
 global.ownername = '💖𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏💖' //ubah jadi nama mu, note tanda ' gausah di hapus!
 //=================================================//
+//documents variants
+global.doc1 = 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+global.doc2 = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+global.doc3 = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+global.doc4 = 'application/zip'
+global.doc5 = 'application/pdf'
+global.doc6 = 'application/vnd.android.package-archive'
+//=================================================//
 global.owner = ['6282134110253'] // ubah aja pake nomor lu
 
 //--------Jika Tidak Ada Apikey----------
