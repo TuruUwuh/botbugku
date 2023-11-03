@@ -2715,29 +2715,22 @@ case 'antilinkall': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return sticAdmin(from)
+await loading()
+if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
-if (!AntiLinkAll) return reply('Telah diaktifkan')
-ntilinkall.push(from)
-fs.writeFileSync('./lib/antilinkall.json', JSON.stringify(ntilinkall))
-reply('Berhasil mengaktifkan semua antilink di grup ini')
-var groupe = await conn.groupMetadata(from)
-var members = groupe['participants']
-var mems = []
-members.map(async adm => {
-mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
-})
-conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan kirim tautan apa pun ke grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+if (AntiLinkAll) return m.reply('Sudah Aktif')
+ntilink.push(from)
+m.reply('「 ⚠️Warning⚠️ 」\n\nJika Anda bukan admin, jangan kirim tautan apa pun ke grup ini atau Anda akan langsung ditendang!')
 } else if (args[0] === "off") {
-if (!AntiLinkAll) return reply('Telah dinonaktifkan')
-let off = ntilinkall.indexOf(from)
-ntilinkall.splice(off, 1)
-fs.writeFileSync('./lib/antilinkall.json', JSON.stringify(ntilinkall))
-reply('Berhasil mematikan semua antilink di grup ini')
+if (!AntiLinkAll) return m.reply('Sudah Mati')
+let off = ntilink.indexOf(from)
+ntilink.splice(off, 1)
+m.reply('Succes mematikan antilinkall di group ini 🌷')
 } else {
-  await reply(`Silakan Ketik Opsinya\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
-  }
-  }
-  break
+m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
+}
+}
+break
 
 case "antitoxic":
 {
