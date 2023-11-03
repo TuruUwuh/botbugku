@@ -41,6 +41,8 @@ const zipnye = JSON.parse(fs.readFileSync('./database/zip.json'))
 const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
 const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
 const ntilinkall =JSON.parse(fs.readFileSync('./lib/antilinkall.json'))
+let ntilinkig =JSON.parse(fs.readFileSync('./database/antilinkinstagram.json'));
+let ntilinkchannel =JSON.parse(fs.readFileSync('./database/antilinkchannelwa.json'));
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
 const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
@@ -79,6 +81,8 @@ const welcm = m.isGroup ? wlcm.includes(from) : false
 const welcmm = m.isGroup ? wlcmm.includes(from) : false
 const AntiLink = m.isGroup ? ntilink.includes(from) : true
 const AntiLinkAll = m.isGroup ? ntilinkall.includes(from) : false
+const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
+const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : true
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
@@ -660,7 +664,48 @@ conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Has been kicked because of sending link in this group`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
-
+//antilink Instagram
+if (AntiLinkInstagram)
+   if (budy.includes("https://www.instagram.com/")){
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Instagram Link Detected 」\`\`\`\n\nAdmin sudah mengirimkan link instagram, admin bebas mengirimkan link apa saja😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 Instagram Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link instagram di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+} else {
+}
+//antilink Channel Wa by ShinChan
+if (AntiLinkChannel)
+   if (budy.includes("https://whatsapp.com/channel/")){
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Instagram Link Detected 」\`\`\`\n\nAdmin sudah mengirimkan link Saluran WhatsApp, admin bebas mengirimkan link apapun😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+} else {
+}
 // Respon Cmd with media
 if (isMedia && m.msg.fileSha256 && (m.msg.fileSha256.toString('base64') in global.db.data.sticker)) {
 let hash = global.db.data.sticker[m.msg.fileSha256.toString('base64')]
@@ -2711,27 +2756,60 @@ m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
 }
 }
 break
-case 'antilinkall': {
+case 'antilinkinstagram': case 'antilinkig': case 'antilinkinsta': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return sticAdmin(from)
-await loading()
-if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
-if (AntiLinkAll) return m.reply('Sudah Aktif')
-ntilink.push(from)
-m.reply('「 ⚠️Warning⚠️ 」\n\nJika Anda bukan admin, jangan kirim tautan apa pun ke grup ini atau Anda akan langsung ditendang!')
+if (AntiLinkInstagram) return paycall('Already activated')
+ntilinkig.push(from)
+fs.writeFileSync('./database/antilinkinstagram.json', JSON.stringify(ntilinkig))
+paycall('Success in turning on instagram antilink in this group')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nIf you're not an admin, don't send the instagram link in this group or u will be kicked immediately!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
-if (!AntiLinkAll) return m.reply('Sudah Mati')
-let off = ntilink.indexOf(from)
-ntilink.splice(off, 1)
-m.reply('Succes mematikan antilinkall di group ini 🌷')
+if (!AntiLinkInstagram) return paycall('Already deactivated')
+let off = ntilinkig.indexOf(from)
+ntilinkig.splice(off, 1)
+fs.writeFileSync('./database/antilinkinstagram.json', JSON.stringify(ntilinkig))
+paycall('Success in turning off instagram antilink in this group')
 } else {
-m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
-}
-}
-break
-
+  await paycall(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
+  case 'antilinkch': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return sticAdmin(from)
+if (args[0] === "on") {
+if (AntiLinkChannel) return paycall('Already activated')
+ntilinkchannel.push(from)
+fs.writeFileSync('./database/antilinkchannelwa.json', JSON.stringify(ntilinkchannel))
+paycall('Sukses mengaktifkan antilink Channel WhatsApp di grup ini')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan kirimkan link instagram di grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+} else if (args[0] === "off") {
+if (!AntiLinkChannel) return paycall('Already deactivated')
+let off = ntilinkchannel.indexOf(from)
+ntilinkchannel.splice(off, 1)
+fs.writeFileSync('./database/antilinkchannelwa.json', JSON.stringify(ntilinkchannel))
+paycall('Sukses mematikan antilink Channel WhatsApp di grup ini')
+} else {
+  await paycall(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
 case "antitoxic":
 {
 if (!isCreator) return m.reply(`*khusus Owner*`)
