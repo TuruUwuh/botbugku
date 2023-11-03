@@ -641,7 +641,7 @@ conn.sendMessage(from, {text:`\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\n@${m.
 
 //antilink all by ShinChan
 if (AntiLinkAll)
-   if (body.includes("https://")){
+   if (budy.match("https://")){
 if (!isBotAdmins) return
 bvl = `\`\`\`「 Link Detected 」\`\`\`\n\nAdmin sudah kirim linknya, admin bebas kirim link apapun😇`
 if (isAdmins) return m.reply(bvl)
