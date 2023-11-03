@@ -2716,7 +2716,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return sticAdmin(from)
 if (args[0] === "on") {
-if (AntiLinkTwitter) return reply('Telah diaktifkan')
+if (!AntiLinkAll) return reply('Telah diaktifkan')
 ntilinkall.push(from)
 fs.writeFileSync('./lib/antilinkall.json', JSON.stringify(ntilinkall))
 reply('Berhasil mengaktifkan semua antilink di grup ini')
