@@ -641,24 +641,24 @@ conn.sendMessage(from, {text:`\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\n@${m.
 
 //antilink all by ShinChan
 if (AntiLinkAll)
-   if (budy.includes("https://")){
+   if (body.includes("https://")){
 if (!isBotAdmins) return
 bvl = `\`\`\`「 Link Detected 」\`\`\`\n\nAdmin sudah kirim linknya, admin bebas kirim link apapun😇`
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (isCreator) return m.reply(bvl)
-        await conn.sendMessage(m.chat,
-			    {
-			        delete: {
-			            remoteJid: m.chat,
-			            fromMe: false,
-			            id: m.key.id,
-			            participant: m.key.participant
-			        }
-			    })
-			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-conn.sendMessage(from, {text:`\`\`\`「 Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
-} else {
+await conn.sendMessage(m.chat,
+{
+delete: {
+remoteJid: m.chat,
+fromMe: false,
+id: mek.key.id,
+participant: mek.key.participant
+}
+})
+conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\n@${m.sender.split("@")[0]} Jangan kirim group link di group ini`, contextInfo:{mentionedJid:[sender]}}, {quoted:m})
+}
 }
 
 // Respon Cmd with media
