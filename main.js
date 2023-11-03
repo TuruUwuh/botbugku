@@ -40,6 +40,7 @@ const docunye = JSON.parse(fs.readFileSync('./database/docu.json'))
 const zipnye = JSON.parse(fs.readFileSync('./database/zip.json'))
 const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
 const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
+const ntilinkall =JSON.parse(fs.readFileSync('./lib/antilinkall.json'))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
 const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
@@ -76,7 +77,8 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
 const welcm = m.isGroup ? wlcm.includes(from) : false
 const welcmm = m.isGroup ? wlcmm.includes(from) : false
-const AntiLink = m.isGroup ? ntilink.includes(from) : false 
+const AntiLink = m.isGroup ? ntilink.includes(from) : true
+const AntiLinkAll = m.isGroup ? ntilinkall.includes(from) : false
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
@@ -635,6 +637,28 @@ participant: mek.key.participant
 conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\n@${m.sender.split("@")[0]} Jangan kirim group link di group ini`, contextInfo:{mentionedJid:[sender]}}, {quoted:m})
 }
+}
+
+//antilink all by ShinChan
+if (AntiLinkAll)
+   if (budy.includes("https://")){
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Link Detected 」\`\`\`\n\nAdmin sudah kirim linknya, admin bebas kirim link apapun😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+} else {
 }
 
 // Respon Cmd with media
@@ -2687,6 +2711,33 @@ m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
 }
 }
 break
+case 'antilinkall': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return sticAdmin(from)
+if (args[0] === "on") {
+if (AntiLinkTwitter) return reply('Telah diaktifkan')
+ntilinkall.push(from)
+fs.writeFileSync('./lib/antilinkall.json', JSON.stringify(ntilinkall))
+reply('Berhasil mengaktifkan semua antilink di grup ini')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan kirim tautan apa pun ke grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+} else if (args[0] === "off") {
+if (!AntiLinkAll) return reply('Telah dinonaktifkan')
+let off = ntilinkall.indexOf(from)
+ntilinkall.splice(off, 1)
+fs.writeFileSync('./lib/antilinkall.json', JSON.stringify(ntilinkall))
+reply('Berhasil mematikan semua antilink di grup ini')
+} else {
+  await reply(`Silakan Ketik Opsinya\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
 
 case "antitoxic":
 {
