@@ -467,6 +467,7 @@ Platform : ${os.platform()}
 ➤ tiktokmp3 (link)
 ➤ tiktokslide/ttslide (link)
 ➤ igvid/igvideo (link video ig)
+➤ igvid2 (Khusus Video Slide)
 ➤ igimg/igfoto (link foto ig)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
@@ -1987,6 +1988,26 @@ try {
 					error21 = true;
 				} finally {
 					if (error21) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
+break
+case 'igvid2': case 'igvideo2': case 'igreels2': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} link foto Instagram`
+        reply(global.wait)
+        let error23;
+try {
+        let res = await fetch(`https://api.lolhuman.xyz/api/instagram2?apikey=haikalgans&url=${args[0]}`)
+        let data = await res.json()
+        let cap = `${done}`
+            for (let b of data.result.media) {
+                conn.sendMessage(from, { video: { url: b }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
+            }
+                              } catch (er) {
+					error23 = true;
+				} finally {
+					if (error23) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
