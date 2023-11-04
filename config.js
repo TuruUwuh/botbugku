@@ -22,6 +22,11 @@ global.doc3 = 'application/vnd.openxmlformats-officedocument.wordprocessingml.do
 global.doc4 = 'application/zip'
 global.doc5 = 'application/pdf'
 global.doc6 = 'application/vnd.android.package-archive'
+
+//========================ANTI LINK=========================//
+global.AntiLink = true
+global.AntiLinkInstagram = false
+global.AntiLinkChannel = true
 //=================================================//
 global.owner = ['6282134110253'] // ubah aja pake nomor lu
 
