@@ -342,6 +342,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
+const replybrainly = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})}
 const replyhentai = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🥵𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
@@ -358,7 +373,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replyerror = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍🥲`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍😭`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -498,6 +513,7 @@ Platform : ${os.platform()}
 ➤ aksarajawa
 ➤ latin (translate aksara jawa)
 ➤ lens / googlelens
+➤ brainly (Kirim Soal)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2050,6 +2066,30 @@ try {
 					error22 = true;
 				} finally {
 					if (error22) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+                    break
+                    
+case 'brainly':
+                    if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
+                    query = args.join(" ")
+                    let error24;
+try {
+                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/brainly?apikey=haikalgans&query=${query}`)
+                    lala = get_result.result
+                    ini_txt = "Beberapa Pembahasan Dari Brainly :\n\n"
+                    for (var x of lala) {
+                        ini_txt += `==============================\n`
+                        ini_txt += `\`\`\`Pertanyaan :\`\`\`\n${x.question.content}\n\n`
+                        ini_txt += `\`\`\`Jawaban :\`\`\`\n${x.answer.content}\n`
+                        ini_txt += `==============================\n\n`
+                    }
+                    replybrainly(ini_txt)
+                    } catch (er) {
+					error24 = true;
+				} finally {
+					if (error24) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
