@@ -445,7 +445,7 @@ function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
 }
 //document randomizer
-let documents = [doc1,doc2,doc3,doc4,doc5,doc6]
+let documents = [doc1,doc2,doc3,doc4,doc5,doc6,doc7,doc8,doc9,doc10,doc11,doc12]
 let docs = pickRandom(documents)
 
 stod = `${sender}`
@@ -465,6 +465,8 @@ _Speed : ${latensii.toFixed(4)} Second_
 Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
 Hostname : ${os.hostname()}
 Platform : ${os.platform()}
+Type : Node.Js
+Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━

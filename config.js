@@ -22,6 +22,12 @@ global.doc3 = 'application/vnd.openxmlformats-officedocument.wordprocessingml.do
 global.doc4 = 'application/zip'
 global.doc5 = 'application/pdf'
 global.doc6 = 'application/vnd.android.package-archive'
+global.doc7 = 'application/octet-stream'
+global.doc8 = 'application/javascript'
+global.doc9 = 'text/plain'
+global.doc10 = 'text/html'
+global.doc11 = 'text/css'
+global.doc12 = 'application/x-7z-compressed'
 
 //========================ANTI LINK=========================//
 global.AntiLink = true
