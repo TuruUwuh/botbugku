@@ -43,6 +43,8 @@ const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
 const ntilinkall =JSON.parse(fs.readFileSync('./lib/antilinkall.json'))
 let ntilinkig =JSON.parse(fs.readFileSync('./database/antilinkinstagram.json'));
 let ntilinkchannel =JSON.parse(fs.readFileSync('./database/antilinkchannelwa.json'));
+let ntvirtex = JSON.parse(fs.readFileSync('./database/antivirus.json'))
+let autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
 const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
@@ -83,6 +85,8 @@ const AntiLink = m.isGroup ? ntilink.includes(from) : true
 const AntiLinkAll = m.isGroup ? ntilinkall.includes(from) : false
 const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
 const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : true
+const antiVirtex = m.isGroup ? ntvirtex.includes(from) : true
+const isAutoSticker = m.isGroup ? autosticker.includes(from) : true
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
@@ -128,7 +132,7 @@ var shinchantime = `Selamat Sore 🌃`
 var shinchantime = `Selamat Sore 🌅`
  }
  if(time2 < "11:00:00"){
-var shinchantime = `Siang  🌄`
+var shinchantime = `Selamat Siang 🌄`
  }
  if(time2 < "05:00:00"){
 var shinchantime = `Selamat Pagi 🌄`
@@ -327,6 +331,8 @@ var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.f
 }}}), { userJid: m.chat, quoted: fkontak })
 conn.relayMessage(m.chat, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
 }
+
+//===================REPLY NYA=========================//
 const reply = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙐𝙉𝙂𝙂𝙐 𝙔𝘼🤗`,
                 contextInfo: {
@@ -433,7 +439,8 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
-                    
+//==========================================================//
+
 function pickRandom(list) {
 return list[Math.floor(Math.random() * list.length)]
 }
@@ -724,6 +731,35 @@ if (isCreator) return m.reply(bvl)
 conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
+//antivirtex by ShinChan
+  if (antiVirtex) {
+  if (budy.length > 3500) {
+if (isAdmins) return conn.sendMessage(m.chat, {text: `\`\`\`「 Virtex Terdeteksi 」\`\`\`\n\nAdmin sudah mengirimkan Virtex, admin bebas send Virtex apapun`})
+          await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+			conn.sendMessage(from, {text:`\`\`\`「 Virtex Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan virus di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+  }
+  }
+  // Autosticker gc
+        if (isAutoSticker) {
+            if (/image/.test(mime) && !/webp/.test(mime)) {
+                let mediac = await quoted.download()
+                await conn.sendImageAsSticker(from, mediac, m, { packname: global.packname, author: global.author })
+                console.log(`Auto sticker detected`)
+            } else if (/video/.test(mime)) {
+                if ((quoted.msg || quoted).seconds > 11) return
+                let mediac = await quoted.download()
+                await conn.sendVideoAsSticker(from, mediac, m, { packname: global.packname, author: global.author })
+            }
+        }
 // Respon Cmd with media
 if (isMedia && m.msg.fileSha256 && (m.msg.fileSha256.toString('base64') in global.db.data.sticker)) {
 let hash = global.db.data.sticker[m.msg.fileSha256.toString('base64')]
@@ -2842,7 +2878,7 @@ break
 case 'antilink': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
-if (!isAdmins && !isCreator) return sticAdmin(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 await loading()
 if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
@@ -2862,7 +2898,7 @@ break
 case 'antilinkinstagram': case 'antilinkig': case 'antilinkinsta': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
-if (!isAdmins && !isCreator) return sticAdmin(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (args[0] === "on") {
 if (AntiLinkInstagram) return paycall('Already activated')
 ntilinkig.push(from)
@@ -2889,7 +2925,7 @@ paycall('Success in turning off instagram antilink in this group')
   case 'antilinkch': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
-if (!isAdmins && !isCreator) return sticAdmin(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (args[0] === "on") {
 if (AntiLinkChannel) return paycall('Already activated')
 ntilinkchannel.push(from)
@@ -2910,6 +2946,49 @@ fs.writeFileSync('./database/antilinkchannelwa.json', JSON.stringify(ntilinkchan
 paycall('Sukses mematikan antilink Channel WhatsApp di grup ini')
 } else {
   await paycall(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
+  case 'autostickergc':
+            case 'autostiker':
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (args.length < 1) return paycall('type auto sticker on to enable\ntype auto sticker off to disable')
+if (args[0]  === 'on'){
+if (isAutoSticker) return paycall(`Already activated`)
+autosticker.push(from)
+fs.writeFileSync('./database/autosticker.json', JSON.stringify(autosticker))
+paycall('autosticker activated')
+} else if (args[0] === 'off'){
+let anuticker1 = autosticker.indexOf(from)
+autosticker.splice(anuticker1, 1)
+fs.writeFileSync('./database/autosticker.json', JSON.stringify(autosticker))
+paycall('auto sticker deactivated')
+}
+break
+  case 'antivirus': case 'antivirtex': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (args[0] === "on") {
+if (antiVirtex) return paycall('Already activated')
+ntvirtex.push(from)
+fs.writeFileSync('./database/antivirus.json', JSON.stringify(ntvirtex))
+paycall('Sukses mengaktifkan antivirus di grup ini')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nTidak boleh ada siapapun yang mengirim virus di grup ini, anggota yang mengirim akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+} else if (args[0] === "off") {
+if (!antiVirtex) return paycall('Already deactivated')
+let off = ntvirtex.indexOf(from)
+ntvirtex.splice(off, 1)
+fs.writeFileSync('./database/antivirus.json', JSON.stringify(ntvirtex))
+paycall('Sukses mematikan antivirus grup ini')
+} else {
+  await paycall(`Silakan Ketik Opsinya\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
   }
   }
   break
