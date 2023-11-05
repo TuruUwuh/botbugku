@@ -3352,6 +3352,15 @@ break
 //=================================================//
 
 default:
+if (budy.startsWith('<')) {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+try {
+return m.reply(JSON.stringify(eval(`${args.join(' ')}`),null,'\t'))
+} catch (e) {
+m.reply(e)
+}
+}
+
 if (budy.startsWith('=>')) {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 function Return(sul) {
@@ -3364,6 +3373,7 @@ try {
 m.reply(util.format(eval(`(async () => { return ${budy.slice(3)} })()`)))
 } catch (e) {
 m.reply(String(e))}}
+
 if (budy.startsWith('>')) {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 try {
@@ -3372,14 +3382,7 @@ if (typeof evaled !== 'string') evaled = require('util').inspect(evaled)
 await m.reply(evaled)
 } catch (err) {
 await m.reply(String(err))}}
-if (budy.startsWith('< ')) {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-               try {
-                  return reply(JSON.stringify(eval(`${args.join(' ')}`), null, '\t'))
-               } catch (e) {
-                  reply(util.format(e))
-               }
-            }
+
 if (budy.startsWith('$')) {
                     if (!isCreator) return m.reply(`*khusus Owner*`)
                     exec(budy.slice(2), (err, stdout) => {
