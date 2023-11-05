@@ -516,6 +516,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ wallpaper2
 ➤ carihentai (Lu mo nyari apa?)
 ➤ anime (Cari Sinopsis Anime)
+➤ lirik (Judul lagu indo)
+➤ lirik2 (Judul lagu luar negeri)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -625,7 +627,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
@@ -2132,6 +2134,48 @@ try {
 					}
 					}
                     break
+//========================LIRIK LAGU============================//
+case 'lirik': {
+reply(global.wait)
+  if (!text) return m.reply('Cari lagu apa?')
+  query = args.join(" ")
+  let error25;
+try {
+    let res = await fetch(`https://api.akuari.my.id/search/lirik?query=${query}`)
+    let data = await res.json()
+    let uhuy = data.result
+    let mes = `${uhuy[0].lirik}`;
+conn.sendText(from, mes, m)
+} catch (er) {
+error25 = true;
+} finally {
+if (error25) {
+replyerror("Yah Proses Gagal :(");
+}
+}
+}
+break
+case 'lirik2': {
+if (!text) return paycall(`mau nyari lirik apa?`)
+reply(global.wait)
+let error26;
+try {
+const fg = require('api-dylux')
+let res = await fg.lyrics(text);
+ let mes = `▢ *${res.title}*
+▢ *${res.artist}*
+
+▢ ${res.lyrics}`;
+conn.sendFile2(m.chat, res.thumb, 'img.png', mes, m)
+} catch (er) {
+error26 = true;
+} finally {
+if (error26) {
+replyerror("Maaf lirik tersebut tidak muncul di database\nHarus lagu luar negri gak bisa lagu indo😁");
+}
+}
+}
+break
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
