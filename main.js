@@ -2376,11 +2376,11 @@ var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
 "product": {
 "productImage": messa.imageMessage,
-"productId": "",
+"productId": "4054052174706640",
 "jpegThumbnail": thumb,
 "title": `${atas}`,
 "description": `${bawah}`,
-"productImageCount": 999999999,
+"productImageCount": 1,
 "firstImageId": 1,
 "retailerId": `〔 ıll ☄︎ ⫹⫺ ᴺᵉʳᵒ☃︎ˢᵉⁿᵖᵃⁱ 浤 ☄︎ llı 〕`,
 "bodyText": `𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝙒𝙄𝘽𝙐𝙎𝙊𝙁𝙏`,
