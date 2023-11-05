@@ -44,6 +44,7 @@ const ntilinkall =JSON.parse(fs.readFileSync('./lib/antilinkall.json'))
 let ntilinkig =JSON.parse(fs.readFileSync('./database/antilinkinstagram.json'));
 let ntilinkchannel =JSON.parse(fs.readFileSync('./database/antilinkchannelwa.json'));
 let ntvirtex = JSON.parse(fs.readFileSync('./database/antivirus.json'))
+let nteval = JSON.parse(fs.readFileSync('./database/antieval.json'))
 let autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
@@ -86,6 +87,7 @@ const AntiLinkAll = m.isGroup ? ntilinkall.includes(from) : false
 const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
 const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : true
 const antiVirtex = m.isGroup ? ntvirtex.includes(from) : true
+const AntiEval = m.isGroup ? nteval.includes(from) : true
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : true
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
@@ -734,6 +736,27 @@ if (isCreator) return m.reply(bvl)
 			    })
 			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+} else {
+}
+//antilink Eval by ShinChan
+if (AntiEval)
+   if (budy.includes("inviteLinkGroupTypeV2")){
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Eval Detected 」\`\`\`\n\nAdmin sedang mengeval WhatsApp, admin bebas mengirimkan link apapun😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 Eval detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena Eval sembarangan di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
 //antivirtex by ShinChan
@@ -2983,6 +3006,33 @@ let off = ntilinkchannel.indexOf(from)
 ntilinkchannel.splice(off, 1)
 fs.writeFileSync('./database/antilinkchannelwa.json', JSON.stringify(ntilinkchannel))
 paycall('Sukses mematikan antilink Channel WhatsApp di grup ini')
+} else {
+  await paycall(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
+  case 'antieval': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (args[0] === "on") {
+if (AntiEval) return paycall('Already activated')
+nteval.push(from)
+fs.writeFileSync('./database/antieval.json', JSON.stringify(nteval))
+paycall('Sukses mengaktifkan anti Eval WhatsApp di grup ini')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan Eval sembarangan di grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+} else if (args[0] === "off") {
+if (!AntiEval) return paycall('Already deactivated')
+let off = nteval.indexOf(from)
+nteval.splice(off, 1)
+fs.writeFileSync('./database/antieval.json', JSON.stringify(nteval))
+paycall('Sukses mematikan anti Eval WhatsApp di grup ini')
 } else {
   await paycall(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
   }
