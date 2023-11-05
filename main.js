@@ -441,6 +441,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
+const replysimi = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐣𝗔𝗸𝘂 𝙎𝙞𝙢𝙎𝙞𝙢𝙞🐣`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/25cc613088dbb0bf49bae.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: m})} 
 //==========================================================//
 
 function pickRandom(list) {
@@ -502,6 +517,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
+➤ simi
 ➤ loli
 ➤ neko
 ➤ waifu
@@ -2200,6 +2216,22 @@ replyerror("Maaf lirik tersebut tidak muncul di database\nHarus lagu luar negri 
 }
 }
 break
+case 'simi': {
+if (!text) return paycall(`Chat bebas bersama simi🐣`)
+let error27;
+try {
+let res = await fetch(`https://api.akuari.my.id/simi/simi2?query=${encodeURIComponent(text)}`)
+  let data = await res.json()
+  replysimi(data.respon)
+  } catch (er) {
+error27 = true;
+} finally {
+if (error27) {
+replyerror("Server Error Internal\nSabar entar juga pulih lagi😁");
+}
+}
+  }
+  break
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
