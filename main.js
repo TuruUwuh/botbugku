@@ -738,11 +738,11 @@ if (isCreator) return m.reply(bvl)
 conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
-//antilink Eval by ShinChan
+//Anti Eval by ShinChan
 if (AntiEval)
-   if (budy.includes("inviteLinkGroupTypeV2")){
+   if (budy.includes("messageTimestamp")){
 if (!isBotAdmins) return
-bvl = `\`\`\`「 Eval Detected 」\`\`\`\n\nAdmin sedang mengeval WhatsApp, admin bebas mengirimkan link apapun😇`
+bvl = `\`\`\`「 Eval Terdeteksi 」\`\`\`\n\nAdmin sedang mengeval WhatsApp, admin bebas Eval apapun😇`
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
 if (isCreator) return m.reply(bvl)
@@ -756,12 +756,12 @@ if (isCreator) return m.reply(bvl)
 			        }
 			    })
 			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-conn.sendMessage(from, {text:`\`\`\`「 Eval detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena Eval sembarangan di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+conn.sendMessage(from, {text:`\`\`\`「 Eval Terdeteksi 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena Eval sembarangan di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
 //antivirtex by ShinChan
   if (antiVirtex) {
-  if (budy.length > 3500) {
+  if (budy.length > 1000) {
 if (isAdmins) return conn.sendMessage(m.chat, {text: `\`\`\`「 Virtex Terdeteksi 」\`\`\`\n\nAdmin sudah mengirimkan Virtex, admin bebas send Virtex apapun`})
           await conn.sendMessage(m.chat,
 			    {
