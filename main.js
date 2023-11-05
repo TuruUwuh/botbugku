@@ -630,7 +630,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
