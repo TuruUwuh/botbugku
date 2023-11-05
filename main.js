@@ -2644,7 +2644,7 @@ conn.sendText(from, `https://chat.whatsapp.com/${response}\n\nLink Group : ${gro
 break
 
 case 'resetlinkgc':
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 await loading()
@@ -2652,7 +2652,7 @@ conn.groupRevokeInvite(from)
 break
 
 case 'sendlinkgc': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 await loading()
