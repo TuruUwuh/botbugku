@@ -2665,10 +2665,9 @@ conn.sendText(bnnd, `https://chat.whatsapp.com/${response}\n\nLink Group : ${gro
 break
 
 case 'kick': {
-if (!isCreator) return m.reply('*Khusus Owner Bot*')
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'remove')
@@ -2676,10 +2675,9 @@ await conn.groupParticipantsUpdate(from, [users], 'remove')
 break
 
 case 'add': {
-if (!isCreator) return m.reply('*Khusus Owner Bot*')
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
 let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'add')
@@ -2687,10 +2685,9 @@ await conn.groupParticipantsUpdate(from, [users], 'add')
 break
 
 case 'promote': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'promote')
@@ -2698,10 +2695,9 @@ await conn.groupParticipantsUpdate(from, [users], 'promote')
 break
 
 case 'demote': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'demote')
@@ -2709,7 +2705,7 @@ await conn.groupParticipantsUpdate(from, [users], 'demote')
 break
 
 case 'hidetag': case 'hid':
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 conn.sendMessage(from, { text : q ? q : '' , mentions: participants.map(a => a.id)
 })
@@ -2726,9 +2722,8 @@ if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
                 break
 
 case 'editgroup': {   
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
 if (args[0] === 'close'){
 await conn.groupSettingUpdate(from, 'announcement').then((res) => m.reply(`Sukses Menutup Group`)).catch((err) => m.reply(jsonformat(err)))
@@ -2743,9 +2738,8 @@ Group Close`}, {quoted:m})
 break
 
 case 'editinfo': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 await loading()
  if (args[0] === 'open'){
 await conn.groupSettingUpdate(from, 'unlocked').then((res) => m.reply(`Sukses Membuka Edit Info Group`)).catch((err) => m.reply(jsonformat(err)))
@@ -2771,10 +2765,9 @@ await conn.groupAcceptInvite(result).then((res) => m.reply(jsonformat(res))).cat
 break
 
 case 'editsubjek': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 if (!text) throw 'Text nya ?'
 await loading()
 await conn.groupUpdateSubject(from, text).then((res)).catch((err) => m.reply(jsonformat(err)))
@@ -2782,10 +2775,9 @@ await conn.groupUpdateSubject(from, text).then((res)).catch((err) => m.reply(jso
 break
 
 case 'editdesk':{
-if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 if (!text) throw 'Text Nya ?'
 await loading()
 await conn.groupUpdateDescription(from, text).then((res)).catch((err) => m.reply(jsonformat(err)))
