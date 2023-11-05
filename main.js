@@ -501,6 +501,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
 ➤ loli
+➤ neko
 ➤ waifu
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
@@ -1269,11 +1270,11 @@ conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
 }
 break
 //========================WAIFU = LOLI========================//
-case 'waifu': {
+case 'neko': case 'waifu': {
 reply(global.wait)
 let error3;
 try {
-            axios.get(`https://api.waifu.pics/sfw/waifu`)
+            axios.get(`https://api.waifu.pics/sfw/${command}`)
                .then(({
                   data
                }) => {
