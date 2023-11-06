@@ -22,6 +22,7 @@ const { philips } = require('./lib/philips.js');
 const { apikey } = require('./apikey.json')
 const { uptotelegra } = require('./lib/upload')
 const { Primbon } = require('scrape-primbon')
+const { Brainly } = require("brainly-scraper-v2");
 const speed = require('performance-now')
 const path = require('path')
 const primbon = new Primbon()
@@ -646,7 +647,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
@@ -1799,12 +1800,12 @@ break
 case 'wallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
-reply(global.wait)
+reply(`${global.wait} : ${q}`)
 const wall = new AnimeWallpaper()
     const pages = [1,2,3,4]
         const random=pages[Math.floor(Math.random() * pages.length)]
         const wallpaper = await wall
-            .getAnimeWall4({ title: q, type: "sfw", page: pages })
+            .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
             .catch(() => null)
 const i = Math.floor(Math.random() * wallpaper.length)
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
@@ -2150,8 +2151,22 @@ try {
 					}
 					}
                     break
-                    
+//========================BRAINLY SCRAPE============================//
 case 'brainly':
+if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)
+Brainly.initialize();
+var brainly = new Brainly('id');
+let restod = await brainly.search(text, 'id')
+	//console.log(restod)
+	if (restod) {
+		var answer = restod.map(({ question, answers }, i) => `
+*Pertanyaan*${question.grade ? ` (${question.grade})` : ''}\n${question.content}${answers.map((v, i) => `\n
+*Jawaban Ke ${i + 1}*${v.verification ? ' (Verified)' : ''}${v.isBest ? ' (Best)' : ''}
+${v.content}${v.attachments.length > 0 ? `\n*Media Url*: ${v.attachments.join(', ')}` : ''}`).join``}`).join('\n\n' + '-'.repeat(45))
+		replybrainly(answer.trim())
+		}
+		break		
+case 'brainly2':
                     if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
                     query = args.join(" ")
                     let error24;
@@ -2174,6 +2189,14 @@ try {
 					}
 					}
                     break
+case 'brainly3':
+if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
+query = args.join(" ")
+let res = await fetchJson(`https://api.akuari.my.id/edukasi/brainly?query=${query}`)
+let unu = res.hasil
+let itune = unu.data
+await conn.sendMessage(m.chat, {text: `${itune[0].jawaban[0].text}`}, {quoted: fkontak})
+break
 //========================LIRIK LAGU============================//
 case 'lirik': {
 reply(global.wait)
