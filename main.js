@@ -602,6 +602,35 @@ a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEP
 }
 }
 
+//anune
+const sendMediaURL = async(to, url, text="", mids=[]) =>{	    	
+        if(mids.length > 0){		    
+        text = normalizeMention(to, text, mids)	    	
+        }		    
+        const fn = Date.now() / 10000;		    
+        const filename = fn.toString()	     	
+        let mime = ""		    
+        var download = function (uri, filename, callback) {		   
+        request.head(uri, function (err, res, body) {			
+        mime = res.headers['content-type']			
+        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);		   
+        });		   
+        };		    
+        download(url, filename, async function () {		    
+        console.log('done');		    
+        let media = fs.readFileSync(filename)		    
+        let type = mime.split("/")[0]+"Message"		    
+        if(mime === "image/gif"){			
+        type = MessageType.video			
+        mime = Mimetype.gif		    
+        }		    
+        if(mime.split("/")[0] === "audio"){			
+        mime = Mimetype.mp4Audio		    
+        }		    
+        conn.sendMessage(to, media, type, { quoted: mek, mimetype: mime, caption: text,contextInfo: {"mentionedJid": mids}})		    		    
+        fs.unlinkSync(filename)		    
+        });	       
+        }
 //auto restart bot
 function start() {
    let args = [path.join(__dirname, 'shinchan.js'), ...process.argv.slice(2)]
@@ -647,7 +676,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
@@ -1304,7 +1333,7 @@ conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
 					error2 = true;
 				} finally {
 					if (error2) {
-						replyerror("Yah Proses Gagal :(");
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
 }
@@ -1686,6 +1715,24 @@ try {
 }
 break
 case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
+if (!q) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+let error28;
+try {
+let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
+let data = await res.json()
+let json = data.respon
+conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
+  } catch (er) {
+					error28 = true;
+				} finally {
+					if (error28) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.\n\nKalau Yang ini error Bisa gunakan V2 (ttmusik) ");
+					}
+					}
+};
+break
+case 'ttmusik': {
 if (!text) return paycall( `Example : ${prefix + command} link`)
 if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
 reply(global.wait)
@@ -1721,23 +1768,22 @@ break
 case 'tt2': {
 if (!q) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
+let error29;
+try {
 let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
 let data = await res.json()
 let json = data.respon
 let cap = `𝑨𝑼𝑻𝑯𝑶𝑹 = ${json.author}\n𝐋𝐢𝐤𝐞 = ${json.like}\n𝐂𝐨𝐦𝐦𝐞𝐧𝐭 = ${json.comment}\n𝐒𝐡𝐚𝐫𝐞 = ${json.share}\n𝑫𝑬𝑺𝑪𝑹𝑰𝑷𝑻𝑰𝑶𝑵 = ${json.description}`
 conn.sendMessage(m.chat, { video: { url: json.media }, caption: cap }, { quoted: fkontak})
+  } catch (er) {
+					error29 = true;
+				} finally {
+					if (error29) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+					}
+					}
 };
 break
-case 'ttmp3backup': {
-if (!q) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-};
-break
-
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
@@ -1751,7 +1797,7 @@ let data = await response.json()
 					error10 = true;
 				} finally {
 					if (error10) {
-						replyerror("Yah Proses Gagal :(");
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
 }
@@ -1768,7 +1814,7 @@ let data = await response.json()
 					error = true;
 				} finally {
 					if (error11) {
-						replyerror("Yah Proses Gagal :(");
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
 }
@@ -1790,7 +1836,7 @@ let data = await response.json()
 					error12 = true;
 				} finally {
 					if (error12) {
-						replyerror("Yah Proses Gagal :(");
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
 }
@@ -2213,7 +2259,7 @@ conn.sendText(from, mes, m)
 error25 = true;
 } finally {
 if (error25) {
-replyerror("Yah Proses Gagal :(");
+replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 }
 }
 }
@@ -2250,11 +2296,12 @@ let res = await fetch(`https://api.akuari.my.id/simi/simi2?query=${encodeURIComp
 error27 = true;
 } finally {
 if (error27) {
-replyerror("Server Error Internal\nSabar entar juga pulih lagi😁");
+replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 }
 }
   }
   break
+  //(29)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
