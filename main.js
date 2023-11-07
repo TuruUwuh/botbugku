@@ -2361,7 +2361,7 @@ m.reply(teks)
 }
 break
 case 'translate':
-	let lang
+	let lang, text
 	if (args.length >= 2) {
 		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
 	} else if (m.quoted && m.quoted.text) {
