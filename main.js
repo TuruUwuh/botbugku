@@ -463,6 +463,7 @@ return list[Math.floor(Math.random() * list.length)]
 let documents = [doc1,doc2,doc3,doc4,doc5,doc6,doc7,doc8,doc9,doc10,doc11,doc12]
 let docs = pickRandom(documents)
 
+//menu nya
 stod = `${sender}`
 var mundur = await hitungmundur(4, 23)
 const menulist = `*Hay ${pushname} 👋*
@@ -522,6 +523,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
+➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -529,6 +531,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ xnxxsearch (search)
 ➤ ytsearch (search)
 ➤ pinterest (search)
+➤ google (search)
 ➤ gimage (search)
 ➤ wallpaper (search)
 ➤ wallpaper2
@@ -2284,6 +2287,7 @@ replyerror("Maaf lirik tersebut tidak muncul di database\nHarus lagu luar negri 
 }
 }
 break
+//========================SIMI============================//
 case 'simi': {
 if (!text) return paycall(`Chat bebas bersama simi🐣`)
 let error27;
@@ -2298,10 +2302,10 @@ if (error27) {
 replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 }
 }
-  }
-  break
-case 'wallpaper': case 'gimage': {
-reply(global.wait)
+}
+break
+case 'wallpaper': {
+reply(`${global.wait} : ${text}`)
 if (!text) return m.reply('Mau Nyari Foto Apa?')
 query = args.join(" ")
 let error29;
@@ -2310,7 +2314,7 @@ let res = await fetch(`https://api.akuari.my.id/search/googleimage?query=${query
 let data = await res.json()
 let kelar = data.result
 let anu = kelar[Math.floor(Math.random() * kelar.length)]
-await conn.sendImage(m.chat, anu, done, m)
+await conn.sendImage(m.chat, anu, `-------「 𝗪𝗔𝗟𝗟𝗣𝗔𝗣𝗘𝗥 𝗦𝗘𝗔𝗥𝗖𝗛 」-------\n🔗 𝐌𝐞𝐝𝐢𝐚 𝐔𝐫𝐥 : ${anu}`, m)
 } catch (er) {
 error29 = true;
 } finally {
@@ -2320,7 +2324,54 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-  //(30)
+case 'gimage': {
+if (!text) return m.reply(`Mau Nyari Foto Apa?`)
+reply(`${global.wait} : ${text}`)
+let gis = require('g-i-s')
+gis(text, async (error, result) => {
+n = result
+images = n[Math.floor(Math.random() * n.length)].url
+let error30;
+try {
+await conn.sendImage(m.chat, images, `-------「 𝗚𝗜𝗠𝗔𝗚𝗘 𝗦𝗘𝗔𝗥𝗖𝗛 」-------\n🔗 𝐌𝐞𝐝𝐢𝐚 𝐔𝐫𝐥 : ${images}`, m)
+} catch (er) {
+error30 = true;
+} finally {
+if (error30) {
+replyerror("Error");
+}
+}
+})
+}
+break
+case 'google': {
+if (!q) return m.reply(`Mau Nyari Foto Apa?`)
+reply(`${global.wait} : ${text}`)
+let google = require('google-it')
+google({'query': text}).then(res => {
+let teks = `Google Search From : ${text}\n\n`
+for (let g of res) {
+teks += `⭔ *Title* : ${g.title}\n`
+teks += `⭔ *Description* : ${g.snippet}\n`
+teks += `⭔ *Link* : ${g.link}\n\n────────────────────────\n\n`
+} 
+m.reply(teks)
+})
+}
+break
+case 'translate':
+	let lang, text
+	if (args.length >= 2) {
+		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
+	} else if (m.quoted && m.quoted.text) {
+		lang = args[0] ? args[0] : 'id', text = m.quoted.text
+	} else throw `Ex: ${usedPrefix + command} id hello i am robot`
+	let translate = require("@vitalets/google-translate-api")
+	let transtod = await translate(text, { to: lang, autoCorrect: true }).catch(_ => null)
+	if (!transtod) throw `Error : Bahasa"${lang}" Tidak Support`
+	m.reply(`*Terdeteksi Bahasa:* ${transtod.from.language.iso}\n*Ke Bahasa:* ${lang}\n\n*Terjemahan:* ${transtod.text}`.trim())
+break
+  //(31)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
