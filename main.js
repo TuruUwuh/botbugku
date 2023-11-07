@@ -529,6 +529,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ xnxxsearch (search)
 ➤ ytsearch (search)
 ➤ pinterest (search)
+➤ gimage (search)
 ➤ wallpaper (search)
 ➤ wallpaper2
 ➤ carihentai (Lu mo nyari apa?)
@@ -1231,10 +1232,9 @@ ${wit}
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
 break
-case 'shutdown':
+case 'shutdown': case 'stop':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-await loading()
-reply(`Goodbye🖐`)
+paycall(`OKE DONE STOP🥰`)
 await sleep(3000)
 process.exit()
 break
@@ -1840,7 +1840,7 @@ let data = await response.json()
 }
 break
 //========================WALLPAPER=========================//
-case 'wallpaper':
+/*case 'wallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
 reply(`${global.wait} : ${q}`)
@@ -1850,12 +1850,12 @@ const wall = new AnimeWallpaper()
         const wallpaper = await wall
             .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
             .catch(() => null)
-const i = Math.floor(Math.random() * wallpaper.length)
+const i = wallpaper[Math.floor(Math.random() * wallpaper.length2)]
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
 //conn.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
-break
+break*/
 case 'wallpaper2':{
 reply(global.wait)
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
@@ -2300,7 +2300,27 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
   }
   break
-  //(29)
+case 'wallpaper': case 'gimage': {
+reply(global.wait)
+if (!text) return m.reply('Mau Nyari Foto Apa?')
+query = args.join(" ")
+let error29;
+try {
+let res = await fetch(`https://api.akuari.my.id/search/googleimage?query=${query}`)
+let data = await res.json()
+let kelar = data.result
+let anu = kelar[Math.floor(Math.random() * kelar.length)]
+await conn.sendImage(m.chat, anu, done, m)
+} catch (er) {
+error29 = true;
+} finally {
+if (error29) {
+replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+}
+}
+}
+break
+  //(30)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
