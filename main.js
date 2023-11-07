@@ -498,7 +498,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
 ━━━━━━━━━━━━━━━━━━━
-➤ pixivdl (perlu code pixiv)
+➤ pixiv (perlu code pixiv)
 ➤ spotify (link Spotify)
 ➤ nhentai (code hentai)
 ➤ xnxx/xnxxdl (link bokep xnxx)
@@ -1893,7 +1893,9 @@ try {
 let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
 let data = await res.json()
 let memek = data.result
-await conn.sendFile2(from, memek.images, `image`, done, blue)
+for (let i of memek.images) {
+await conn.sendFile2(from, i, `image`, done, blue)
+}
 } catch (er) {
 					error13 = true;
 				} finally {
