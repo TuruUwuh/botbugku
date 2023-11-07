@@ -23,6 +23,7 @@ const { apikey } = require('./apikey.json')
 const { uptotelegra } = require('./lib/upload')
 const { Primbon } = require('scrape-primbon')
 const { Brainly } = require("brainly-scraper-v2");
+const { translate } = require("@vitalets/google-translate-api")
 const speed = require('performance-now')
 const path = require('path')
 const primbon = new Primbon()
