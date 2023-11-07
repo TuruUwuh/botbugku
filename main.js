@@ -2366,7 +2366,7 @@ case 'translate':
 		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
 	} else if (m.quoted && m.quoted.text) {
 		lang = args[0] ? args[0] : 'id', text = m.quoted.text
-	} else throw `Ex: ${usedPrefix + command} id hello i am robot`
+	} else throw `Ex: ${prefix + command} id hello i am robot`
 	let translate = require("@vitalets/google-translate-api")
 	let transtod = await translate(text, { to: lang, autoCorrect: true }).catch(_ => null)
 	if (!transtod) throw `Error : Bahasa"${lang}" Tidak Support`
