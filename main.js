@@ -2306,7 +2306,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 break
 case 'wallpaper': {
-reply(`${global.wait} : ${text}`)
+reply(global.wait)
 if (!text) return m.reply('Mau Nyari Foto Apa?')
 query = args.join(" ")
 let error29;
@@ -2327,7 +2327,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 break
 case 'gimage': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
-reply(`${global.wait} : ${text}`)
+reply(global.wait)
 let gis = require('g-i-s')
 gis(text, async (error, result) => {
 n = result
@@ -2347,7 +2347,7 @@ replyerror("Error");
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Foto Apa?`)
-reply(`${global.wait} : ${text}`)
+reply(global.wait)
 let google = require('google-it')
 google({'query': text}).then(res => {
 let teks = `Google Search From : ${text}\n\n`
@@ -2361,7 +2361,7 @@ m.reply(teks)
 }
 break
 case 'translate':
-	let lang, text
+	let lang
 	if (args.length >= 2) {
 		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
 	} else if (m.quoted && m.quoted.text) {
