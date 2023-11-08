@@ -2395,13 +2395,13 @@ break
   if (!quoted) {
     throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
   }  
+  reply(`Sedang Mencari Sumber...`)
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
     let error29;
 try {
     let datanya = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
-    reply(`Sedang Mencari Sumber...`)
     let { anidb_aid, source, year, est_time, part } = datanya.result[0].raw.data
     let capnya = `-------「 𝗦𝗢𝗨𝗥𝗖𝗘 𝗗𝗜𝗧𝗘𝗠𝗨𝗞𝗔𝗡 」-------\n🔖Anilist id : ${anidb_aid}\n📝Judul : ${source}\n📆Tanggal Rilis : ${year}\n⏳Menit : ${est_time}\n📊Episode : ${part}\n📈Similarity : ${datanya.result[0].similarity}%\n🔗Url : ${datanya.result[0].url}`
     conn.sendImage(m.chat, datanya.result[0].thumbnail, capnya, m)
