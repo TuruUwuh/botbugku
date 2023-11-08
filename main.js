@@ -541,7 +541,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ anime (Cari Sinopsis Anime)
 ➤ lirik (Judul lagu indo)
 ➤ lirik2 (Judul lagu luar negeri)
-➤ search (Mencari judul anime via image)
+➤ search (Mencari Source Anime+Manga)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2388,7 +2388,7 @@ case 'translate':
 	if (!transtod) throw `Error : Bahasa"${lang}" Tidak Support`
 	m.reply(`*Terdeteksi Bahasa:* ${transtod.from.language.iso}\n*Ke Bahasa:* ${lang}\n\n*Terjemahan:* ${transtod.text}`.trim())
 break
-case 'search': {
+    case 'search': {
   if (!/image/.test(mime)) {
     throw `*Send/Reply the Image With Caption* ${prefix + command}`;
   }
@@ -2397,14 +2397,15 @@ case 'search': {
   }  
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
-  reply(`Sedang Mencari Judul Anime`)
     let anu = await TelegraPh(media);
     let error29;
 try {
-    let data = await fetchJson(`https://api.lolhuman.xyz/api/wait?apikey=haikalgans&img=${anu}`);
-    let capnya = `🔖Anilist id : ${data.result.anilist_id}\n📌MAL id : ${data.result.mal_id}\n📝Title Romaji : ${data.result.title_romaji}\n📄Title Native : ${data.result.title_native}\n📖Title English : ${data.result.title_english}\n⏳Menit : ${data.result.at}\n📊Episode : ${data.result.episode}\n📈Similarity : ${data.result.similarity}`
-    await conn.sendMessage(from, { video: { url: data.result.video }, caption: capnya }, { quoted: m });
-        } catch (er) {
+    let datanya = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
+    reply(`Sedang Mencari Sumber...`)
+    let { anidb_aid, source, year, est_time, part } = datanya.result[0].raw.data
+    let capnya = `-------「 𝗦𝗢𝗨𝗥𝗖𝗘 𝗗𝗜𝗧𝗘𝗠𝗨𝗞𝗔𝗡 」-------\n🔖Anilist id : ${anidb_aid}\n📝Judul : ${source}\n📆Tanggal Rilis : ${year}\n⏳Menit : ${est_time}\n📊Episode : ${part}\n📈Similarity : ${datanya.result[0].similarity}%\n🔗Url : ${datanya.result[0].url}`
+    conn.sendImage(m.chat, datanya.result[0].thumbnail, capnya, m)
+            } catch (er) {
 error29 = true;
 } finally {
 if (error29) {
