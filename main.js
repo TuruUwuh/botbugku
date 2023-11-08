@@ -2305,7 +2305,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-case 'wallpaper': {
+case 'img': {
 reply(global.wait)
 if (!text) return m.reply('Mau Nyari Foto Apa?')
 query = args.join(" ")
@@ -2325,7 +2325,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-case 'gimage': {
+case 'wallpaper': case 'gimage': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
 reply(global.wait)
 let gis = require('g-i-s')
@@ -2334,7 +2334,7 @@ n = result
 images = n[Math.floor(Math.random() * n.length)].url
 let error30;
 try {
-await conn.sendImage(m.chat, images, `-------「 𝗚𝗜𝗠𝗔𝗚𝗘 𝗦𝗘𝗔𝗥𝗖𝗛 」-------\n🔗 𝐌𝐞𝐝𝐢𝐚 𝐔𝐫𝐥 : ${images}`, m)
+await conn.sendImage(m.chat, images, m)
 } catch (er) {
 error30 = true;
 } finally {
