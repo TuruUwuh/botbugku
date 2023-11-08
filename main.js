@@ -3445,23 +3445,7 @@ cookie
 reply(`Tunggu 1-24 Jam an untuk proses unbanned dari bot dan tunggu ±30 Detik an untuk melihat balasan email dari WhatsApp🥰💖`)
 let payload = String(res.data)
 if (payload.includes(`"payload":true`)) {
-reply(`##- WhatsApp Support -##
-
-Halo,
-
-Terima kasih telah menghubungi kami.
-
-Sistem kami menandai aktivitas akun Anda sebagai pelanggaran terhadap Ketentuan Layanan kami dan memblokir nomor telepon Anda. Kami sangat menghargai Anda sebagai pengguna. Mohon maaf atas kebingungan atau ketidaknyamanan yang disebabkan oleh masalah ini.
-
-Kami telah menghapus pemblokiran setelah meninjau aktivitas akun Anda. Sekarang seharusnya Anda sudah memiliki akses ke WhatsApp.
-
-Sebagai langkah selanjutnya, kami sarankan untuk mendaftarkan ulang nomor telepon Anda di WhatsApp untuk memastikan Anda memiliki akses. Anda dapat mengunjungi situs web kami untuk
-
-mengunduh WhatsApp atau aplikasi WhatsApp Business.`)
-} else if (payload.includes(`"payload":false`)) {
-reply(`##- WhatsApp Support -##
-
-Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui email, dan itu mungkin memerlukan waktu hingga tiga hari kerja.`)
+reply(`Sukses✓`)
 } else reply(util.format(res.data))
 } catch (err) {reply(`${err}`)}
 } else reply('Masukkan nomor target!')
@@ -3514,46 +3498,9 @@ cookie
 })
 let payload = String(res.data)
 if (payload.includes(`"payload":true`)) {
-reply(`##- WhatsApp Support -##
-
-Hai,
-
- Terima kasih atas pesan Anda.
-
- Kami telah menonaktifkan akun WhatsApp Anda.  Ini berarti akun Anda telah di keluarkan maka untuk sementara dinonaktifkan dan akan dihapus secara otomatis dalam 30 hari jika Anda tidak mendaftarkan ulang akun tersebut.  Harap dicatat: Tim Dukungan Pelanggan WhatsApp tidak dapat menghapus akun Anda secara manual.
-
- Selama periode penonaktifan:
-
- • Kontak Anda di WhatsApp mungkin masih melihat nama dan gambar profil Anda.
- • Setiap pesan yang mungkin dikirim oleh kontak Anda ke
-
- akun akan tetap dalam status tertunda hingga 30 hari.
-
- Jika Anda ingin mendapatkan kembali akun Anda, daftarkan ulang akun Anda sebagai
-
- secepatnya.  Daftar ulang akun Anda dengan memasukkan 6 digit
-
- kode yang Anda terima melalui SMS atau panggilan telepon.  Jika Anda mendaftar ulang
-
- pulihkan riwayat obrolan Anda di: Android |  iPhone.
-
- file, cadangan, atau riwayat panggilan dari akun yang dihapus.
-
- akun sebelum dihapus, Anda akan tetap berada di semua obrolan grup.  Anda akan memiliki opsi untuk memulihkan data Anda.  Pelajari caranya Jika Anda tidak mendaftarkan ulang akun Anda, akun tersebut mungkin akan dihapus dan proses ini tidak dapat dibatalkan.  Sayangnya, WhatsApp tidak dapat membantu Anda memulihkan obrolan, dokumen, media
-
- Catatan: Jika perangkat Anda hilang atau dicuri, sebaiknya hubungi penyedia seluler Anda untuk memblokir kartu SIM Anda sesegera mungkin.  Memblokir kartu SIM Anda mencegah orang lain mendaftar dan mengakses akun yang terkait dengan kartu SIM.
-
- Sumber daya terkait:
-
- ⚫ Untuk informasi lebih lanjut tentang penonaktifan akun pada ponsel yang hilang dan dicuri, silakan baca artikel ini.
-
- ⚫ Pelajari tentang akun yang dicuri di artikel ini.
-
- Jika Anda memiliki pertanyaan atau masalah lain, jangan ragu untuk menghubungi kami.  Kami akan dengan senang hati membantu!`)
+reply(`Sukses✓, silahkan tunggu 1-24 jam balasan dari pihak WhatsApp`)
 } else if (payload.includes(`"payload":false`)) {
-reply(`##- WhatsApp Support -##
-
-Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui email, dan itu mungkin memerlukan waktu hingga tiga hari kerja.`)
+reply(`Yah Email sudah kena limit, jadi nunggu 1 minggu buat di akses lagi`)
 } else reply(util.format(res.data))
 } catch (err) {reply(`${err}`)}
 } else reply('Masukkan nomor target!')
