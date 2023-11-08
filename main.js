@@ -66,7 +66,7 @@ const args = body.trim().split(/ +/).slice(1)
 const pushname = m.pushName || "No Name"
 const botNumber = await conn.decodeJid(conn.user.id)
 const isCreator = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
-const text = q = args.join(" ")
+let text = q = args.join(" ")
 const { type, quotedMsg, mentioned, now, fromMe } = m
 const { chats } = m
 const quoted = m.quoted ? m.quoted : m
@@ -2346,7 +2346,7 @@ replyerror("Error");
 }
 break
 case 'google': {
-if (!q) return m.reply(`Mau Nyari Foto Apa?`)
+if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
 reply(global.wait)
 let google = require('google-it')
 google({'query': text}).then(res => {
@@ -2361,11 +2361,11 @@ m.reply(teks)
 }
 break
 case 'translate':
-	let lang, tekssu
+	let lang
 	if (args.length >= 2) {
-		lang = args[0] ? args[0] : 'id', tekssu = args.slice(1).join(' ')
+		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
 	} else if (m.quoted && m.quoted.text) {
-		lang = args[0] ? args[0] : 'id', tekssu = m.quoted.text
+		lang = args[0] ? args[0] : 'id', text = m.quoted.text
 	} else throw `Ex: ${prefix + command} id hello i am robot`
 	let translate = require("@vitalets/google-translate-api")
 	let transtod = await translate(text, { to: lang, autoCorrect: true }).catch(_ => null)
