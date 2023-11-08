@@ -91,7 +91,7 @@ const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
 const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : true
 const antiVirtex = m.isGroup ? ntvirtex.includes(from) : true
 const AntiEval = m.isGroup ? nteval.includes(from) : true
-const isAutoSticker = m.isGroup ? autosticker.includes(from) : true
+const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
@@ -541,6 +541,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ anime (Cari Sinopsis Anime)
 ➤ lirik (Judul lagu indo)
 ➤ lirik2 (Judul lagu luar negeri)
+➤ search (Mencari judul anime via image)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2387,6 +2388,32 @@ case 'translate':
 	if (!transtod) throw `Error : Bahasa"${lang}" Tidak Support`
 	m.reply(`*Terdeteksi Bahasa:* ${transtod.from.language.iso}\n*Ke Bahasa:* ${lang}\n\n*Terjemahan:* ${transtod.text}`.trim())
 break
+case 'search': {
+  if (!/image/.test(mime)) {
+    throw `*Send/Reply the Image With Caption* ${prefix + command}`;
+  }
+  if (!quoted) {
+    throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
+  }  
+  let media = await conn.downloadAndSaveMediaMessage(quoted);
+  if (/image/.test(mime)) {
+  reply(`Sedang Mencari Judul Anime`)
+    let anu = await TelegraPh(media);
+    let error29;
+try {
+    let data = await fetchJson(`https://api.lolhuman.xyz/api/wait?apikey=haikalgans&img=${anu}`);
+    let capnya = `🔖Anilist id : ${data.result.anilist_id}\n📌MAL id : ${data.result.mal_id}\n📝Title Romaji : ${data.result.title_romaji}\n📄Title Native : ${data.result.title_native}\n📖Title English : ${data.result.title_english}\n⏳Menit : ${data.result.at}\n📊Episode : ${data.result.episode}\n📈Similarity : ${data.result.similarity}`
+    await conn.sendMessage(from, { video: { url: data.result.video }, caption: capnya }, { quoted: m });
+        } catch (er) {
+error29 = true;
+} finally {
+if (error29) {
+replyerror("Yah Error:(.");
+}
+}
+    }
+    }
+    break
   //(31)
 //========================END============================//
 case 'id' :
