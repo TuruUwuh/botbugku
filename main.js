@@ -533,7 +533,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ytsearch (search)
 ➤ pinterest (search)
 ➤ google (search)
-➤ gimage (search)
+➤ img (cari gambar bugil)
 ➤ wallpaper (search)
 ➤ wallpaper2
 ➤ carihentai (Lu mo nyari apa?)
@@ -2305,7 +2305,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-case 'img': {
+/*case 'img': {
 reply(global.wait)
 if (!text) return m.reply('Mau Nyari Foto Apa?')
 query = args.join(" ")
@@ -2324,8 +2324,8 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 }
-break
-case 'wallpaper': case 'gimage': {
+break*/
+case 'wallpaper': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
 reply(global.wait)
 let gis = require('g-i-s')
@@ -2343,6 +2343,17 @@ replyerror("Error");
 }
 }
 })
+}
+break
+case 'img': case 'gimage': {
+  if (!text) throw `Use example ${usedPrefix}${command} Minecraft`;
+const { googleImage } = require('@bochilteam/scraper');
+reply(global.wait)
+const res = await googleImage(text);
+let image = res[Math.floor(Math.random() * res.length)]
+await conn.sendImage(m.chat, image, done, m).catch(err => {
+                    return('Error!')
+                })
 }
 break
 case 'google': {
