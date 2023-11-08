@@ -63,6 +63,7 @@ var prefix = prefa ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.t
 const isCmd = body.startsWith(prefix)
 const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()//Kalau mau Single prefix Lu ganti pake ini = const command = body.slice(1).trim().split(/ +/).shift().toLowerCase()
 const args = body.trim().split(/ +/).slice(1)
+const arg = budy.slice(command.length + 2, budy.length)
 const pushname = m.pushName || "No Name"
 const botNumber = await conn.decodeJid(conn.user.id)
 const isCreator = [botNumber, ...owner].map(v => v.replace(/[^0-9]/g, '') + '@s.whatsapp.net').includes(m.sender)
@@ -533,7 +534,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ytsearch (search)
 ➤ pinterest (search)
 ➤ google (search)
-➤ img (cari gambar bugil)
+➤ img (Nyari foto bugil, Nezuko nude|jumlahnya)
 ➤ wallpaper (search)
 ➤ wallpaper2
 ➤ carihentai (Lu mo nyari apa?)
@@ -2346,14 +2347,16 @@ replyerror("Error");
 }
 break
 case 'img': case 'gimage': {
-  if (!text) throw `Use example ${usedPrefix}${command} Minecraft`;
+if (!text) return m.reply(`${command} Nezuko Nude|5`)
+if (args.length >= 10) return m.reply('Kebanyakan!')
+argzi = arg.split("|")
+await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
-reply(global.wait)
-const res = await googleImage(text);
+const res = await googleImage(argzi);
+for (let i = 0; i < argzi[1]; i++){
 let image = res[Math.floor(Math.random() * res.length)]
-await conn.sendImage(m.chat, image, done, m).catch(err => {
-                    return('Error!')
-                })
+await conn.sendImage(m.chat, image, done, m)
+}
 }
 break
 case 'google': {
