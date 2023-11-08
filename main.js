@@ -2334,7 +2334,7 @@ n = result
 images = n[Math.floor(Math.random() * n.length)].url
 let error30;
 try {
-await conn.sendImage(m.chat, images, m)
+await conn.sendImage(m.chat, images, done, m)
 } catch (er) {
 error30 = true;
 } finally {
