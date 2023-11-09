@@ -2307,26 +2307,6 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-/*case 'img': {
-reply(global.wait)
-if (!text) return m.reply('Mau Nyari Foto Apa?')
-query = args.join(" ")
-let error29;
-try {
-let res = await fetch(`https://api.akuari.my.id/search/googleimage?query=${query}`)
-let data = await res.json()
-let kelar = data.result
-let anu = kelar[Math.floor(Math.random() * kelar.length)]
-await conn.sendImage(m.chat, anu, `-------「 𝗪𝗔𝗟𝗟𝗣𝗔𝗣𝗘𝗥 𝗦𝗘𝗔𝗥𝗖𝗛 」-------\n🔗 𝐌𝐞𝐝𝐢𝐚 𝐔𝐫𝐥 : ${anu}`, m)
-} catch (er) {
-error29 = true;
-} finally {
-if (error29) {
-replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
-}
-}
-}
-break*/
 case 'wallpaper': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
 reply(global.wait)
