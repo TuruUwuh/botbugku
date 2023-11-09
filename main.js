@@ -85,12 +85,12 @@ const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
 const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
 const welcm = m.isGroup ? wlcm.includes(from) : false
 const welcmm = m.isGroup ? wlcmm.includes(from) : false
-const AntiLink = m.isGroup ? ntilink.includes(from) : true
+const AntiLink = m.isGroup ? ntilink.includes(from) : false
 const AntiLinkAll = m.isGroup ? ntilinkall.includes(from) : false
 const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
-const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : true
-const antiVirtex = m.isGroup ? ntvirtex.includes(from) : true
-const AntiEval = m.isGroup ? nteval.includes(from) : true
+const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : false
+const antiVirtex = m.isGroup ? ntvirtex.includes(from) : false
+const AntiEval = m.isGroup ? nteval.includes(from) : false
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
@@ -456,6 +456,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})} 
+const replyguru = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `📖𝗥𝗢𝗕𝗢𝗧 𝗚𝗨𝗥𝗨📖`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/7f3f33cee047a2c20854b.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: m})} 
 //==========================================================//
 
 function pickRandom(list) {
@@ -518,6 +533,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
+➤ neroai
 ➤ simi
 ➤ loli
 ➤ neko
@@ -525,7 +541,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
-➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -549,6 +564,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ latin (translate aksara jawa)
 ➤ lens / googlelens
 ➤ brainly (Kirim Soal)
+➤ ruangguru/roboguru (Kirim Soal)
+➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1290,7 +1307,7 @@ fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
-case 'ai': {
+case 'openai': case 'ai': {
   if (!text) return paycall('Apa yang bisa saya bantu?')
   reply(global.wait)
     let error1;
@@ -1307,22 +1324,6 @@ try {
 					}
 }
 break
-/*case 'aijs': {
-  if (!text) return paycall('Ai khusus coding javascript')
-  reply(global.wait)
-    let res = await fetch(`https://xzn.wtf/api/ai-code-generator?text=${text}&lang_code=javascript&apikey=nerobot`)
-    let data = await res.json()   
-  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: fkontak})
-}
-break
-case 'aipy': {
-  if (!text) return paycall('Ai khusus coding Python')
-  reply(global.wait)
-    let res = await fetch(`https://xzn.wtf/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
-    let data = await res.json()   
-  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: fkontak})
-}
-break*/
 case 'neroai': {
 if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
 reply(global.wait)
@@ -2248,6 +2249,28 @@ let unu = res.hasil
 let itune = unu.data
 await conn.sendMessage(m.chat, {text: `${itune[0].jawaban[0].text}`}, {quoted: fkontak})
 break
+case 'ruangguru': case 'roboguru':
+			if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
+			query = args.join(" ")
+			let error31;
+try {
+			var { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=${apikey}&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
+			var robgur = 'Beberapa Pembahasan Dari Roboguru :\n\n'
+			for (var x of data.result) {
+				robgur += `==============================\n`
+				robgur += `\`\`\`Pertanyaan :\`\`\`\n${x.question}\n\n`
+				robgur += `\`\`\`Jawaban :\`\`\`\n${x.answer}\n`
+				robgur += `==============================\n\n`
+			}
+			            } catch (er) {
+error31 = true;
+} finally {
+if (error31) {
+replyerror("ERROR");
+}
+}
+			replyguru(robgur)
+			break
 //========================LIRIK LAGU============================//
 case 'lirik': {
 reply(global.wait)
