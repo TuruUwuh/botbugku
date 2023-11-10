@@ -2163,7 +2163,7 @@ try {
             }
 break
 //========================END============================//
-case 'anime':
+/*case 'anime':
                     if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
                     query = args.join(" ")
                             let error22;
@@ -2202,7 +2202,28 @@ try {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
-                    break
+                    break*/
+case 'anime': {
+if (!text) return paycall(`Anime apa yang sedang kamu cari?`)
+const malScraper = require('mal-scraper')
+        const anime = await malScraper.getInfoFromName(text).catch(() => null)
+animetxt = `🎀 *Judul: ${anime.title}*\n`
+animetxt += `🎋 *Type: ${anime.type}*`
+animetxt += `🎐 *Tayang perdana pada: ${anime.premiered}*\n`
+animetxt += `💠 *Total Episode: ${anime.episodes}*\n`
+animetxt += `📈 *Status: ${anime.status}*\n`
+animetxt += `💮 *Genres: ${anime.genres}*\n`
+animetxt += `📍 *Studio: ${anime.studios}*`
+animetxt += `🌟 *Score: ${anime.score}*\n`
+animetxt += `💎 *Rating: ${anime.rating}*\n`
+animetxt += `🏅 *Rank: ${anime.ranked}*\n`
+animetxt += `💫 *Popularity: ${anime.popularity}*\n`
+animetxt += `♦️ *Trailer: ${anime.trailer}*\n`
+animetxt += `🌐 *URL: ${anime.url}*\n`
+animetxt += `❄ *Deskripsi:* ${anime.synopsis}*`
+conn.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
+                }
+                break
 //========================BRAINLY SCRAPE============================//
 case 'brainly':
 if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)
