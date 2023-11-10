@@ -2208,8 +2208,8 @@ if (!text) return paycall(`Anime apa yang sedang kamu cari?`)
 const malScraper = require('mal-scraper')
         const anime = await malScraper.getInfoFromName(text).catch(() => null)
 animetxt = `🎀 *Judul: ${anime.title}*\n`
-animetxt += `🎋 *Type: ${anime.type}*`
-animetxt += `🎐 *Tayang perdana pada: ${anime.premiered}*\n`
+animetxt += `🎋 *Type: ${anime.type}*\n`
+animetxt += `🎐 *Tayang perdana: ${anime.premiered}*\n`
 animetxt += `💠 *Total Episode: ${anime.episodes}*\n`
 animetxt += `📈 *Status: ${anime.status}*\n`
 animetxt += `💮 *Genres: ${anime.genres}*\n`
