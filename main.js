@@ -30,7 +30,7 @@ const primbon = new Primbon()
 const { Configuration, OpenAIApi } = require('openai')
 const { exec, spawn, execSync } = require("child_process")
 const { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
-const { smsg, formatp, hitungmundur, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
+const { smsg, formatp, hitungmundur, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, generateProfilePicture, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 const { fetchBuffer, buffergif } = require("./lib/myfunc2")
 
@@ -2685,7 +2685,7 @@ conn.relayMessage(m.chat, catalog.message, { messageId: catalog.key.id })
 }
 break
 //========================BUG WHATSAPP=========================//
-/*case 'setpp': {
+case 'setpp': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
@@ -2693,7 +2693,7 @@ if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + 
 reply(global.wait)
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
-if (args[0] == "/full") {
+if (args[0] == "full") {
 const { generateProfilePicture } = require("./lib/myfunc")
 var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
@@ -2701,7 +2701,7 @@ await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profi
 reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
-break*/
+break
 case 'setppbot': case 'setbotpp': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!quoted) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
@@ -2730,6 +2730,39 @@ reply(`Success`)
 } else {
 var memeg = await conn.updateProfilePicture(botNumber, { url: medis })
 fs.unlinkSync(medis)
+reply(`Success`)
+}
+}
+break
+case 'setppgc': case 'setppgroup': case 'setgcpp': case 'setgrouppp': {
+if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!quoted) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+var mediz = await conn.downloadAndSaveMediaMessage(quoted, 'ppgc.jpeg')
+if (args[0] == `full`) {
+var { img } = await generateProfilePicture(mediz)
+await conn.query({
+tag: 'iq',
+attrs: {
+to: m.chat,
+type:'set',
+xmlns: 'w:profile:picture'
+},
+content: [
+{
+tag: 'picture',
+attrs: { type: 'image' },
+content: img
+}
+]
+})
+fs.unlinkSync(mediz)
+reply(`Success`)
+} else {
+var memeg = await conn.updateProfilePicture(m.chat, { url: mediz })
+fs.unlinkSync(mediz)
 reply(`Success`)
 }
 }
