@@ -2685,7 +2685,7 @@ conn.relayMessage(m.chat, catalog.message, { messageId: catalog.key.id })
 }
 break
 //========================BUG WHATSAPP=========================//
-case 'setpp': {
+/*case 'setpp': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
@@ -2700,6 +2700,38 @@ await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profi
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
 reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
+}
+break*/
+case 'setppbot': case 'setbotpp': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!quoted) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+var medis = await conn.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
+if (args[0] == `full`) {
+var { img } = await generateProfilePicture(medis)
+await conn.query({
+tag: 'iq',
+attrs: {
+to: botNumber,
+type:'set',
+xmlns: 'w:profile:picture'
+},
+content: [
+{
+tag: 'picture',
+attrs: { type: 'image' },
+content: img
+}
+]
+})
+fs.unlinkSync(medis)
+reply(`Success`)
+} else {
+var memeg = await conn.updateProfilePicture(botNumber, { url: medis })
+fs.unlinkSync(medis)
+reply(`Success`)
+}
 }
 break
 //STICKER
