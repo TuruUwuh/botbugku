@@ -2165,6 +2165,7 @@ try {
 break*/
 case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels':
 			if (args.length == 0) return reply(`Example: ${prefix + command} link Instagram`)
+			reply(global.wait)
 let error20;
 try {
 			axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
