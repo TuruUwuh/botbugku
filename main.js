@@ -24,6 +24,7 @@ const { uptotelegra } = require('./lib/upload')
 const { Primbon } = require('scrape-primbon')
 const { Brainly } = require("brainly-scraper-v2");
 const { translate } = require("@vitalets/google-translate-api")
+const googleTTS = require('google-tts-api')
 const speed = require('performance-now')
 const path = require('path')
 const primbon = new Primbon()
@@ -585,6 +586,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tomp3
 ➤ togif
 ➤ tovn
+➤ tts/gtts (Masukin Teks)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2982,6 +2984,26 @@ conn.sendImageAsSticker(m.chat, ini_buffer, blue, {
                 })
        }
 break
+case 'tts': case 'gtts':{
+if (!text) return paycall('Masukin Teksnya')
+            let texttts = text
+            const shintts = googleTTS.getAudioUrl(texttts, {
+                lang: "id",
+                slow: false,
+                host: "https://translate.google.com",
+            })
+            return conn.sendMessage(m.chat, {
+                audio: {
+                    url: shintts,
+                },
+                mimetype: 'audio/mp4',
+                ptt: false,
+                fileName: `${text}.mp3`,
+            }, {
+                quoted: m,
+            })
+        }
+        break
 //END STICKER
 case 'tes':
 case 'ping':

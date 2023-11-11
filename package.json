@@ -37,6 +37,7 @@
 "fs": "0.0.1-security",
 "g-i-s": "^2.1.7",
 "google-it": "^1.6.4",
+"google-tts-api": "^2.0.2",
 "got": "^13.0.0",
 "openai": "^3.3.0",
 "human-readable": "^0.2.1",
