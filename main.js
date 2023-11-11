@@ -593,6 +593,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ hentai
 ➤ hneko
 ➤ trap
+➤ yuri
 ➤ blowjob
 ➤ pussy
 ➤ ecchi
@@ -1405,6 +1406,19 @@ conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${
 					error21 = true;
 				} finally {
 					if (error21) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+break
+case 'yuri':
+reply(global.wait)
+let error22;
+try {
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
+} catch (er) {
+					error22 = true;
+				} finally {
+					if (error22) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
