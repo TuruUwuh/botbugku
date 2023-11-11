@@ -588,12 +588,22 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tovn
 ➤ tts/gtts (Masukin Teks)
 ━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙉𝙎𝙁𝙒 𝙈𝙀𝙉𝙐 )
+━━━━━━━━━━━━━━━━━━━
+➤ hentai
+➤ hneko
+➤ trap
+➤ blowjob
+➤ pussy
+➤ ecchi
+➤ solog
+➤ oppai
+━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ bypassouo (anti iklan boss)
 ➤ bypassmirror (langsung ke inti)
 ━━━━━━━━━━━━━━━━━━━
-➤ nsfwmenu (18+)
 ➤ grupmenu (Owner)
 ➤ bugmenu (Owner)
 ➤ tqto (Thanks)
@@ -1004,60 +1014,6 @@ contextInfo: {
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
                     break
-case 'nsfwmenu': {
-stod = `${sender}`
-var mundur = await hitungmundur(4, 23)
-var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
-"requestPaymentMessage": {
-"currencyCodeIso4217": "INR",
-"amount1000": "7777777",
-"requestFrom": m.sender,
-"noteMessage": {
-"extendedTextMessage": {
-"text": `*Hay ${pushname} 👋*
-${shinchantime}
-Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk membantu para pengguna WhatsApp
-━━━━━━━━━━━━━━━━━━━
-╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
-━━━━━━━━━━━━━━━━━━━
-_Status : ${isCreator ? 'Owner' : 'User'}_
-_Nama : ${pushname}_
-_Nomor : @${stod.split('@')[0]}_
-_Sponsored :  @${ini_mark.split('@')[0]}_
-Prefix :   ${prefix}
-_Speed : ${latensii.toFixed(4)} Second_
-Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-Hostname : ${os.hostname()}
-Platform : ${os.platform()}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
-━━━━━━━━━━━━━━━━━━━
-𝐇𝐚𝐫𝐢: ${week} ${weton}
-𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${date}
-𝐉𝐚𝐦: ${time}
-𝐉𝐚𝐦: ${wita}
-𝐉𝐚𝐦: ${wit}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝑰𝑫𝑼𝑳 𝑭𝑰𝑻𝑹𝑰 🌜 )
-━━━━━━━━━━━━━━━━━━━
- ${mundur}
- Hijriah : ${dateIslamic}
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( *NSFW MENU* )
-━━━━━━━━━━━━━━━
-➤ hentai [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ hneko [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ trap [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ blowjob [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ pussy [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ ecchi [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-➤ solog [ 🅟 𝗣𝗥𝗘𝗠𝗜𝗨𝗠 ]
-━━━━━━━━━━━━━━━
-`,
-}}}}), { userJid: m.chat, quoted: m })
-conn.relayMessage(from, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
-}
-break
 case 'grupmenu': {
 stod = `${sender}`
 var mundur = await hitungmundur(4, 23)
@@ -1382,31 +1338,26 @@ conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: blu
 break
 //========================NSFW=========================//
          case 'hentai' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)         
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'hneko' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'trap' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/trap`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'blowjob' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/blowjob`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'pussy' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
 let error5;
 try {
@@ -1420,7 +1371,6 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${c
 					}
 break
 case 'ecchi' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
 let error6;
 try {
@@ -1434,7 +1384,6 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw
 					}
 break
 case 'solog' :
-if (!isPrem) return replyprem(mess.premium)
 reply(global.wait)
 let error7;
 try {
@@ -1443,6 +1392,19 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${c
 					error7 = true;
 				} finally {
 					if (error7) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+break
+case 'oppai':
+reply(global.wait)
+let error21;
+try {
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
+} catch (er) {
+					error21 = true;
+				} finally {
+					if (error21) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
