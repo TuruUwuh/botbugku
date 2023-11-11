@@ -524,7 +524,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tiktokmp3 (link)
 ➤ tiktokslide/ttslide (link)
 ➤ igvid/igvideo (link video ig)
-➤ igvid2 (Khusus Video Slide)
 ➤ igimg/igfoto (link foto ig)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
@@ -2106,7 +2105,7 @@ await conn.sendMessage(m.chat,{
 }
 break
 //========================INSTAGRAM DL============================//
-case 'igvid': case 'igvideo': case 'igreels':
+/*case 'igvid': case 'igvideo': case 'igreels':
 			if (args.length == 0) return reply(`Example: ${prefix + command} link video ig`)
 			reply(global.wait)
 			let error20;
@@ -2152,6 +2151,8 @@ try {
         let cap = `${done}`
             for (let b of data.result.media) {
                 conn.sendMessage(from, { video: { url: b }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
+            } else {
+            await conn.sendImage(m.chat, b, done, fkontak)
             }
                               } catch (er) {
 					error23 = true;
@@ -2161,7 +2162,28 @@ try {
 					}
 					}
             }
-break
+break*/
+case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels':
+			if (args.length == 0) return reply(`Example: ${prefix + command} link Instagram`)
+let error20;
+try {
+			axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+				for (let x of data.result.media) {
+					if (x.includes('.mp4')) {
+						conn.sendMessage(from, { video: { url: x }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
+					} else {
+						conn.sendImage(m.chat, x, done, fkontak)
+					}
+				}
+			})
+			} catch (er) {
+					error20 = true;
+				} finally {
+					if (error20) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+			break
 //========================END============================//
 /*case 'anime':
                     if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
@@ -2684,7 +2706,7 @@ var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
 "product": {
 "productImage": messa.imageMessage,
-"productId": "4054052174706640",
+"productId": "676423669033549",
 "jpegThumbnail": thumb,
 "title": `${atas}`,
 "description": `${bawah}`,
