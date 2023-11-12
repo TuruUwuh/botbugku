@@ -306,6 +306,18 @@ if (m.message && m) {
 if (vn === false) return
 for (let jid of allct) {
 conn.sendPresenceUpdate('composing', jid)
+setTimeout(() => {
+conn.sendPresenceUpdate('composing', jid)
+}, 25000)
+setTimeout(() => {
+conn.sendPresenceUpdate('composing', jid)
+}, 50000)
+setTimeout(() => {
+conn.sendPresenceUpdate('composing', jid)
+}, 75000)
+setTimeout(() => {
+conn.sendPresenceUpdate('composing', jid)
+}, 95000)
 }
 }
 }
@@ -524,6 +536,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
 ➤ tiktokslide/ttslide (link)
+➤ igdl (link)
 ➤ igvid/igvideo (link video ig)
 ➤ igimg/igfoto (link foto ig)
 ➤ play (cari lagu apa?)
@@ -610,7 +623,54 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tqto (Thanks)
 ━━━━━━━━━━━━━━━
 `
+//tiktok new scrape
+async function tryServer1(url) {
+    // server 1 tiklydown.eu.org
+    let tiklydownAPI = `https://api.tiklydown.eu.org/api/download?url=${url}`;
+    let response = await axios.get(tiklydownAPI);
+    return response.data;
+}
 
+async function tryServer2(url) {
+    // jika server 1 gagal, gunakan tikdown.org/id
+    const tikdownURL = 'https://tikdown.org/id';
+    const response = await axios.get(tikdownURL);
+
+    if (response.status === 200) {
+        const gettoken = await axios.get("https://tikdown.org/id");
+        const cheerio = require('cheerio');
+        const $ = cheerio.load(gettoken.data);
+        const token = $("#download-form > input[type=hidden]:nth-child(2)").attr(
+            "value"
+        );
+        const param = {
+            url: url,
+            _token: token,
+        };
+        const {
+            data
+        } = await axios.request("https://tikdown.org/getAjax?", {
+            method: "post",
+            data: new URLSearchParams(Object.entries(param)),
+            headers: {
+                "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+                "user-agent": "Mozilla/5.0 (Windows NT 6.3; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36",
+            },
+        });
+        var getdata = cheerio.load(data.html);
+        if (data.status) {
+            return {
+                status: true,
+                thumbnail: getdata("img").attr("src"),
+                video: getdata("div.download-links > div:nth-child(1) > a").attr("href"),
+                audio: getdata("div.download-links > div:nth-child(2) > a").attr("href"),
+            };
+        } else
+            return {
+                status: false,
+            };
+    };
+}
 // DELAY FUNCTION
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -620,12 +680,12 @@ async function replyprem(teks) {
 }
 async function loading () {
 var shinchanehe = [
-"▓▓▓▓▓▓▓▓▓▓▓▓▓▓ 10%",
-"████▓▓▓▓▓▓▓▓▓▓ 30%",
-"████████▓▓▓▓▓▓ 50%",
-"████████████▓▓ 80%",
-"██████████████ 100%",
-"Loading Completed!"
+"『 ⎔ 𝙻𝚘𝚊𝚍𝚒𝚗𝚐... 』\n[■□□□□□□□□□] 𝟷𝟶٪",
+"『 ⎔ 𝙻𝚘𝚊𝚍𝚒𝚗𝚐... 』\n[■■■□□□□□□□] 𝟹𝟶٪",
+"『 ⎔ 𝙻𝚘𝚊𝚍𝚒𝚗𝚐... 』\n[■■■■■□□□□□] 𝟻𝟶٪",
+"『 ⎔ 𝙻𝚘𝚊𝚍𝚒𝚗𝚐... 』\n[■■■■■■■□□□] 𝟾𝟶٪",
+"『 ⎔ 𝙻𝚘𝚊𝚍𝚒𝚗𝚐... 』\n[■■■■■■■■■■] 𝟷𝟶𝟶٪",
+"ʟᴏᴀᴅɪɴɢ sᴜᴄᴄᴇssғᴜʟ . . ."
 ]
 let { key } = await conn.sendMessage(from, {text: 'Loading...'})//Pengalih isu
 
@@ -1000,6 +1060,7 @@ user.afkReason = ''
 
 switch(command) {
 case 'menu': {
+await loading ()
 conn.sendMessage(m.chat, { caption: menulist, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `💖𝙇𝙄𝙎𝙏 𝙈𝙀𝙉𝙐 𝘽𝙊𝙏💖`,
 contextInfo: {
                      externalAdReply: {
@@ -1302,7 +1363,6 @@ conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
 break
 //========================WAIFU = LOLI========================//
 case 'neko': case 'waifu': {
-reply(global.wait)
 let error3;
 try {
             axios.get(`https://api.waifu.pics/sfw/${command}`)
@@ -1321,7 +1381,6 @@ try {
          }
          break
          case 'loli':{
-         reply(global.wait)
 let heyy
 if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/master/loli.json')
 let error4;
@@ -1339,27 +1398,22 @@ conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: blu
 break
 //========================NSFW=========================//
          case 'hentai' :
-reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)         
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'hneko' :
-reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'trap' :
-reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/trap`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'blowjob' :
-reply(global.wait)
     waifudd = await axios.get(`https://waifu.pics/nsfw/blowjob`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
 break
 case 'pussy' :
-reply(global.wait)
 let error5;
 try {
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
@@ -1372,7 +1426,6 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${c
 					}
 break
 case 'ecchi' :
-reply(global.wait)
 let error6;
 try {
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` } })
@@ -1385,7 +1438,6 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw
 					}
 break
 case 'solog' :
-reply(global.wait)
 let error7;
 try {
 conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
@@ -1398,7 +1450,6 @@ conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${c
 					}
 break
 case 'oppai':
-reply(global.wait)
 let error21;
 try {
 conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
@@ -1411,7 +1462,6 @@ conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${
 					}
 break
 case 'yuri':
-reply(global.wait)
 let error22;
 try {
 conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
@@ -1426,7 +1476,7 @@ break
 //========================REMINI=========================//
 case 'remini': {
 			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			reply(global.wait)
+			await loading ()
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
@@ -1435,7 +1485,7 @@ case 'remini': {
 			break
 case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-reply(global.wait)
+await loading ()
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 let error8;
@@ -1676,51 +1726,85 @@ reply(global.wait)
         }
 break
 //========================TIKTOK=========================//
-case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
-if (!args[0]) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let error9;
-try {
-  let res = await fetch(`https://api.lolhuman.xyz/api/tiktok2?apikey=haikalgans&url=${args[0]}`)
-  let x = await res.json()
-  let anu = x.result
-  let cap = `${global.done}`
-  conn.sendMessage(m.chat, { video: { url: anu }, caption: cap }, { quoted: blue})
-  } catch (er) {
-					error9 = true;
-				} finally {
-					if (error9) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-}
+case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
+if (!args[0]) {
+        throw 'Uhm... URL-nya mana?';
+    }
+
+    try {
+        await reply('Tunggu sebentar kak, video sedang di download... server 1');
+
+        const tiktokData = await tryServer1(args[0]);
+
+        if (!tiktokData) {
+            throw 'Gagal mendownload video!';
+        }
+
+        const videoURL = tiktokData.video.noWatermark;
+
+        const videoURLWatermark = tiktokData.video.watermark;
+
+        let ppTiktok = '';
+        if (tiktokData.author && tiktokData.author.avatar) {
+            ppTiktok = tiktokData.author.avatar;
+        }
+
+        const infonya_gan = `Judul: ${tiktokData.title}\n\nUpload: ${tiktokData.created_at}\n\nSTATUS:\n=====================\nLike = ${tiktokData.stats.likeCount}\nKomen = ${tiktokData.stats.commentCount}\nShare = ${tiktokData.stats.shareCount}\nViews = ${tiktokData.stats.playCount}\nSimpan = ${tiktokData.stats.saveCount}\n=====================\n\nUploader: ${tiktokData.author.name || 'Tidak ada informasi penulis'}\n(${tiktokData.author.unique_id} - https://www.tiktok.com/@${tiktokData.author.unique_id})\nBio: ${tiktokData.author.signature}\nLagu: ${tiktokData.music.play_url}\nResolusi: ${tiktokData.video.ratio}\nFoto Profile: ${ppTiktok}`;
+
+        if (videoURL || videoURLWatermark) {
+            await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
+            setTimeout(async () => {
+                //await conn.sendFile(m.chat, videoURLWatermark, 'tiktokwm.mp4', `*Ini Versi Watermark*\n\n${infonya_gan}`, m);
+                //await conn.sendFile(m.chat, `${tiktokData.music.play_url}`,'lagutt.mp3', 'ini lagunya',m);
+            }, 5000);
+        } else {
+            throw 'Tidak ada tautan video yang tersedia.';
+        }
+    } catch (error1) {
+        // jika server 1 gagal, gunakan server 2
+        try {
+            await m.reply('Tunggu sebentar kak, video sedang di download... server 2');
+            const tiktokData2 = await tryServer2(args[0]);
+
+            if (!tiktokData2) {
+                throw 'Gagal mendownload video!';
+            }
+
+            const videoURL2 = tiktokData2.video;
+            const audioURL2 = tiktokData2.audio;
+            const thumbnailURL = tiktokData2.thumbnail;
+
+            // Lakukan apa yang Anda perlukan dengan tiktokData2 dari Server 2 di sini
+            //await conn.sendFile(m.chat, thumbnailURL, 'thumbnail.jpg', 'Ini thumbnail videonya', m);
+            await conn.sendFile2(m.chat, videoURL2, 'tiktok2.mp4', 'Ini kak videonya dari Server 2', m);
+            //await conn.sendFile(m.chat, audioURL2, 'tiktok.mp3', 'Ini kak audionya', m);
+            m.reply("tiktok.ryzendesu.com");
+
+        } catch (error2) {
+            // Jika server kedua juga gagal, tangani error di sini
+            replyerror(`Error: ${error2}`);
+        }
+    };
 break
-case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
-if (!q) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let error28;
-try {
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-  } catch (er) {
-					error28 = true;
-				} finally {
-					if (error28) {
-						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.\n\nKalau Yang ini error Bisa gunakan V2 (ttmusik) ");
-					}
-					}
-};
-break
-case 'ttmusik': {
-if (!text) return paycall( `Example : ${prefix + command} link`)
-if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
-reply(global.wait)
-require('./lib/tiktok').Tiktok(q).then( data => {
-conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: blue })
-})
-}
+case 'tiktokmp3': case 'ttmp3': case 'ttaudio':
+if (!args[0]) {
+        throw 'Uhm... URL-nya mana?';
+    }
+
+    try {
+        await reply('Tunggu sebentar kak, Audio sedang di download... server 1');
+
+        const tiktokData = await tryServer1(args[0]);
+
+        if (!tiktokData) {
+            throw 'Gagal mendownload Audio!';
+        }
+            await conn.sendMessage(m.chat, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
+
+        } catch (errornya) {
+            // Jika server kedua juga gagal, tangani error di sini
+            replyerror(`Error: ${errornya}`);
+        };
 break
 case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
@@ -1746,7 +1830,53 @@ try {
 					}
             }
 break
-case 'tt2': {
+/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
+if (!args[0]) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+let error9;
+try {
+  let res = await fetch(`https://api.lolhuman.xyz/api/tiktok2?apikey=haikalgans&url=${args[0]}`)
+  let x = await res.json()
+  let anu = x.result
+  let cap = `${global.done}`
+  conn.sendMessage(m.chat, { video: { url: anu }, caption: cap }, { quoted: blue})
+  } catch (er) {
+					error9 = true;
+				} finally {
+					if (error9) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+}
+break*/
+/*case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
+if (!q) return paycall( `Example : ${prefix + command} link`)
+reply(global.wait)
+let error28;
+try {
+let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
+let data = await res.json()
+let json = data.respon
+conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
+  } catch (er) {
+					error28 = true;
+				} finally {
+					if (error28) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.\n\nKalau Yang ini error Bisa gunakan V2 (ttmusik) ");
+					}
+					}
+};
+break
+case 'ttmusik': {
+if (!text) return paycall( `Example : ${prefix + command} link`)
+if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
+reply(global.wait)
+require('./lib/tiktok').Tiktok(q).then( data => {
+conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: blue })
+})
+}
+break*/
+/*case 'tt2': {
 if (!q) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
 let error29;
@@ -1764,7 +1894,7 @@ conn.sendMessage(m.chat, { video: { url: json.media }, caption: cap }, { quoted:
 					}
 					}
 };
-break
+break*/
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
@@ -2141,7 +2271,7 @@ try {
 					}
             }
 break*/
-case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels':
+case 'igdl': case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels':
 			if (args.length == 0) return reply(`Example: ${prefix + command} link Instagram`)
 			reply(global.wait)
 let error20;
@@ -2427,8 +2557,8 @@ break
     let error29;
 try {
     let datanya = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
-    let { anidb_aid, source, year, type, est_time, part } = datanya.result[0].raw.data
-    let capnya = `-------「 𝗦𝗢𝗨𝗥𝗖𝗘 𝗗𝗜𝗧𝗘𝗠𝗨𝗞𝗔𝗡 」-------\n🔖Anilist id : ${anidb_aid}\n📝Judul : ${source}\n📆Tanggal Rilis : ${year}\n⏳Menit : ${est_time}\n📊Episode : ${part}\n📈Similarity : ${datanya.result[0].similarity}%\n📂Type : ${type}\n🔗Url : ${datanya.result[0].url}`
+    let { anidb_aid, source, year, est_time, part } = datanya.result[0].raw.data
+    let capnya = `-------「 𝗦𝗢𝗨𝗥𝗖𝗘 𝗗𝗜𝗧𝗘𝗠𝗨𝗞𝗔𝗡 」-------\n🔖Anilist id : ${anidb_aid}\n📝Judul : ${source}\n📆Tanggal Rilis : ${year}\n⏳Menit : ${est_time}\n📊Episode : ${part}\n📈Similarity : ${datanya.result[0].similarity}%\n🔗Url : ${datanya.result[0].url}`
     conn.sendImage(m.chat, datanya.result[0].thumbnail, capnya, m)
             } catch (er) {
 error29 = true;
@@ -2685,7 +2815,7 @@ var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
 "product": {
 "productImage": messa.imageMessage,
-"productId": "676423669033549",
+"productId": "6764236690333549",
 "jpegThumbnail": thumb,
 "title": `${atas}`,
 "description": `${bawah}`,
@@ -2781,11 +2911,11 @@ content: img
 ]
 })
 fs.unlinkSync(mediz)
-reply(`Success`)
+paycall(`DONE`)
 } else {
 var memeg = await conn.updateProfilePicture(m.chat, { url: mediz })
 fs.unlinkSync(mediz)
-reply(`Success`)
+paycall(`DONE`)
 }
 }
 break
