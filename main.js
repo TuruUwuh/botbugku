@@ -1,8 +1,9 @@
 require('./config')
-const { WA_DEFAULT_EPHEMERAL, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType } = global.baileys
+const { WA_DEFAULT_EPHEMERAL, extractImageThumb, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType } = global.baileys
 const fs = require('fs')
 const util = require('util')
 let fetch = require('node-fetch');
+const PDFDocument = require('pdfkit')
 const chalk = require('chalk')
 const os = require('os')
 const axios = require('axios')
@@ -531,7 +532,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ➤ pixiv (perlu code pixiv)
 ➤ spotify (link Spotify)
-➤ nhentai (code hentai)
+➤ nhentai/ncode (code hentai)
 ➤ xnxx/xnxxdl (link bokep xnxx)
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
@@ -670,6 +671,30 @@ async function tryServer2(url) {
                 status: false,
             };
     };
+}
+
+//NHENTAI SCRAPE TEST
+async function nhentaiScraper(id) {
+	let uri = id ? `https://cin.guru/v/${+id}/` : 'https://cin.guru/'
+	let html = (await axios.get(uri)).data
+	return JSON.parse(html.split('<script id="__NEXT_DATA__" type="application/json">')[1].split('</script>')[0]).props.pageProps.data
+}
+
+function toPDF(images, opt = {}) {
+	return new Promise(async (resolve, reject) => {
+		if (!Array.isArray(images)) images = [images]
+		let buffs = [], doc = new PDFDocument({ margin: 0, size: 'A4' })
+		for (let x = 0; x < images.length; x++) {
+			if (/.webp|.gif/.test(images[x])) continue
+			let data = (await axios.get(images[x], { responseType: 'arraybuffer', ...opt })).data
+			doc.image(data, 0, 0, { fit: [595.28, 841.89], align: 'center', valign: 'center' })
+			if (images.length != x + 1) doc.addPage()
+		}
+		doc.on('data', (chunk) => buffs.push(chunk))
+		doc.on('end', () => resolve(Buffer.concat(buffs)))
+		doc.on('error', (err) => reject(err))
+		doc.end()
+	})
 }
 // DELAY FUNCTION
 function delay(ms) {
@@ -1749,7 +1774,7 @@ if (!args[0]) {
             ppTiktok = tiktokData.author.avatar;
         }
 
-        const infonya_gan = `Judul: ${tiktokData.title}\n\nUpload: ${tiktokData.created_at}\n\nSTATUS:\n=====================\nLike = ${tiktokData.stats.likeCount}\nKomen = ${tiktokData.stats.commentCount}\nShare = ${tiktokData.stats.shareCount}\nViews = ${tiktokData.stats.playCount}\nSimpan = ${tiktokData.stats.saveCount}\n=====================\n\nUploader: ${tiktokData.author.name || 'Tidak ada informasi penulis'}\n(${tiktokData.author.unique_id} - https://www.tiktok.com/@${tiktokData.author.unique_id})\nBio: ${tiktokData.author.signature}\nLagu: ${tiktokData.music.play_url}\nResolusi: ${tiktokData.video.ratio}\nFoto Profile: ${ppTiktok}`;
+        const infonya_gan = `Judul: ${tiktokData.title}\n\nUpload: ${tiktokData.created_at}\n\nSTATUS:\n=====================\nLike = ${tiktokData.stats.likeCount}\nKomen = ${tiktokData.stats.commentCount}\nShare = ${tiktokData.stats.shareCount}\nViews = ${tiktokData.stats.playCount}\nSimpan = ${tiktokData.stats.saveCount}\n=====================\n\nUploader: ${tiktokData.author.name || 'Tidak ada informasi penulis'}\n( ${tiktokData.author.unique_id} - https://www.tiktok.com/@${tiktokData.author.unique_id} )\nBio: ${tiktokData.author.signature}\nLagu: ${tiktokData.music.play_url}\nResolusi: ${tiktokData.video.ratio}\nFoto Profile: ${ppTiktok}`;
 
         if (videoURL || videoURLWatermark) {
             await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
@@ -2053,7 +2078,7 @@ ini_txt += "▬▭▬▭▬▭▬▭▬▬▭▬▭▬▬▭▬▭▬▭▬▭�
 }
 replyhentai(ini_txt)
 break
-case 'nhentai':
+/*case 'nhentai':
 case 'ncode':
 if (!text) return paycall(`Example: ${prefix + command} 344253`)
 var body = text.replace(/\s+/g, '+')
@@ -2072,6 +2097,23 @@ await conn.sendFile(m.chat, anu, `${body}.pdf`, blue)
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+break*/
+case 'nhentai':
+case 'ncode':
+let code = (args[0] || '').replace(/\D/g, '')
+if (!code) throw 'Input code' 
+await reply(global.wait)
+let data = await nhentaiScraper(code)
+let pages = []
+let thumb = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`	
+data.images.pages.map((v, i) => {
+			let ext = new URL(v.t).pathname.split('.')[1]
+			pages.push(`https://external-content.duckduckgo.com/iu/?u=https://i7.nhentai.net/galleries/${data.media_id}/${i + 1}.${ext}`)
+		})
+let buffer = await (await fetch(thumb)).buffer()		
+let jpegThumbnail = await extractImageThumb(buffer)		
+let imagepdf = await toPDF(pages)		
+await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
 break
 //========================BOKEPNYA=========================//
 case 'xnxx': case 'xnxxdl': {
@@ -2406,7 +2448,7 @@ case 'ruangguru': case 'roboguru':
 			query = args.join(" ")
 			let error31;
 try {
-			var { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=${apikey}&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
+			let { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=${apikey}&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
 			var robgur = 'Beberapa Pembahasan Dari Roboguru :\n\n'
 			for (var x of data.result) {
 				robgur += `==============================\n`
