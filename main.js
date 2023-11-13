@@ -2581,7 +2581,6 @@ if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.c
 const { mediafiredl } = require('@bochilteam/scraper');
     let resnyacyy = await mediafiredl(args[0])
     let { url, url2, filename, ext, aploud, filesize, filesizeH } = resnyacyy
-    if (resnyacyy[0].filesizeH.split('MB')[0] >= 100) return paycall('Ups, filenya terlalu besar...')
     let caption = `
 *💌 Name:* ${filename}
 *📊 Size:* ${filesizeH}
@@ -2590,7 +2589,7 @@ const { mediafiredl } = require('@bochilteam/scraper');
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
    // await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-  await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
+  await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext, asDocument: true })
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
