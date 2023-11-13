@@ -2580,8 +2580,8 @@ case 'mediafire':
 if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 const { mediafiredl } = require('@bochilteam/scraper');
     let resnyacyy = await mediafiredl(args[0])
-    if (resnyacyy[0].filesizeH.split('MB')[0] >= 100) return paycall('Ups, filenya terlalu besar...')
     let { url, url2, filename, ext, aploud, filesize, filesizeH } = resnyacyy
+    if (resnyacyy[0].filesizeH.split('MB')[0] >= 100) return paycall('Ups, filenya terlalu besar...')
     let caption = `
 *💌 Name:* ${filename}
 *📊 Size:* ${filesizeH}
