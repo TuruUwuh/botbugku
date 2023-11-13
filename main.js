@@ -547,6 +547,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
+➤ aijs (Ai generate Script JavaScript)
 ➤ neroai
 ➤ simi
 ➤ loli
@@ -1363,6 +1364,23 @@ try {
 					error1 = true;
 				} finally {
 					if (error1) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+}
+break
+case 'aijs': {
+  if (!text) return paycall('Ai khusus coding javascript')
+  reply(global.wait)
+  let error9;
+try {
+    let res = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=javascript&apikey=nerobot`)
+    let data = await res.json()   
+  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: m})
+    } catch (er) {
+					error9 = true;
+				} finally {
+					if (error9) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
