@@ -530,6 +530,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
 ━━━━━━━━━━━━━━━━━━━
+➤ mediafire (link MediaFire)
 ➤ pixiv (perlu code pixiv)
 ➤ spotify (link Spotify)
 ➤ nhentai/ncode (code hentai)
@@ -2574,6 +2575,21 @@ let image = res[Math.floor(Math.random() * res.length)]
 await conn.sendImage(m.chat, image, done, m)
 }
 }
+break
+case 'mediafire':
+if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
+const { mediafiredl } = require('@bochilteam/scraper');
+    let resnyacyy = await mediafiredl(args[0])
+    let { url, url2, filename, ext, aploud, filesize, filesizeH } = resnyacyy
+    let caption = `
+*💌 Name:* ${filename}
+*📊 Size:* ${filesizeH}
+*🗂️ Extension:* ${ext}
+*📨 Uploaded:* ${aploud}
+`.trim()
+    reply(`Sedang Mengunduh File: ${filename}`)
+   // await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
+   conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, caption: caption, mimetype: ext }, { quoted : m })
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
