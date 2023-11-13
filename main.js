@@ -2588,8 +2588,8 @@ const { mediafiredl } = require('@bochilteam/scraper');
 *📨 Uploaded:* ${aploud}
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
-   // await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-  await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext, asDocument: true })
+    await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
+  //await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext, asDocument: true })
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
