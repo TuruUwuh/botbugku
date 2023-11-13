@@ -2105,12 +2105,12 @@ if (!code) throw 'Input code'
 await reply(global.wait)
 let data = await nhentaiScraper(code)
 let pages = []
-let thumb = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`	
+let thumbnya = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`	
 data.images.pages.map((v, i) => {
 			let ext = new URL(v.t).pathname.split('.')[1]
 			pages.push(`https://external-content.duckduckgo.com/iu/?u=https://i7.nhentai.net/galleries/${data.media_id}/${i + 1}.${ext}`)
 		})
-let buffer = await (await fetch(thumb)).buffer()		
+let buffer = await (await fetch(thumbnya)).buffer()		
 let jpegThumbnail = await extractImageThumb(buffer)		
 let imagepdf = await toPDF(pages)		
 await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
