@@ -2587,9 +2587,9 @@ const { mediafiredl } = require('@bochilteam/scraper');
 *🗂️ Extension:* ${ext}
 *📨 Uploaded:* ${aploud}
 `.trim()
-    reply(`Sedang Mengunduh File: ${filename}`)
+    m.reply(`Sedang Mengunduh File:\n${caption}`)
    // await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-   conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, caption: caption, mimetype: ext }, { quoted : m })
+  await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
