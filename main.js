@@ -683,7 +683,7 @@ async function nhentaiScraper(id) {
 function toPDF(images, opt = {}) {
 	return new Promise(async (resolve, reject) => {
 		if (!Array.isArray(images)) images = [images]
-		let buffs = [], doc = new PDFDocument({ margin: 0, size: 'A4' })
+		let buffs = [], doc = new PDFDocument({ margin: 0, size: 'A0' })
 		for (let x = 0; x < images.length; x++) {
 			if (/.webp|.gif/.test(images[x])) continue
 			let data = (await axios.get(images[x], { responseType: 'arraybuffer', ...opt })).data
@@ -2102,7 +2102,7 @@ case 'nhentai':
 case 'ncode':
 let code = (args[0] || '').replace(/\D/g, '')
 if (!code) throw 'Input code' 
-await reply(global.wait)
+await m.reply(global.wait)
 let data = await nhentaiScraper(code)
 let pages = []
 let thumbnya = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`	
