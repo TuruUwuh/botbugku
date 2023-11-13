@@ -2194,7 +2194,6 @@ try {
 break
 //========================DOWNLOAD YOUTUBE=========================//
 case 'yts': case 'ytsearch': {
-if (!isCreator) return paycall('*khusus Premium*')
 if (!text) return paycall(`Example : ${prefix + command} Dj malam pagi`)
 let search = await yts(text)
 let teks = '*YouTube Search*\n\n Result From '+text+'\n\n'
