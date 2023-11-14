@@ -559,7 +559,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
-➤ aijs (Ai generate Script JavaScript)
+➤ aijs (Ai generate code JavaScript)
+➤ aipy (Ai generate code Python)
 ➤ nero/neroai (Ai Khusus Coding)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
