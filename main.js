@@ -1430,7 +1430,7 @@ break
 case 'pussy' :
 let error5;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` }, { quoted: m })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
 } catch (er) {
 					error5 = true;
 				} finally {
@@ -1442,7 +1442,7 @@ break
 case 'ecchi' :
 let error6;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` }, { quoted: m })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` } })
 } catch (er) {
 					error6 = true;
 				} finally {
@@ -1454,7 +1454,7 @@ break
 case 'solog' :
 let error7;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` }, { quoted: m })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
 } catch (er) {
 					error7 = true;
 				} finally {
@@ -1466,7 +1466,7 @@ break
 case 'oppai':
 let error21;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` }, { quoted: m })
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error21 = true;
 				} finally {
@@ -1478,7 +1478,7 @@ break
 case 'yuri':
 let error22;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` }, { quoted: m })
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error22 = true;
 				} finally {
