@@ -2922,8 +2922,8 @@ var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "full") {
 const { generateProfilePicture } = require("./lib/myfunc")
-var { img } = await generateProfilePicture(media)
-await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
+var { imgo } = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: imgo }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
 reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
@@ -2936,7 +2936,7 @@ if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix 
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 var medis = await conn.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
 if (args[0] == `full`) {
-var { img } = await generateProfilePicture(medis)
+var { imga } = await generateProfilePicture(medis)
 await conn.query({
 tag: 'iq',
 attrs: {
@@ -2948,7 +2948,7 @@ content: [
 {
 tag: 'picture',
 attrs: { type: 'image' },
-content: img
+content: imga
 }
 ]
 })
@@ -2969,7 +2969,7 @@ if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix 
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 var mediz = await conn.downloadAndSaveMediaMessage(quoted, 'ppgc.jpeg')
 if (args[0] == `full`) {
-var { img } = await generateProfilePicture(mediz)
+var { imeg } = await generateProfilePicture(mediz)
 await conn.query({
 tag: 'iq',
 attrs: {
@@ -2981,7 +2981,7 @@ content: [
 {
 tag: 'picture',
 attrs: { type: 'image' },
-content: img
+content: imeg
 }
 ]
 })
