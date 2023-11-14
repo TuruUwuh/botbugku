@@ -721,36 +721,6 @@ for (let i = 0; i < shinchanehe.length; i++) {
 a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEPAS
 }
 }
-
-//anune
-const sendMediaURL = async(to, url, text="", mids=[]) =>{	    	
-        if(mids.length > 0){		    
-        text = normalizeMention(to, text, mids)	    	
-        }		    
-        const fn = Date.now() / 10000;		    
-        const filename = fn.toString()	     	
-        let mime = ""		    
-        var download = function (uri, filename, callback) {		   
-        request.head(uri, function (err, res, body) {			
-        mime = res.headers['content-type']			
-        request(uri).pipe(fs.createWriteStream(filename)).on('close', callback);		   
-        });		   
-        };		    
-        download(url, filename, async function () {		    
-        console.log('done');		    
-        let media = fs.readFileSync(filename)		    
-        let type = mime.split("/")[0]+"Message"		    
-        if(mime === "image/gif"){			
-        type = MessageType.video			
-        mime = Mimetype.gif		    
-        }		    
-        if(mime.split("/")[0] === "audio"){			
-        mime = Mimetype.mp4Audio		    
-        }		    
-        conn.sendMessage(to, media, type, { quoted: mek, mimetype: mime, caption: text,contextInfo: {"mentionedJid": mids}})		    		    
-        fs.unlinkSync(filename)		    
-        });	       
-        }
 //auto restart bot
 function start() {
    let args = [path.join(__dirname, 'shinchan.js'), ...process.argv.slice(2)]
@@ -1360,7 +1330,7 @@ case 'openai': case 'ai': {
 try {
     let response = await fetch(`https://api.lolhuman.xyz/api/openai-turbo?apikey=haikalgans&text=${text}`)
     let data = await response.json()   
-  conn.sendText(from, data.result, blue)
+  conn.sendText(from, data.result, m)
   } catch (er) {
 					error1 = true;
 				} finally {
@@ -1395,7 +1365,7 @@ reply(global.wait)
 try {
     let response = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`)
     let data = await response.json()
-conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: fkontak})
+conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: m})
 } catch (er) {
 					error2 = true;
 				} finally {
@@ -1413,7 +1383,7 @@ try {
                .then(({
                   data
                }) => {
-                  conn.sendImage(m.chat, data.url, done, blue)
+                  conn.sendImage(m.chat, data.url, done, m)
                })
                } catch (er) {
 					error3 = true;
@@ -1430,7 +1400,7 @@ if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.
 let error4;
 try {
 let yeha = heyy[Math.floor(Math.random() * heyy.length)]
-conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: blue })
+conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: m })
 } catch (er) {
 					error4 = true;
 				} finally {
@@ -1443,24 +1413,24 @@ break
 //========================NSFW=========================//
          case 'hentai' :
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/waifu`)         
-conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
+conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: m })
 break
 case 'hneko' :
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/neko`)
-conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
+conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: m })
 break
 case 'trap' :
-    waifudd = await axios.get(`https://waifu.pics/nsfw/trap`)
-conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
+    waifudd = await axios.get(`https://waifu.pics/api/nsfw/trap`)
+conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: m })
 break
 case 'blowjob' :
-    waifudd = await axios.get(`https://waifu.pics/nsfw/blowjob`)
-conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: fkontak })
+    waifudd = await axios.get(`https://waifu.pics/api/nsfw/blowjob`)
+conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: m })
 break
 case 'pussy' :
 let error5;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` }, { quoted: m })
 } catch (er) {
 					error5 = true;
 				} finally {
@@ -1472,7 +1442,7 @@ break
 case 'ecchi' :
 let error6;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` } })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command}?apikey=${apikey}` }, { quoted: m })
 } catch (er) {
 					error6 = true;
 				} finally {
@@ -1484,7 +1454,7 @@ break
 case 'solog' :
 let error7;
 try {
-conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` } })
+conn.sendMessage(from, { image: { url: `https://api.lolhuman.xyz/api/random2/${command}?apikey=${apikey}` }, { quoted: m })
 } catch (er) {
 					error7 = true;
 				} finally {
@@ -1496,7 +1466,7 @@ break
 case 'oppai':
 let error21;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` }, { quoted: m })
 } catch (er) {
 					error21 = true;
 				} finally {
@@ -1508,7 +1478,7 @@ break
 case 'yuri':
 let error22;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` }, { quoted: m })
 } catch (er) {
 					error22 = true;
 				} finally {
