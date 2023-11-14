@@ -540,6 +540,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ tiktokslide/ttslide (link)
 ➤ igdl (link)
 ➤ igvid/igvideo (link video ig)
+➤ dlcapcut (link)
 ➤ igimg/igfoto (link foto ig)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
@@ -2615,7 +2616,21 @@ replyerror("Yah Error:(.");
     }
     }
     break
-  //(31)
+    case 'dlcapcut':
+      if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.com/watch/7238819486680321281?use_new_ui=1&template_id=7238819486680321281&share_token=ce40538b-b349-41da-869d-73d99b78287e&enter_from=template_detail&region=ID&language=in&platform=copy_link&is_copy_link=1`;
+      let error31;
+try {
+  let cangcut = await fetchJson(`https://api.xfarr.com/api/download/capcut?apikey=8WoRQ2SEjy&url=${args[0]}`)
+conn.sendMessage(m.chat, { video: { url: cangcut.result.url }, caption: done }, { quoted: m})
+} catch (er) {
+error31 = true;
+} finally {
+if (error31) {
+replyerror("Yah Error:(.");
+}
+}
+break
+  //(32)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
