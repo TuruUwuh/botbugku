@@ -1341,12 +1341,12 @@ try {
 break
 case 'aipy': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
-  if (!text) return paycall('Ai khusus coding javascript')
+  if (!text) return paycall('Ai khusus coding Python')
   let error34;
 try {
-    let res = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
-    let data = await res.json()   
-  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: m})
+    let respy = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
+    let datapy = await respy.json()   
+  conn.sendMessage(m.chat, {text: `${datapy.response}`}, {quoted: m})
     } catch (er) {
 					error34 = true;
 				} finally {
