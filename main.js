@@ -2618,19 +2618,19 @@ replyerror("Yah Error:(.");
     break
     case 'dlcapcut':
       if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.com/watch/7238819486680321281?use_new_ui=1&template_id=7238819486680321281&share_token=ce40538b-b349-41da-869d-73d99b78287e&enter_from=template_detail&region=ID&language=in&platform=copy_link&is_copy_link=1`;
-      let error31;
+      let error32;
 try {
   let cangcut = await fetchJson(`https://api.xfarr.com/api/download/capcut?apikey=8WoRQ2SEjy&url=${args[0]}`)
 conn.sendMessage(m.chat, { video: { url: cangcut.result.url }, caption: done }, { quoted: m})
 } catch (er) {
-error31 = true;
+error32 = true;
 } finally {
-if (error31) {
+if (error32) {
 replyerror("Yah Error:(.");
 }
 }
 break
-  //(32)
+  //(33)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
