@@ -549,8 +549,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
-➤ aijs (Ai generate Script JavaScript)
-➤ neroai
 ➤ simi
 ➤ loli
 ➤ neko
@@ -558,6 +556,11 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
+━━━━━━━━━━━━━━━━━━━
+➤ aijs (Ai generate Script JavaScript)
+➤ nero/neroai (Ai Khusus Coding)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -577,6 +580,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
+➤ mtk (soal mtk)
 ➤ aksarajawa
 ➤ latin (translate aksara jawa)
 ➤ lens / googlelens
@@ -590,7 +594,9 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ttp2
 ➤ ttp3
 ➤ ttp4
+➤ ttp5
 ➤ attp
+➤ attp2
 ➤ sticker
 ➤ qc (Masukan Teks)
 ➤ smeme (reply gambar)
@@ -1283,25 +1289,42 @@ reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
 case 'openai': case 'ai': {
-  if (!text) return paycall('Apa yang bisa saya bantu?')
-  reply(global.wait)
-    let error1;
+m.reply(global.wait)
+  if (!text) return m.reply('Apa yang bisa saya bantu?')
+  let error1;
 try {
-    let response = await fetch(`https://api.lolhuman.xyz/api/openai-turbo?apikey=haikalgans&text=${text}`)
-    let data = await response.json()   
-  conn.sendText(from, data.result, m)
-  } catch (er) {
+    let response = await fetch(`https://vihangayt.me/tools/chatgpt5?q=${text}`)
+    let data = await response.json()
+conn.sendMessage(m.chat, {text: `${data.data}`}, {quoted: m})
+} catch (er) {
 					error1 = true;
 				} finally {
 					if (error1) {
-						replyerror("Yah Proses Gagal :(");
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+					}
+					}
+}
+break
+case 'mtk': case 'aimtk': {
+m.reply(global.wait)
+if (!text) return m.reply('Perlu bantuan mengerjakan matematika kah?')
+  let error2;
+try {
+    let aimtkuy = await fetch(`https://vihangayt.me/tools/mathssolve?q=${text}`)
+        let dataai = await aimtkuy.json()
+conn.sendMessage(m.chat, {text: `${dataai.data}`}, {quoted: m})
+} catch (er) {
+					error2 = true;
+				} finally {
+					if (error2) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
 }
 break
 case 'aijs': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
   if (!text) return paycall('Ai khusus coding javascript')
-  reply(global.wait)
   let error9;
 try {
     let res = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=javascript&apikey=nerobot`)
@@ -1316,19 +1339,18 @@ try {
 					}
 }
 break
-case 'neroai': {
-if (`${global.xzn}` == 'YOUR_APIKEY_HERE') return m.reply(global.noapikey)
-reply(global.wait)
-  if (!text) return m.reply('Apa yang bisa saya bantu?')
-  let error2;
+case 'nero': case'neroai': case 'aibb': case 'blackbox': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
+  let error33;
 try {
-    let response = await fetch(`https://api.akuari.my.id/ai/gpt?chat=${text}`)
-    let data = await response.json()
-conn.sendMessage(m.chat, {text: `${data.respon}`}, {quoted: m})
+    let aibb = await fetch(`https://vihangayt.me/tools/blackbox?q=${text}`)
+        let botilegal = await aibb.json()
+conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 } catch (er) {
-					error2 = true;
+					error33 = true;
 				} finally {
-					if (error2) {
+					if (error33) {
 						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
@@ -2559,7 +2581,7 @@ replyerror("Yah Error:(.");
 }
 }
 break
-  //(33)
+  //(34)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
@@ -3067,8 +3089,8 @@ case 'swm': case 'take':
 case 'ttp':
 case 'ttp2':
 case 'ttp3':
-case 'ttp4':
-case 'attp': {
+case 'ttp4': 
+case 'ttp5': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 reply(global.wait)
 ini_txt = args.join(" ")
@@ -3077,6 +3099,15 @@ conn.sendImageAsSticker(m.chat, ini_buffer, blue, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
                 })
+       }
+break
+case 'attp': 
+case 'attp2': {
+if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
+reply(global.wait)
+ini_txt = args.join(" ")
+ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
+conn.sendFile2(m.chat, ini_buffer, 'sticker.webp', '', m)
        }
 break
 case 'tts': case 'gtts':{
