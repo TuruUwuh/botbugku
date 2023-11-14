@@ -1339,6 +1339,23 @@ try {
 					}
 }
 break
+case 'aipy': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+  if (!text) return paycall('Ai khusus coding javascript')
+  let error34;
+try {
+    let res = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
+    let data = await res.json()   
+  conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: m})
+    } catch (er) {
+					error34 = true;
+				} finally {
+					if (error34) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+}
+break
 case 'nero': case'neroai': case 'aibb': case 'blackbox': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
@@ -2581,7 +2598,7 @@ replyerror("Yah Error:(.");
 }
 }
 break
-  //(34)
+  //(35)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
