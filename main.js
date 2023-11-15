@@ -367,7 +367,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 137`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 138`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -573,6 +573,10 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
+━━━━━━━━━━━━━━━━━━━
+➤ enc/encsc (Kirim Code Script Js lu)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1378,7 +1382,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'totalfitur':{
-totalfitur('👥FITUR PUBLIC: 79\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
+totalfitur('👥FITUR PUBLIC: 80\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
@@ -2932,6 +2936,13 @@ if (!text) return paycall('put query')
 wikipedia(`${text}`).then(res => {
     conn.sendFile2(m.chat, res.result.thumb, 'wiki.png',`*Judul:* ${res.result.judul}\n\n*Penjelasan:*\n${res.result.isi}\n\n*© Wikipedia*`, m)
   }).catch(() => { m.reply('Tidak Ditemukan') })
+}
+break
+case 'enc': case 'encsc': {
+const JavaScriptObfuscator = require('javascript-obfuscator')
+if (!text) throw `[!] Masukan textnya`
+let resenc = JavaScriptObfuscator.obfuscate(text)
+m.reply(resenc.getObfuscatedCode())
 }
 break
   //(39)
