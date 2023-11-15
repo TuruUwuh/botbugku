@@ -7,6 +7,7 @@ const PDFDocument = require('pdfkit')
 const chalk = require('chalk')
 const os = require('os')
 const axios = require('axios')
+const cheerio = require('cheerio')
 const fsx = require('fs-extra')
 const crypto = require('crypto')
 const ffmpeg = require('fluent-ffmpeg')
@@ -575,6 +576,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ wallpaper (search)
 ➤ wallpaper2
 ➤ carihentai (Lu mo nyari apa?)
+➤ nekopoi (Masukin Judul Nekopoi, Contoh: Majo wa kekkyoku sono kyaku)
 ➤ anime (Cari Sinopsis Anime)
 ➤ lirik (Judul lagu indo)
 ➤ lirik2 (Judul lagu luar negeri)
@@ -586,7 +588,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ mtk (soal mtk)
 ➤ aksarajawa
 ➤ latin (translate aksara jawa)
-➤ lens / googlelens
+➤ ocr (Ambil Teks Foto)
 ➤ brainly (Kirim Soal)
 ➤ ruangguru/roboguru (Kirim Soal)
 ➤ translate ( [id] Teks )
@@ -670,6 +672,31 @@ function toPDF(images, opt = {}) {
 		doc.on('error', (err) => reject(err))
 		doc.end()
 	})
+}
+async function searchHentai(search) {
+  return new Promise((resolve, reject) => {
+    axios.get("https://hentai.tv/?s=" + search).then(async ({ data }) => {
+      let $ = cheerio.load(data)
+      let result = {}
+      let res = []
+      result.coder = 'rem-comp'
+      result.result = res
+      result.warning = "It is strictly forbidden to reupload this code, copyright © 2022 by rem-comp"
+
+      $('div.flex > div.crsl-slde').each(function (a, b) {
+        let _thumbnail = $(b).find('img').attr('src')
+        let _title = $(b).find('a').text().trim()
+        let _views = $(b).find('p').text().trim()
+        let _url = $(b).find('a').attr('href')
+        let hasil = { thumbnail: _thumbnail, title: _title, views: _views, url: _url }
+        res.push(hasil)
+      })
+
+      resolve(result)
+    }).catch(err => {
+      console.log(err)
+    })
+  })
 }
 
 //YTMP3
@@ -1955,9 +1982,8 @@ let data = await response.json()
 					}
 }
 break
-
-case 'lens': case 'googlelens': {
-if (!/image/.test(mime)) return paycall(`Fitur Lens/Google Lens adalah fitur untuk mengambil teks di gambar, kegunaannya biar mudah ambil teks yang di foto, fitur ini masih tahap beta yang di kembangkan oleh developer shinchan senpai💖, cara pakainya kalian kirim foto yang ada teks nya lalu kalian (ketik : ${prefix} lens / ${prefix} googlelens).`)
+case 'ocr': {
+if (!/image/.test(mime)) return paycall(`Fitur OCR adalah fitur untuk mengambil teks di gambar, kegunaannya biar mudah ambil teks yang di foto, fitur ini masih tahap beta yang di kembangkan oleh developer shinchan senpai💖, cara pakainya kalian kirim foto yang ada teks nya lalu kalian (ketik : ${prefix} ocr ).`)
 reply(global.wait)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 
@@ -1965,14 +1991,15 @@ let media = await conn.downloadAndSaveMediaMessage(quoted);
     let anu = await TelegraPh(media)
     let error12;
 try {
-let response = await fetch(`https://api.lolhuman.xyz/api/ocr?apikey=haikalgans&img=${anu}`)
-let data = await response.json()
-  conn.sendText(from, data.result, fkontak)
-  } catch (er) {
+let resocr = await fetch(`https://api.ocr.space/parse/imageurl?apikey=K89553582988957&url=${anu}`)
+let dataocr = await resocr.json()
+let hasilocr = dataocr?.ParsedResults?.[0]?.ParsedText
+  conn.sendText(from, hasilocr, m)
+    } catch (er) {
 					error12 = true;
 				} finally {
 					if (error12) {
-						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+						replyerror("Error Bjir😁");
 					}
 					}
 }
@@ -1989,7 +2016,7 @@ const wall = new AnimeWallpaper()
         const wallpaper = await wall
             .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
             .catch(() => null)
-const i = wallpaper[Math.floor(Math.random() * wallpaper.length2)]
+const i = wallpaper[Math.floor(Math.random() * wallpaper.length)]
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
@@ -2077,6 +2104,29 @@ ini_txt += `Page : ${x.page}\n`
 ini_txt += "▬▭▬▭▬▭▬▭▬▬▭▬▭▬▬▭▬▭▬▭▬▭▬▬▭▬▭▬\n\n"
 }
 replyhentai(ini_txt)
+break
+case 'nekopoi': {
+if (!text) throw '*[❗] MASUKKAN NAMA HENTAI YANG AKAN DICARI*'
+
+m.reply(wait)
+
+  let searchResults = await searchHentai(text)
+  let teks = searchResults.result.map((v, i) => `
+${i + 1}. *_${v.title}_*
+↳ 📺 *_Views:_* ${v.views}
+↳ 🎞️ *_Link:_* ${v.url}`).join('\n\n')
+
+  let randomThumbnail
+  if (searchResults.result.length > 0) {
+    let randomIndex = Math.floor(Math.random() * searchResults.result.length)
+    randomThumbnail = searchResults.result[randomIndex].thumbnail
+  } else {
+    randomThumbnail = 'https://pictures.hentai-foundry.com/e/Error-Dot/577798/Error-Dot-577798-Zero_Two.png'
+    teks = '*[❗] TIDAK ADA HASIL PENCARIAN*'
+  }
+
+  conn.sendFile2(m.chat, randomThumbnail, 'error.jpg', teks, m)
+}
 break
 /*case 'nhentai':
 case 'ncode':
@@ -2186,13 +2236,13 @@ teks += `⭔ No : ${no++}\n⭔ Type : ${i.type}\n⭔ Video ID : ${i.videoId}\n�
 ytreply(teks)
 }
 break
-case 'play':  case 'song': {
+/*case 'play':  case 'song': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
-        reply(global.wait)
+        m.reply(global.wait)
 const pl= await shinchanplaymp3.mp3(anup3k.url)
 await conn.sendMessage(m.chat,{
     audio: fs.readFileSync(pl.path),
@@ -2213,7 +2263,26 @@ await conn.sendMessage(m.chat,{
 },{quoted: fkontak})
 await fs.unlinkSync(pl.path)
 }
-break
+break*/
+case 'play': {
+if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
+m.reply(global.wait)
+query = args.join(" ")
+let datplay = await fetchJson(`https://api.lolhuman.xyz/api/ytplay?apikey=haikalgans&query=${query}`)
+let dathasil = await datplay.result
+let downloadnya = dathasil.audio
+conn.sendMessage(m.chat, { audio: { url: downloadnya.link }, mimetype: 'audio/mp4',
+contextInfo: {
+                     externalAdReply:{
+            showAdAttribution: true,
+            containsAutoReply: true,
+            title: dathasil.title,
+            body: dathasil.uploader,
+            thumbnail: await fetchBuffer(dathasil.thumbnail),
+            mediaType:2,
+            mediaUrl: dathasil.channel,
+                    }}}, { quoted: m})}
+        break
 /*case "ytmp3": case "ytaudio":
 const shinchanmp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
@@ -2542,6 +2611,23 @@ if (error26) {
 replyerror("Maaf lirik tersebut tidak muncul di database\nHarus lagu luar negri gak bisa lagu indo😁");
 }
 }
+}
+break
+case 'lirik3': {
+const { lyrics, lyricsv2 } = require('@bochilteam/scraper');
+    let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : ''
+    if (!teks) throw `Use example ${usedPrefix}${command} hallo`
+    const result = await lyricsv2(teks).catch(async _ => await lyrics(teks))
+    m.reply(`
+Lyrics *${result.title}*
+Author ${result.author}
+
+
+${result.lyrics}
+
+
+Url ${result.link}
+`.trim())
 }
 break
 //========================SIMI============================//
