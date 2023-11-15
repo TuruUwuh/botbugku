@@ -26,6 +26,7 @@ const { Primbon } = require('scrape-primbon')
 const { Brainly } = require("brainly-scraper-v2");
 const { translate } = require("@vitalets/google-translate-api")
 const googleTTS = require('google-tts-api')
+const ytdl = require("ytdl-core")
 const speed = require('performance-now')
 const path = require('path')
 const primbon = new Primbon()
@@ -665,6 +666,40 @@ function toPDF(images, opt = {}) {
 		doc.end()
 	})
 }
+
+//YTMP3
+const downloadMp3 = async (Link) => {
+try {
+await ytdl.getInfo(Link)
+let mp3File = getRandom('.mp3')
+console.log(color('Download Audio With ytdl-core'))
+ytdl(Link, { filter: 'audioonly' })
+.pipe(fs.createWriteStream(mp3File))
+.on('finish', async () => {
+await connl.sendMessage(from, { audio: fs.readFileSync(mp3File), mimetype: 'audio/mp4' }, { quoted: m })
+fs.unlinkSync(mp3File)
+})
+} catch (err) {
+m.reply(`${err}`)
+}
+}
+//YTMP4
+const downloadMp4 = async (Link) => {
+try {
+await ytdl.getInfo(Link)
+let mp4File = getRandom('.mp4')
+console.log(color('Download Video With ytdl-core'))
+let nana = ytdl(Link)
+.pipe(fs.createWriteStream(mp4File))
+.on('finish', async () => {
+await conn.sendMessage(from, { video: fs.readFileSync(mp4File), gifPlayback: false }, { quoted: m })
+fs.unlinkSync(`./${mp4File}`)
+})
+} catch (err) {
+m.reply(`${err}`)
+}
+}
+//=================================================
 // DELAY FUNCTION
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -2147,7 +2182,7 @@ ytreply(teks)
 }
 break
 case 'play':  case 'song': {
-if (!text) return paycall(`Example : ${prefix + command} DJ MALAM INI`)
+if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
 let yts = require("youtube-yts")
         let search = await yts(text)
@@ -2174,7 +2209,7 @@ await conn.sendMessage(m.chat,{
 await fs.unlinkSync(pl.path)
 }
 break
-case "ytmp3": case "ytaudio":
+/*case "ytmp3": case "ytaudio":
 const shinchanmp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
 reply(global.wait)
@@ -2211,6 +2246,44 @@ await conn.sendMessage(m.chat,{
     video: {url:vid.videoUrl},
     caption: ytc
 },{quoted: fkontak})
+}
+break*/
+case 'ytmp3': case 'youtubemp3': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://youtube.com/watch?v=r3whEJ2KjeQ`)
+m.reply(global.wait)
+let error35;
+try {
+let sizenyahe = '128k'
+let dataytnya = await fetchJson(`https://skizo.tech/api/yt1s?url=${args[0]}&apikey=nerobot`)
+let ytnya = dataytnya.audio
+conn.sendMessage(m.chat, { audio: { url: ytnya[sizenyahe].url }, mimetype: 'audio/mp4' }, { quoted: m })
+} catch (er) {
+error35 = true;
+} finally {
+if (error35) {
+replyerror("Yah Error:(.");
+}
+}
+}
+break
+case 'ytmp4': case 'youtubemp4': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://youtube.com/watch?v=r3whEJ2KjeQ`)
+m.reply(global.wait)
+let error36;
+try {
+let dataytnya2 = await fetchJson(`https://vihangayt.me/download/ytmp4?url=${args[0]}`)
+let ytnya2 = dataytnya2.data
+let judulytnya = `${done}\n📝Judul: ${ytnya2.title}\n⏳Durasi: ${ytnya2.duration}`
+let hasilyt = ytnya2.vid_360p
+//conn.sendMessage(from, { video: { url: hasilyt }, mimetype: 'video/mp4', caption : judulytnya, quoted: m})
+conn.sendFile2(from, hasilyt, `video.mp4`, judulytnya, m)
+} catch (er) {
+error36 = true;
+} finally {
+if (error36) {
+replyerror("Yah Error:(.");
+}
+}
 }
 break
 //========================INSTAGRAM DL============================//
@@ -2650,7 +2723,7 @@ case 'imdb': {
   }
   };
   break
-  //(35)
+  //(37)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
