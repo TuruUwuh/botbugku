@@ -591,6 +591,11 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ruangguru/roboguru (Kirim Soal)
 ➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘽𝙐𝘼𝙏 𝙀𝙈𝘼𝙄𝙇 𝙍𝘼𝙉𝘿𝙊𝙈 )
+━━━━━━━━━━━━━━━━━━━
+➤ tempmail
+➤ inboxemail/inboxmail (Masukin ID Email)
+━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙎𝙏𝙄𝙆𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ttp
@@ -2723,7 +2728,44 @@ case 'imdb': {
   }
   };
   break
-  //(37)
+//========================BUAT EMAIL============================//
+case 'tempmail': {
+m.reply(`Tunggu Lagi Di Buat Emailnya...`)
+let error37;
+try {
+let dataemail = await fetchJson(`https://vihangayt.me/tools/tempmail`)
+let emailjadi = dataemail.data[0]
+let idemaile = dataemail.data[1]
+let tglemail = dataemail.data[2]
+conn.sendMessage(m.chat, {text: `📄Email: ${emailjadi}\n📌Id: ${idemaile}\n📆Tanggal: ${tglemail}`}, {quoted: m})
+} catch (er) {
+error37 = true;
+} finally {
+if (error37) {
+replyerror("Yah Error:(.");
+}
+}
+}
+break
+case 'inboxmail': case 'inboxemail': {
+if (!text) return paycall(`Masukan Id Email Yang Sudah kalian buat'`)
+m.reply(`Tunggu Lagi Di Cek Pesan Masuk Emailnya...`)
+let error38;
+try {
+let hasilemail = await fetchJson(`https://vihangayt.me/tools/get_inbox_tempmail?q=${text}`)
+let infoemail = hasilemail.data[0]
+let inihasilnya = `📄Email: ${infoemail[0].toAddr}\n📝Text: ${infoemail[0].text}\n📊Size: ${infoemail[0].rawSize}\n📈Type: ${infoemail[0].headerSubject}\n📌Link Info: ${infoemail[0].fromAddr}\n🔗Url: ${infoemail[0].downloadUrl}`
+conn.sendMessage(m.chat, {text: `${inihasilnya}`}, {quoted: m})
+} catch (er) {
+error38 = true;
+} finally {
+if (error38) {
+replyerror("Yah Error:(.");
+}
+}
+}
+break
+  //(39)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
