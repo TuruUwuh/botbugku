@@ -367,7 +367,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 136`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 137`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -597,6 +597,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ lirik2 (Judul lagu luar negeri)
 ➤ search (Mencari Source Anime+Manga)
 ➤ imdb (Cek Rating Film)
+➤ wikipedia
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -712,6 +713,37 @@ async function searchHentai(search) {
       console.log(err)
     })
   })
+}
+//SCRAPE WIKIPEDIA
+async function wikipedia(querry) {
+  try {
+    const link = await axios.get(`https://id.wikipedia.org/wiki/${querry}`)
+    const $ = cheerio.load(link.data)
+    let judul = $('#firstHeading').text().trim()
+    let thumb = $('#mw-content-text').find('div.mw-parser-output > div:nth-child(1) > table > tbody > tr:nth-child(2) > td > a > img').attr('src') || `//k.top4top.io/p_2121ug8or0.png`
+    let isi = []
+    $('#mw-content-text > div.mw-parser-output').each(function (rayy, Ra) {
+      let penjelasan = $(Ra).find('p').text().trim()
+      isi.push(penjelasan)
+    })
+    for (let i of isi) {
+      const data = {
+        status: link.status,
+        result: {
+          judul: judul,
+          thumb: 'https:' + thumb,
+          isi: i
+        }
+      }
+      return data
+    }
+  } catch (err) {
+    var notFond = {
+      status: link.status,
+      Pesan: eror
+    }
+    return notFond
+  }
 }
 
 //YTMP3
@@ -1346,7 +1378,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'totalfitur':{
-totalfitur('👥FITUR PUBLIC: 78\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
+totalfitur('👥FITUR PUBLIC: 79\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
@@ -2893,6 +2925,13 @@ if (error38) {
 replyerror("Yah Error:(.");
 }
 }
+}
+break
+case 'wikipedia': {
+if (!text) return paycall('put query')
+wikipedia(`${text}`).then(res => {
+    conn.sendFile2(m.chat, res.result.thumb, 'wiki.png',`*Judul:* ${res.result.judul}\n\n*Penjelasan:*\n${res.result.isi}\n\n*© Wikipedia*`, m)
+  }).catch(() => { m.reply('Tidak Ditemukan') })
 }
 break
   //(39)
