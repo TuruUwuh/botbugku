@@ -366,6 +366,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
+const totalfitur = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 136`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})}
 const replybrainly = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
                 contextInfo: {
@@ -1150,11 +1165,18 @@ Platform : ${os.platform()}
 ━━━━━━━━━━━━━━━━━━━
 ➤ welcome on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ antilink on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antilinkch [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antilinkinstagram [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antieval [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ antitoxic on / off [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ autostiker [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antivirus [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ antitoxic [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ pushkontak (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ pushcontid (id group) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ bcgc (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ hidetag (textnya) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ totag [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ kick (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ add (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ promote (628xx) [ 𝗢𝗪𝗡𝗘𝗥 ]
@@ -1172,7 +1194,22 @@ Platform : ${os.platform()}
 ➤ demoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ repeat [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ call [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ call2 [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sms [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ id [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ getcase [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ q [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ toonce [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ unbanned [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ resetotp [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ tourl [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ runtime [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ setppbot [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ setppgc [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ shutdown [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ owner [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ addprem [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ delprem [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━━━━━
 `,
 }}}}), { userJid: m.chat, quoted: m })
@@ -1216,10 +1253,13 @@ ${wit}
   *ONLY PRIVATE CHAT* 
 ━━━━━━━━━━━━━━━━━━━━━━
 ➤ oy (Bug Call New) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ bugtxt [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbug (Bug Call) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbugtroli (Bug Troli) [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ sendbugpc (Bug Invite) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ sendbugstik [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ jadikatalog (Reply Gambar/Stiker) [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ tokatalog [ 𝗢𝗪𝗡𝗘𝗥 ]
 ━━━━━━━━━━━
   *ONLY GRUP* 
 ━━━━━━━━━━━
@@ -1303,6 +1343,10 @@ ${wit}
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
+case 'totalfitur':{
+totalfitur('👥FITUR PUBLIC: 78\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
