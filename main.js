@@ -1970,10 +1970,9 @@ case 'ttimg': case 'tiktokslide': case 'ttslide': {
         let error19;
 try {
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
-        let cap = `${done}
-`
+
             for (let tt of res.data) {
-                conn.sendImage(m.chat, tt, cap, blue)
+                conn.sendImage(m.chat, tt, done, blue)
             }
                               } catch (er) {
 					error19 = true;
