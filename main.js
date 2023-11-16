@@ -554,7 +554,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ xnxx/xnxxdl (link bokep xnxx)
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
-➤ tiktokslide/ttslide (link)
+➤ ttimg/tiktokslide/ttslide (link)
 ➤ igdl (link)
 ➤ igvid/igvideo (link video ig)
 ➤ dlcapcut (link)
@@ -1939,7 +1939,7 @@ if (!args[0]) {
             replyerror(`Error: ${errornya}`);
         };
 break
-case 'tiktokslide': case 'ttslide': {
+/*case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
         reply(global.wait)
@@ -1953,6 +1953,27 @@ try {
 `
             for (let tt of data.result.images) {
                 conn.sendImage(m.chat, tt.url, cap, blue)
+            }
+                              } catch (er) {
+					error19 = true;
+				} finally {
+					if (error19) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
+break*/
+case 'ttimg': case 'tiktokslide': case 'ttslide': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+        reply(global.wait)
+        let error19;
+try {
+        let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
+        let cap = `${done}
+`
+            for (let tt of res.data) {
+                conn.sendImage(m.chat, tt, cap, blue)
             }
                               } catch (er) {
 					error19 = true;
