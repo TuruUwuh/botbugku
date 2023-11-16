@@ -1945,7 +1945,7 @@ case 'tiktokslide': case 'ttslide': {
         reply(global.wait)
         let error19;
 try {
-        let res = await fetch(`https://api.fgmods.xyz/api/downloader/tiktok2?url=${args[0]}&apikey=Wvc5v8l7`)
+        let res = await fetch(`https://api.fgmods.xyz/api/downloader/tiktok2?url=${args[0]}&apikey=623JU5Hl`)
         let data = await res.json()
         let cap = `${done}
 ▢ *Likes:* ${data.result.stats.likeCount}
