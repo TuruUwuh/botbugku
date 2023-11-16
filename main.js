@@ -366,21 +366,6 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
-const replymusik = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🎶𝙈𝙐𝙎𝙄𝙆 𝘿𝙄𝙏𝙀𝙈𝙐𝙆𝘼𝙉🎶`,
-                contextInfo: {
-                     externalAdReply: {
-                        showAdAttribution: true,
-                        containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
-                        body: `${tanggal} ××× ${time}`,
-                        mediaType: 1,
-                        previewType: 0,
-                        renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
-                        thumbnail: thumb,
-                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: m})}
 const totalfitur = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 139`,
                 contextInfo: {
@@ -2962,6 +2947,9 @@ m.reply(resenc.getObfuscatedCode())
 }
 break
 case 'searchmusik': {
+if (/document/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
+if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
+if (!quoted) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 let acrcloud = require('acrcloud')
 m.reply(`Tunggu Lagi Mencari Judul Musik...`)
 let acr = new acrcloud({
@@ -2970,10 +2958,10 @@ access_key: 'c33c767d683f78bd17d4bd4991955d81',
 access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
 })
 
-let q = m.quoted ? m.quoted : m
-let mime = (q.msg || q).mimetype || ''
 if (/audio|video/.test(mime)) {
-let media = await q.download()
+let media = await quoted.download()
+let { toAudio } = require('./lib/converter')
+let audio = await toAudio(media, 'mp4')
 let ext = mime.split('/')[1]
 fs.writeFileSync(`./src/${m.sender}.${ext}`, media)
 let res = await acr.identify(fs.readFileSync(`./src/${m.sender}.${ext}`))
@@ -2981,17 +2969,31 @@ let { code, msg } = res.status
 if (code !== 0) throw msg
 let { title, artists, album, genres, release_date } = res.metadata.music[0]
 let txt = `
-𝚁𝙴𝚂𝚄𝙻𝚃
+🎶𝙅𝙐𝘿𝙐𝙇 𝙈𝙐𝙎𝙄𝙆 𝘿𝙄𝙏𝙀𝙈𝙐𝙆𝘼𝙉🎶
+=============================
 • 📌 *TITLE*: ${title}
 • 👨‍🎤 𝙰𝚁𝚃𝙸𝚂𝚃: ${artists !== undefined ? artists.map(v => v.name).join(', ') : 'NOT FOUND'}
 • 💾 𝙰𝙻𝙱𝚄𝙼: ${album.name || 'NOT FOUND'}
 • 🌐 𝙶𝙴𝙽𝙴𝚁: ${genres !== undefined ? genres.map(v => v.name).join(', ') : 'NOT FOUND'}
 • 📆 RELEASE DATE: ${release_date || 'NOT FOUND'}
+=============================
 `.trim()
 fs.unlinkSync(`./src/${m.sender}.${ext}`)
-replymusik(txt)
-} else throw '*𝚁𝙴𝚂𝙿𝙾𝙽𝙳 𝙰𝚄𝙳𝙸𝙾*'
-}
+conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg', fileName: `${title}.mp3`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: m})}
+                    }
 break
   //(39)
 //========================END============================//
