@@ -367,7 +367,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 139`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 140`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -653,6 +653,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ecchi
 ➤ solog
 ➤ oppai
+➤ hentaivid
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -718,6 +719,29 @@ async function searchHentai(search) {
       console.log(err)
     })
   })
+}
+async function hentaivid() {
+    return new Promise((resolve, reject) => {
+        const page = Math.floor(Math.random() * 1153)
+        axios.get('https://sfmcompile.club/page/'+page)
+        .then((data) => {
+            const $ = cheerio.load(data.data)
+            const hasil = []
+            $('#primary > div > div > ul > li > article').each(function (a, b) {
+                hasil.push({
+                    title: $(b).find('header > h2').text(),
+                    link: $(b).find('header > h2 > a').attr('href'),
+                    category: $(b).find('header > div.entry-before-title > span > span').text().replace('in ', ''),
+                    share_count: $(b).find('header > div.entry-after-title > p > span.entry-shares').text(),
+                    views_count: $(b).find('header > div.entry-after-title > p > span.entry-views').text(),
+                    type: $(b).find('source').attr('type') || 'image/jpeg',
+                    video_1: $(b).find('source').attr('src') || $(b).find('img').attr('data-src'),
+                    video_2: $(b).find('video > a').attr('href') || ''
+                })
+            })
+            resolve(hasil)
+        })
+    })
 }
 //SCRAPE WIKIPEDIA
 async function wikipedia(querry) {
@@ -1383,7 +1407,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'totalfitur':{
-totalfitur('👥FITUR PUBLIC: 81\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
+totalfitur('👥FITUR PUBLIC: 82\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
@@ -2262,9 +2286,29 @@ data.images.pages.map((v, i) => {
 			pages.push(`https://external-content.duckduckgo.com/iu/?u=https://i7.nhentai.net/galleries/${data.media_id}/${i + 1}.${ext}`)
 		})
 let buffer = await (await fetch(thumbnya)).buffer()		
-let jpegThumbnail = await extractImageThumb(buffer)		
+let jpegThumbnail = await fetchBuffer(buffer)		
 let imagepdf = await toPDF(pages)		
 await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
+break
+case 'hentaivid': case 'hentaivideo': {
+                const { hentai } = require('./lib/scraper.js')
+                anu = await hentai()
+                result912 = anu[Math.floor(Math.random(), anu.length)]
+                conn.sendMessage(m.chat, { video: { url: result912.video_1 }, caption: `🐼 Title : ${result912.title}\n🐼 Category : ${result912.category}\n🐼 Mimetype : ${result912.type}\n🐼 Views : ${result912.views_count}\n🐼 Shares : ${result912.share_count}\n🐼 Source : ${result912.link}\n🐼 Media Url : ${result912.video_1}` }, { quoted: m })
+            }
+            break
+case 'hentaivid2': {
+sbe = await hentaivid()
+cejd = sbe[Math.floor(Math.random(), sbe.length)]
+conn.sendMessage(m.chat, { video: { url: cejd.video_1 }, 
+caption: `⭔ Title : ${cejd.title}
+⭔ Category : ${cejd.category}
+⭔ Mimetype : ${cejd.type}
+⭔ Views : ${cejd.views_count}
+⭔ Shares : ${cejd.share_count}
+⭔ Source : ${cejd.link}
+⭔ Media Url : ${cejd.video_1}` }, { quoted: m })
+}
 break
 //========================BOKEPNYA=========================//
 case 'xnxx': case 'xnxxdl': {
@@ -2962,8 +3006,17 @@ break
 case 'enc': case 'encsc': {
 const JavaScriptObfuscator = require('javascript-obfuscator')
 if (!text) throw `[!] Masukan textnya`
+let error15;
+try {
 let resenc = JavaScriptObfuscator.obfuscate(text)
 m.reply(resenc.getObfuscatedCode())
+} catch (er) {
+					error15 = true;
+				} finally {
+					if (error15) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
 }
 break
 case 'searchmusik': {
