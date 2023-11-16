@@ -1,5 +1,5 @@
 require('./config')
-const { WA_DEFAULT_EPHEMERAL, extractImageThumb, getAggregateVotesInPollMessage, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType } = global.baileys
+const { WA_DEFAULT_EPHEMERAL, extractImageThumb, getAggregateVotesInPollMessage, URL_REGEX, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, downloadContentFromMessage, areJidsSameUser, getContentType } = global.baileys
 const fs = require('fs')
 const util = require('util')
 let fetch = require('node-fetch');
@@ -367,7 +367,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 140`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 144`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -557,8 +557,9 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ttimg/tiktokslide/ttslide (link)
 ➤ igdl (link)
 ➤ igvid/igvideo (link video ig)
-➤ dlcapcut (link)
 ➤ igimg/igfoto (link foto ig)
+➤ dlcapcut (link)
+➤ twitter/twt/twtdl (link twitter)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -577,6 +578,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ enc/encsc (Kirim Code Script Js lu)
+➤ npmsearch
+➤ persamaankata/sinonim
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
@@ -613,6 +616,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ brainly (Kirim Soal)
 ➤ ruangguru/roboguru (Kirim Soal)
 ➤ translate ( [id] Teks )
+➤ kalkulator
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙐𝘼𝙏 𝙀𝙈𝘼𝙄𝙇 𝙍𝘼𝙉𝘿𝙊𝙈 )
 ━━━━━━━━━━━━━━━━━━━
@@ -773,6 +777,80 @@ async function wikipedia(querry) {
     }
     return notFond
   }
+}
+
+//SCRAPE PINTEREST
+async function pinterest(query) {
+	if (query.match(URL_REGEX)) {
+		let res = await fetch('https://www.expertsphp.com/facebook-video-downloader.php', {
+			method: 'POST',
+			body: new URLSearchParams(Object.entries({ url: query }))
+		})
+		let $ = cheerio.load(await res.text())
+		let data = $('table[class="table table-condensed table-striped table-bordered"]').find('a').attr('href')
+		if (!data) throw 'Can\'t download post :/'
+		return data
+	} else {
+		let res = await fetch(`https://www.pinterest.com/resource/BaseSearchResource/get/?source_url=%2Fsearch%2Fpins%2F%3Fq%3D${query}&data=%7B%22options%22%3A%7B%22isPrefetch%22%3Afalse%2C%22query%22%3A%22${query}%22%2C%22scope%22%3A%22pins%22%2C%22no_fetch_context_on_resource%22%3Afalse%7D%2C%22context%22%3A%7B%7D%7D&_=1619980301559`)
+		let json = await res.json()
+		let data = json.resource_response.data.results
+		if (!data.length) throw `Query "${query}" not found :/`
+		return data[~~(Math.random() * (data.length))].images.orig.url
+	}
+}
+
+async function shortUrl(url) {
+	return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()
+}
+
+//SCRAPE PERSAMAAN KATA
+function ArrClean(str) {
+    return str.map((v, index) => ++index + ". " + v).join('\r\n')
+}
+
+async function Persamaan_Kata(kata) {
+    const html = await axios.get("https://m.persamaankata.com/search.php?q=" + kata)
+    const $ = cheerio.load(html.data)
+    const h = []
+    $("div.word_thesaurus > a").each(function(e, a) {
+        h.push($(a).text());
+    })
+    const image = $("img#visual_synonym_img").attr("src")
+    return {
+        image: image,
+        result: h
+    }
+}
+
+//SCRAPE DOWNLOAD TWITTER
+async function twitterDl(url) {
+	let id = /twitter\.com\/[^/]+\/status\/(\d+)/.exec(url)[1]
+	if (!id) throw 'Invalid URL'
+	let res = await fetch(`https://tweetpik.com/api/tweets/${id}`)
+	if (res.status !== 200) throw res.statusText
+	let json = await res.json()
+	if (json.media) {
+		let media = []
+		for (let i of json.media) {
+			if (/video|animated_gif/.test(i.type)) {
+				let vid = await (await fetch(`https://tweetpik.com/api/tweets/${id}/video`)).json()
+				vid = vid.variants.pop()
+				media.push({
+					url: vid.url,
+					type: i.type
+				})
+			} else {
+				media.push({
+					url: i.url,
+					type: i.type
+				})
+			}
+		}
+		return {
+			caption: json.text,
+			media 
+		}
+	} else throw 'No media found'
 }
 
 //YTMP3
@@ -1407,7 +1485,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 case 'totalfitur':{
-totalfitur('👥FITUR PUBLIC: 82\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
+totalfitur('👥FITUR PUBLIC: 85\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
@@ -2165,13 +2243,25 @@ break
             }
             break*/
 //========================WALLPAPER END=========================//
-            case 'pinterest': {
+            /*case 'pinterest': {
               	if (!text) return paycall(`Apa yang mau kamu cari?`)
 reply(global.wait)
 let { pinterest } = require('./lib/scraper')
 anutrest = await pinterest(text)
 result = anutrest[Math.floor(Math.random() * anutrest.length)]
 conn.sendMessage(m.chat, { image: { url: result }, caption: '⭔ Media Url : '+result }, { quoted: m })
+}
+break*/
+case 'pinterest': case 'pin': {
+let { lookup } = require('mime-types')
+	text = text.endsWith('SMH') ? text.replace('SMH', '') : text 
+	if (!text) throw 'Input Query / Pinterest Url'
+	let res = await pinterest(text)
+	// if (!res) throw res
+	let mime = await lookup(res)
+	text.match(URL_REGEX) ?
+		await conn.sendMessage(m.chat, { [mime.split('/')[0]]: { url: res }, caption: `Succes Download: ${await shortUrl(res)}` }, { quoted: m }) :
+	await conn.sendMessage(m.chat, { image: { url: res }, caption: `⭔ Result From: ${text}\n⭔ Media Url: ${res}`}, { quoted: m })
 }
 break
 //========================PINTEREST END=========================//
@@ -3067,6 +3157,78 @@ conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg'
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})}
                     }
+break
+case 'npmsearch': {
+	if (!text) throw 'Input Query'
+	let res = await fetch(`http://registry.npmjs.com/-/v1/search?text=${text}`)
+	let { objects } = await res.json()
+	if (!objects.length) throw `Query "${text}" not found :/`
+	let txt = objects.map(({ package: pkg }) => {
+		return `*${pkg.name}* (v${pkg.version})\n_${pkg.links.npm}_\n_${pkg.description}_`
+	}).join`\n\n`
+	m.reply(txt)
+}
+break
+case 'kalkulator': {
+  let id = m.chat
+  conn.math = conn.math ? conn.math : {}
+  if (id in conn.math) {
+    clearTimeout(conn.math[id][3])
+    delete conn.math[id]
+    m.reply('Hmmm...ngecheat?')
+  }
+  let val = text
+    .replace(/[^0-9\-\/+*×÷πEe()piPI/]/g, '')
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/π|pi/gi, 'Math.PI')
+    .replace(/e/gi, 'Math.E')
+    .replace(/\/+/g, '/')
+    .replace(/\++/g, '+')
+    .replace(/-+/g, '-')
+  let format = val
+    .replace(/Math\.PI/g, 'π')
+    .replace(/Math\.E/g, 'e')
+    .replace(/\//g, '÷')
+    .replace(/\*×/g, '×')
+  try {
+    console.log(val)
+    let result = (new Function('return ' + val))()
+    if (!result) throw result
+    m.reply(`${format} = ${result}`)
+  } catch (e) {
+    if (e == undefined) throw 'Isinya?'
+    throw 'Format salah, hanya 0-9 dan Simbol -, +, *, /, ×, ÷, π, e, (, ) yang disupport'
+  }
+}
+break
+case 'sinonim': case 'persamaankata': {
+    query = `input text\nEx. .${prefix} hello world\n<command> <tex>`
+    text
+    if (args.length >= 1) {
+        text = args.slice(0).join(" ")
+    } else if (m.quoted && m.quoted.text) {
+        text = m.quoted.text
+    } else throw query
+
+    try {
+        m.reply(wait)
+        let res = await Persamaan_Kata(text)
+        await conn.sendMessage(m.chat, { image: { url: res.image }, caption: "*[ Result ]*\n\n" + ArrClean(res.result) }, { quoted: m })
+    } catch (e) {
+        throw eror
+    }
+}
+break
+case 'twtdl': case 'twt': case 'twitter': {
+	if (!text) throw 'Input URL'
+	let res = await twitterDl(text)
+	await m.reply('_In progress, please wait..._')
+	for (let x = 0; x < res.media.length; x++) {
+		let caption = x === 0 ? res.caption.replace(/https:\/\/t.co\/[a-zA-Z0-9]+/gi, '').trim() : ''
+		conn.sendFile(m.chat, res.media[x].url, '', caption, m)
+	}
+}
 break
   //(39)
 //========================END============================//
