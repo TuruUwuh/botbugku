@@ -366,21 +366,6 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
-const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 144`,
-                contextInfo: {
-                     externalAdReply: {
-                        showAdAttribution: true,
-                        containsAutoReply: true,
-                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
-                        body: `${tanggal} ××× ${time}`,
-                        mediaType: 1,
-                        previewType: 0,
-                        renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
-                        thumbnail: thumb,
-                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})}
 const replybrainly = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
                 contextInfo: {
@@ -1482,10 +1467,6 @@ ${wit}
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
-}
-break
-case 'totalfitur':{
-totalfitur('👥FITUR PUBLIC: 85\n👤FITUR OWNER: 47\n👻FITUR BUG: 11')
 }
 break
 case 'shutdown': case 'stop':
@@ -3866,7 +3847,7 @@ Group Close`}, {quoted:m})
 }
 break
 
-/*case 'setppgc': {
+case 'setppgc': {
 if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
@@ -3881,7 +3862,7 @@ await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:
 m.reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
-break*/
+break
 
 case 'editinfo': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
