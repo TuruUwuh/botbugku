@@ -3505,78 +3505,30 @@ if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + 
 reply(global.wait)
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
-if (args[0] == "full") {
+if (args[0] == "/full") {
 const { generateProfilePicture } = require("./lib/myfunc")
-var { imgo } = await generateProfilePicture(media)
-await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: imgo }]})
+var { img } = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
 reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
-case 'setppbot': case 'setbotpp': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-if (!quoted) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-var medis = await conn.downloadAndSaveMediaMessage(quoted, 'ppbot.jpeg')
-if (args[0] == `full`) {
-var { imga } = await generateProfilePicture(medis)
-await conn.query({
-tag: 'iq',
-attrs: {
-to: botNumber,
-type:'set',
-xmlns: 'w:profile:picture'
-},
-content: [
-{
-tag: 'picture',
-attrs: { type: 'image' },
-content: imga
-}
-]
-})
-fs.unlinkSync(medis)
-reply(`Success`)
-} else {
-var memeg = await conn.updateProfilePicture(botNumber, { url: medis })
-fs.unlinkSync(medis)
-reply(`Success`)
-}
-}
-break
-case 'setppgc': case 'setppgroup': case 'setgcpp': case 'setgrouppp': {
+case 'setppgc': {
 if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
-if (!isCreator) return m.reply(`*khusus Owner*`)
-if (!quoted) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-var mediz = await conn.downloadAndSaveMediaMessage(quoted, 'ppgc.jpeg')
-if (args[0] == `full`) {
-var { imeg } = await generateProfilePicture(mediz)
-await conn.query({
-tag: 'iq',
-attrs: {
-to: m.chat,
-type:'set',
-xmlns: 'w:profile:picture'
-},
-content: [
-{
-tag: 'picture',
-attrs: { type: 'image' },
-content: imeg
-}
-]
-})
-fs.unlinkSync(mediz)
-paycall(`DONE`)
-} else {
-var memeg = await conn.updateProfilePicture(m.chat, { url: mediz })
-fs.unlinkSync(mediz)
-paycall(`DONE`)
-}
+reply(global.wait)
+var media = await conn.downloadAndSaveMediaMessage(quoted)
+try {
+if (args[0] == "/full") {
+const { generateProfilePicture } = require("./lib/myfunc")
+var { img } = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
+} else { await conn.updateProfilePicture(m.chat, { url: media }) }
+reply('DONE')
+} catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
 //STICKER
@@ -3585,14 +3537,14 @@ if (!quoted) return paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefi
 if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
-               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, blue, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, m, {
                   packname: global.packname,
                   author: global.author
                })
                await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
-               let encmedia = await conn.sendImageAsSticker(m.chat, media, blue, {
+               let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
                   packname: global.packname,
                   author: global.author
                })
@@ -3600,7 +3552,7 @@ if (quoted.isAnimated) {
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
                let media = await quoted.download()
-               let encmedia = await conn.sendVideoAsSticker(m.chat, media, blue, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, {
                   packname: global.packname,
                   author: global.author
                })
@@ -3624,7 +3576,7 @@ if (mime =="imageMessage" || mime =="stickerMessage")
         exec(`ffmpeg -i ${media} ${name}`, (err) => {
         	fs.unlinkSync(media)
             let buffer = fs.readFileSync(name)
-            conn.sendMessage(m.chat, { image: buffer }, { quoted: blue })      
+            conn.sendMessage(m.chat, { image: buffer }, { quoted: m })      
 fs.unlinkSync(name)
         })
         
@@ -3638,7 +3590,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            conn.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : blue })
+            conn.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
             }
             break
             case 'tomp3': {
@@ -3649,7 +3601,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
-            conn.sendMessage(m.chat, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${conn.user.name}.mp3`}, { quoted : blue })
+            conn.sendMessage(m.chat, {document: audio, mimetype: 'audio/mpeg', fileName: `Convert By ${conn.user.name}.mp3`}, { quoted : m })
             }
             break
             case 'tovn': case 'toptt': {
@@ -3659,7 +3611,7 @@ case 'toaud': case 'toaudio': {
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
             let audio = await toPTT(media, 'mp4')
-            conn.sendMessage(m.chat, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted: blue})
+            conn.sendMessage(m.chat, {audio: audio, mimetype:'audio/mpeg', ptt:true }, {quoted: m})
             }
             break
             case 'togif': {
@@ -3669,7 +3621,7 @@ case 'toaud': case 'toaudio': {
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await conn.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
-                await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: blue })
+                await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
                 await fs.unlinkSync(media)
             }
             break
@@ -3679,14 +3631,14 @@ case 'swm': case 'take':
             if (quoted.isAnimated) {
                let media = await conn.downloadAndSaveMediaMessage(quoted)
                let webpToMp4 = await webp2mp4File(media)
-               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, blue, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, webpToMp4.result, m, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
                await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
-               let encmedia = await conn.sendImageAsSticker(m.chat, media, blue, {
+               let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
@@ -3694,7 +3646,7 @@ case 'swm': case 'take':
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Maximum 10 Seconds!')
                let media = await quoted.download()
-               let encmedia = await conn.sendVideoAsSticker(m.chat, media, blue, {
+               let encmedia = await conn.sendVideoAsSticker(m.chat, media, m, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
@@ -3714,7 +3666,7 @@ case 'swm': case 'take':
                 let dwnld = await conn.downloadAndSaveMediaMessage(qmsg)
                 let fatGans = await TelegraPh(dwnld)
                 let smeme = `https://api.memegen.link/images/custom/${encodeURIComponent(atas)}/${encodeURIComponent(bawah)}.png?background=${fatGans}`
-                let pop = await conn.sendImageAsSticker(m.chat, smeme, blue, {
+                let pop = await conn.sendImageAsSticker(m.chat, smeme, m, {
                     packname: packname,
                     author: author
                 })
@@ -3729,7 +3681,7 @@ case 'swm': case 'take':
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
                 reply(global.wait)
-                conn.sendImageAsSticker(m.chat, rest.result, blue, {
+                conn.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
                 })
@@ -3744,7 +3696,7 @@ if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`
 reply(global.wait)
 ini_txt = args.join(" ")
 ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
-conn.sendImageAsSticker(m.chat, ini_buffer, blue, {
+conn.sendImageAsSticker(m.chat, ini_buffer, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
                 })
