@@ -3506,7 +3506,7 @@ reply(global.wait)
 let media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-var { img } = await generateProfilePicture(media)
+let img = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
 reply('DONE')
@@ -3522,8 +3522,8 @@ m.reply(global.wait)
 media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-var { imges } = await generateProfilePicture(media)
-await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: imges }]})
+img = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(m.chat, { url: media }) }
 m.reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
