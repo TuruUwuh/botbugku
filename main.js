@@ -3519,12 +3519,12 @@ if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 m.reply(global.wait)
-let media = await conn.downloadAndSaveMediaMessage(quoted)
+let gambarnya = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
 var { imges } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: imges }]})
-} else { await conn.updateProfilePicture(m.chat, { url: media2 }) }
+} else { await conn.updateProfilePicture(m.chat, { url: gambarnya }) }
 m.reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
