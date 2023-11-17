@@ -367,7 +367,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const totalfitur = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${s}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 144`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙊𝙏𝘼𝙇 𝙁𝙄𝙏𝙐𝙍 144`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
