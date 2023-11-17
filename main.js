@@ -3518,14 +3518,14 @@ if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-reply(global.wait)
-var media = await conn.downloadAndSaveMediaMessage(quoted)
+m.reply(global.wait)
+var media2 = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-var { img } = await generateProfilePicture(media)
-await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
-} else { await conn.updateProfilePicture(m.chat, { url: media }) }
-reply('DONE')
+var { imges } = await generateProfilePicture(media2)
+await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: imges }]})
+} else { await conn.updateProfilePicture(m.chat, { url: media2 }) }
+m.reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
