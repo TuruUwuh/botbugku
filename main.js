@@ -3503,10 +3503,10 @@ if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 reply(global.wait)
-let media = await conn.downloadAndSaveMediaMessage(quoted)
+var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-let img = await generateProfilePicture(media)
+var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
 reply('DONE')
@@ -3872,10 +3872,10 @@ if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 m.reply(global.wait)
-let media = await conn.downloadAndSaveMediaMessage(quoted)
+var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-let img = await generateProfilePicture(media)
+var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(m.chat, { url: media }) }
 m.reply('DONE')
