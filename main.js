@@ -3866,7 +3866,7 @@ Group Close`}, {quoted:m})
 }
 break
 
-case 'setppgc': {
+/*case 'setppgc': {
 if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
@@ -3881,7 +3881,7 @@ await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:
 m.reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
-break
+break*/
 
 case 'editinfo': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
