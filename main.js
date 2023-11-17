@@ -3513,22 +3513,6 @@ reply('DONE')
 } catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
-case 'setppgc': {
-if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
-if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
-if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-m.reply(global.wait)
-media = await conn.downloadAndSaveMediaMessage(quoted)
-try {
-if (args[0] == "/full") {
-img = await generateProfilePicture(media)
-await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
-} else { await conn.updateProfilePicture(m.chat, { url: media }) }
-m.reply('DONE')
-} catch { reply('Gagal Mengganti Photo Profile') }
-}
-break
 //STICKER
 case 's': case 'sticker': case 'stiker': {
 if (!quoted) return paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
@@ -3879,6 +3863,23 @@ conn.sendMessage(m.chat, { image: ppnyauser, caption: ` Silahkan Ketik
 Group Open
 Group Close`}, {quoted:m}) 
  }
+}
+break
+
+case 'setppgc': {
+if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
+if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
+if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
+m.reply(global.wait)
+let media = await conn.downloadAndSaveMediaMessage(quoted)
+try {
+if (args[0] == "/full") {
+let img = await generateProfilePicture(media)
+await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
+} else { await conn.updateProfilePicture(m.chat, { url: media }) }
+m.reply('DONE')
+} catch { reply('Gagal Mengganti Photo Profile') }
 }
 break
 
