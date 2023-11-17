@@ -3506,7 +3506,6 @@ reply(global.wait)
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-const { generateProfilePicture } = require("./lib/myfunc")
 var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: botNumber, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(botNumber, { url: media }) }
@@ -3523,7 +3522,6 @@ reply(global.wait)
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
-const { generateProfilePicture } = require("./lib/myfunc")
 var { img } = await generateProfilePicture(media)
 await conn.query({ tag: 'iq',attrs: { to: m.chat, type:'set', xmlns: 'w:profile:picture'}, content: [{ tag: 'picture', attrs: { type: 'image' }, content: img }]})
 } else { await conn.updateProfilePicture(m.chat, { url: media }) }
