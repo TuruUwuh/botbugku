@@ -2022,6 +2022,26 @@ if (!args[0]) {
             replyerror(`Error: ${errornya}`);
         };
 break
+case 'ttimg': case 'tiktokslide': case 'ttslide': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+        reply(global.wait)
+        let error19;
+try {
+        let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
+
+            for (let tt of res.data) {
+               await conn.sendImage(m.chat, tt, done, m)
+            }
+                              } catch (er) {
+					error19 = true;
+				} finally {
+					if (error19) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
+break
 /*case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
@@ -2046,26 +2066,6 @@ try {
 					}
             }
 break*/
-case 'ttimg': case 'tiktokslide': case 'ttslide': {
-        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
-        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
-        reply(global.wait)
-        let error19;
-try {
-        let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
-
-            for (let tt of res.data) {
-                conn.sendImage(m.chat, tt, done, blue)
-            }
-                              } catch (er) {
-					error19 = true;
-				} finally {
-					if (error19) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-            }
-break
 /*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 reply(global.wait)
@@ -2139,7 +2139,7 @@ let error10;
 try {
 let response = await fetch(`https://api.akuari.my.id/other/latinkeaksara?query=${text}`)
 let data = await response.json()   
-  conn.sendText(from, data.hasil, fkontak)
+  conn.sendText(from, data.hasil, m)
   } catch (er) {
 					error10 = true;
 				} finally {
@@ -2156,7 +2156,7 @@ let error11;
 try {
 let response = await fetch(`https://api.akuari.my.id/other/aksarakelatin?query=${text}`)
 let data = await response.json()   
-  conn.sendText(from, data.hasil, fkontak)
+  conn.sendText(from, data.hasil, m)
   } catch (er) {
 					error = true;
 				} finally {
@@ -2452,13 +2452,13 @@ teks += `⭔ No : ${no++}\n⭔ Type : ${i.type}\n⭔ Video ID : ${i.videoId}\n�
 ytreply(teks)
 }
 break
-/*case 'play':  case 'song': {
+case 'play':  case 'song': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
+m.reply(global.wait)
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
-        m.reply(global.wait)
 const pl= await shinchanplaymp3.mp3(anup3k.url)
 await conn.sendMessage(m.chat,{
     audio: fs.readFileSync(pl.path),
@@ -2479,8 +2479,47 @@ await conn.sendMessage(m.chat,{
 },{quoted: fkontak})
 await fs.unlinkSync(pl.path)
 }
-break*/
-case 'play': {
+break
+case "ytmp3": case "ytaudio":
+const shinchanmp3 = require('./lib/ytdl2')
+if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
+m.reply(global.wait)
+const audio=await shinchanmp3.mp3(text)
+await conn.sendMessage(m.chat,{
+    audio: fs.readFileSync(audio.path),
+    mimetype: 'audio/mp4', ptt: false,
+    contextInfo:{
+        externalAdReply:{
+            showAdAttribution: true,
+            containsAutoReply: true,
+            title:audio.meta.title,
+            body: ownername,
+            thumbnail: await fetchBuffer(audio.meta.image),
+            mediaType:2,
+            mediaUrl:text,
+        }
+
+    },
+},{quoted: m})
+await fs.unlinkSync(audio.path)
+break
+case 'ytmp4': case 'ytvideo': {
+const shinchanmp4 = require('./lib/ytdl2')
+if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
+m.reply(global.wait)
+const vid=await shinchanmp4.mp4(text)
+const ytc=`
+*🐼Tittle:* ${vid.title}
+*🐼Date:* ${vid.date}
+*🐼Duration:* ${vid.duration}
+*🐼Quality:* ${vid.quality}`
+await conn.sendMessage(m.chat,{
+    video: {url:vid.videoUrl},
+    caption: ytc
+},{quoted: m})
+}
+break
+/*case 'play': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 m.reply(global.wait)
 query = args.join(" ")
@@ -2499,45 +2538,6 @@ contextInfo: {
             mediaUrl: dathasil.channel,
                     }}}, { quoted: m})}
         break
-/*case "ytmp3": case "ytaudio":
-const shinchanmp3 = require('./lib/ytdl2')
-if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
-reply(global.wait)
-const audio=await shinchanmp3.mp3(text)
-await conn.sendMessage(m.chat,{
-    audio: fs.readFileSync(audio.path),
-    mimetype: 'audio/mp4', ptt: false,
-    contextInfo:{
-        externalAdReply:{
-            showAdAttribution: true,
-            containsAutoReply: true,
-            title:audio.meta.title,
-            body: ownername,
-            thumbnail: await fetchBuffer(audio.meta.image),
-            mediaType:2,
-            mediaUrl:text,
-        }
-
-    },
-},{quoted: fkontak})
-await fs.unlinkSync(audio.path)
-break
-case 'ytmp4': case 'ytvideo': {
-const shinchanmp4 = require('./lib/ytdl2')
-if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
-reply(global.wait)
-const vid=await shinchanmp4.mp4(text)
-const ytc=`
-*🐼Tittle:* ${vid.title}
-*🐼Date:* ${vid.date}
-*🐼Duration:* ${vid.duration}
-*🐼Quality:* ${vid.quality}`
-await conn.sendMessage(m.chat,{
-    video: {url:vid.videoUrl},
-    caption: ytc
-},{quoted: fkontak})
-}
-break*/
 case 'ytmp3': case 'youtubemp3': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://youtube.com/watch?v=r3whEJ2KjeQ`)
 m.reply(global.wait)
@@ -2575,7 +2575,7 @@ replyerror("Yah Error:(.");
 }
 }
 }
-break
+break*/
 //========================INSTAGRAM DL============================//
 /*case 'igvid': case 'igvideo': case 'igreels':
 			if (args.length == 0) return reply(`Example: ${prefix + command} link video ig`)
