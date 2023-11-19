@@ -648,6 +648,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ bdsm
 ➤ oppai
 ➤ hentaivid
+➤ paizuri
+➤ hen (Random NSFW)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -3183,6 +3185,68 @@ let { lookup } = require('mime-types')
       )
     : await conn.sendMessage(m.chat, { image: { url: res }, caption: `Result From: ${text}` }, { quoted: m });
 };
+break
+case 'paizuri': {
+    let urlnyacyy = 'https://api.waifu.im/search?included_tags=paizuri';
+    try {
+        const respai = await fetch(urlnyacyy);
+        const datpay = await respai.json();
+
+        if (datpay.images && datpay.images.length > 0) {
+            const imageInfo = datpay.images[0];
+            const caption = `
+Signature: ${imageInfo.signature}
+Extension: ${imageInfo.extension}
+Image ID: ${imageInfo.image_id}
+Favorites: ${imageInfo.favorites}
+Source: ${imageInfo.source}
+Width: ${imageInfo.width}
+Height: ${imageInfo.height}
+Byte Size: ${imageInfo.byte_size}
+URL: ${imageInfo.url}
+            `;
+            const imageUrl = imageInfo.url;
+
+           await conn.sendFile2(m.chat, imageUrl, null, caption, m);
+        } else {
+            m.reply('No anime images found.');
+        }
+    } catch (error) {
+        console.error(error);
+        m.reply('An error occurred while fetching the data.');
+    }
+}
+break
+case 'hen': {
+    let anuhen = 'https://api.waifu.im/search/?is_nsfw=true';
+    try {
+        const resanuhen = await fetch(anuhen);
+        const datanuhen = await resanuhen.json();
+
+        if (datanuhen.images && datanuhen.images.length > 0) {
+            const imageInfo = datanuhen.images[0];
+            const caption = `
+Signature: ${imageInfo.signature}
+Extension: ${imageInfo.extension}
+Image ID: ${imageInfo.image_id}
+Favorites: ${imageInfo.favorites}
+Source: ${imageInfo.source}
+Width: ${imageInfo.width}
+Height: ${imageInfo.height}
+Byte Size: ${imageInfo.byte_size}
+URL: ${imageInfo.url}
+            `;
+            const imageUrl = imageInfo.url;
+
+           await conn.sendFile2(m.chat, imageUrl, null, caption, m);
+        } else {
+            m.reply('No anime images found.');
+        }
+    } catch (error) {
+        console.error(error);
+        m.reply('An error occurred while fetching the data.');
+    }
+}
 break
   //(39)
 //========================END============================//
