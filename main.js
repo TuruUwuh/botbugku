@@ -110,7 +110,7 @@ const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const tanggal = moment(Date.now()).tz("Asia/Makassar").locale('id').format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-const vn = false
+const vn = true
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
@@ -737,7 +737,7 @@ async function hentaivid() {
         })
     })
 }
-//SCRAPE WIKIPEDIA
+//SCRAPE WIKIPEDIA BY SHINCHAN
 async function wikipedia(querry) {
   try {
     const link = await axios.get(`https://id.wikipedia.org/wiki/${querry}`)
@@ -823,7 +823,7 @@ async function getYandeImage(query, page = '') {
   }
 }
 
-//SCRAPE PERSAMAAN KATA
+//SCRAPE PERSAMAAN KATA BY SHINCHAN
 function ArrClean(str) {
     return str.map((v, index) => ++index + ". " + v).join('\r\n')
 }
@@ -842,7 +842,7 @@ async function Persamaan_Kata(kata) {
     }
 }
 
-//SCRAPE PIXIV
+//SCRAPE PIXIV BY SHINCHAN
 async function pixivDl(query) {
 	if (query.match(URL_REGEX)) {
 		if (!/https:\/\/www.pixiv.net\/en\/artworks\/[0-9]+/i.test(query)) throw 'Invalid Pixiv Url'
@@ -999,7 +999,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.self) {
+      if (!conn.public) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
