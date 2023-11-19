@@ -108,7 +108,7 @@ const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const tanggal = moment(Date.now()).tz("Asia/Makassar").locale('id').format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-const vn = true
+const vn = false
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
@@ -570,7 +570,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ➤ aijs (Ai generate code JavaScript)
 ➤ aipy (Ai generate code Python)
-➤ nero/neroai (Ai Khusus Coding)
+➤ nero (Ai Khusus Coding V1)
+➤ neroai (Ai Khusus Coding V2)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -970,7 +971,7 @@ conn.readMessages([m.key])
 }
 }
 // itunya
-      if (!conn.public) {
+      if (!conn.self) {
          if (!m.key.fromMe && !isCreator) return
       }
       if (m.mtype == 'viewOnceMessage' && m.msg.viewOnce) {
@@ -1620,7 +1621,7 @@ try {
 					}
 }
 break
-case 'nero': case'neroai': case 'aibb': case 'blackbox': {
+case 'neroai': case 'aibb': case 'blackbox': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
   let error33;
@@ -1632,6 +1633,23 @@ conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 					error33 = true;
 				} finally {
 					if (error33) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+					}
+					}
+}
+break
+case 'nero': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
+  let error23;
+try {
+    let ainero = await fetch(`https://vihangayt.me/tools/bard?q=${text}`)
+        let neroai = await ainero.json()
+conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
+} catch (er) {
+					error23 = true;
+				} finally {
+					if (error23) {
 						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
