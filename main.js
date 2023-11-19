@@ -591,6 +591,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ searchmusik (Mencari Judul Musik)
 ➤ imdb (Cek Rating Film)
 ➤ wikipedia
+➤ yandere (Query)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -786,6 +787,36 @@ async function pinterest(query) {
 
 async function shortUrl(url) {
 	return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()
+}
+
+//SCRAPE YANDERE by ShinChan
+async function getYandeImage(query, page = '') {
+  if (query.match(URL_REGEX)) {
+    let res = await fetch(query);
+    let html = await res.text();
+    let $ = cheerio.load(html);
+    let image = $('img').attr('src');
+    if (!image) throw 'Can\'t fetch image :/';
+    return image;
+  } else {
+    let apiUrl = `https://yande.re/post.json?tags=${query}`;
+    if (page) {
+      const pageNumber = parseInt(page);
+      if (!isNaN(pageNumber) && pageNumber > 0) {
+        apiUrl += `&page=${pageNumber}`;
+      }
+    }
+
+    // Simulating in-progress fetching
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    let res = await fetch(apiUrl);
+    let json = await res.json();
+    if (json.length === 0) throw `Query "${query}" not found :/`;
+    let data = json[~~(Math.random() * json.length)];
+    if (!data) throw `Query "${query}" not found :/`;
+    return data.file_url;
+  }
 }
 
 //SCRAPE PERSAMAAN KATA
@@ -2031,7 +2062,8 @@ try {
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
 
             for (let tt of res.data) {
-               await conn.sendImage(m.chat, tt, done, m)
+             //  await conn.sendImage(m.chat, tt, done, m)
+             await conn.sendFile2(m.chat, tt, '', done, m);
             }
                               } catch (er) {
 					error19 = true;
@@ -2042,95 +2074,6 @@ try {
 					}
             }
 break
-/*case 'ttimg': case 'tiktokslide': case 'ttslide': {
-        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
-        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
-        reply(global.wait)
-        let error19;
-try {
-        let res = await fetch(`https://api.fgmods.xyz/api/downloader/tiktok2?url=${args[0]}&apikey=623JU5Hl`)
-        let data = await res.json()
-        let cap = `${done}
-▢ *Likes:* ${data.result.stats.likeCount}
-▢ *Deskripsi:* ${data.result.title}
-`
-            for (let tt of data.result.images) {
-                conn.sendImage(m.chat, tt.url, cap, blue)
-            }
-                              } catch (er) {
-					error19 = true;
-				} finally {
-					if (error19) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-            }
-break*/
-/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
-if (!args[0]) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let error9;
-try {
-  let res = await fetch(`https://api.lolhuman.xyz/api/tiktok2?apikey=haikalgans&url=${args[0]}`)
-  let x = await res.json()
-  let anu = x.result
-  let cap = `${global.done}`
-  conn.sendMessage(m.chat, { video: { url: anu }, caption: cap }, { quoted: blue})
-  } catch (er) {
-					error9 = true;
-				} finally {
-					if (error9) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-}
-break*/
-/*case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
-if (!q) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let error28;
-try {
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-conn.sendMessage(m.chat, { audio: { url: json.music }, mimetype: 'audio/mp4' }, { quoted: fkontak })
-  } catch (er) {
-					error28 = true;
-				} finally {
-					if (error28) {
-						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.\n\nKalau Yang ini error Bisa gunakan V2 (ttmusik) ");
-					}
-					}
-};
-break
-case 'ttmusik': {
-if (!text) return paycall( `Example : ${prefix + command} link`)
-if (!q.includes('tiktok')) return paycall(`Link Invalid!!`)
-reply(global.wait)
-require('./lib/tiktok').Tiktok(q).then( data => {
-conn.sendMessage(m.chat, { audio: { url: data.audio }, mimetype: 'audio/mp4' }, { quoted: blue })
-})
-}
-break*/
-/*case 'tt2': {
-if (!q) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
-let error29;
-try {
-let res = await fetch(`https://api.akuari.my.id/downloader/tiktok?link=${q}`)
-let data = await res.json()
-let json = data.respon
-let cap = `𝑨𝑼𝑻𝑯𝑶𝑹 = ${json.author}\n𝐋𝐢𝐤𝐞 = ${json.like}\n𝐂𝐨𝐦𝐦𝐞𝐧𝐭 = ${json.comment}\n𝐒𝐡𝐚𝐫𝐞 = ${json.share}\n𝑫𝑬𝑺𝑪𝑹𝑰𝑷𝑻𝑰𝑶𝑵 = ${json.description}`
-conn.sendMessage(m.chat, { video: { url: json.media }, caption: cap }, { quoted: fkontak})
-  } catch (er) {
-					error29 = true;
-				} finally {
-					if (error29) {
-						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
-					}
-					}
-};
-break*/
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
@@ -2246,7 +2189,7 @@ let { lookup } = require('mime-types')
 }
 break
 //========================PINTEREST END=========================//
-case 'pixiv': {
+/*case 'pixiv': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
 query = args.join(" ")
@@ -2266,8 +2209,8 @@ await conn.sendFile2(from, i, `image`, done, blue)
 					}
 					}
 }
-break
-case 'pixivdl': {
+break*/
+case 'pixiv': case 'pixivdl': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
 pixivid = args[0]
@@ -2577,86 +2520,26 @@ replyerror("Yah Error:(.");
 }
 break*/
 //========================INSTAGRAM DL============================//
-/*case 'igvid': case 'igvideo': case 'igreels':
-			if (args.length == 0) return reply(`Example: ${prefix + command} link video ig`)
-			reply(global.wait)
+case 'igdl': case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+        reply(global.wait)
 			let error20;
 try {
-			axios.get(`https://api.lolhuman.xyz/api/instagram?apikey=haikalgans&url=${args[0]}`).then(({ data }) => {
-				conn.sendMessage(from, { video: { url: data.result }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
-			})
-			 } catch (er) {
+        let res = await fetchJson(`https://vihangayt.me/download/instagram?url=${args[0]}`)
+        let igfonya = res.data
+            for (let igimg of igfonya.data) {
+             //  await conn.sendImage(m.chat, igimg.url, done, m)
+             await conn.sendFile2(m.chat, igimg.url, '', done, m);
+            }
+             } catch (er) {
 					error20 = true;
 				} finally {
 					if (error20) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-			break
-case 'igimg': case 'igfoto': {
-        if (!args[0]) throw `✳️ Example : ${prefix + command} link foto Instagram`
-        reply(global.wait)
-        let error21;
-try {
-        let res = await fetch(`https://api.lolhuman.xyz/api/instagram2?apikey=haikalgans&url=${args[0]}`)
-        let data = await res.json()
-        let cap = `${done}`
-            for (let i of data.result.media) {
-                conn.sendImage(m.chat, i, cap, blue)
-            }
-                              } catch (er) {
-					error21 = true;
-				} finally {
-					if (error21) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
             }
 break
-case 'igvid2': case 'igvideo2': case 'igreels2': {
-        if (!args[0]) throw `✳️ Example : ${prefix + command} link foto Instagram`
-        reply(global.wait)
-        let error23;
-try {
-        let res = await fetch(`https://api.lolhuman.xyz/api/instagram2?apikey=haikalgans&url=${args[0]}`)
-        let data = await res.json()
-        let cap = `${done}`
-            for (let b of data.result.media) {
-                conn.sendMessage(from, { video: { url: b }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
-            } else {
-            await conn.sendImage(m.chat, b, done, fkontak)
-            }
-                              } catch (er) {
-					error23 = true;
-				} finally {
-					if (error23) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-            }
-break*/
-case 'igdl': case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels':
-			if (args.length == 0) return reply(`Example: ${prefix + command} link Instagram`)
-			reply(global.wait)
-let error20;
-try {
-			axios.get(`https://api.lolhuman.xyz/api/instagram2?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
-				for (let x of data.result.media) {
-					if (x.includes('.mp4')) {
-						conn.sendMessage(from, { video: { url: x }, mimetype: 'video/mp4', caption : done, quoted: fkontak})
-					} else {
-						conn.sendImage(m.chat, x, done, fkontak)
-					}
-				}
-			})
-			} catch (er) {
-					error20 = true;
-				} finally {
-					if (error20) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
-			break
 //========================END============================//
 /*case 'anime':
                     if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
@@ -3210,6 +3093,29 @@ case 'twtdl': case 'twt': case 'twitter': {
 		conn.sendFile(m.chat, res.media[x].url, '', caption, m)
 	}
 }
+break
+case 'yandere': {
+let { lookup } = require('mime-types')
+  text = text.endsWith('SMH') ? text.replace('SMH', '') : text;
+  if (!text) throw 'Input Query / yande.re Url';
+  
+  let [query, page] = text.split(' ');
+  let res = await getYandeImage(query, page);
+
+  if (res === 'in_progress') {
+    await conn.sendMessage(m.chat, 'Fetching image. Please wait...', 'conversation', { quoted: m });
+    return;
+  }
+
+  let mime = await lookup(res);
+  text.match(URL_REGEX)
+    ? await conn.sendMessage(
+        m.chat,
+        { [mime.split('/')[0]]: { url: res }, caption: `Success Download: ${await shortUrl(res)}` },
+        { quoted: m }
+      )
+    : await conn.sendMessage(m.chat, { image: { url: res }, caption: `Result From: ${text}` }, { quoted: m });
+};
 break
   //(39)
 //========================END============================//
