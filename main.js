@@ -561,6 +561,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ remini (reply gambar)
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
+➤ jadianime (Reply Gambar)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1890,10 +1891,10 @@ try {
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
     reply(global.wait);
-    const response = `https://skizo.tech/api/removebg?url=${anu}&apikey=nerobot`
+    const response = `https://api.lolhuman.xyz/api/removebg?apikey=haikalgans&img=${anu}`
     
 
-    conn.sendMessage(from, { image: { url: response }, caption: done }, { quoted: fkontak });
+    conn.sendMessage(from, { image: { url: response }, caption: done }, { quoted: m });
   }
 } catch (er) {
 					error = true;
@@ -2019,6 +2020,34 @@ if (!text) return m.reply(`${command} smile face with blush and blue hair`)
 					}
   //END AI MENU
 break*/
+case 'jadianime': {
+  if (!/video/.test(mime) && !/image/.test(mime)) {
+    throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
+  }
+
+  if (!quoted) {
+    throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
+  }
+  let error;
+try {
+  let media = await conn.downloadAndSaveMediaMessage(quoted);
+  if (/image/.test(mime)) {
+    let anu = await TelegraPh(media);
+    m.reply(global.wait);
+    const resnime = `https://api.lolhuman.xyz/api/imagetoanime?apikey=haikalgans&img=${anu}`
+    
+
+   await conn.sendImage(m.chat, resnime, done, m)
+  }
+} catch (er) {
+					error = true;
+				} finally {
+					if (error) {
+						reply("Proses Gagal :(");
+					}
+					}
+					}
+break
 //========================SPOTIFY=========================//
 case 'spotifysearch': {
 if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;  
