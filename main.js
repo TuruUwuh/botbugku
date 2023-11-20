@@ -546,7 +546,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ igvid/igvideo (link video ig)
 ➤ igimg/igfoto (link foto ig)
 ➤ dlcapcut (link)
-➤ twitter/twt/twtdl (link twitter)
+➤ twitter/twt/twtdl (Link Video Twitter)
+➤ fbdl (Link Video Facebook)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -868,37 +869,6 @@ async function pixivDl(query) {
 			artist: res.user.name, caption: res.title, tags: res.tags.tags.map(v => v.tag), media
 		}
 	}
-}
-
-//SCRAPE DOWNLOAD TWITTER
-async function twitterDl(url) {
-	let id = /twitter\.com\/[^/]+\/status\/(\d+)/.exec(url)[1]
-	if (!id) throw 'Invalid URL'
-	let res = await fetch(`https://tweetpik.com/api/tweets/${id}`)
-	if (res.status !== 200) throw res.statusText
-	let json = await res.json()
-	if (json.media) {
-		let media = []
-		for (let i of json.media) {
-			if (/video|animated_gif/.test(i.type)) {
-				let vid = await (await fetch(`https://tweetpik.com/api/tweets/${id}/video`)).json()
-				vid = vid.variants.pop()
-				media.push({
-					url: vid.url,
-					type: i.type
-				})
-			} else {
-				media.push({
-					url: i.url,
-					type: i.type
-				})
-			}
-		}
-		return {
-			caption: json.text,
-			media 
-		}
-	} else throw 'No media found'
 }
 
 //YTMP3
@@ -3182,14 +3152,41 @@ case 'sinonim': case 'persamaankata': {
     }
 }
 break
+case 'fbdl': {
+      if (!args[0]) throw `Input URL`;
+      let error35;
+try {
+m.reply(wait)
+let resfbdl = await fetchJson(`https://vihangayt.me/download/fb?url=${args[0]}`)
+let hasildlnya = resfbdl.data
+//conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
+await conn.sendFile2(m.chat, hasildlnya.video_hd, '', done, m);
+} catch (er) {
+error35 = true;
+} finally {
+if (error35) {
+replyerror("Yah Error:(.");
+}
+}
+}
+break
 case 'twtdl': case 'twt': case 'twitter': {
-	if (!text) throw 'Input URL'
-	let res = await twitterDl(text)
-	await m.reply('_In progress, please wait..._')
-	for (let x = 0; x < res.media.length; x++) {
-		let caption = x === 0 ? res.caption.replace(/https:\/\/t.co\/[a-zA-Z0-9]+/gi, '').trim() : ''
-		conn.sendFile(m.chat, res.media[x].url, '', caption, m)
-	}
+      if (!args[0]) throw `Input URL`;
+      let error36;
+try {
+m.reply(wait)
+let resdltwt = await fetchJson(`https://api.lolhuman.xyz/api/twitter?apikey=haikalgans&url=${args[0]}`)
+let dltwtnya = resdltwt.result
+let dlakuir = await dltwtnya.media[0]
+//conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
+await conn.sendFile2(m.chat, dlakuir.url, '', done, m);
+} catch (er) {
+error36 = true;
+} finally {
+if (error36) {
+replyerror("Yah Error:(.");
+}
+}
 }
 break
 case 'yandere': {
