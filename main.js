@@ -3181,8 +3181,8 @@ try {
 m.reply(wait)
 let resfbdl = await fetchJson(`https://vihangayt.me/download/fb?url=${args[0]}`)
 let hasildlnya = resfbdl.data
-//conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
-await conn.sendFile2(m.chat, hasildlnya.video_hd, '', done, m);
+conn.sendMessage(m.chat, { video: { url: hasildlnya.video_hd }, caption: done }, { quoted: m})
+//await conn.sendFile2(m.chat, hasildlnya.video_hd, '', done, m);
 } catch (er) {
 error35 = true;
 } finally {
@@ -3200,8 +3200,8 @@ m.reply(wait)
 let resdltwt = await fetchJson(`https://api.lolhuman.xyz/api/twitter?apikey=haikalgans&url=${args[0]}`)
 let dltwtnya = resdltwt.result
 let dlakuir = await dltwtnya.media[0]
-//conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
-await conn.sendFile2(m.chat, dlakuir.url, '', done, m);
+conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
+//await conn.sendFile2(m.chat, dlakuir.url, '', done, m);
 } catch (er) {
 error36 = true;
 } finally {
