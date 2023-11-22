@@ -55,7 +55,7 @@ global.sessionName = 'session' //Gausah Juga
 global.sp = '⭔' // Gausah Juga
 global.wlcm = []
 global.wlcmm = []
-global.wait = '⏳ Sedang Di Proses...'
+global.wait = '「▰▰▰▱▱▱▱▱▱▱」ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ...'
 global.done = '🤗Done, Oke Desu~'
 global.ownercuy = '❌ Khusus Owner Cuy'
 //messages

@@ -337,7 +337,7 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(m.chat, proto.Me
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(m.chat, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
-const paytod = (teks) => {
+/*const paytod = (teks) => {
 let me = m.sender
 var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "requestPaymentMessage": {
@@ -350,11 +350,26 @@ var requestPaymentMessage = generateWAMessageFromContent(m.chat, proto.Message.f
 }
 }}}), { userJid: m.chat, quoted: fkontak })
 conn.relayMessage(m.chat, requestPaymentMessage.message, { messageId: requestPaymentMessage.key.id })
-}
-
+}*/
+const paytod = (teks) => {
+var paymentod = {
+    requestPaymentMessage: {
+      currencyCodeIso4217: 'INR',
+      amount1000: 99999 * 1000,
+      requestFrom: m.sender,
+      noteMessage: {
+      extendedTextMessage: {
+      text: teks,
+      contextInfo: {
+      mentionedJid: [m.sender],
+      externalAdReply: {
+      showAdAttribution: true
+      }}}}}}
+      conn.relayMessage(m.chat, paymentod, {})
+      }
 //===================REPLY NYA=========================//
 const reply = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙏𝙐𝙉𝙂𝙂𝙐 𝙔𝘼🤗`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝙏𝙐𝙉𝙂𝙂𝙐 𝙔𝘼🤗`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -369,7 +384,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replybrainly = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -384,7 +399,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replyhentai = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🥵𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -399,7 +414,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
 const replyerror = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍😭`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍😭`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -414,7 +429,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 const ytreply = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐼𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃🐼`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐼𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃🐼`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -429,7 +444,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 const spotifyreply = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐣𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃🐣`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐣𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃🐣`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -445,7 +460,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                     }}}, { quoted: blue})} 
 
 const replybokep = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -460,7 +475,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
 const replysimi = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `🐣𝗔𝗸𝘂 𝙎𝙞𝙢𝙎𝙞𝙢𝙞🐣`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐣𝗔𝗸𝘂 𝙎𝙞𝙢𝙎𝙞𝙢𝙞🐣`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -475,7 +490,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})} 
 const replyguru = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `📖𝗥𝗢𝗕𝗢𝗧 𝗚𝗨𝗥𝗨📖`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `📖𝗥𝗢𝗕𝗢𝗧 𝗚𝗨𝗥𝗨📖`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -490,7 +505,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})} 
 const replydltt = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘼𝙐𝙏𝙊 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 𝙏𝙏`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿𝙄𝙉𝙂 𝙏𝙄𝙆𝙏𝙊𝙆...`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -697,7 +712,7 @@ async function nhentaiScraper(id) {
 function toPDF(images, opt = {}) {
 	return new Promise(async (resolve, reject) => {
 		if (!Array.isArray(images)) images = [images]
-		let buffs = [], doc = new PDFDocument({ margin: 0, size: 'A0' })
+		let buffs = [], doc = new PDFDocument({ margin: 0, size: 'A4' })
 		for (let x = 0; x < images.length; x++) {
 			if (/.webp|.gif/.test(images[x])) continue
 			let data = (await axios.get(images[x], { responseType: 'arraybuffer', ...opt })).data
@@ -1306,7 +1321,7 @@ const tiktokData2 = await tryServer1(matches[0]);
 switch(command) {
 case 'menu': {
 await loading ()
-conn.sendMessage(m.chat, { caption: menulist, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `💖𝙇𝙄𝙎𝙏 𝙈𝙀𝙉𝙐 𝘽𝙊𝙏💖`,
+conn.sendMessage(m.chat, { caption: menulist, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `💖𝙇𝙄𝙎𝙏 𝙈𝙀𝙉𝙐 𝘽𝙊𝙏💖`,
 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -2106,7 +2121,7 @@ case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
-        await reply('Tunggu sebentar kak, video sedang di download... server 1');
+        await replydltt('Tunggu sebentar kak, video sedang di download... server 1');
     try {
         const tiktokData = await tryServer1(args[0]);
 
@@ -2139,7 +2154,7 @@ if (!args[0]) {
     }
 
     try {
-        await reply('Tunggu sebentar kak, Audio sedang di download... server 1');
+        await replydltt('Tunggu sebentar kak, Audio sedang di download... server 1');
 
         const tiktokData = await tryServer1(args[0]);
 
@@ -2156,7 +2171,7 @@ break
 case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
-        reply(global.wait)
+        replydltt(global.wait)
         let error19;
 try {
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
