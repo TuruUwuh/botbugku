@@ -569,6 +569,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ enc/encsc (Kirim Code Script Js lu)
 ➤ npmsearch
 ➤ persamaankata/sinonim
+➤ style/styletext
+➤ ringtone
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2981,6 +2983,25 @@ case 'imdb': {
   }
   };
   break
+case 'style': case 'styletext': {
+		let { styletext } = require('./lib/scraper')
+		if (!text) return paycall('Enter Query text!')
+                let anu = await styletext(text)
+                let teks = `Style Text From ${text}\n\n`
+                for (let i of anu) {
+                    teks += `🐼 *${i.name}* : ${i.result}\n\n`
+                }
+                m.reply(teks)
+	    }
+	    break
+case 'ringtone': {
+		if (!text) return paycall(`Example : ${prefix + command} black rover`)
+        let { ringtone } = require('./lib/scraper')
+		let anutone2 = await ringtone(text)
+		let result = anutone2[Math.floor(Math.random() * anutone2.length)]
+		conn.sendMessage(m.chat, { audio: { url: result.audio }, fileName: result.title+'.mp3', mimetype: 'audio/mpeg' }, { quoted: m })
+	    }
+	    break
 //========================BUAT EMAIL============================//
 case 'tempmail': {
 m.reply(`Tunggu Lagi Di Buat Emailnya...`)
@@ -3018,6 +3039,7 @@ replyerror("Yah Error:(.");
 }
 }
 break
+//=========================================================//
 case 'wikipedia': {
 if (!text) return paycall('put query')
 wikipedia(`${text}`).then(res => {
