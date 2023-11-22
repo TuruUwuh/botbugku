@@ -489,6 +489,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})} 
+const replydltt = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), mimetype: `${docs}`, fileName: `𝘼𝙐𝙏𝙊 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 𝙏𝙏`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/00636535720e2815a9868.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: m})} 
 //==========================================================//
 
 function pickRandom(list) {
@@ -1262,6 +1277,31 @@ Selama ${clockString(new Date - user.afkTime)}
 user.afkTime = -1
 user.afkReason = ''
 }
+//test auto download tiktok
+/*let regex = /https:\/\/vt\.tiktok\.com\/[A-Za-z0-9]+/g;
+let matches = (m.text.trim()).match(regex);
+if (!matches) return false;
+await replydltt(wait);
+const tiktokData2 = await tryServer1(matches[0]);
+
+        if (!tiktokData2) {
+            throw 'Gagal mendownload video!';
+        }
+
+        const videoURL2 = tiktokData2.video.noWatermark;
+
+        const videoURLWatermark2 = tiktokData2.video.watermark;
+
+        let ppTiktok2 = '';
+        if (tiktokData2.author && tiktokData2.author.avatar) {
+            ppTiktok2 = tiktokData2.author.avatar;
+        }
+
+        const infonya_gan2 = `Judul: ${tiktokData2.title}\n\nUpload: ${tiktokData2.created_at}\n\nSTATUS:\n=====================\nLike = ${tiktokData2.stats.likeCount}\nKomen = ${tiktokData2.stats.commentCount}\nShare = ${tiktokData2.stats.shareCount}\nViews = ${tiktokData2.stats.playCount}\nSimpan = ${tiktokData2.stats.saveCount}\n=====================\n\nUploader: ${tiktokData2.author.name || 'Tidak ada informasi penulis'}\n( ${tiktokData2.author.unique_id} - https://www.tiktok.com/@${tiktokData2.author.unique_id} )\nBio: ${tiktokData2.author.signature}\nLagu: ${tiktokData2.music.play_url}\nResolusi: ${tiktokData2.video.ratio}\nFoto Profile: ${ppTiktok2}`;
+
+        if (videoURL2 || videoURLWatermark2) {
+            await conn.sendFile2(m.chat, videoURL2, 'tiktok.mp4', `${done}\n\n${infonya_gan2}`, m);
+    };*/
 
 switch(command) {
 case 'menu': {
