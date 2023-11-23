@@ -1869,12 +1869,13 @@ conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/$
 					}
 break
 case 'cum':
+let error28;
 try {
 conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/cum?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
-					error22 = true;
+					error28 = true;
 				} finally {
-					if (error22) {
+					if (error28) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
