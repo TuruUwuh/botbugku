@@ -3170,8 +3170,8 @@ let acrcloud = require('acrcloud')
 m.reply(`Tunggu Lagi Mencari Judul Musik...`)
 let acr = new acrcloud({
 host: 'identify-eu-west-1.acrcloud.com',
-access_key: 'c33c767d683f78bd17d4bd4991955d81',
-access_secret: 'bvgaIAEtADBTbLwiPGYlxupWqkNGIjT7J9Ag2vIu'
+access_key: '032babf75e1b0015c1295c1c720bda19',
+access_secret: 'tjjcbm4CCaLcfc5Hmz7D9MgTELyYpe6UDdcX89dC'
 })
 
 if (/audio|video/.test(mime)) {
