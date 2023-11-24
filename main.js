@@ -379,7 +379,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         mediaType: 1,
                         previewType: 0,
                         renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnailUrl: 'https://telegra.ph/file/0e2b5f224fdcaf4b61d02.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
@@ -1374,7 +1374,7 @@ contextInfo: {
                         mediaType: 1,
                         previewType: 0,
                         renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnailUrl: 'https://telegra.ph/file/0e2b5f224fdcaf4b61d02.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})}
