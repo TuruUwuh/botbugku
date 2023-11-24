@@ -2400,6 +2400,7 @@ break
 case 'carihentai':
 if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
 query = args.join(" ")
+try {
 get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${apikey}&query=${query}`)
 get_result = get_result.result
 ini_txt = "🥵𝘿𝘼𝙏𝘼 𝘾𝙊𝘿𝙀 𝙃𝙀𝙉𝙏𝘼𝙄🥵 : \n"
@@ -2412,6 +2413,10 @@ ini_txt += `Page : ${x.page}\n`
 ini_txt += "▬▭▬▭▬▭▬▭▬▬▭▬▭▬▬▭▬▭▬▭▬▭▬▬▭▬▭▬\n\n"
 }
 replyhentai(ini_txt)
+} catch (error) {
+        console.error(error);
+        replyerror(`Gagal Mencari Code Hentai ${text}🥺🙏`);
+    }
 break
 case 'nekopoi': {
 if (!text) throw '*[❗] MASUKKAN NAMA HENTAI YANG AKAN DICARI*'
@@ -3166,6 +3171,7 @@ case 'searchmusik': {
 if (/document/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 if (!quoted) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
+try {
 let acrcloud = require('acrcloud')
 m.reply(`Tunggu Lagi Mencari Judul Musik...`)
 let acr = new acrcloud({
@@ -3209,6 +3215,10 @@ conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg'
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})}
+                        } catch (error) {
+        console.error(error);
+        replyerror('Gagal mendeteksi lagu🥺🙏');
+    }
                     }
 break
 case 'npmsearch': {
