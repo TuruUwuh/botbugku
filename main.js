@@ -2952,7 +2952,7 @@ for (let i = 0; i < jumlah ; i++){
 const res = await googleImage(teksnyauy);
 let image = res[Math.floor(Math.random() * res.length)]
 //await conn.sendImage(m.chat, image, done, m)
-await conn.sendFile2(m.chat, image, '', done, m)
+await conn.sendMessage(from, { image: { url: image }, caption: `${global.done}` }, { quoted: m })
 }
 }
 break
