@@ -684,6 +684,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ hentaivid
 ➤ paizuri
 ➤ hen (Random NSFW)
+➤ fantox
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙔𝙋𝘼𝙎𝙎 𝙄𝙆𝙇𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1002,6 +1003,12 @@ for (let i = 0; i < shinchanehe.length; i++) {
 a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEPAS
 }
 }
+//RANDOM REACTION
+conn.sendMessage(m.chat, {
+          react: {
+            text: `${pickRandom(['😨','😅','😂','😳','😎', '🥵', '😱', '🐦', '🙄', '🐤','🗿','🐦','🤨','🥴','😐','👆','😔', '👀','🥺','😜','👎'])}`,
+            key: m.key,
+          }})
 //auto restart bot
 function start() {
    let args = [path.join(__dirname, 'shinchan.js'), ...process.argv.slice(2)]
@@ -2292,22 +2299,23 @@ let hasilocr = dataocr?.ParsedResults?.[0]?.ParsedText
 }
 break
 //========================WALLPAPER=========================//
-case 'wallpaper':
+/*case 'wallpaper': {
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
 reply(`${global.wait} : ${q}`)
 const wall = new AnimeWallpaper()
-    let pager = [1,2,3,4]
-        const random=pager[Math.floor(Math.random() * pager.length)]
+    let pages = [1,2,3,4]
+        const random=pages[Math.floor(Math.random() * pages.length)]
         const wallpaper = await wall
-            .scrapeFromWallHaven({ title: q, type: "sfw", page: pager })
+            .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
             .catch(() => null)
-const i = wallpaper[Math.floor(Math.random() * wallpaper?.length)]
+const i = wallpaper[Math.floor(Math.random() * wallpaper.length)]
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
 //conn.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
-break
+}
+break*/
 case 'wallpaper2':{
 reply(global.wait)
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
@@ -2463,7 +2471,7 @@ await conn.sendFile(m.chat, anu, `${body}.pdf`, blue)
 					}
 break*/
 case 'nhentai':
-case 'ncode':
+case 'ncode': {
 let code = (args[0] || '').replace(/\D/g, '')
 if (!code) throw 'Input code' 
 await m.reply(global.wait)
@@ -2478,6 +2486,7 @@ let buffer = await (await fetch(thumbnya)).buffer()
 let jpegThumbnail = await fetchBuffer(buffer)		
 let imagepdf = await toPDF(pages)		
 await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
+}
 break
 case 'hentaivid': case 'hentaivideo': {
                 const { hentai } = require('./lib/scraper.js')
@@ -2921,15 +2930,15 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-/*case 'wallpaper': {
+case 'wallpaper': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
 reply(global.wait)
 let gis = require('g-i-s')
 gis(text, async (error, result) => {
-n = result
-images = n[Math.floor(Math.random() * n.length)].url
 let error30;
 try {
+n = result
+images = n[Math.floor(Math.random() * n.length)].url
 await conn.sendImage(m.chat, images, done, m)
 } catch (er) {
 error30 = true;
@@ -2940,7 +2949,7 @@ replyerror("Error");
 }
 })
 }
-break*/
+break
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
@@ -3406,6 +3415,131 @@ URL: ${imageInfo.url}
     } catch (error) {
         console.error(error);
         m.reply('An error occurred while fetching the data.');
+    }
+}
+break
+case 'fantox': {
+let arrlist = [
+        "animal",
+        "animalears",
+        "anusview",
+        "ass",
+        "barefoot",
+        "bed",
+        "bell",
+        "bikini",
+        "blonde",
+        "bondage",
+        "bra",
+        "breasthold",
+        "breasts",
+        "bunnyears",
+        "bunnygirl",
+        "chain",
+        "closeview",
+        "cloudsview",
+        "cum",
+        "dress",
+        "drunk",
+        "elbowgloves",
+        "erectnipples",
+        "fateseries",
+        "fingering",
+        "flatchest",
+        "food",
+        "foxgirl",
+        "gamecg",
+        "genshin",
+        "glasses",
+        "gloves",
+        "greenhair",
+        "hatsunemiku",
+        "hcatgirl",
+        "headband",
+        "headdress",
+        "headphones",
+        "hentaimiku",
+        "hentaivideo",
+        "hloli",
+        "hneko",
+        "hololove",
+        "horns",
+        "inshorts",
+        "japanesecloths",
+        "necklace",
+        "nipples",
+        "nobra",
+        "nsfwbeach",
+        "nsfwbell",
+        "nsfwdemon",
+        "nsfwidol",
+        "nsfwmaid",
+        "nsfwmenu",
+        "nsfwvampire",
+        "nude",
+        "openshirt",
+        "pantyhose",
+        "pantypull",
+        "penis",
+        "pinkhair",
+        "ponytail",
+        "pussy",
+        "ribbons",
+        "schoolswimsuit",
+        "schooluniform",
+        "seethrough",
+        "sex",
+        "sex2",
+        "sex3",
+        "shirt",
+        "shirtlift",
+        "skirt",
+        "spreadlegs",
+        "spreadpussy",
+        "squirt",
+        "stockings",
+        "sunglasses",
+        "swimsuit",
+        "tail",
+        "tattoo",
+        "tears",
+        "thighhighs",
+        "thogirls",
+        "topless",
+        "torncloths",
+        "touhou",
+        "twintails",
+        "uncensored",
+        "underwear",
+        "vocaloid",
+        "weapon",
+        "wet",
+        "white",
+        "whitehair",
+        "wings",
+        "withflowers",
+        "withgun",
+        "withpetals",
+        "withtie",
+        "withtree",
+        "wolfgirl",
+        "yuri"
+    ]
+    let listnya = arrlist.map((v, index) => {
+        return `[ ${++index} ] ${prefix + command} ${v}`
+    }).join("\n")
+    let nah = `𝗟 𝗜 𝗦 𝗧
+_Contoh: ${prefix + command} yuri_
+
+${listnya}`
+    if (!arrlist.includes(text)) return m.reply(nah)
+    await m.reply(wait)
+    try {
+        let ani = await fetch("https://fantox-apis.vercel.app/" + text)
+        let mek = await ani.json()
+        await conn.sendFile2(m.chat, mek.url, "", `${done}`, m)
+    } catch (e) {
+        await m.reply(eror)
     }
 }
 break
