@@ -2392,7 +2392,8 @@ case 'pixiv': case 'pixivdl':  {
 	let respixiv = await pixivDl(text)
 	for (let i = 0; i < respixiv.media.length; i++) {
 		let caption = i == 0 ? `${respixiv.caption}\n\n*By:* ${respixiv.artist}\n*Tags:* ${respixiv.tags.join(', ')}` : ''
-		await conn.sendFile2(m.chat, respixiv.media[i], '', caption, m)
+	//	await conn.sendFile2(m.chat, respixiv.media[i], '', caption, m)
+	await conn.sendImage(m.chat, respixiv.media[i], caption, m)
 	}
 }
 break
