@@ -2297,10 +2297,10 @@ const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
 reply(`${global.wait} : ${q}`)
 const wall = new AnimeWallpaper()
-    const pages = [1,2,3,4]
-        const random=pages[Math.floor(Math.random() * pages.length)]
+    let pager = [1,2,3,4]
+        const random=pager[Math.floor(Math.random() * pager.length)]
         const wallpaper = await wall
-            .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
+            .scrapeFromWallHaven({ title: q, type: "sfw", page: pager })
             .catch(() => null)
 const i = wallpaper[Math.floor(Math.random() * wallpaper?.length)]
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
