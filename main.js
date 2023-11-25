@@ -2292,7 +2292,7 @@ let hasilocr = dataocr?.ParsedResults?.[0]?.ParsedText
 }
 break
 //========================WALLPAPER=========================//
-/*case 'wallpaper':
+case 'wallpaper':
 const { AnimeWallpaper } =require("anime-wallpaper")
 if(!q) return paycall('Wallpaper apa yang kamu inginkan?')
 reply(`${global.wait} : ${q}`)
@@ -2302,12 +2302,12 @@ const wall = new AnimeWallpaper()
         const wallpaper = await wall
             .scrapeFromWallHaven({ title: q, type: "sfw", page: pages })
             .catch(() => null)
-const i = wallpaper[Math.floor(Math.random() * wallpaper.length)]
+const i = wallpaper[Math.floor(Math.random() * wallpaper?.length)]
             await conn.sendMessage(m.chat, { caption: `*Query :* ${q}`, image: {url:wallpaper[i].image} }, { quoted: m} ).catch(err => {
                     return('Error!')
                 })
 //conn.sendMessage(m.chat,{image:{url:wallpaper[i].image},caption:`*Query :* ${q}`})            
-break*/
+break
 case 'wallpaper2':{
 reply(global.wait)
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
@@ -2921,7 +2921,7 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 }
 }
 break
-case 'wallpaper': {
+/*case 'wallpaper': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
 reply(global.wait)
 let gis = require('g-i-s')
@@ -2940,7 +2940,7 @@ replyerror("Error");
 }
 })
 }
-break
+break*/
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
