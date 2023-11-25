@@ -2348,7 +2348,7 @@ let { lookup } = require('mime-types')
 }
 break
 //========================PINTEREST END=========================//
-/*case 'pixiv': {
+case 'pixiv2': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
 query = args.join(" ")
@@ -2368,7 +2368,7 @@ await conn.sendFile2(from, i, `image`, done, blue)
 					}
 					}
 }
-break
+/*break
 case 'pixiv': case 'pixivdl': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 reply(global.wait)
