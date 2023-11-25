@@ -433,6 +433,14 @@ conn.sendFile2 = async (jid, path, fileName, caption = '', quoted, ptt = false, 
             return m
         }
     }
+/**
+* 
+* @param {*} jid 
+* @param {*} name 
+* @param [*] values 
+* @returns 
+*/
+conn.sendPoll = (jid, name = '', values = [], selectableCount = 1) => { return conn.sendMessage(jid, { poll: { name, values, selectableCount }}) }
 //=================================================//
 conn.copyNForward = async (jid, message, forceForward = false, options = {}) => {
 let vtype
