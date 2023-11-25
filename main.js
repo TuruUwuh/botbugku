@@ -3211,7 +3211,7 @@ conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg'
                         mediaType: 1,
                         previewType: 0,
                         renderLargerThumbnail: true,
-                        thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
+                        thumbnailUrl: 'https://telegra.ph/file/0e2b5f224fdcaf4b61d02.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: m})}
