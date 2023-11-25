@@ -2951,7 +2951,8 @@ const { googleImage } = require('@bochilteam/scraper');
 for (let i = 0; i < jumlah ; i++){
 const res = await googleImage(teksnyauy);
 let image = res[Math.floor(Math.random() * res.length)]
-await conn.sendImage(m.chat, image, done, m)
+//await conn.sendImage(m.chat, image, done, m)
+await conn.sendFile2(m.chat, image, '', done, m)
 }
 }
 break
