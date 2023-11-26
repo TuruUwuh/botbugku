@@ -1667,9 +1667,9 @@ m.reply(global.wait)
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
 try {
-    let response = await fetchJson(`https://vihangayt.me/tools/youai?q=${text}`)
-    let dataai = await response.data
-conn.sendMessage(m.chat, {text: `${dataai.message}`}, {quoted: m})
+    let response = await fetchJson(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
+    let dataaiv4 = await response.data
+conn.sendMessage(m.chat, {text: `${dataaiv4}`}, {quoted: m})
 } catch (er) {
 					error1 = true;
 				} finally {
@@ -1735,7 +1735,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
   let error33;
 try {
-    let aibb = await fetch(`https://vihangayt.me/tools/blackbox?q=${text}`)
+    let aibb = await fetch(`https://vihangayt.me/tools/blackboxv4?q=${text}`)
         let botilegal = await aibb.json()
 conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 } catch (er) {
