@@ -1664,11 +1664,12 @@ break
 case 'openai': case 'ai': {
 m.reply(global.wait)
   if (!text) return m.reply('Apa yang bisa saya bantu?')
+  console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
 try {
-    let response = await fetch(`https://vihangayt.me/tools/chatgpt5?q=${text}`)
-    let data = await response.json()
-conn.sendMessage(m.chat, {text: `${data.data}`}, {quoted: m})
+    let response = await fetchJson(`https://vihangayt.me/tools/youai?q=${text}`)
+    let dataai = await response.data
+conn.sendMessage(m.chat, {text: `${dataai.message}`}, {quoted: m})
 } catch (er) {
 					error1 = true;
 				} finally {
