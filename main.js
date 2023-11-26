@@ -1004,11 +1004,11 @@ a = await conn.sendMessage(from, {text: shinchanehe[i], edit: key });//PESAN LEP
 }
 }
 //RANDOM REACTION
-conn.sendMessage(m.chat, {
+/*conn.sendMessage(m.chat, {
           react: {
             text: `${pickRandom(['😨','😅','😂','😳','😎', '🥵', '😱', '🐦', '🙄', '🐤','🗿','🐦','🤨','🥴','😐','👆','😔', '👀','🥺','😜','👎'])}`,
             key: m.key,
-          }})
+          }})*/
 //auto restart bot
 function start() {
    let args = [path.join(__dirname, 'shinchan.js'), ...process.argv.slice(2)]
@@ -2704,21 +2704,64 @@ replyerror("Yah Error:(.");
 }
 break*/
 //========================INSTAGRAM DL============================//
-case 'igdl': case 'igimg': case 'igfoto': case 'igvid': case 'igvideo': case 'igreels': {
+case 'igvid': case 'igvideo': case 'igreels': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
         reply(global.wait)
 			let error20;
 try {
-        let res = await fetchJson(`https://vihangayt.me/download/instagram?url=${args[0]}`)
-        let igfonya = res.data
-            for (let igimg of igfonya.data) {
+        let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
+   //     let igfonya = res.data
+            for (let igvid of res.data) {
              //  await conn.sendImage(m.chat, igimg.url, done, m)
-             await conn.sendFile2(m.chat, igimg.url, '', done, m);
+           //  await conn.sendFile2(m.chat, igimg.download_link, '', done, m);
+           await conn.sendMessage(from, { video: { url: igvid.download_link }, caption: `${done}` }, { quoted: m })
             }
              } catch (er) {
 					error20 = true;
 				} finally {
 					if (error20) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
+break
+case 'igimg': case 'igfoto': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+        reply(global.wait)
+			let error39;
+try {
+        let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
+   //     let igfonya = res.data
+            for (let igimg of res.data) {
+             //  await conn.sendImage(m.chat, igimg.url, done, m)
+           //  await conn.sendFile2(m.chat, igimg.download_link, '', done, m);
+           await conn.sendMessage(from, { image: { url: igimg.download_link }, caption: `${done}` }, { quoted: m })
+            }
+             } catch (er) {
+					error39 = true;
+				} finally {
+					if (error39) {
+						replyerror("Yah Proses Gagal :(");
+					}
+					}
+            }
+break
+case 'igdl': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+        reply(global.wait)
+			let error40;
+try {
+        let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
+   //     let igfonya = res.data
+            for (let igdouble of res.data) {
+             //  await conn.sendImage(m.chat, igimg.url, done, m)
+            await conn.sendFile2(m.chat, igdouble.download_link, '', done, m);
+          // await conn.sendMessage(from, { image: { url: igimg.download_link }, caption: `${done}` }, { quoted: m })
+            }
+             } catch (er) {
+					error40 = true;
+				} finally {
+					if (error40) {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
@@ -3543,7 +3586,7 @@ ${listnya}`
     }
 }
 break
-  //(39)
+  //(error41)
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
