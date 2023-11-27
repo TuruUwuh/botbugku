@@ -3340,14 +3340,14 @@ case 'sinonim': case 'persamaankata': {
     }
 }
 break
-case 'fbdl': {
+/*case 'fbdl': {
       if (!args[0]) throw `Input URL`;
       let error35;
 try {
 m.reply(wait)
 let resfbdl = await fetchJson(`https://vihangayt.me/download/fb?url=${args[0]}`)
 let hasildlnya = resfbdl.data
-conn.sendMessage(m.chat, { video: { url: hasildlnya.video_hd }, caption: done }, { quoted: m})
+conn.sendMessage(m.chat, { video: { url: data.result }, caption: done }, { quoted: m})
 //await conn.sendFile2(m.chat, hasildlnya.video_hd, '', done, m);
 } catch (er) {
 error35 = true;
@@ -3357,7 +3357,25 @@ replyerror("Yah Error:(.");
 }
 }
 }
-break
+break*/
+case 'fbdl': {
+			if (args.length == 0) return reply(`Example: ${prefix + command} https://id-id.facebook.com/SamsungGulf/videos/video-bokeh/561108457758458/`)
+			      let error35;
+try {
+m.reply(wait)
+			axios.get(`https://api.lolhuman.xyz/api/facebook?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
+				//conn.sendMessage(m.chat, { video: { url: data.result }, caption: done }, { quoted: m})
+				conn.sendFile2(m.chat, data.result[0], '', done, m);
+			})
+			} catch (er) {
+error35 = true;
+} finally {
+if (error35) {
+replyerror("Yah Error:(.");
+}
+}
+			}
+			break
 case 'twtdl': case 'twt': case 'twitter': {
       if (!args[0]) throw `Input URL`;
       let error36;
