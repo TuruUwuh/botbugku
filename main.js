@@ -1904,14 +1904,15 @@ case 'remini': {
 			break
 case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-await loading ()
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 let error8;
 try {
+await loading ()
 let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=4&apikey=hYnG4TVp`)
 let data = await response.json()
-await conn.sendMessage(m.chat, { image: data.url, caption: `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
+let kapsion = `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`
+await conn.sendImage(m.chat, data.url, kapsion, m)
 } catch (er) {
 					error8 = true;
 				} finally {
