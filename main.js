@@ -1661,7 +1661,7 @@ fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
-case 'openai': case 'ai': {
+/*case 'openai': case 'ai': {
   if (!text) return m.reply('Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
@@ -1678,7 +1678,7 @@ conn.sendMessage(m.chat, {text: `${dataaiv4}`}, {quoted: m})
 					}
 					}
 }
-break
+break*/
 case 'mtk': case 'aimtk': {
 if (!text) return m.reply('Perlu bantuan mengerjakan matematika kah?')
   let error2;
@@ -1732,9 +1732,9 @@ m.reply(global.wait)
 					}
 }
 break
-case 'neroai': case 'aibb': case 'blackbox': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
+case 'openai': case 'ai': case 'neroai': case 'aibb': case 'blackbox': {
+//if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
 try {
 m.reply(global.wait)
