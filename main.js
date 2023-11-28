@@ -3004,6 +3004,7 @@ if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
 var teksnyauy = text.split("|")[0]
 var jumlah = text.split("|")[1]
+try {
 await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
 for (let i = 0; i < jumlah ; i++){
@@ -3014,6 +3015,10 @@ let bufferimg = await fetchBuffer(image)
 //await conn.sendMessage(from, { image: { url: image }, caption: `${global.done}` }, { quoted: m })
 await conn.sendFile2(m.chat, bufferimg, 'img.png', done, m)
 }
+} catch (error) {
+        console.error(error);
+        reply('DATA TIDAK DITEMUKAN');
+    }
 }
 break
 case 'mediafire':
