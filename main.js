@@ -1662,11 +1662,11 @@ reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
 case 'openai': case 'ai': {
-m.reply(global.wait)
   if (!text) return m.reply('Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
 try {
+m.reply(global.wait)
     let response = await fetchJson(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
     let dataaiv4 = await response.data
 conn.sendMessage(m.chat, {text: `${dataaiv4}`}, {quoted: m})
@@ -1680,10 +1680,10 @@ conn.sendMessage(m.chat, {text: `${dataaiv4}`}, {quoted: m})
 }
 break
 case 'mtk': case 'aimtk': {
-m.reply(global.wait)
 if (!text) return m.reply('Perlu bantuan mengerjakan matematika kah?')
   let error2;
 try {
+m.reply(global.wait)
     let aimtkuy = await fetch(`https://vihangayt.me/tools/mathssolve?q=${text}`)
         let dataai = await aimtkuy.json()
 conn.sendMessage(m.chat, {text: `${dataai.data}`}, {quoted: m})
@@ -1701,6 +1701,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
   if (!text) return paycall('Ai khusus coding javascript')
   let error9;
 try {
+m.reply(global.wait)
     let res = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=javascript&apikey=nerobot`)
     let data = await res.json()   
   conn.sendMessage(m.chat, {text: `${data.response}`}, {quoted: m})
@@ -1718,6 +1719,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
   if (!text) return paycall('Ai khusus coding Python')
   let error34;
 try {
+m.reply(global.wait)
     let respy = await fetch(`https://skizo.tech/api/ai-code-generator?text=${text}&lang_code=python&apikey=nerobot`)
     let datapy = await respy.json()   
   conn.sendMessage(m.chat, {text: `${datapy.response}`}, {quoted: m})
@@ -1735,6 +1737,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
   let error33;
 try {
+m.reply(global.wait)
     let aibb = await fetch(`https://vihangayt.me/tools/blackboxv4?q=${text}`)
         let botilegal = await aibb.json()
 conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
@@ -1752,6 +1755,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
   let error23;
 try {
+m.reply(global.wait)
     let ainero = await fetch(`https://vihangayt.me/tools/bard?q=${text}`)
         let neroai = await ainero.json()
 conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
