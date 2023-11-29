@@ -578,6 +578,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ dlcapcut (link)
 ➤ twitter/twt/twtdl (Link Video Twitter)
 ➤ fbdl (Link Video Facebook)
+➤ telestik (Link Stiker Telegram)
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -3929,6 +3930,23 @@ if (quoted.isAnimated) {
             }
          }
          break
+         case 'telestik': {
+         if (args.length == 0) return reply(`Example: ${prefix + command} https://t.me/addstickers/LINE_Menhera_chan_ENG`)
+         try {
+         m.reply(global.wait)
+         let restele = await fetchJson(`https://api.lolhuman.xyz/api/telestick?apikey=${apikey}&url=${args[0]}`)
+         for (let teletik of restele.result.sticker) {
+         await conn.sendImageAsSticker(m.chat, teletik, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+               }
+               } catch (error) {
+        console.error(error);
+        replyerror('Yah Error:(');
+    }
+               }
+break
 case 'toimg': {
 	reply(global.wait)
 	const getRandom = (ext) => {
