@@ -2365,10 +2365,10 @@ break
 //========================PINTEREST END=========================//
 case 'pixiv2': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
-reply(global.wait)
 query = args.join(" ")
 let error13;
 try {
+reply(global.wait)
 let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
 let data = await res.json()
 let memek = data.result
@@ -2519,6 +2519,7 @@ break
 case 'xnxx': case 'xnxxdl': {
 	if (!text) return paycall(`Kirim Link Bokep di situs XNXX`)
         if (!text.includes('xnxx.com')) return paytod(`Kirim Link Bokep di situs XNXX`)
+        try {
         reply(global.wait)
         const fg = require('api-dylux')
             let xn = await fg.xnxxdl(text)
@@ -2527,22 +2528,31 @@ conn.sendMessage(m.chat, { caption: `≡  *XNXX DOWNLOAD*
 ▢ *📌Title*: ${xn.title}
 ▢ *⌚Duration:* ${xn.duration}
 ▢ *🎞️Quality:* ${xn.quality}`, video: {url: xn.url_dl} }, { quoted: blue })
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
 }
 break
 case 'xnxxsearch': {
 	if (!text) return paycall(`Kirim Judul Bokep`)
+	try {
 	const fg = require('api-dylux')
 	let res = await fg.xnxxSearch(text)
             let ff = res.result.map((v, i) => `${i + 1}┃ *Title* : ${v.title}\n*Link:* ${v.link}\n`).join('\n') 
               if (res.status) replybokep(ff)
+              } catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
               }
               break
 //=============================================================//
 case 'bypassouo': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
 let error16;
 try {
+reply(global.wait)
   let res = await fetch(`https://api.lolhuman.xyz/api/ouo?apikey=haikalgans&url=${args[0]}`)
   let data = await res.json()
   let bypassnya = data.result
@@ -2558,9 +2568,9 @@ try {
 break
 case 'bypassmirror': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
-reply(global.wait)
 let error17;
 try {
+reply(global.wait)
   let res = await fetch(`https://api.lolhuman.xyz/api/mirrorcreator?apikey=haikalgans&url=${args[0]}`)
   let pemanggil = await res.json()
   let anuan = pemanggil.result
@@ -2577,6 +2587,7 @@ break
 //========================DOWNLOAD YOUTUBE=========================//
 case 'yts': case 'ytsearch': {
 if (!text) return paycall(`Example : ${prefix + command} Dj malam pagi`)
+try {
 let search = await yts(text)
 let teks = '*YouTube Search*\n\n Result From '+text+'\n\n'
 let no = 1
@@ -2584,11 +2595,16 @@ for (let i of search.all) {
 teks += `⭔ No : ${no++}\n⭔ Type : ${i.type}\n⭔ Video ID : ${i.videoId}\n⭔ Title : ${i.title}\n⭔ Views : ${i.views}\n⭔ Duration : ${i.timestamp}\n⭔ Upload At : ${i.ago}\n⭔ Url : ${i.url}\n\n─────────────────\n\n`
 }
 ytreply(teks)
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
 }
 break
 case 'play':  case 'song': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
+try {
 m.reply(global.wait)
 let yts = require("youtube-yts")
         let search = await yts(text)
@@ -2612,11 +2628,16 @@ await conn.sendMessage(m.chat,{
     },
 },{quoted: fkontak})
 await fs.unlinkSync(pl.path)
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
 }
 break
-case "ytmp3": case "ytaudio":
+case "ytmp3": case "ytaudio": {
 const shinchanmp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
+try {
 m.reply(global.wait)
 const audio=await shinchanmp3.mp3(text)
 await conn.sendMessage(m.chat,{
@@ -2636,10 +2657,16 @@ await conn.sendMessage(m.chat,{
     },
 },{quoted: m})
 await fs.unlinkSync(audio.path)
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+}
 break
 case 'ytmp4': case 'ytvideo': {
 const shinchanmp4 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
+try {
 m.reply(global.wait)
 const vid=await shinchanmp4.mp4(text)
 const ytc=`
@@ -2651,6 +2678,10 @@ await conn.sendMessage(m.chat,{
     video: {url:vid.videoUrl},
     caption: ytc
 },{quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
 }
 break
 /*case 'play': {
