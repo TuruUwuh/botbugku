@@ -2229,9 +2229,9 @@ break
 case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
-        replydltt(global.wait)
         let error19;
 try {
+replydltt(global.wait)
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
 
             for (let tt of res.data) {
@@ -2913,7 +2913,7 @@ let unu = res.hasil
 let itune = unu.data
 await conn.sendMessage(m.chat, {text: `${itune[0].jawaban[0].text}`}, {quoted: fkontak})
 break
-case 'ruangguru': case 'roboguru':
+case 'ruangguru': case 'roboguru': {
 			if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
 			query = args.join(" ")
 			let error31;
@@ -2926,6 +2926,7 @@ try {
 				robgur += `\`\`\`Jawaban :\`\`\`\n${x.answer}\n`
 				robgur += `==============================\n\n`
 			}
+			replyguru(robgur)
 			            } catch (er) {
 error31 = true;
 } finally {
@@ -2933,7 +2934,7 @@ if (error31) {
 replyerror("ERROR");
 }
 }
-			replyguru(robgur)
+			}
 			break
 //========================LIRIK LAGU============================//
 case 'lirik': {
