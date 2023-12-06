@@ -3654,6 +3654,19 @@ case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
         paytod(`${m.chat}`)
         break
+case 'tlfn': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+let ingponya = text.split('|')[0] ? text.split('|')[0] : '-'
+var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
+"scheduledCallCreationMessage": {
+"callType": '2',
+"scheduledTimestampMs": Date.now(),
+"title": `${ingponya}`,
+}
+}), { userJid: m.chat, quoted: m })
+conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
 //========================BUG WHATSAPP=========================//
 case 'sendbug': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
