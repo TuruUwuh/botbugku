@@ -4253,11 +4253,11 @@ await conn.sendMessage(m.chat,
 			            remoteJid: m.chat,
 			            fromMe: false,
 			            id: m.key.id,
-			            participant: m.key.participant
+			            participant: m.quoted.sender
 			        }
 			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
-conn.sendMessage(from, {text:`\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`, contextInfo:{mentionedJid:[sender]}}, {quoted:m})
+conn.sendMessage(from, {text:`\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`, contextInfo:{mentionedJid:[users]}}, {quoted:m})
 }
 break
 
