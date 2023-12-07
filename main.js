@@ -1623,7 +1623,13 @@ await sleep(3000)
 paytod('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰\n\n\nNote: Jika bot mengalami on/off dengan sendirinya, itu tandanya lagi reset sessions biar tidak delay (Jadi harap di tunggu sampai bener bener dipulihkan 😁)')
 await start()
 break
-
+case 'delete': case 'del': {
+                if (!m.quoted) throw false
+                let { chat, fromMe, id, isBaileys } = m.quoted
+                if (!isBaileys) return m.reply('Pesan itu tidak dikirim oleh bot!')
+                 conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
+            }
+            break
 case 'pushkontak':{
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 if (!m.isGroup) return paycall(`di group coy`)
