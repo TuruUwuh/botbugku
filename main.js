@@ -4247,7 +4247,17 @@ if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 await loading()
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
+conn.sendMessage(from, {text:`\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`, contextInfo:{mentionedJid:[sender]}}, {quoted:m})
 }
 break
 
