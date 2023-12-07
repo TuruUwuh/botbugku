@@ -4250,14 +4250,14 @@ let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender :
 await conn.sendMessage(m.chat,
 			    {
 			        delete: {
-			            remoteJid: users,
+			            remoteJid: m.chat,
 			            fromMe: false,
-			            id: m.key.id,
-			            participant: m.quoted.sender
+			            id: m.key,
+			            participant: users
 			        }
 			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
-conn.sendMessage(m.chat, {text: `\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`}, {quoted: m})
+await conn.sendMessage(m.chat, {text: `\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`}, {quoted: m})
 }
 break
 
