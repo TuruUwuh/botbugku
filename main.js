@@ -4257,7 +4257,7 @@ await conn.sendMessage(m.chat,
 			        }
 			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
-conn.sendMessage(m.chat, {text: ``\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`}, {quoted: m})
+conn.sendMessage(m.chat, {text: `\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\`\n\n@${m.sender.split("@")[0]} Lain kali jangan bikin admin marah, kan kena kick😭`}, {quoted: m})
 }
 break
 
