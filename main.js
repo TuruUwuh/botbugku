@@ -4253,7 +4253,7 @@ await conn.sendMessage(m.chat,
 			            remoteJid: m.chat,
 			            fromMe: false,
 			            id: m.key.id,
-			            participant: m.quoted.sender
+			            participant: users
 			        }
 			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
