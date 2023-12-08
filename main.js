@@ -594,6 +594,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
 ➤ jadianime (Reply Gambar)
+➤ txtimg (masukin prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1995,6 +1996,18 @@ try {
 					}
 					}
 					}
+break
+case 'txtimg': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+reply(global.wait);
+const response = `https://api.akuari.my.id/ai/prodia?prompt=${text}`
+await conn.sendFile2(from, response, `image`, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.');
+    }
+}
 break
 //=========================================================//
 /*case 'imgeditor': {
