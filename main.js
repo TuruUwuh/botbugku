@@ -569,6 +569,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ spotify (link Spotify)
 ➤ nhentai/ncode (code hentai)
 ➤ xnxx/xnxxdl (link bokep xnxx)
+➤ xvideos/xvideosdl (link bokep xvideos)
 ➤ tiktok (link)
 ➤ tiktokmp3 (link)
 ➤ ttimg/tiktokslide/ttslide (link)
@@ -2546,7 +2547,28 @@ conn.sendMessage(m.chat, { caption: `≡  *XNXX DOWNLOAD*
         
 ▢ *📌Title*: ${xn.title}
 ▢ *⌚Duration:* ${xn.duration}
-▢ *🎞️Quality:* ${xn.quality}`, video: {url: xn.url_dl} }, { quoted: blue })
+▢ *🎞️Quality:* ${xn.quality}`, video: {url: xn.url_dl} }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+}
+break
+case 'xvideos': case 'xvideosdl': {
+	if (!text) return paycall(`Kirim Link Bokep di situs XVIDEOS`)
+        if (!text.includes('xvideos.com')) return paytod(`Kirim Link Bokep di situs XVIDEOS`)
+        try {
+        reply(global.wait)
+        const fg = require('api-dylux')
+            let xvid = await fg.xvideosdl(text)
+conn.sendMessage(m.chat, { caption: `≡  *XVIDEOS DOWNLOAD*
+        
+▢ *📌Title*: ${xvid.title}
+▢ *👀View*: ${xvid.views}
+▢ *👍Like*: ${xvid.likes}
+▢ *👎Dislike*: ${xvid.deslikes}
+▢ *📊Vote*: ${xvid.vote}
+▢ *📈Size:* ${xvid.size}`, video: {url: xvid.url_dl} }, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('Yah Error');
