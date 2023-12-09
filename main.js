@@ -2199,6 +2199,7 @@ case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
+    if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
     await replydltt('Tunggu sebentar kak, video sedang di download... server 1');
         const tiktokData = await tryServer1(args[0]);
@@ -2230,7 +2231,7 @@ case 'tiktokmp3': case 'ttmp3': case 'ttaudio':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
-
+if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
         await replydltt('Tunggu sebentar kak, Audio sedang di download... server 1');
 
