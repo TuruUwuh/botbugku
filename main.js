@@ -2199,8 +2199,8 @@ case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
-        await replydltt('Tunggu sebentar kak, video sedang di download... server 1');
     try {
+    await replydltt('Tunggu sebentar kak, video sedang di download... server 1');
         const tiktokData = await tryServer1(args[0]);
 
         if (!tiktokData) {
