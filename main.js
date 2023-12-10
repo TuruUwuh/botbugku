@@ -1459,6 +1459,7 @@ Platform : ${os.platform()}
 ➤ resetlinkgc [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ promoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ demoteall [ 𝗢𝗪𝗡𝗘𝗥 ]
+➤ out/leave/leavegc [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ repeat [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ call [ 𝗢𝗪𝗡𝗘𝗥 ]
 ➤ call2 [ 𝗢𝗪𝗡𝗘𝗥 ]
@@ -4283,6 +4284,13 @@ conn.sendText(bnnd, `https://chat.whatsapp.com/${response}\n\nLink Group : ${gro
 }
 break
 
+case 'out': case 'leave': case 'leavegc': {
+if (!isCreator) return m.reply('*Khusus Owner Bot*')
+await conn.groupLeave(m.chat)
+await m.reply(`Done`)
+}
+break
+            
 case 'kick': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
