@@ -460,7 +460,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                     }}}, { quoted: blue})} 
 
 const replybokep = (teks) => {
-return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
                      externalAdReply: {
                         showAdAttribution: true,
@@ -471,6 +471,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         previewType: 0,
                         renderLargerThumbnail: true,
                         thumbnailUrl: 'https://telegra.ph/file/6bdd8ea22025d0afe0497.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: blue})} 
+const replyxvideos = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙓𝙑𝙄𝘿𝙀𝙊𝙎 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `*Hay ${pushname} 👋* ${shinchantime}\n📌RUNTIME : ${runtime(process.uptime())}`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/dd0982ab9d4d655335a7d.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
@@ -616,6 +631,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ➤ spotifysearch (search)
 ➤ xnxxsearch (search)
+➤ xvideosearch (search)
 ➤ ytsearch (search)
 ➤ pinterest (search)
 ➤ google (search)
@@ -635,7 +651,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
-➤ mtk (soal mtk)
+➤ mtk (kirim soal mtk)
 ➤ aksarajawa
 ➤ latin (translate aksara jawa)
 ➤ ocr (Ambil Teks Foto)
@@ -2584,6 +2600,21 @@ case 'xnxxsearch': {
 	let res = await fg.xnxxSearch(text)
             let ff = res.result.map((v, i) => `${i + 1}┃ *Title* : ${v.title}\n*Link:* ${v.link}\n`).join('\n') 
               if (res.status) replybokep(ff)
+              } catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+              }
+              break
+case 'xvideosearch': {
+	if (!text) return paycall(`Kirim Judul Bokep`)
+	try {
+let responnyaaj = await fetchJson(`https://api.fgmods.xyz/api/search/xvideosearch?text=${text}&apikey=623JU5Hl`)
+  let xvs = responnyaaj.result.map((v, i) => `
+${i + 1}. *Title* : ${v.title}
+*Durasi* : ${v.duration}
+*Link* : ${v.url}`).join('\n')
+                   replyxvideos(xvs)
               } catch (error) {
         console.error(error);
         replyerror('Yah Error');
