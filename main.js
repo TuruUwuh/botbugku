@@ -946,15 +946,15 @@ function capcutdl(Url) {
 			method: 'GET',
 			headers: {
 				'Accept': '/',
-				'User-Agent': 'Mozilla/5.0 (Linux; Android 13; CPH2217 Build/TP1A.220905.001; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/110.0.5481.153 Mobile Safari/537.36',
+				'User-Agent': 'Mozilla/5.0 (Linux; Android 10; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
 				'X-Requested-With': 'acr.browser.barebones',
 				'Sec-Fetch-Site': 'same-origin',
-				'Sec-Fetch-Mode': 'cors',
-				'Sec-Fetch-Dest': 'empty',
-				'Referer': 'https://ssscap.net/',
-				'Accept-Encoding': 'gzip, deflate',
+				'Sec-Fetch-Mode': 'navigate',
+				'Sec-Fetch-Dest': 'document',
+				'Referer': 'https://ssscap.net/id',
+				'Accept-Encoding': 'gzip, deflate, br',
 				'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
-				'Cookie': 'sign=2cbe441f7f5f4bdb8e99907172f65a42; device-time=1685437999515'
+				'Cookie': 'sign=5a98a026c45682ba8baa7a055af413b2; device-time=1702446760834'
 			}
 		}).then(({ data }) => {
 			console.log(data);
@@ -3197,7 +3197,7 @@ replyerror("Yah Error:(.");
     }
     }
     break
-    case 'dlcapcut':
+case 'dlcapcut':
       if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.com/watch/7238819486680321281?use_new_ui=1&template_id=7238819486680321281&share_token=ce40538b-b349-41da-869d-73d99b78287e&enter_from=template_detail&region=ID&language=in&platform=copy_link&is_copy_link=1`;
       let error32;
 try {
@@ -4389,7 +4389,7 @@ if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
                 })
                 break
 
-case 'editgroup': {   
+case 'setgc': case 'editgrup': case 'editgroup': {   
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 await loading()
