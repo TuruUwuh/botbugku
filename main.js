@@ -901,7 +901,7 @@ async function Persamaan_Kata(kata) {
 //SCRAPE PIXIV BY SHINCHAN
 async function pixivDl(query) {
 	if (query.match(URL_REGEX)) {
-		if (!/https:\/\/www.pixiv.net\/en\/artworks\/[0-9]+/i.test(query)) throw 'Invalid Pixiv Url'
+	//	if (!/https:\/\/www.pixiv.net\/en\/artworks\/[0-9]+/i.test(query)) throw 'Invalid Pixiv Url'
 		query = query.replace(/\D/g, '')
 		let res = await pixiv.getIllustByID(query).catch(() => null)
 		if (!res) throw `Pencarian "${query}" Tidak Ditemukan`
