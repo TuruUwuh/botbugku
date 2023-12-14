@@ -611,6 +611,9 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ removebg (reply gambar)
 ➤ jadianime (Reply Gambar)
 ➤ txtimg (masukin prompt)
+➤ realistic (masukin prompt)
+➤ realistic2 (masukin prompt)
+➤ diffusion (masukin prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2034,6 +2037,34 @@ try {
 reply(global.wait);
 const response = `https://api.yanzbotz.my.id/api/text2img/realistic?prompt=${text}`
 await conn.sendFile2(from, response, `image`, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+//=========================================================//
+case 'realistic2': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+reply(global.wait);
+const response = `https://api.yanzbotz.my.id/api/text2img/yanzbotz?prompt=${text}`
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+//=========================================================//
+case 'diffusion': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+reply(global.wait);
+const response = `https://api.yanzbotz.my.id/api/text2img/diffusion?prompt=${text}`
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
