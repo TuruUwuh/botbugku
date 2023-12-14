@@ -2023,7 +2023,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 reply(global.wait);
 const response = `https://api.yanzbotz.my.id/api/text2img/text2img?prompt=${text}`
-await conn.sendFile2(from, response, `image`, done, m)
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2036,7 +2037,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 reply(global.wait);
 const response = `https://api.yanzbotz.my.id/api/text2img/realistic?prompt=${text}`
-await conn.sendFile2(from, response, `image`, done, m)
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
