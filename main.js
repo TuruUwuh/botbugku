@@ -39,7 +39,18 @@ const { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
 const { smsg, formatp, hitungmundur, tanggal, getTime, isUrl, sleep, clockString, runtime, fetchJson, getBuffer, jsonformat, generateProfilePicture, format, parseMention, getRandom, getGroupAdmins } = require('./lib/myfunc')
 const { FajarNews, BBCNews, metroNews, CNNNews, iNews, KumparanNews, TribunNews, DailyNews, DetikNews, OkezoneNews, CNBCNews, KompasNews, SindoNews, TempoNews, IndozoneNews, AntaraNews, RepublikaNews, VivaNews, KontanNews, MerdekaNews, KomikuSearch, AniPlanetSearch, KomikFoxSearch, KomikStationSearch, MangakuSearch, KiryuuSearch, KissMangaSearch, KlikMangaSearch, PalingMurah, LayarKaca21, AminoApps, Mangatoon, WAModsSearch, Emojis, CoronaInfo, JalanTikusMeme,Cerpen, Quotes, Couples, Darkjokes } = require("dhn-api");
 const { fetchBuffer, buffergif } = require("./lib/myfunc2")
-
+//=================================================//
+// read database
+let tebaklagu = JSON.parse(fs.readFileSync('./database/tebaklagu.json'))
+let _family100 = JSON.parse(fs.readFileSync('./database/family100.json'))
+let kuismath = JSON.parse(fs.readFileSync('./database/math.json'))
+let tebakgambar = JSON.parse(fs.readFileSync('./database/tebakgambar.json'))
+let tebakkata = JSON.parse(fs.readFileSync('./database/tebakkata.json'))
+let caklontong = JSON.parse(fs.readFileSync('./database/lontong.json'))
+let caklontong_desk = JSON.parse(fs.readFileSync('./database/lontong_desk.json'))
+let tebakkalimat = JSON.parse(fs.readFileSync('./database/kalimat.json'))
+let tebaklirik = JSON.parse(fs.readFileSync('./database/lirik.json'))
+let tebaktebakan = JSON.parse(fs.readFileSync('./database/tebakan.json'))
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'))
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'))
@@ -681,6 +692,13 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ qc (Masukan Teks)
 ➤ smeme (reply gambar)
 ━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙂𝘼𝙈𝙀 )
+━━━━━━━━━━━━━━━━━━━
+➤ suit (pilih lawan🥶)
+➤ tebak (lagu, kata, gambar, kalimat, lirik, lontong)
+➤ kuismath/math
+➤ tictactoe (Cari Lawan🥶)
+━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ toimg
@@ -1093,10 +1111,10 @@ conn.sendPresenceUpdate(jd, from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', from))
 }*/
 //Grup Only By ShinChan_Kawaii
-if(isCmd && !m.isGroup && !isCreator && grup_only){
+/*if(isCmd && !m.isGroup && !isCreator && grup_only){
           paycall("Bot hanya bisa digunakan dalam grup")
           return
-        }
+        }*/
 // Anti Link
 if (AntiLink) {
 if (body.match(/(chat.whatsapp.com\/)/gi)) {
@@ -1313,6 +1331,240 @@ async function sendGeekzMessage(chatId, message, options = {}){
     if ('contextInfo' in options) generate.message[type2].contextInfo = options?.contextInfo
     if ('contextInfo' in message) generate.message[type2].contextInfo = message?.contextInfo
     return await conn.relayMessage(chatId, generate.message, { messageId: generate.key.id })
+}
+//=================================================//
+if (('family100'+from in _family100) && isCmd) {
+kuis = true
+let room = _family100['family100'+from]
+let teks = budy.toLowerCase().replace(/[^\w\s\-]+/, '')
+let isSurender = /^((me)?nyerah|surr?ender)$/i.test(m.text)
+if (!isSurender) {
+ let index = room.jawaban.findIndex(v => v.toLowerCase().replace(/[^\w\s\-]+/, '') === teks)
+ if (room.terjawab[index]) return !0
+ room.terjawab[index] = m.sender
+}
+let isWin = room.terjawab.length === room.terjawab.filter(v => v).length
+let caption = `
+Jawablah Pertanyaan Berikut :\n${room.soal}\n\n\nTerdapat ${room.jawaban.length} Jawaban ${room.jawaban.find(v => v.includes(' ')) ? `(beberapa Jawaban Terdapat Spasi)` : ''}
+${isWin ? `Semua Jawaban Terjawab` : isSurender ? 'Menyerah!' : ''}
+${Array.from(room.jawaban, (jawaban, index) => {
+return isSurender || room.terjawab[index] ? `(${index + 1}) ${jawaban} ${room.terjawab[index] ? '@' + room.terjawab[index].split('@')[0] : ''}`.trim() : false
+}).filter(v => v).join('\n')}
+${isSurender ? '' : `Perfect Player`}`.trim()
+conn.sendText(from, caption, m, { contextInfo: { mentionedJid: parseMention(caption) }}).then(mes => { return _family100['family100'+from].pesan = mesg }).catch(_ => _)
+if (isWin || isSurender) delete _family100['family100'+from]
+}
+
+if (tebaklagu.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebaklagu[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+   conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Lagu 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Lagu`}, {quoted:m}) 
+ delete tebaklagu[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (tebakgambar.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebakgambar[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Gambar 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Gambar`}, {quoted:m})
+ delete tebakgambar[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (kuismath.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = kuismath[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ await m.reply(`🎮 Kuis Matematika  🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? kirim ${prefix}math mode`)
+ delete kuismath[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (tebakkata.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebakkata[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Kata 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Kata`}, {quoted:m})  
+ delete tebakkata[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (caklontong.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = caklontong[m.sender.split('@')[0]]
+deskripsi = caklontong_desk[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Lontong 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Lontong`}, {quoted:m}) 
+ delete caklontong[m.sender.split('@')[0]]
+delete caklontong_desk[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (tebakkalimat.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebakkalimat[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Kalimat 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Kalimat`}, {quoted:m}) 
+ delete tebakkalimat[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (tebaklirik.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebaklirik[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Lirik 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Lirik`}, {quoted:m}) 
+ delete tebaklirik[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+if (tebaktebakan.hasOwnProperty(m.sender.split('@')[0]) && isCmd) {
+kuis = true
+jawaban = tebaktebakan[m.sender.split('@')[0]]
+if (budy.toLowerCase() == jawaban) {
+ conn.sendMessage(m.chat, { image: ppnyauser, caption: `🎮 Tebak Tebakan 🎮\n\nJawaban Benar 🎉\n\nIngin bermain lagi? Silahkan Ketik Tebak Tebakan`}, {quoted:m}) 
+ delete tebaktebakan[m.sender.split('@')[0]]
+} else m.reply('*Jawaban Salah!*')
+}
+
+//TicTacToe
+this.game = this.game ? this.game : {}
+let room = Object.values(this.game).find(room => room.id && room.game && room.state && room.id.startsWith('tictactoe') && [room.game.playerX, room.game.playerO].includes(m.sender) && room.state == 'PLAYING')
+if (room) {
+let ok
+let isWin = !1
+let isTie = !1
+let isSurrender = !1
+// m.reply(`[DEBUG]\n${parseInt(m.text)}`)
+if (!/^([1-9]|(me)?nyerah|surr?ender|off|skip)$/i.test(m.text)) return
+isSurrender = !/^[1-9]$/.test(m.text)
+if (m.sender !== room.game.currentTurn) { // nek wayahku
+if (!isSurrender) return !0
+}
+if (!isSurrender && 1 > (ok = room.game.turn(m.sender === room.game.playerO, parseInt(m.text) - 1))) {
+m.reply({
+'-3': 'Game telah berakhir',
+'-2': 'Invalid',
+'-1': 'Posisi Invalid',
+0: 'Posisi Invalid',
+}[ok])
+return !0
+}
+if (m.sender === room.game.winner) isWin = true
+else if (room.game.board === 511) isTie = true
+let arr = room.game.render().map(v => {
+return {
+X: '❌',
+O: '⭕',
+1: '1️⃣',
+2: '2️⃣',
+3: '3️⃣',
+4: '4️⃣',
+5: '5️⃣',
+6: '6️⃣',
+7: '7️⃣',
+8: '8️⃣',
+9: '9️⃣',
+}[v]
+})
+if (isSurrender) {
+room.game._currentTurn = m.sender === room.game.playerX
+isWin = true
+}
+let winner = isSurrender ? room.game.currentTurn : room.game.winner
+let str = `Room ID: ${room.id}
+
+${arr.slice(0, 3).join('')}
+${arr.slice(3, 6).join('')}
+${arr.slice(6).join('')}
+
+${isWin ? `@${winner.split('@')[0]} Menang!` : isTie ? `Game berakhir` : `Giliran ${['❌', '⭕'][1 * room.game._currentTurn]} (@${room.game.currentTurn.split('@')[0]})`}
+❌: @${room.game.playerX.split('@')[0]}
+⭕: @${room.game.playerO.split('@')[0]}
+
+Ketik *nyerah* untuk menyerah dan mengakui kekalahan`
+if ((room.game._currentTurn ^ isSurrender ? room.x : room.o) !== from)
+room[room.game._currentTurn ^ isSurrender ? 'x' : 'o'] = from
+if (room.x !== room.o) await conn.sendText(room.x, str, m, { mentions: parseMention(str) } )
+await conn.sendText(room.o, str, m, { mentions: parseMention(str) } )
+if (isTie || isWin) {
+delete this.game[room.id]
+}
+}
+
+//Suit PvP
+this.suit = this.suit ? this.suit : {}
+let roof = Object.values(this.suit).find(roof => roof.id && roof.status && [roof.p, roof.p2].includes(m.sender))
+if (roof) {
+let win = ''
+let tie = false
+if (m.sender == roof.p2 && /^(acc(ept)?|terima|gas|oke?|tolak|gamau|nanti|ga(k.)?bisa|y)/i.test(m.text) && m.isGroup && roof.status == 'wait') {
+if (/^(tolak|gamau|nanti|n|ga(k.)?bisa)/i.test(m.text)) {
+conn.sendTextWithMentions(from, `@${roof.p2.split`@`[0]} menolak suit, suit dibatalkan`, m)
+delete this.suit[roof.id]
+return !0
+}
+roof.status = 'play'
+roof.asal = from
+clearTimeout(roof.waktu)
+//delete roof[roof.id].waktu
+conn.sendText(from, `Suit telah dikirimkan ke chat
+
+@${roof.p.split`@`[0]} dan 
+@${roof.p2.split`@`[0]}
+
+Silahkan pilih suit di chat masing"
+klik https://wa.me/${botNumber.split`@`[0]}`, m, { mentions: [roof.p, roof.p2] })
+if (!roof.pilih) conn.sendText(roof.p, `Silahkan pilih \n\nBatu🗿\nKertas📄\nGunting✂️`, m)
+if (!roof.pilih2) conn.sendText(roof.p2, `Silahkan pilih \n\nBatu🗿\nKertas📄\nGunting✂️`, m)
+roof.waktu_milih = setTimeout(() => {
+if (!roof.pilih && !roof.pilih2) conn.sendText(from, `Kedua pemain tidak niat main,\nSuit dibatalkan`)
+else if (!roof.pilih || !roof.pilih2) {
+win = !roof.pilih ? roof.p2 : roof.p
+conn.sendTextWithMentions(from, `@${(roof.pilih ? roof.p2 : roof.p).split`@`[0]} tidak memilih suit, game berakhir`, m)
+}
+delete this.suit[roof.id]
+return !0
+}, roof.timeout)
+}
+let jwb = m.sender == roof.p
+let jwb2 = m.sender == roof.p2
+let g = /gunting/i
+let b = /batu/i
+let k = /kertas/i
+let reg = /^(gunting|batu|kertas)/i
+if (jwb && reg.test(m.text) && !roof.pilih && !m.isGroup) {
+roof.pilih = reg.exec(m.text.toLowerCase())[0]
+roof.text = m.text
+m.reply(`Kamu telah memilih ${m.text} ${!roof.pilih2 ? `\n\nMenunggu lawan memilih` : ''}`)
+if (!roof.pilih2) conn.sendText(roof.p2, '_Lawan sudah memilih_\nSekarang giliran kamu', 0)
+}
+if (jwb2 && reg.test(m.text) && !roof.pilih2 && !m.isGroup) {
+roof.pilih2 = reg.exec(m.text.toLowerCase())[0]
+roof.text2 = m.text
+m.reply(`Kamu telah memilih ${m.text} ${!roof.pilih ? `\n\nMenunggu lawan memilih` : ''}`)
+if (!roof.pilih) conn.sendText(roof.p, '_Lawan sudah memilih_\nSekarang giliran kamu', 0)
+}
+let stage = roof.pilih
+let stage2 = roof.pilih2
+if (roof.pilih && roof.pilih2) {
+clearTimeout(roof.waktu_milih)
+if (b.test(stage) && g.test(stage2)) win = roof.p
+else if (b.test(stage) && k.test(stage2)) win = roof.p2
+else if (g.test(stage) && k.test(stage2)) win = roof.p
+else if (g.test(stage) && b.test(stage2)) win = roof.p2
+else if (k.test(stage) && b.test(stage2)) win = roof.p
+else if (k.test(stage) && g.test(stage2)) win = roof.p2
+else if (stage == stage2) tie = true
+conn.sendText(roof.asal, `_*Hasil Suit*_${tie ? '\nSERI' : ''}
+
+@${roof.p.split`@`[0]} (${roof.text}) ${tie ? '' : roof.p == win ? ` Menang \n` : ` Kalah \n`}
+@${roof.p2.split`@`[0]} (${roof.text2}) ${tie ? '' : roof.p2 == win ? ` Menang \n` : ` Kalah \n`}
+`.trim(), m, { mentions: [roof.p, roof.p2] })
+delete this.suit[roof.id]
+}
 }
 
 var createSerial = (size) => {removebg
@@ -3769,6 +4021,219 @@ ${listnya}`
 }
 break
   //(error41)
+  
+//GAME
+//=================================================
+case 'family100': {
+ if ('family100'+from in _family100) {
+ m.reply('Masih Ada Sesi Yang Belum Diselesaikan!')
+ throw false
+ }
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/family100.json')
+ let random = anu[Math.floor(Math.random() * anu.length)]
+ let hasil = `*Jawablah Pertanyaan Berikut :*\n${random.soal}\n\nTerdapat *${random.jawaban.length}* Jawaban ${random.jawaban.find(v => v.includes(' ')) ? `(beberapa Jawaban Terdapat Spasi)` : ''}`.trim()
+ _family100['family100'+from] = {
+ id: 'family100'+from,
+ pesan: await conn.sendText(from, hasil, m),
+ ...random,
+ terjawab: Array.from(random.jawaban, () => false),
+ hadiah: 6,
+ }
+}
+break
+//=================================================//
+case 'tebak': {
+ if (!text) throw `Example : ${prefix + command} lagu\n\nOption : \n1. lagu\n2. gambar\n3. kata\n4. kalimat\n5. lirik\n6.lontong`
+ if (args[0] === "lagu") {
+ if (tebaklagu.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await JSON.parse(fs.readFileSync('./database/tebaklagu.json'));
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ let msg = await conn.sendMessage(from, { audio: { url: result.link_song }, mimetype: 'audio/mpeg' }, {quoted:m})
+ conn.sendText(from, `Lagu Tersebut Adalah Lagu dari?\n\nArtist : ${result.artist}\nWaktu : 60s`, msg).then(() => {
+ tebaklagu[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+ })
+ await sleep(30000)
+ if (tebaklagu.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption:`Waktu Habis\nJawaban:  ${tebaklagu[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak lagu`},{quoted:m}) 
+ delete tebaklagu[m.sender.split('@')[0]]
+ }
+ } else if (args[0] === 'gambar') {
+ if (tebakgambar.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakgambar.json')
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ conn.sendImage(from, result.img, `Silahkan Jawab Soal Di Atas Ini\n\nDeskripsi : ${result.deskripsi}\nWaktu : 60s`, m).then(() => {
+ tebakgambar[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+ })
+ await sleep(30000)
+ if (tebakgambar.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption: `Waktu Habis\nJawaban:  ${tebakgambar[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak gambar`}, {quoted:m}) 
+ delete tebakgambar[m.sender.split('@')[0]]
+ }
+ } else if (args[0] === 'kata') {
+ if (tebakkata.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkata.json')
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ conn.sendText(from, `Silahkan Jawab Pertanyaan Berikut\n\n${result.soal}\nWaktu : 60s`, m).then(() => {
+ tebakkata[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+ })
+ await sleep(30000)
+ if (tebakkata.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption: `Waktu Habis\nJawaban:  ${tebakkata[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak kata` }, {quoted:m}) 
+ delete tebakkata[m.sender.split('@')[0]]
+ }
+ } else if (args[0] === 'kalimat') {
+ if (tebakkalimat.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkalimat.json')
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ conn.sendText(from, `Silahkan Jawab Pertanyaan Berikut\n\n${result.soal}\nWaktu : 60s`, m).then(() => {
+ tebakkalimat[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+ })
+ await sleep(30000)
+ if (tebakkalimat.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption:`Waktu Habis\nJawaban:  ${tebakkalimat[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak kalimat`}, {quoted:m}) 
+ delete tebakkalimat[m.sender.split('@')[0]]
+ }
+ } else if (args[0] === 'lirik') {
+ if (tebaklirik.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebaklirik.json')
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ conn.sendText(from, `Ini Adalah Lirik Dari Lagu? : *${result.soal}*?\nWaktu : 60s`, m).then(() => {
+ tebaklirik[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+ })
+ await sleep(30000)
+ if (tebaklirik.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption: `Waktu Habis\nJawaban:  ${tebaklirik[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak lirik`} , {quoted:m}) 
+ delete tebaklirik[m.sender.split('@')[0]]
+ }
+ } else if (args[0] === 'lontong') {
+ if (caklontong.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/caklontong.json')
+ let result = anu[Math.floor(Math.random() * anu.length)]
+ conn.sendText(from, `*Jawablah Pertanyaan Berikut :*\n${result.soal}*\nWaktu : 60s`, m).then(() => {
+ caklontong[m.sender.split('@')[0]] = result.jawaban.toLowerCase()
+caklontong_desk[m.sender.split('@')[0]] = result.deskripsi
+ })
+ await sleep(30000)
+ if (caklontong.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ conn.sendMessage(m.chat, { image: { url: 'https://telegra.ph/file/7bce2c048806d4a13f340.jpg' }, caption:`Waktu Habis\nJawaban:  ${caklontong[m.sender.split('@')[0]]}\nDeskripsi : ${caklontong_desk[m.sender.split('@')[0]]}\n\nIngin bermain? Ketik tebak lontong`}, {quoted:m}) 
+ delete caklontong[m.sender.split('@')[0]]
+delete caklontong_desk[m.sender.split('@')[0]]
+ }
+ }
+}
+break
+//=================================================//
+case 'kuismath': case 'math': {
+ if (kuismath.hasOwnProperty(m.sender.split('@')[0])) throw "Masih Ada Sesi Yang Belum Diselesaikan!"
+ let { genMath, modes } = require('./src/math')
+ if (!text) throw `Mode: ${Object.keys(modes).join(' | ')}\nContoh penggunaan: ${prefix}math medium`
+ let result = await genMath(text.toLowerCase())
+ conn.sendText(from, `*Berapa hasil dari: ${result.soal.toLowerCase()}*?\n\nWaktu: ${(result.waktu / 1000).toFixed(2)} detik`, m).then(() => {
+ kuismath[m.sender.split('@')[0]] = result.jawaban
+ })
+ await sleep(result.waktu)
+ if (kuismath.hasOwnProperty(m.sender.split('@')[0])) {
+ console.log("Jawaban: " + result.jawaban)
+ m.reply("Waktu Habis\nJawaban: " + kuismath[m.sender.split('@')[0]])
+ delete kuismath[m.sender.split('@')[0]]
+ }
+}
+break
+//=================================================//
+case 'ttc': case 'ttt': case 'tictactoe': {
+if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
+ let TicTacToe = require("./lib/tictactoe")
+this.game = this.game ? this.game : {}
+if (Object.values(this.game).find(room => room.id.startsWith('tictactoe') && [room.game.playerX, room.game.playerO].includes(m.sender))) throw 'Kamu masih didalam game'
+let room = Object.values(this.game).find(room => room.state === 'WAITING' && (text ? room.name === text : true))
+if (room) {
+m.reply('Partner ditemukan!')
+room.o = from
+room.game.playerO = m.sender
+room.state = 'PLAYING'
+let arr = room.game.render().map(v => {
+return {
+X: '❌',
+O: '⭕',
+1: '1️⃣',
+2: '2️⃣',
+3: '3️⃣',
+4: '4️⃣',
+5: '5️⃣',
+6: '6️⃣',
+7: '7️⃣',
+8: '8️⃣',
+9: '9️⃣',
+}[v]
+})
+let str = `Room ID: ${room.id}
+
+${arr.slice(0, 3).join('')}
+${arr.slice(3, 6).join('')}
+${arr.slice(6).join('')}
+
+Menunggu @${room.game.currentTurn.split('@')[0]}
+
+Ketik *nyerah* untuk menyerah dan mengakui kekalahan`
+if (room.x !== room.o) await conn.sendText(room.x, str, m, { mentions: parseMention(str) } )
+await conn.sendText(room.o, str, m, { mentions: parseMention(str) } )
+} else {
+room = {
+id: 'tictactoe-' + (+new Date),
+x: from,
+o: '',
+game: new TicTacToe(m.sender, 'o'),
+state: 'WAITING'
+}
+if (text) room.name = text
+m.reply('Menunggu partner' + (text ? ` mengetik command dibawah ini ${prefix}${command} ${text}` : ''))
+this.game[room.id] = room
+}
+}
+break
+//=================================================//
+case 'delttc': case 'delttt': {
+ let roomnya = Object.values(this.game).find(room => room.id.startsWith('tictactoe') && [room.game.playerX, room.game.playerO].includes(m.sender))
+if (!roomnya) throw `Kamu sedang tidak berada di room tictactoe !`
+delete this.game[roomnya.id]
+m.reply(`Berhasil delete session room tictactoe !`)
+}
+break
+//=================================================//
+case 'suitpvp': case 'suit': {
+this.suit = this.suit ? this.suit : {}
+let poin = 10
+let poin_lose = 10
+let timeout = 60000
+if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.sender))) m.reply(`Selesaikan suit mu yang sebelumnya`)
+if (m.mentionedJid[0] === m.sender) return m.reply(`Tidak bisa bermain dengan diri sendiri !`)
+if (!m.mentionedJid[0]) return m.reply(`_Siapa yang ingin kamu tantang?_\nTag orangnya..\n\nContoh : ${prefix}suit @${owner[1]}`, from, { mentions: [owner[1] + '@s.whatsapp.net'] })
+if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.mentionedJid[0]))) throw `Orang yang kamu tantang sedang bermain suit bersama orang lain :(`
+let id = 'suit_' + new Date() * 1
+let caption = `_*SUIT PvP*_
+
+@${m.sender.split`@`[0]} menantang @${m.mentionedJid[0].split`@`[0]} untuk bermain suit
+
+Silahkan @${m.mentionedJid[0].split`@`[0]} untuk ketik terima/tolak`
+this.suit[id] = {
+chat: await conn.sendText(from, caption, m, { mentions: parseMention(caption) }),
+id: id,
+p: m.sender,
+p2: m.mentionedJid[0],
+status: 'wait',
+waktu: setTimeout(() => {
+if (this.suit[id]) conn.sendText(from, `_Waktu suit habis_`, m)
+delete this.suit[id]
+}, 60000), poin, poin_lose, timeout
+}
+}
+break
 //========================END============================//
 case 'id' :
         if (!isCreator) return paycall(`*khusus Owner*`)
