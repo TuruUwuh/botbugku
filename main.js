@@ -4405,7 +4405,30 @@ Group Close`}, {quoted:m})
  }
 }
 break
-
+case 'closetime': {
+if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
+if (args[1] == 'second') {
+var timer = args[0] * `1000`
+} else if (args[1] == 'minute') {
+var timer = args[0] * `60000`
+} else if (args[1] == 'hour') {
+var timer = args[0] * `3600000`
+} else if (args[1] == 'day') {
+var timer = args[0] * `86400000`
+} else {
+return paytod('*Choose:*\nsecond\nminute\nhour\n\n*Example*\n10 second')
+}
+paycall(`Waktu Tutup ${q} Mulai dari sekarang`)
+setTimeout(() => {
+var nomor = m.participant
+const close = `*Tepat waktu* Grup Tertutup By Admin\nSekarang Hanya Admin yang Dapat Mengirim Pesan`
+conn.groupSettingUpdate(from, 'announcement')
+paytod(close)
+}, timer)
+}
+break
 case 'setppgc': {
 if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
@@ -4469,7 +4492,30 @@ await loading()
 await conn.groupUpdateDescription(from, text).then((res)).catch((err) => m.reply(jsonformat(err)))
 }
 break
-
+case 'opentime': {
+if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
+if (args[1] == 'second') {
+var timer = args[0] * `1000`
+} else if (args[1] == 'minute') {
+var timer = args[0] * `60000`
+} else if (args[1] == 'hour') {
+var timer = args[0] * `3600000`
+} else if (args[1] == 'day') {
+var timer = args[0] * `86400000`
+} else {
+return paytod('*Choose:*\nsecond\nminute\nhour\n\n*Example*\n10 second')
+}
+paycall(`Waktu Terbuka ${q} Mulai dari sekarang`)
+setTimeout(() => {
+var nomor = m.participant
+const open = `*Tepat waktu* Grup Dibuka By Admin\n Sekarang Anggota Dapat Mengirim Pesan`
+conn.groupSettingUpdate(from, 'not_announcement')
+paytod(open)
+}, timer)
+}
+break
 case 'tagall': {
 if (!m.isGroup) return
 await loading()
