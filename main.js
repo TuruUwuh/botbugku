@@ -2019,15 +2019,27 @@ case 'txtimg': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 reply(global.wait);
-const response = `https://api.akuari.my.id/ai/prodia?prompt=${text}`
+const response = `https://api.yanzbotz.my.id/api/text2img/text2img?prompt=${text}`
 await conn.sendFile2(from, response, `image`, done, m)
 } catch (error) {
         console.error(error);
-        replyerror('Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.');
+        replyerror('ERROR.');
     }
 }
 break
 //=========================================================//
+case 'realistic': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+reply(global.wait);
+const response = `https://api.yanzbotz.my.id/api/text2img/realistic?prompt=${text}`
+await conn.sendFile2(from, response, `image`, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
 /*case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
     return m.reply(global.noapikey);
