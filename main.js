@@ -613,6 +613,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
+➤ nero/bard/bardai
 ➤ simi
 ➤ loli
 ➤ neko
@@ -633,13 +634,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ persamaankata/sinonim
 ➤ style/styletext
 ➤ ringtone
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝘼𝙄 𝙆𝙃𝙐𝙎𝙐𝙎 𝙊𝙒𝙉𝙀𝙍 )
-━━━━━━━━━━━━━━━━━━━
-➤ aijs (Ai generate code JavaScript)
-➤ aipy (Ai generate code Python)
-➤ nero (Ai Khusus Coding V1)
-➤ neroai (Ai Khusus Coding V2)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2030,15 +2024,15 @@ conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 					}
 }
 break
-case 'nero': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
+case 'bard': case 'bardai': case 'nero': {
+//if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
   let error23;
 try {
 m.reply(global.wait)
-    let ainero = await fetch(`https://vihangayt.me/tools/bard?q=${text}`)
+    let ainero = await fetch(`https://api.yanzbotz.my.id/api/ai/bard?query=${text}`)
         let neroai = await ainero.json()
-conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
+conn.sendMessage(m.chat, {text: `${neroai.result}`}, {quoted: m})
 } catch (er) {
 					error23 = true;
 				} finally {
