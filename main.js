@@ -986,7 +986,6 @@ function capcutdl(Url) {
 		});
 	});
       }
-      
 //YTMP3
 const downloadMp3 = async (Link) => {
 try {
@@ -3494,17 +3493,21 @@ replyerror("Yah Error:(.");
     }
     }
     break
-case 'dlcapcut':
-      if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.com/watch/7238819486680321281?use_new_ui=1&template_id=7238819486680321281&share_token=ce40538b-b349-41da-869d-73d99b78287e&enter_from=template_detail&region=ID&language=in&platform=copy_link&is_copy_link=1`;
+case 'dlcapcut': {
+      if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.net/sharevideo?template_id=7239111787965205762&language=in&region=ID`;
+      if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
       let error32;
 try {
-  let cangcut = await fetchJson(`https://api.xfarr.com/api/download/capcut?apikey=8WoRQ2SEjy&url=${args[0]}`)
-conn.sendMessage(m.chat, { video: { url: cangcut.result.url }, caption: done }, { quoted: m})
+reply(global.wait)
+  let cangcut = await fetchJson(`https://api.yanzbotz.my.id/api/downloader/capcut?url=${args[0]}`)
+  let capcutuwu = `${done}\n📝Tittle : ${cangcut.result.title}\n📄Deskripsi : ${cangcut.result.description}\n👀View : ${cangcut.result.view}`
+conn.sendMessage(m.chat, { video: { url: cangcut.result.originalVideoUrl }, caption: capcutuwu }, { quoted: m})
 } catch (er) {
 error32 = true;
 } finally {
 if (error32) {
 replyerror("Yah Error:(.");
+}
 }
 }
 break
