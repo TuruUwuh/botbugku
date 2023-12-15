@@ -2026,7 +2026,7 @@ conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 break
 case 'bard': case 'bardai': case 'nero': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
-if (!text) return m.reply('Hai Ownerku Nero disini, apa perlu code script tuan?')
+if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
 m.reply(global.wait)
