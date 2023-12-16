@@ -3387,22 +3387,24 @@ break
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
-var teksnyauy = text.split("|")[0]
-var jumlah = text.split("|")[1]
+let jumlah
+//var teksnyauy = text.split("|")[0]
+//var jumlah = text.split("|")[1]
+jumlah = args[0] ? args[0] : '1', text = args.slice(1).join(' ')
 try {
 await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
 for (let i = 0; i < jumlah ; i++){
-const res = await googleImage(teksnyauy);
+const res = await googleImage(text);
 let image = res[Math.floor(Math.random() * res.length)]
 let bufferimg = await fetchBuffer(image)
 //await conn.sendImage(m.chat, image, done, m)
 //await conn.sendMessage(from, { image: { url: image }, caption: `${global.done}` }, { quoted: m })
-await conn.sendFile2(m.chat, bufferimg, 'img.png', done, m)
+await conn.sendFile2(m.chat, bufferimg, 'jpeg', done, m)
 }
 } catch (error) {
         console.error(error);
-        reply('DATA TIDAK DITEMUKAN');
+        replyerror('DATA TIDAK DITEMUKAN');
     }
 }
 break
