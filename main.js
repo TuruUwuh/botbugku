@@ -3228,7 +3228,7 @@ conn.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m}
                 }
                 break
 //========================BRAINLY SCRAPE============================//
-case 'brainly': {
+case 'brainly':
 if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)
 Brainly.initialize();
 var brainly = new Brainly('id');
@@ -3242,7 +3242,7 @@ ${v.content}${v.attachments.length > 0 ? `\n*Media Url*: ${v.attachments.join(',
 		replybrainly(answer.trim())
 		}
 		break		
-case 'brainly2': {
+case 'brainly2':
                     if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
                     query = args.join(" ")
                     let error24;
@@ -3264,16 +3264,7 @@ try {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
-					}
                     break
-case 'brainly3': {
-if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
-query = args.join(" ")
-let res = await fetchJson(`https://api.akuari.my.id/edukasi/brainly?query=${query}`)
-let unu = res.hasil
-let itune = unu.data
-await conn.sendMessage(m.chat, {text: `${itune[0].jawaban[0].text}`}, {quoted: fkontak})
-break
 case 'ruangguru': case 'roboguru': {
 			if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
 			query = args.join(" ")
@@ -3295,7 +3286,6 @@ if (error31) {
 replyerror("ERROR");
 }
 }
-			}
 			}
 			break
 //========================LIRIK LAGU============================//
