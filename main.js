@@ -613,7 +613,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
-➤ nero/bard/bardai
 ➤ simi
 ➤ loli
 ➤ neko
@@ -622,10 +621,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
 ➤ jadianime (Reply Gambar)
-➤ txtimg (masukin prompt)
-➤ realistic (masukin prompt)
-➤ realistic2 (masukin prompt)
-➤ diffusion (masukin prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2024,7 +2019,7 @@ conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 					}
 }
 break
-case 'bard': case 'bardai': case 'nero': {
+/*case 'bard': case 'bardai': case 'nero': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
@@ -2041,7 +2036,7 @@ conn.sendMessage(m.chat, {text: `${neroai.result}`}, {quoted: m})
 					}
 					}
 }
-break
+break*/
 //========================WAIFU = LOLI========================//
 case 'neko': case 'waifu': {
 let error3;
@@ -2263,7 +2258,7 @@ try {
 					}
 					}
 break
-case 'txtimg': {
+/*case 'txtimg': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 reply(global.wait);
@@ -2317,7 +2312,7 @@ await conn.sendImage(m.chat, response, done, m)
         replyerror('ERROR.');
     }
 }
-break
+break*/
 /*case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
     return m.reply(global.noapikey);
