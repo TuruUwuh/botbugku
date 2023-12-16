@@ -3387,10 +3387,9 @@ break
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
-let jumlah
 //var teksnyauy = text.split("|")[0]
-//var jumlah = text.split("|")[1]
-text = args.slice(0).join(' '), jumlah = args[1] ? args[1] : '1'
+text = args.slice(0).join(' ')
+var jumlah = text.split("#")[1] : '#1'
 try {
 await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
