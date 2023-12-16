@@ -3389,7 +3389,7 @@ if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
 //var teksnyauy = text.split("|")[0]
 text = args.slice(0).join(' ')
-var jumlah = text.split("#")[1] : '#1'
+var jumlah = text.split("#")[1]
 try {
 await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
