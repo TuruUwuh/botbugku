@@ -3387,6 +3387,7 @@ break
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
+if (!jumlah) return m.reply(`${command} Nezuko Nude|5`)
 var teksnyauy = text.split("|")[0]
 var jumlah = text.split("|")[1]
 try {
