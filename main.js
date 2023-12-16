@@ -613,6 +613,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
+➤ nero/openai4/chatgptv4
 ➤ simi
 ➤ loli
 ➤ neko
@@ -2019,15 +2020,15 @@ conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
 					}
 }
 break
-/*case 'bard': case 'bardai': case 'nero': {
+case 'openai4': case 'chatgptv4': case 'nero': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
 m.reply(global.wait)
-    let ainero = await fetch(`https://api.yanzbotz.my.id/api/ai/bard?query=${text}`)
+    let ainero = await fetch(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
         let neroai = await ainero.json()
-conn.sendMessage(m.chat, {text: `${neroai.result}`}, {quoted: m})
+conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
 } catch (er) {
 					error23 = true;
 				} finally {
@@ -2036,7 +2037,7 @@ conn.sendMessage(m.chat, {text: `${neroai.result}`}, {quoted: m})
 					}
 					}
 }
-break*/
+break
 //========================WAIFU = LOLI========================//
 case 'neko': case 'waifu': {
 let error3;
@@ -3227,7 +3228,7 @@ conn.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m}
                 }
                 break
 //========================BRAINLY SCRAPE============================//
-case 'brainly':
+case 'brainly': {
 if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)
 Brainly.initialize();
 var brainly = new Brainly('id');
@@ -3241,7 +3242,7 @@ ${v.content}${v.attachments.length > 0 ? `\n*Media Url*: ${v.attachments.join(',
 		replybrainly(answer.trim())
 		}
 		break		
-case 'brainly2':
+case 'brainly2': {
                     if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
                     query = args.join(" ")
                     let error24;
@@ -3263,8 +3264,9 @@ try {
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+					}
                     break
-case 'brainly3':
+case 'brainly3': {
 if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
 query = args.join(" ")
 let res = await fetchJson(`https://api.akuari.my.id/edukasi/brainly?query=${query}`)
@@ -3293,6 +3295,7 @@ if (error31) {
 replyerror("ERROR");
 }
 }
+			}
 			}
 			break
 //========================LIRIK LAGU============================//
@@ -3413,7 +3416,7 @@ await conn.sendFile2(m.chat, bufferimg, 'img.png', done, m)
     }
 }
 break
-case 'mediafire':
+case 'mediafire': {
 if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 const { mediafiredl } = require('@bochilteam/scraper');
     let resnyacyy = await mediafiredl(args[0])
@@ -3427,6 +3430,7 @@ const { mediafiredl } = require('@bochilteam/scraper');
     m.reply(`Sedang Mengunduh File:\n${caption}`)
     //await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
   await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext, asDocument: true })
+  }
 break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
@@ -3443,7 +3447,7 @@ m.reply(teks)
 })
 }
 break
-case 'translate':
+case 'translate': {
 	let lang
 	if (args.length >= 2) {
 		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
@@ -3454,6 +3458,7 @@ case 'translate':
 	let transtod = await translate(text, { to: lang, autoCorrect: true }).catch(_ => null)
 	if (!transtod) throw `Error : Bahasa"${lang}" Tidak Support`
 	m.reply(`*Terdeteksi Bahasa:* ${transtod.from.language.iso}\n*Ke Bahasa:* ${lang}\n\n*Terjemahan:* ${transtod.text}`.trim())
+	}
 break
     case 'search': {
   if (!/image/.test(mime)) {
