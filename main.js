@@ -3387,14 +3387,14 @@ break
 case 'img': case 'gimage': {
 if (!text) return m.reply(`${command} Nezuko Nude|5`)
 if (args.length >= 10) return m.reply('Kebanyakan!')
-//var teksnyauy = text.split("|")[0]
-text = args.slice(0).join(' ')
-var jumlah = text.split("#")[1]
+if (text.split) return m.reply(`${command} Nezuko Nude|5`)
+var teksnyauy = text.split("|")[0]
+var jumlah = text.split("|")[1]
 try {
 await reply(global.wait)
 const { googleImage } = require('@bochilteam/scraper');
 for (let i = 0; i < jumlah ; i++){
-const res = await googleImage(text);
+const res = await googleImage(teksnyauy);
 let image = res[Math.floor(Math.random() * res.length)]
 let bufferimg = await fetchBuffer(image)
 //await conn.sendImage(m.chat, image, done, m)
