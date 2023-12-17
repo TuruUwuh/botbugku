@@ -2804,7 +2804,8 @@ break*/
 case 'nhentai':
 case 'ncode': {
 let code = (args[0] || '').replace(/\D/g, '')
-if (!code) throw 'Input code' 
+if (!code) throw 'Input code'
+try {
 await m.reply(global.wait)
 let data = await nhentaiScraper(code)
 let pages = []
@@ -2817,6 +2818,10 @@ let buffer = await (await fetch(thumbnya)).buffer()
 let jpegThumbnail = await fetchBuffer(buffer)		
 let imagepdf = await toPDF(pages)		
 await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        m.reply(`Kode atau link yang kamu masukin tidak ditemukan`);
+    }
 }
 break
 case 'hentaivid': case 'hentaivideo': {
