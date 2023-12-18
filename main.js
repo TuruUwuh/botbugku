@@ -614,6 +614,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai
 ➤ nero/openai4/chatgptv4
+➤ zerogpt (Deteksi Tulisan Ai)
 ➤ simi
 ➤ loli
 ➤ neko
@@ -1099,6 +1100,7 @@ if (m.message) {
 conn.sendPresenceUpdate(jd, from)
 console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> Dari'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> Di'), chalk.green(m.isGroup ? pushname : 'Private Chat', from))
 }*/
+
 //Grup Only By ShinChan_Kawaii
 /*if(isCmd && !m.isGroup && !isCreator && grup_only){
           paycall("Bot hanya bisa digunakan dalam grup")
@@ -1907,7 +1909,7 @@ conn.sendMessage(m, {text: `${teksnye}`}, {quoted: blue})
 reply(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
 }
 break
-case 'owner': case 'crator':{
+case 'owner': case 'creator':{
  conn.sendContact(from, global.owner, blue)
 }
 break
@@ -2037,6 +2039,43 @@ conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
 					}
 					}
 }
+break
+case 'zerogpt': {
+    if (!text) {
+        throw `Fitur pendeteksi Tulisan yang dibuat oleh AI\nContoh:\n${prefix + command} TextGenerateFromAI`;
+    }
+
+    var options = {
+        method: 'POST',
+        url: 'https://tr.deployers.repl.co/zerogpt',
+        headers: {
+            Accept: '*/*',
+            'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
+            'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
+        },
+        data: `-----011000010111000001101001\r\nContent-Disposition: form-data; name="text"\r\n\r\n${text}\r\n-----011000010111000001101001--\r\n`
+    };
+
+    try {
+        const response = await axios.request(options);
+        const aiWords = response.data.data.aiWords;
+        const detectedLanguage = response.data.data.detected_language;
+        const h = response.data.data.h;
+
+        const replyMessage = `
+🤖AI Words: ${aiWords}
+
+📄Detected Language: ${detectedLanguage}
+
+📝Perkataan AI: ${h}
+`;
+
+        m.reply(replyMessage);
+    } catch (error) {
+        console.error(error);
+        m.reply('An error occurred while processing the request');
+    }
+};
 break
 //========================WAIFU = LOLI========================//
 case 'neko': case 'waifu': {
