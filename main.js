@@ -626,6 +626,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ 4k (reply gambar)
 ➤ removebg (reply gambar)
 ➤ jadianime (Reply Gambar)
+➤ prodia (Prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2384,6 +2385,19 @@ await conn.sendImage(m.chat, response, done, m)
     }
 }
 break*/
+case 'prodia': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+reply(global.wait);
+const response = `https://api.akuari.my.id/ai/prodia?prompt=${text}`
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
 /*case 'imgeditor': {
   if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
     return m.reply(global.noapikey);
@@ -5364,7 +5378,7 @@ break
 case 'tourl': {
 if (isBan) return m.reply('*Lu Di Ban Owner Gak Usah Sok asik Tolol*')
 
-if (!/video/.test(mime) && !/image/.test(mime)) throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`
+if (!/video/.test(mime) && !/image/.test(mime) && !/audio/.test(mime)) throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`
 if (!quoted) throw `*Send/Reply the Video/Image Caption* ${prefix + command}`
 let { UploadFileUgu, webp2mp4File, TelegraPh } = require('./lib/uploader')
 let media = await conn.downloadAndSaveMediaMessage(quoted)
