@@ -617,6 +617,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ zerogpt (Deteksi Tulisan Ai)
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
+➤ bingai
 ➤ simi
 ➤ loli
 ➤ neko
