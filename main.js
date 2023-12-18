@@ -121,7 +121,7 @@ const salam = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const tanggal = moment(Date.now()).tz("Asia/Makassar").locale('id').format("dddd, ll")
 const xdate = moment.tz('Asia/Kolkata').format('DD/MM/YYYY')
 const qtod = m.quoted? "true":"false"
-const vn = true
+const vn = false
 const timestampi = speed();
 const latensii = speed() - timestampi
 const ini_mark = `0@s.whatsapp.net`
@@ -615,6 +615,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ ai/openai
 ➤ nero/openai4/chatgptv4
 ➤ zerogpt (Deteksi Tulisan Ai)
+➤ bard/bardai
+➤ bardimg (reply gambar + masukin teks)
 ➤ simi
 ➤ loli
 ➤ neko
@@ -1933,24 +1935,38 @@ fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
-/*case 'openai': case 'ai': {
-  if (!text) return m.reply('Apa yang bisa saya bantu?')
+case 'bingai': {
+  if (!text) return m.reply('Hai saya bing Ai, Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
 try {
 m.reply(global.wait)
-    let response = await fetchJson(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
-    let dataaiv4 = await response.data
-conn.sendMessage(m.chat, {text: `${dataaiv4}`}, {quoted: m})
+    let response = await fetchJson(`https://aemt.me/bingai?text=${text}`)
+    let databingai = await response.result
+conn.sendMessage(m.chat, {text: `${databingai}`}, {quoted: m})
 } catch (er) {
 					error1 = true;
 				} finally {
 					if (error1) {
-						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+						replyerror("Kami mengalami kesalahan internal.");
 					}
 					}
 }
-break*/
+break
+case 'bard': case 'bardai': {
+  if (!text) return m.reply('Hai saya Bard Ai, Apa yang bisa saya bantu?')
+  console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
+try {
+m.reply(global.wait)
+    let response = await fetchJson(`https://aemt.me/bard?text=${text}`)
+    let databardai = await response.result
+conn.sendMessage(m.chat, {text: `${databardai}`}, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+}
+break
 case 'mtk': case 'aimtk': {
 if (!text) return m.reply('Perlu bantuan mengerjakan matematika kah?')
   let error2;
@@ -2204,7 +2220,7 @@ break
 //========================REMINI=========================//
 case 'remini': {
 			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			await loading ()
+			m.reply(global.wait)
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
@@ -2217,7 +2233,7 @@ let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 let error8;
 try {
-await loading ()
+m.reply(global.wait)
 let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=4&apikey=hYnG4TVp`)
 let data = await response.json()
 let kapsion = `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`
@@ -2229,6 +2245,20 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+			}
+			break
+case 'bardimg': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+m.reply(global.wait)
+let response = await fetchJson(`https://aemt.me/bardimg?url=${anu}&text=${text}`)
+conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
 			}
 			break
 /*case 'hd': {
@@ -3522,7 +3552,7 @@ replyerror("Yah Error:(.");
     }
     }
     break
-case 'dlcapcut': {
+/*case 'dlcapcut': {
       if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.net/sharevideo?template_id=7239111787965205762&language=in&region=ID`;
       if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
       let error32;
@@ -3531,6 +3561,24 @@ reply(global.wait)
   let cangcut = await fetchJson(`https://api.yanzbotz.my.id/api/downloader/capcut?url=${args[0]}`)
   let capcutuwu = `${done}\n📝Tittle : ${cangcut.result.title}\n📄Deskripsi : ${cangcut.result.description}\n👀View : ${cangcut.result.view}`
 conn.sendMessage(m.chat, { video: { url: cangcut.result.originalVideoUrl }, caption: capcutuwu }, { quoted: m})
+} catch (er) {
+error32 = true;
+} finally {
+if (error32) {
+replyerror("Yah Error:(.");
+}
+}
+}
+break*/
+case 'dlcapcut': {
+      if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.net/sharevideo?template_id=7239111787965205762&language=in&region=ID`;
+      if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
+      let error32;
+try {
+reply(global.wait)
+  let cangcut = await fetchJson(`https://aemt.me/download/capcut?url=${args[0]}`)
+  let capcutuwu = `${done}\n📝Tittle : ${cangcut.result.title}\n📄Deskripsi : ${cangcut.result.description}\n👀View : ${cangcut.result.digunakan}`
+conn.sendMessage(m.chat, { video: { url: cangcut.result.video_ori }, caption: capcutuwu }, { quoted: m})
 } catch (er) {
 error32 = true;
 } finally {
