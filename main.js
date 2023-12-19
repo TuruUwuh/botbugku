@@ -3510,10 +3510,27 @@ const { mediafiredl } = require('@bochilteam/scraper');
 *📨 Uploaded:* ${aploud}
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
-    //await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-  await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext, asDocument: true })
+    await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
+  //await conn.sendMessage(m.chat, {document: mediafiredl.link, mimetype: 'application/zip', fileName: `${mediafiredl.title}`}, { quoted : m })
   }
 break
+/*case 'mediafire': {
+if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let response = await fetchJson(`https://aemt.me/mediafire?link=${args[0]}`)
+    let mediafiredl = await response.result
+    let caption = `
+*💌 Name:* ${mediafiredl.title}
+*📊 Size:* ${mediafiredl.size}`
+m.reply(caption)
+await conn.sendMessage(m.chat, {document: mediafiredl.link, mimetype: 'application/zip', fileName: `${mediafiredl.title}`}, { quoted : m })
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+}
+break*/
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
 reply(global.wait)
