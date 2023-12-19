@@ -1942,7 +1942,7 @@ case 'bingai': {
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bingai?text=${text}`)
     let databingai = await response.result
 conn.sendMessage(m.chat, {text: `${databingai}`}, {quoted: m})
@@ -1959,7 +1959,7 @@ case 'bard': case 'bardai': {
   if (!text) return m.reply('Hai saya Bard Ai, Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bard?text=${text}`)
     let databardai = await response.result
 conn.sendMessage(m.chat, {text: `${databardai}`}, {quoted: m})
@@ -1973,7 +1973,7 @@ case 'mtk': case 'aimtk': {
 if (!text) return m.reply('Perlu bantuan mengerjakan matematika kah?')
   let error2;
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let aimtkuy = await fetch(`https://vihangayt.me/tools/mathssolve?q=${text}`)
         let dataai = await aimtkuy.json()
 conn.sendMessage(m.chat, {text: `${dataai.data}`}, {quoted: m})
@@ -2027,7 +2027,7 @@ case 'openai': case 'ai': case 'neroai': case 'aibb': case 'blackbox': {
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let aibb = await fetch(`https://vihangayt.me/tools/blackboxv4?q=${text}`)
         let botilegal = await aibb.json()
 conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
@@ -2045,7 +2045,7 @@ case 'openai4': case 'chatgptv4': case 'nero': {
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let ainero = await fetch(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
         let neroai = await ainero.json()
 conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
@@ -2075,6 +2075,7 @@ case 'zerogpt': {
     };
 
     try {
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         const response = await axios.request(options);
         const aiWords = response.data.data.aiWords;
         const detectedLanguage = response.data.data.detected_language;
@@ -2222,20 +2223,20 @@ break
 //========================REMINI=========================//
 case 'remini': {
 			if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-			m.reply(global.wait)
+			await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
 			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
 			}
 			break
-case '4k': {
+case 'hd': case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 let error8;
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetch(`https://api.betabotz.org/api/tools/remini-v3?url=${anu}&resolusi=4&apikey=hYnG4TVp`)
 let data = await response.json()
 let kapsion = `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`
@@ -2254,7 +2255,7 @@ if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bardimg?url=${anu}&text=${text}`)
 conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
 } catch (error) {
@@ -2315,7 +2316,7 @@ try {
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    reply(global.wait);
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     const response = `https://api.lolhuman.xyz/api/removebg?apikey=haikalgans&img=${anu}`
     
 
@@ -2388,7 +2389,7 @@ break*/
 case 'prodia': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
-reply(global.wait);
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://api.akuari.my.id/ai/prodia?prompt=${text}`
 //await conn.sendFile2(from, response, `image`, done, m)
 await conn.sendImage(m.chat, response, done, m)
@@ -2525,7 +2526,7 @@ try {
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    m.reply(global.wait);
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     const resnime = `https://api.lolhuman.xyz/api/imagetoanime?apikey=haikalgans&img=${anu}`
     
 
@@ -2567,7 +2568,7 @@ spotifyreply(teks)
 break
 case "spotify":{
 if (!text) return paycall(`Di mana tautannya?`)
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         const Spotify = require('./lib/spotify')
         const spotify = new Spotify(text)
         const info = await spotify.getInfo()
@@ -2588,7 +2589,7 @@ if (!args[0]) {
     }
     if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
-    await replydltt('Tunggu sebentar kak, video sedang di download... server 1');
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         const tiktokData = await tryServer1(args[0]);
 
         if (!tiktokData) {
@@ -2620,7 +2621,7 @@ if (!args[0]) {
     }
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
-        await replydltt('Tunggu sebentar kak, Audio sedang di download... server 1');
+        await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 
         const tiktokData = await tryServer1(args[0]);
 
@@ -2639,7 +2640,7 @@ case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
         let error19;
 try {
-replydltt(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
 
             for (let tt of res.data) {
@@ -2658,9 +2659,9 @@ break
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
-reply(global.wait)
 let error10;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetch(`https://api.akuari.my.id/other/latinkeaksara?query=${text}`)
 let data = await response.json()   
   conn.sendText(from, data.hasil, m)
@@ -2675,9 +2676,9 @@ let data = await response.json()
 break
 case 'latin': {
 if (!text) return paycall( `Caranya kirim teks aksara jawa biar di translate in sama bot`)
-reply(global.wait)
 let error11;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetch(`https://api.akuari.my.id/other/aksarakelatin?query=${text}`)
 let data = await response.json()   
   conn.sendText(from, data.hasil, m)
@@ -2692,13 +2693,13 @@ let data = await response.json()
 break
 case 'ocr': {
 if (!/image/.test(mime)) return paycall(`Fitur OCR adalah fitur untuk mengambil teks di gambar, kegunaannya biar mudah ambil teks yang di foto, fitur ini masih tahap beta yang di kembangkan oleh developer shinchan senpai💖, cara pakainya kalian kirim foto yang ada teks nya lalu kalian (ketik : ${prefix} ocr ).`)
-reply(global.wait)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media)
     let error12;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let resocr = await fetch(`https://api.ocr.space/parse/imageurl?apikey=K89553582988957&url=${anu}`)
 let dataocr = await resocr.json()
 let hasilocr = dataocr?.ParsedResults?.[0]?.ParsedText
@@ -2811,7 +2812,7 @@ await conn.sendMessage(from, { image: { url: ini_buffer.url }, caption: `${globa
 break*/
 case 'pixiv': case 'pixivdl':  {
 	if (!text) throw 'Masukan Query Atau Url Pixiv'
- m.reply(wait)
+ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 	let respixiv = await pixivDl(text)
 	for (let i = 0; i < respixiv.media.length; i++) {
 		let caption = i == 0 ? `${respixiv.caption}\n\n*By:* ${respixiv.artist}\n*Tags:* ${respixiv.tags.join(', ')}` : ''
@@ -2845,7 +2846,7 @@ break
 case 'nekopoi': {
 if (!text) throw '*[❗] MASUKKAN NAMA HENTAI YANG AKAN DICARI*'
 
-m.reply(wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 
   let searchResults = await searchHentai(text)
   let teks = searchResults.result.map((v, i) => `
@@ -2890,7 +2891,7 @@ case 'ncode': {
 let code = (args[0] || '').replace(/\D/g, '')
 if (!code) throw 'Input code'
 try {
-await m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let data = await nhentaiScraper(code)
 let pages = []
 let thumbnya = `https://external-content.duckduckgo.com/iu/?u=https://t.nhentai.net/galleries/${data.media_id}/thumb.jpg`	
@@ -2910,6 +2911,7 @@ await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: da
 break
 case 'hentaivid': case 'hentaivideo': {
                 const { hentai } = require('./lib/scraper.js')
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
                 anu = await hentai()
                 result912 = anu[Math.floor(Math.random(), anu.length)]
                 conn.sendMessage(m.chat, { video: { url: result912.video_1 }, caption: `🐼 Title : ${result912.title}\n🐼 Category : ${result912.category}\n🐼 Mimetype : ${result912.type}\n🐼 Views : ${result912.views_count}\n🐼 Shares : ${result912.share_count}\n🐼 Source : ${result912.link}\n🐼 Media Url : ${result912.video_1}` }, { quoted: m })
@@ -2933,7 +2935,7 @@ case 'xnxx': case 'xnxxdl': {
 	if (!text) return paycall(`Kirim Link Bokep di situs XNXX`)
         if (!text.includes('xnxx.com')) return paytod(`Kirim Link Bokep di situs XNXX`)
         try {
-        reply(global.wait)
+        await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         const fg = require('api-dylux')
             let xn = await fg.xnxxdl(text)
 conn.sendMessage(m.chat, { caption: `≡  *XNXX DOWNLOAD*
@@ -2951,7 +2953,7 @@ case 'xvideos': case 'xvideosdl': {
 	if (!text) return paycall(`Kirim Link Bokep di situs XVIDEOS`)
         if (!text.includes('xvideos.com')) return paytod(`Kirim Link Bokep di situs XVIDEOS`)
         try {
-        reply(global.wait)
+        await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         const fg = require('api-dylux')
             let xvid = await fg.xvideosdl(text)
 conn.sendMessage(m.chat, { caption: `≡  *XVIDEOS DOWNLOAD*
@@ -3001,7 +3003,7 @@ case 'bypassouo': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 let error16;
 try {
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
   let res = await fetch(`https://api.lolhuman.xyz/api/ouo?apikey=haikalgans&url=${args[0]}`)
   let data = await res.json()
   let bypassnya = data.result
@@ -3019,7 +3021,7 @@ case 'bypassmirror': {
 if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 let error17;
 try {
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
   let res = await fetch(`https://api.lolhuman.xyz/api/mirrorcreator?apikey=haikalgans&url=${args[0]}`)
   let pemanggil = await res.json()
   let anuan = pemanggil.result
@@ -3054,7 +3056,7 @@ case 'play':  case 'song': {
 if (!text) return paycall(`Example : ${prefix + command} DJ MALAM PAGI`)
 const shinchanplaymp3 = require('./lib/ytdl2')
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let yts = require("youtube-yts")
         let search = await yts(text)
         let anup3k = search.videos[0]
@@ -3087,7 +3089,7 @@ case "ytmp3": case "ytaudio": {
 const shinchanmp3 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp3.isYTUrl(text)) return paycall(`Where's the yt link?\nExample: ${prefix + command} https://youtube.com/shorts/YQf-vMjDuKY?feature=share`)
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const audio=await shinchanmp3.mp3(text)
 await conn.sendMessage(m.chat,{
     audio: fs.readFileSync(audio.path),
@@ -3116,7 +3118,7 @@ case 'ytmp4': case 'ytvideo': {
 const shinchanmp4 = require('./lib/ytdl2')
 if (args.length < 1 || !isUrl(text) || !shinchanmp4.isYTUrl(text)) paycall(`Where is the link??\n\nExample : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 128kbps`)
 try {
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const vid=await shinchanmp4.mp4(text)
 const ytc=`
 *🐼Tittle:* ${vid.title}
@@ -3193,9 +3195,9 @@ break*/
 //========================INSTAGRAM DL============================//
 case 'igvid': case 'igvideo': case 'igreels': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
-        reply(global.wait)
 			let error20;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
    //     let igfonya = res.data
             for (let igvid of res.data) {
@@ -3214,9 +3216,9 @@ try {
 break
 case 'igimg': case 'igfoto': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
-        reply(global.wait)
 			let error39;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
    //     let igfonya = res.data
             for (let igimg of res.data) {
@@ -3235,9 +3237,9 @@ try {
 break
 case 'igdl': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
-        reply(global.wait)
 			let error40;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/instagram2?url=${args[0]}`)
    //     let igfonya = res.data
             for (let igdouble of res.data) {
@@ -3379,11 +3381,11 @@ replyerror("ERROR");
 			break
 //========================LIRIK LAGU============================//
 case 'lirik': {
-reply(global.wait)
   if (!text) return m.reply('Cari lagu apa?')
   query = args.join(" ")
   let error25;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let res = await fetch(`https://api.akuari.my.id/search/lirik?query=${query}`)
     let data = await res.json()
     let uhuy = data.result
@@ -3400,9 +3402,9 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 break
 case 'lirik2': {
 if (!text) return paycall(`mau nyari lirik apa?`)
-reply(global.wait)
 let error26;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const fg = require('api-dylux')
 let res = await fg.lyrics(text);
  let mes = `▢ *${res.title}*
@@ -3455,11 +3457,11 @@ replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik
 break
 case 'wallpaper': {
 if (!text) return m.reply(`Mau Nyari Foto Apa?`)
-reply(global.wait)
 let gis = require('g-i-s')
 gis(text, async (error, result) => {
 let error30;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 n = result
 images = n[Math.floor(Math.random() * n.length)].url
 await conn.sendImage(m.chat, images, done, m)
@@ -3480,7 +3482,7 @@ var teksnyauy = text.split("|")[0]
 var jumlah = text.split("|")[1]
 if (!jumlah) return m.reply(`${command} Nezuko Nude|5`)
 try {
-await reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const { googleImage } = require('@bochilteam/scraper');
 for (let i = 0; i < jumlah ; i++){
 const res = await googleImage(teksnyauy);
@@ -3590,7 +3592,7 @@ case 'dlcapcut': {
       if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
       let error32;
 try {
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
   let cangcut = await fetchJson(`https://aemt.me/download/capcut?url=${args[0]}`)
   let capcutuwu = `${done}\n📝Tittle : ${cangcut.result.title}\n📄Deskripsi : ${cangcut.result.description}\n👀View : ${cangcut.result.digunakan}`
 conn.sendMessage(m.chat, { video: { url: cangcut.result.video_ori }, caption: capcutuwu }, { quoted: m})
@@ -3853,7 +3855,7 @@ case 'fbdl': {
       if (!args[0]) throw `Input URL`;
       let error35;
 try {
-m.reply(wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let resfbdl = await fetchJson(`https://vihangayt.me/download/fb2?url=${args[0]}`)
 let hasildlnya = resfbdl.data
 let fbdlnnya = await hasildlnya.media[1]
@@ -3890,7 +3892,7 @@ case 'twtdl': case 'twt': case 'twitter': {
       if (!args[0]) throw `Input URL`;
       let error36;
 try {
-m.reply(wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let resdltwt = await fetchJson(`https://api.lolhuman.xyz/api/twitter?apikey=haikalgans&url=${args[0]}`)
 let dltwtnya = resdltwt.result
 let dlakuir = await dltwtnya.media[0]
