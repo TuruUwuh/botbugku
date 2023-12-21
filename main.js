@@ -627,6 +627,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ removebg (reply gambar)
 ➤ jadianime (Reply Gambar)
 ➤ prodia (Prompt)
+➤ carbon (Teks)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2230,7 +2231,7 @@ case 'remini': {
 			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
 			}
 			break
-case 'hd': case '4k': {
+/*case 'hd': case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2249,6 +2250,22 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
 					}
 					}
 			}
+			break*/
+case 'hd': case '4k': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetch(`https://aemt.me/remini?url=${anu}&resolusi=4`)
+let data = await response.json()
+let kapsion = `𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 𝑯𝑫\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`
+await conn.sendImage(m.chat, data.url, kapsion, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
+			}
 			break
 case 'bardimg': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
@@ -2258,6 +2275,18 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bardimg?url=${anu}&text=${text}`)
 conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break
+case 'carbon': {
+if (!text) return paycall(`${prefix + command} teksnya`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/carbon?text=${text}`)
+await conn.sendImage(m.chat, response.result, done, m)
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
