@@ -2673,8 +2673,8 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
 
             for (let tt of res.data) {
-             //  await conn.sendImage(m.chat, tt, done, m)
-             await conn.sendFile2(m.chat, tt, '', done, m);
+               await conn.sendImage(m.chat, tt, done, m)
+            // await conn.sendFile2(m.chat, tt, '', done, m);
             }
                               } catch (er) {
 					error19 = true;
@@ -3553,7 +3553,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 *💌 Name:* ${mediafiredl.title}
 *📊 Size:* ${mediafiredl.size}`
 m.reply(caption)
-await conn.sendMessage(m.chat, {document: mediafiredl.link, mimetype: 'application/zip', fileName: `${mediafiredl.title}`}, { quoted : m })
+await conn.sendMessage(m.chat, {document: mediafiredl.link, fileName: `${mediafiredl.title}`}, { quoted : m })
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
