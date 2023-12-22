@@ -621,11 +621,13 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ loli
 ➤ neko
 ➤ waifu
-➤ remini (reply gambar)
-➤ 4k (reply gambar)
-➤ removebg (reply gambar)
+➤ remini (Reply Gambar)
+➤ hd/4k (Reply Gambar)
+➤ removebg (Reply Gambar)
 ➤ jadianime (Reply Gambar)
-➤ prodia (Prompt)
+➤ jadigta (Reply Gambar)
+➤ txtimg (Masukin teks Prompt)
+➤ prodia (Masukin teks Prompt)
 ➤ carbon (Teks)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
@@ -1895,6 +1897,7 @@ break
 case 'bot': {
 m.reply('Dah Online Kak><')
 }
+break
 case 'delete': case 'del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -2270,6 +2273,7 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
 			}
 			break
 case 'bardimg': {
+if (!isPrem) return replyprem(mess.premium)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2295,79 +2299,27 @@ await conn.sendImage(m.chat, response.result, done, m)
     }
 			}
 			break
-/*case 'hd': {
-if (!isPrem) return replyprem(mess.premium)
-const alias = {
-    "hd" : "torch-srgan",
-  };
-  const aliasCommand = alias[command] || command;
-  if (`${global.wtf}` == 'YOUR_APIKEY_HERE') {
-    return m.reply(global.noapikey);
-  }
-
-  if (!/video/.test(mime) && !/image/.test(mime)) {
-    throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
-  }
-
-  if (!quoted) {
-    throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
-  }
-  let error;
-try {
-  let media = await conn.downloadAndSaveMediaMessage(quoted);
-
-  if (/image/.test(mime)) {
-    let anu = await TelegraPh(media);
-    reply(global.wait);
-
-    const response = `https://xzn.wtf/api/waifu2x?url=${anu}&apikey=nerobot`
-
-    conn.sendMessage(from, { image: { url: response }, caption: '𝑭𝒐𝒕𝒐 𝒃𝒆𝒓𝒉𝒂𝒔𝒊𝒍 𝒅𝒊 𝒆𝒏𝒉𝒂𝒏𝒄𝒆 𝒌𝒆 4𝑲\n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️' }, { quoted: fkontak });
-  }
-} catch (er) {
-					error = true;
-				} finally {
-					if (error) {
-						reply("Proses Gagal :(");
-					}
-					}
-					}
-break*/
 //========================REMOVE BAGROUND=========================//
 case 'removebg': {
-  if (!/video/.test(mime) && !/image/.test(mime)) {
-    throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
-  }
-
-  if (!quoted) {
-    throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
-  }
-  let error;
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
 try {
-  let media = await conn.downloadAndSaveMediaMessage(quoted);
-  if (/image/.test(mime)) {
-    let anu = await TelegraPh(media);
-    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    const response = `https://api.lolhuman.xyz/api/removebg?apikey=haikalgans&img=${anu}`
-    
-
-    conn.sendMessage(from, { image: { url: response }, caption: done }, { quoted: m });
-  }
-} catch (er) {
-					error = true;
-				} finally {
-					if (error) {
-						reply("Proses Gagal :(");
-					}
-					}
-					}
-break
-/*case 'txtimg': {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/removebg?url=${anu}`)
+let hasilnyabg = response.url
+await conn.sendImage(m.chat, hasilnyabg.result, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break
+case 'txtimg': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
-reply(global.wait);
-const response = `https://api.yanzbotz.my.id/api/text2img/text2img?prompt=${text}`
-//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/ai/text2img?text=${text}`
 await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
@@ -2376,7 +2328,7 @@ await conn.sendImage(m.chat, response, done, m)
 }
 break
 //=========================================================//
-case 'realistic': {
+/*case 'realistic': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 reply(global.wait);
@@ -2572,6 +2524,20 @@ try {
 					}
 					}
 break
+case 'jadigta': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/jadigta?url=${anu}`)
+conn.sendImage(m.chat, response.result, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
+			}
+			break
 //========================SPOTIFY=========================//
 case 'spotifysearch': {
 if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;  
