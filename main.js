@@ -590,7 +590,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
 ━━━━━━━━━━━━━━━━━━━
-➤ mediafire (link MediaFire)
 ➤ pixiv (perlu code pixiv)
 ➤ spotify (link Spotify)
 ➤ nhentai/ncode (code hentai)
@@ -3527,7 +3526,7 @@ await conn.sendImage(m.chat, bufferimg, done, m)
     }
 }
 break
-case 'mediafire': {
+/*case 'mediafire': {
 if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 const { mediafiredl } = require('@bochilteam/scraper');
     let resnyacyy = await mediafiredl(args[0])
@@ -3543,7 +3542,7 @@ const { mediafiredl } = require('@bochilteam/scraper');
   //await conn.sendMessage(m.chat, {document: mediafiredl.link, mimetype: 'application/zip', fileName: `${mediafiredl.title}`}, { quoted : m })
   }
 break
-/*case 'mediafire': {
+case 'mediafire': {
 if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
