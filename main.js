@@ -617,6 +617,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
 ➤ bingai
+➤ gemini
 ➤ simi
 ➤ loli
 ➤ neko
@@ -1969,6 +1970,20 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bard?text=${text}`)
     let databardai = await response.result
 conn.sendMessage(m.chat, {text: `${databardai}`}, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+}
+break
+case 'gemini': {
+  if (!text) return m.reply('Hai saya Gemini Ai, Apa yang bisa saya bantu?')
+  console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let response = await fetchJson(`https://vihangayt.me/tools/gemini?q=${text}`)
+    let datagemini = await response.data
+conn.sendMessage(m.chat, {text: `${datagemini}`}, {quoted: m})
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
