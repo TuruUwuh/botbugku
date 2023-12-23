@@ -2079,7 +2079,7 @@ m.reply(global.wait)
 					}
 }
 break
-case 'openai': case 'ai': case 'neroai': case 'aibb': case 'blackbox': {
+case 'openai': case 'nero': case 'neroai': case 'aibb': case 'blackbox': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
@@ -2093,7 +2093,7 @@ conn.sendMessage(m.chat, {
     externalAdReply :{
     mediaUrl: 'https://instagram.com/shinchan.senpai', 
     mediaType: 1,
-    title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏',
+    title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏 𝘽𝙡𝙖𝙘𝙠𝘽𝙤𝙭 𝙑4',
     body: `${tanggal} ××× ${time}`, 
     thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
     sourceUrl: 'https://instagram.com/shinchan.senpai',
@@ -2109,16 +2109,15 @@ conn.sendMessage(m.chat, {
 					}
 }
 break
-case 'openai4': case 'chatgptv4': case 'nero': {
+case 'openai4': case 'chatgptv4': case 'ai': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let ainero = await fetch(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
-        let neroai = await ainero.json()
+    let ainero = await fetchJson(`https://aemt.me/gpt4?text=${text}`)
 conn.sendMessage(m.chat, {
-    text: neroai.data, 
+    text: ainero.result, 
     contextInfo: {
     externalAdReply :{
     mediaUrl: 'https://instagram.com/shinchan.senpai', 
@@ -2571,7 +2570,7 @@ if (!text) return m.reply(`${command} smile face with blush and blue hair`)
 					}
   //END AI MENU
 break*/
-case 'jadianime': {
+/*case 'jadianime': {
   if (!/video/.test(mime) && !/image/.test(mime)) {
     throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
   }
@@ -2598,7 +2597,22 @@ try {
 					}
 					}
 					}
-break
+break*/
+case 'jadianime': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/toanime?url=${anu}`)
+let hasilanim = response.url
+conn.sendImage(m.chat, hasilanim.img_crop_single, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
+			}
+			break
 case 'jadigta': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
