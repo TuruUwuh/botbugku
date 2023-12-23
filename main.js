@@ -1952,7 +1952,19 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bingai?text=${text}`)
     let databingai = await response.result
-conn.sendMessage(m.chat, {text: `${databingai}`}, {quoted: m})
+conn.sendMessage(m.chat, {
+    text: databingai, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝘽𝙄𝙉𝙂 𝘼𝙄',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
 } catch (er) {
 					error1 = true;
 				} finally {
@@ -1969,7 +1981,19 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bard?text=${text}`)
     let databardai = await response.result
-conn.sendMessage(m.chat, {text: `${databardai}`}, {quoted: m})
+conn.sendMessage(m.chat, {
+    text: databardai, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝘽𝘼𝙍𝘿 𝘼𝙄',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
@@ -1983,7 +2007,19 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://vihangayt.me/tools/gemini?q=${text}`)
     let datagemini = await response.data
-conn.sendMessage(m.chat, {text: `${datagemini}`}, {quoted: m})
+conn.sendMessage(m.chat, {
+    text: datagemini, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝙂𝙀𝙈𝙄𝙉𝙄 𝘼𝙄',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
@@ -2051,7 +2087,19 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let aibb = await fetch(`https://vihangayt.me/tools/blackboxv4?q=${text}`)
         let botilegal = await aibb.json()
-conn.sendMessage(m.chat, {text: `${botilegal.data}`}, {quoted: m})
+conn.sendMessage(m.chat, {
+    text: botilegal.data, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
 } catch (er) {
 					error33 = true;
 				} finally {
@@ -2069,7 +2117,19 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let ainero = await fetch(`https://vihangayt.me/tools/chatgptv4?q=${text}`)
         let neroai = await ainero.json()
-conn.sendMessage(m.chat, {text: `${neroai.data}`}, {quoted: m})
+conn.sendMessage(m.chat, {
+    text: neroai.data, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏 𝙑4',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
 } catch (er) {
 					error23 = true;
 				} finally {
