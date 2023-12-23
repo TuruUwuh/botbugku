@@ -618,6 +618,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ bardimg (reply gambar + masukin teks)
 ➤ bingai
 ➤ gemini
+➤ mtk/aimtk (kirim soal mtk)
 ➤ simi
 ➤ remini (Reply Gambar)
 ➤ hd/4k (Reply Gambar)
@@ -626,7 +627,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ jadigta (Reply Gambar)
 ➤ txtimg (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
-➤ carbon (Teks)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙍𝘼𝙉𝘿𝙊𝙈 𝘼𝙉𝙄𝙈𝙀 )
 ━━━━━━━━━━━━━━━━━━━
@@ -637,10 +637,12 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ enc/encsc (Kirim Code Script Js lu)
+➤ carbon (Teks)
 ➤ npmsearch
 ➤ persamaankata/sinonim
 ➤ style/styletext
 ➤ ringtone
+➤ kalkulator
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -666,14 +668,11 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
-➤ mtk (kirim soal mtk)
 ➤ aksarajawa
 ➤ latin (translate aksara jawa)
 ➤ ocr (Ambil Teks Foto)
 ➤ brainly (Kirim Soal)
-➤ ruangguru/roboguru (Kirim Soal)
 ➤ translate ( [id] Teks )
-➤ kalkulator
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙐𝘼𝙏 𝙀𝙈𝘼𝙄𝙇 𝙍𝘼𝙉𝘿𝙊𝙈 )
 ━━━━━━━━━━━━━━━━━━━
@@ -3445,7 +3444,7 @@ try {
 					}
 					}
                     break
-case 'ruangguru': case 'roboguru': {
+/*case 'ruangguru': case 'roboguru': {
 			if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
 			query = args.join(" ")
 			let error31;
@@ -3467,7 +3466,7 @@ replyerror("ERROR");
 }
 }
 			}
-			break
+			break*/
 //========================LIRIK LAGU============================//
 case 'lirik': {
   if (!text) return m.reply('Cari lagu apa?')
@@ -3999,10 +3998,9 @@ case 'twtdl': case 'twt': case 'twitter': {
       let error36;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resdltwt = await fetchJson(`https://api.lolhuman.xyz/api/twitter?apikey=haikalgans&url=${args[0]}`)
-let dltwtnya = resdltwt.result
-let dlakuir = await dltwtnya.media[0]
-conn.sendMessage(m.chat, { video: { url: dlakuir.url }, caption: done }, { quoted: m})
+let resdltwt = await fetchJson(`https://vihangayt.me/download/twitter?url=${args[0]}`)
+let dltwtnya = resdltwt.data
+conn.sendMessage(m.chat, { video: { url: dltwtnya.HD }, caption: done }, { quoted: m})
 //await conn.sendFile2(m.chat, dlakuir.url, '', done, m);
 } catch (er) {
 error36 = true;
