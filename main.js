@@ -619,9 +619,6 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ bingai
 ➤ gemini
 ➤ simi
-➤ loli
-➤ neko
-➤ waifu
 ➤ remini (Reply Gambar)
 ➤ hd/4k (Reply Gambar)
 ➤ removebg (Reply Gambar)
@@ -630,6 +627,12 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ txtimg (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
 ➤ carbon (Teks)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙍𝘼𝙉𝘿𝙊𝙈 𝘼𝙉𝙄𝙈𝙀 )
+━━━━━━━━━━━━━━━━━━━
+➤ loli
+➤ neko
+➤ waifu
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
