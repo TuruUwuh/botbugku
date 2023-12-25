@@ -611,8 +611,8 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
-➤ ai/openai
-➤ nero/openai4/chatgptv4
+➤ ai/openai4/chatgptv4
+➤ nero/aibb/blackbox
 ➤ zerogpt (Deteksi Tulisan Ai)
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
@@ -1111,10 +1111,10 @@ console.log(chalk.black(chalk.bgWhite('[ PESAN ]')), chalk.black(chalk.bgGreen(n
 }*/
 
 //Grup Only By ShinChan_Kawaii
-/*if(isCmd && !m.isGroup && !isCreator && grup_only){
-          paycall("Bot hanya bisa digunakan dalam grup")
+if(isCmd && !m.isGroup && !isCreator && grup_only){
+          paycall("Bot hanya bisa digunakan dalam grup\nChat : wa.me//+6282134110253 untuk meminta akses grup")
           return
-        }*/
+        }
 // Anti Link
 if (AntiLink) {
 if (body.match(/(chat.whatsapp.com\/)/gi)) {
@@ -2081,7 +2081,7 @@ m.reply(global.wait)
 					}
 }
 break
-case 'openai': case 'nero': case 'neroai': case 'aibb': case 'blackbox': {
+case 'nero': case 'neroai': case 'aibb': case 'blackbox': {
 //if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
@@ -2572,7 +2572,7 @@ if (!text) return m.reply(`${command} smile face with blush and blue hair`)
 					}
   //END AI MENU
 break*/
-/*case 'jadianime': {
+case 'jadianime': {
   if (!/video/.test(mime) && !/image/.test(mime)) {
     throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
   }
@@ -2599,8 +2599,8 @@ try {
 					}
 					}
 					}
-break*/
-case 'jadianime': {
+break
+/*case 'jadianime': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2614,7 +2614,7 @@ conn.sendImage(m.chat, hasilanim.img_crop_single, done, m)
         replyerror(`Yah Proses Gagal:(`);
     }
 			}
-			break
+			break*/
 case 'jadigta': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
@@ -2671,7 +2671,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         }
 break
 //========================TIKTOK=========================//
-case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
+/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
@@ -2722,7 +2722,7 @@ if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
             // Jika server kedua juga gagal, tangani error di sini
             replyerror(`Error: ${errornya}`);
         };
-break
+break*/
 case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
@@ -2743,6 +2743,35 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 					}
 					}
             }
+break
+case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
+if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let res = await fetchJson(`https://aemt.me/download/tikdl?url=${args[0]}`)
+let ttk = res.result
+let captionnya = `${done}\n\n📝Judul : ${ttk.info_video.title}\n👤Creator : ${ttk.author_info.nickname}\n💖Wilayah : ${ttk.info_video.region}\n🔖Durasi : ${ttk.info_video.duration}\n📥Total Download : ${ttk.info_video.total_download}\n📲Total Play : ${ttk.info_video.total_play}\n📊Total Share : ${ttk.info_video.total_share}\n📖Total Komentar : ${ttk.info_video.total_comment}`
+await conn.sendFile2(m.chat, ttk.url.nowm, 'mp4', captionnya, m);
+} catch (error) {
+console.error(error);
+replyerror(`Yah Proses Gagal:(`);
+}
+}
+break
+case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
+if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let res = await fetchJson(`https://aemt.me/download/tikdl?url=${args[0]}`)
+let ttk = res.result
+await conn.sendMessage(m.chat, { audio: { url: ttk.url.audio }, mimetype: 'audio/audio/mp4' }, { quoted: m })
+} catch (error) {
+console.error(error);
+replyerror(`Yah Proses Gagal:(`);
+}
+}
 break
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
@@ -2990,7 +3019,7 @@ data.images.pages.map((v, i) => {
 let buffer = await (await fetch(thumbnya)).buffer()		
 let jpegThumbnail = await fetchBuffer(buffer)		
 let imagepdf = await toPDF(pages)		
-await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
+conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
 } catch (error) {
         console.error(error);
         m.reply(`Kode atau link yang kamu masukin tidak ditemukan`);
@@ -3586,8 +3615,8 @@ await conn.sendImage(m.chat, bufferimg, done, m)
     }
 }
 break
-/*case 'mediafire': {
-if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
+case 'mediafire': {
+if (!args[0]) throw `Use example ${prefix} ${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 const { mediafiredl } = require('@bochilteam/scraper');
     let resnyacyy = await mediafiredl(args[0])
     let { url, url2, filename, ext, aploud, filesize, filesizeH } = resnyacyy
@@ -3598,11 +3627,11 @@ const { mediafiredl } = require('@bochilteam/scraper');
 *📨 Uploaded:* ${aploud}
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
-    await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
-  //await conn.sendMessage(m.chat, {document: mediafiredl.link, mimetype: 'application/zip', fileName: `${mediafiredl.title}`}, { quoted : m })
+    //await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
+conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
   }
 break
-case 'mediafire': {
+/*case 'mediafire': {
 if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -3647,7 +3676,7 @@ case 'translate': {
 	m.reply(`*Terdeteksi Bahasa:* ${transtod.from.language.iso}\n*Ke Bahasa:* ${lang}\n\n*Terjemahan:* ${transtod.text}`.trim())
 	}
 break
-    case 'search': {
+/*   case 'search': {
   if (!/image/.test(mime)) {
     throw `*Send/Reply the Image With Caption* ${prefix + command}`;
   }
@@ -3658,18 +3687,53 @@ break
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    let error29;
 try {
     let datanya = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
-    let { anidb_aid, source, year, est_time, part } = datanya.result[0].raw.data
+   let { anidb_aid, source, year, est_time, part } = datanya.result[0].raw.data
     let capnya = `-------「 𝗦𝗢𝗨𝗥𝗖𝗘 𝗗𝗜𝗧𝗘𝗠𝗨𝗞𝗔𝗡 」-------\n🔖Anilist id : ${anidb_aid}\n📝Judul : ${source}\n📆Tanggal Rilis : ${year}\n⏳Menit : ${est_time}\n📊Episode : ${part}\n📈Similarity : ${datanya.result[0].similarity}%\n🔗Url : ${datanya.result[0].url}`
     conn.sendImage(m.chat, datanya.result[0].thumbnail, capnya, m)
-            } catch (er) {
-error29 = true;
-} finally {
-if (error29) {
-replyerror("Yah Error:(.");
+} catch (error) {
+console.error(error);
+replyerror(`Yah Proses Gagal:(`);
 }
+    }
+    }
+    break*/
+  case 'search': {
+  if (!/image/.test(mime)) {
+    throw `*Send/Reply the Image With Caption* ${prefix + command}`;
+  }
+  if (!quoted) {
+    throw `*Send/Reply the Video/Image Caption* ${prefix + command}`;
+  }  
+  reply(`Sedang Mencari Sumber...`)
+  let media = await conn.downloadAndSaveMediaMessage(quoted);
+  if (/image/.test(mime)) {
+    let anu = await TelegraPh(media);
+try {
+    let fetch = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
+    let ini_result = await fetch.result
+let caption = `Anime Source :\n\n`
+for (var i of ini_result) {
+caption += `Anilist id: ${i.raw.data.anidb_aid}\n`
+caption += `Judul: ${i.raw.data.source}\n`
+caption += `Tanggal Rilis: ${i.raw.data.year}\n`
+caption += `Menit: ${i.raw.data.est_time}\n`
+caption += `Episode: ${i.raw.data.part}\n`
+caption += `Url: ${i.url}\n`
+caption += `Site: ${i.site}\n`
+caption += `Similarity: ${i.similarity}\n`
+caption += `Author Name: ${i.authorName}\n`
+caption += `Author Url: ${i.authorUrl}\n`
+caption += `Title: ${i.raw.data.title}\n`
+caption += `Creator: ${i.raw.data.creator}\n`
+caption += `Material: ${i.raw.data.material}\n`
+caption += `Characters: ${i.raw.data.characters}\n\n`
+}
+await conn.sendImage(m.chat, fetch.result[0].thumbnail, caption, m)
+} catch (error) {
+console.error(error);
+replyerror(`Yah Proses Gagal:(`);
 }
     }
     }
@@ -4896,7 +4960,7 @@ case 'swm': case 'take':
                 if (!q) return paycall('Enter Text')
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
-                reply(global.wait)
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
                 conn.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
