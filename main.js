@@ -2443,9 +2443,9 @@ case 'bingimg': {
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let response = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`)
-for (let bing of response.data) {
-await conn.sendImage(m.chat, bing, done, m)
+let res = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`)
+for (let i = 0; i < res.data?.length; i++) {
+await conn.sendImage(m.chat, res.data[i], done, m)
 }
 } catch (error) {
         console.error(error);
@@ -2781,8 +2781,9 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
 
-            for (let tt of res.data) {
-               await conn.sendImage(m.chat, tt, done, m)
+           // for (let tt of res.data) {
+           for (let i = 0; i < res.data.length; i++) {
+               await conn.sendImage(m.chat, res.data[i], done, m)
             // await conn.sendFile2(m.chat, tt, '', done, m);
             }
                               } catch (er) {
