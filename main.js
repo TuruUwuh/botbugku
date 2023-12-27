@@ -900,6 +900,27 @@ async function getYandeImage(query, page = '') {
   }
 }
 
+//Scrape Telesticker BY SHINCHAN
+async function Telesticker(url) {
+    return new Promise(async (resolve, reject) => {
+        if (!url.match(/(https:\/\/t.me\/addstickers\/)/gi)) throw 'Enther your url telegram sticker'
+        packName = url.replace("https://t.me/addstickers/", "")
+        data = await axios(`https://api.telegram.org/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/getStickerSet?name=${encodeURIComponent(packName)}`, {method: "GET",headers: {"User-Agent": "GoogleBot"}})
+        const hasil = []
+        for (let i = 0; i < data.data.result.stickers.length; i++) {
+            fileId = data.data.result.stickers[i].thumb.file_id
+            data2 = await axios(`https://api.telegram.org/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/getFile?file_id=${fileId}`)
+            result = {
+            status: 200,
+            author: 'shinchan',
+            url: "https://api.telegram.org/file/bot891038791:AAHWB1dQd-vi0IbH2NjKYUk-hqQ8rQuzPD4/" + data2.data.result.file_path
+            }
+            hasil.push(result)
+        }
+    resolve(hasil)
+    })
+}
+
 //SCRAPE PERSAMAAN KATA BY SHINCHAN
 function ArrClean(str) {
     return str.map((v, index) => ++index + ". " + v).join('\r\n')
@@ -4828,23 +4849,25 @@ if (quoted.isAnimated) {
             }
          }
          break
-         case 'telestik': {
-         if (args.length == 0) return reply(`Example: ${prefix + command} https://t.me/addstickers/LINE_Menhera_chan_ENG`)
-         try {
-         m.reply(global.wait)
-         let restele = await fetchJson(`https://api.lolhuman.xyz/api/telestick?apikey=${apikey}&url=${args[0]}`)
-         for (let teletik of restele.result.sticker) {
-         await conn.sendImageAsSticker(m.chat, teletik, m, {
-                  packname: global.packname,
-                  author: global.author
-               })
-               }
-               } catch (error) {
-        console.error(error);
-        replyerror('Yah Error:(');
-    }
-               }
+
+case 'telestik': {
+	if (args[0] && args[0].match(/(https:\/\/t.me\/addstickers\/)/gi)) {
+		let res = await Telesticker(args[0])
+		await m.reply(`Sending ${res.length} stickers...`)
+		if (m.isGroup && res.length > 30) {
+			await m.reply('Jumlah stiker lebih dari 30, bot akan mengirimkannya dalam obrolan pribadi.')
+			for (let i = 0; i < res.length; i++) {
+				conn.sendMessage(m.sender, { sticker: { url: res[i].url }})
+			}
+		} else {
+			for (let i = 0; i < res.length; i++) {
+				conn.sendMessage(m.chat, { sticker: { url: res[i].url }})
+			}
+		}
+	} else throw 'Input Query / Telesticker Url'
+}
 break
+
 case 'toimg': {
 	reply(global.wait)
 	const getRandom = (ext) => {
