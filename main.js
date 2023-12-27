@@ -2334,7 +2334,7 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
 			break*/
 case 'hd': case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-let media = await await quoted.download();
+let media = await quoted.download();
 let anu = await TelegraPh(media)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
