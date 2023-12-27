@@ -2425,13 +2425,28 @@ conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
     }
 			}
 			break
-case 'bingimg': {
+/*case 'bingimg': {
 //if (!isPrem) return replyprem(mess.premium)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
 await conn.sendImage(m.chat, response.result, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break*/
+case 'bingimg': {
+//if (!isPrem) return replyprem(mess.premium)
+if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`)
+for (let bing of response.data) {
+await conn.sendImage(m.chat, bing, done, m)
+}
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
