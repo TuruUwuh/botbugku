@@ -2309,7 +2309,7 @@ case 'remini': {
 			const { remini } = require('./lib/remini')
 			let media = await quoted.download()
 			let proses = await remini(media, "enhance")
-			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: blue})
+			conn.sendMessage(m.chat, { image: proses, caption: `𝑭𝒐𝒕𝒐 𝒅𝒂𝒉 𝒋𝒂𝒅𝒊 𝑯𝑫 𝒃𝒍𝒐𝒎 𝒃𝒂𝒏𝒈? \n𝑩𝒚: 𝑺𝒉𝒊𝒏𝑪𝒉𝒂𝒏 𝑺𝒆𝒏𝒑𝒂𝒊🐼❤️`}, { quoted: m})
 			}
 			break
 /*case 'hd': case '4k': {
@@ -2334,7 +2334,7 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
 			break*/
 case 'hd': case '4k': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
-let media = await conn.downloadAndSaveMediaMessage(quoted);
+let media = await await quoted.download();
 let anu = await TelegraPh(media)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -3474,7 +3474,7 @@ try {
 					}
 					}
                     break
-/*case 'ruangguru': case 'roboguru': {
+case 'ruangguru': case 'roboguru': {
 			if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
 			query = args.join(" ")
 			let error31;
@@ -3496,7 +3496,7 @@ replyerror("ERROR");
 }
 }
 			}
-			break*/
+			break
 //========================LIRIK LAGU============================//
 case 'lirik': {
   if (!text) return m.reply('Cari lagu apa?')
@@ -4277,11 +4277,12 @@ _Contoh: ${prefix + command} yuri_
 
 ${listnya}`
     if (!arrlist.includes(text)) return m.reply(nah)
-    await m.reply(wait)
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     try {
         let ani = await fetch("https://fantox-apis.vercel.app/" + text)
         let mek = await ani.json()
-        await conn.sendFile2(m.chat, mek.url, "", `${done}`, m)
+       // await conn.sendFile2(m.chat, mek.url, "", `${done}`, m)
+       await conn.sendImage(m.chat, mek.url, done, m)
     } catch (e) {
         await m.reply(eror)
     }
