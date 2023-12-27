@@ -617,6 +617,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
 ➤ bingai
+➤ bingimg
 ➤ gemini
 ➤ mtk/aimtk (kirim soal mtk)
 ➤ simi
@@ -1155,7 +1156,7 @@ id: mek.key.id,
 participant: mek.key.participant
 }
 })
-conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+//conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\n@${m.sender.split("@")[0]} Jangan kirim group link di group ini`, contextInfo:{mentionedJid:[sender]}}, {quoted:m})
 }
 }
@@ -1219,7 +1220,7 @@ if (isCreator) return m.reply(bvl)
 			            participant: m.key.participant
 			        }
 			    })
-			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
+			//conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
@@ -2369,21 +2370,6 @@ await conn.sendImage(m.chat, data.url, kapsion, m)
     }
 			}
 			break
-case 'bardimg': {
-if (!isPrem) return replyprem(mess.premium)
-if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
-let media = await conn.downloadAndSaveMediaMessage(quoted);
-let anu = await TelegraPh(media)
-try {
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let response = await fetchJson(`https://aemt.me/bardimg?url=${anu}&text=${text}`)
-conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
-} catch (error) {
-        console.error(error);
-        replyerror(`ERROR`);
-    }
-			}
-			break
 case 'carbon': {
 if (!text) return paycall(`${prefix + command} teksnya`)
 try {
@@ -2424,6 +2410,34 @@ await conn.sendImage(m.chat, response, done, m)
     }
 }
 break
+case 'bardimg': {
+//if (!isPrem) return replyprem(mess.premium)
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/bardimg?url=${anu}&text=${text}`)
+conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break
+case 'bingimg': {
+//if (!isPrem) return replyprem(mess.premium)
+if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
+await conn.sendImage(m.chat, response.result, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break
 //=========================================================//
 /*case 'realistic': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
@@ -2772,7 +2786,7 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let res = await fetchJson(`https://aemt.me/download/tikdl?url=${args[0]}`)
 let ttk = res.result
-let captionnya = `${done}\n\n📝Judul : ${ttk.info_video.title}\n👤Creator : ${ttk.author_info.nickname}\n💖Wilayah : ${ttk.info_video.region}\n🔖Durasi : ${ttk.info_video.duration}\n📥Total Download : ${ttk.info_video.total_download}\n📲Total Play : ${ttk.info_video.total_play}\n📊Total Share : ${ttk.info_video.total_share}\n📖Total Komentar : ${ttk.info_video.total_comment}`
+let captionnya = `${done}\n\n📝Judul : ${ttk.info_video.title || 'ShinChan Senpai'}\n👤Creator : ${ttk.author_info.nickname}\n💖Wilayah : ${ttk.info_video.region}\n🔖Durasi : ${ttk.info_video.duration}\n📥Total Download : ${ttk.info_video.total_download}\n📲Total Play : ${ttk.info_video.total_play}\n📊Total Share : ${ttk.info_video.total_share}\n📖Total Komentar : ${ttk.info_video.total_comment}`
 await conn.sendFile2(m.chat, ttk.url.nowm, 'mp4', captionnya, m);
 } catch (error) {
 console.error(error);
