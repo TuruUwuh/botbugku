@@ -2488,17 +2488,21 @@ case 'bingimg': {
 //if (!isPrem) return replyprem(mess.premium)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let res = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`)
-for (let i = 0; i < res.data?.length; i++) {
-await conn.sendImage(m.chat, res.data[i], done, m)
-}
-} catch (error) {
-        console.error(error);
-        replyerror(`ERROR`);
+  await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+  let res = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`);
+  if (res.data?.length) {
+    for (let i = 0; i < res.data?.length; i++) {
+      await conn.sendImage(m.chat, res.data[i], done, m);
     }
-			}
-			break
+  } else {
+    m.reply('Server sedang sibuk sekarang. Coba lagi nanti !');
+  }
+} catch (error) {
+  console.error(error);
+  replyerror(`ERROR`);
+}
+}
+break;
 //=========================================================//
 /*case 'realistic': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
