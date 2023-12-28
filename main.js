@@ -625,9 +625,11 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ hd/4k (Reply Gambar)
 ➤ removebg (Reply Gambar)
 ➤ jadianime (Reply Gambar)
+➤ jadikartun (Reply Gambar)
 ➤ jadigta (Reply Gambar)
 ➤ txtimg (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
+➤ animedif/animediffusion (Masukin teks Prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙍𝘼𝙉𝘿𝙊𝙈 𝘼𝙉𝙄𝙈𝙀 )
 ━━━━━━━━━━━━━━━━━━━
@@ -2410,6 +2412,18 @@ await conn.sendImage(m.chat, response, done, m)
     }
 }
 break
+case 'animedif': case 'animediffusion': {
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://api.azz.biz.id/api/animediffusion3?q=${text}`
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
 case 'bardimg': {
 //if (!isPrem) return replyprem(mess.premium)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
@@ -2650,6 +2664,20 @@ try {
 					}
 					}
 break
+case 'jadikartun': {
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const restoon = `https://api.akuari.my.id/ai/cartoon3d?urlimg=${anu}`
+await conn.sendImage(m.chat, restoon, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
+			}
+			break
 /*case 'jadianime': {
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
