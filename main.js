@@ -7,6 +7,7 @@ const PDFDocument = require('pdfkit')
 const chalk = require('chalk')
 const os = require('os')
 const axios = require('axios')
+const jimp  = require('jimp')
 const cheerio = require('cheerio')
 const fsx = require('fs-extra')
 const crypto = require('crypto')
@@ -924,6 +925,37 @@ async function Telesticker(url) {
     })
 }
 
+//TEST SCRAPE TO KARTUN BY SHINCHAN
+async function GetBuffer(url) {
+	return new Promise(async (resolve, reject) => {
+		let buffer;
+		await jimp
+			.read(url)
+			.then((image) => {
+				image.getBuffer(image._originalMime, function (err, res) {
+					buffer = res;
+				});
+			})
+			.catch(reject);
+		if (!Buffer.isBuffer(buffer)) reject(false);
+		resolve(buffer);
+	});
+}
+function GetType(Data) {
+	return new Promise((resolve, reject) => {
+		let Result, Status;
+		if (Buffer.isBuffer(Data)) {
+			Result = new Buffer.from(Data).toString("base64");
+			Status = 0;
+		} else {
+			Status = 1;
+		}
+		resolve({
+			status: Status,
+			result: Result,
+		});
+	});
+}
 //SCRAPE PERSAMAAN KATA BY SHINCHAN
 function ArrClean(str) {
     return str.map((v, index) => ++index + ". " + v).join('\r\n')
@@ -4582,9 +4614,10 @@ delete this.suit[id]
 }
 break
 //========================END============================//
-case 'id' :
+case 'id': {
         if (!isCreator) return paycall(`*khusus Owner*`)
         paytod(`${m.chat}`)
+        }
         break
 case 'tlfn': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
