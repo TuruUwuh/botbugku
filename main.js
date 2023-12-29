@@ -2063,8 +2063,8 @@ case 'gemini': {
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let response = await fetchJson(`https://vihangayt.me/tools/gemini?q=${text}`)
-    let datagemini = await response.data
+    let response = await fetchJson(`https://aemt.me/gemini?text=${text}`)
+    let datagemini = await response.result
 conn.sendMessage(m.chat, {
     text: datagemini, 
     contextInfo: {
@@ -2471,7 +2471,7 @@ conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
     }
 			}
 			break
-/*case 'bingimg': {
+case 'bingimg': {
 //if (!isPrem) return replyprem(mess.premium)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
@@ -2483,8 +2483,8 @@ await conn.sendImage(m.chat, response.result, done, m)
         replyerror(`ERROR`);
     }
 			}
-			break*/
-case 'bingimg': {
+			break
+/*case 'bingimg': {
 //if (!isPrem) return replyprem(mess.premium)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
@@ -2502,7 +2502,7 @@ try {
   replyerror(`ERROR`);
 }
 }
-break;
+break;*/
 //=========================================================//
 /*case 'realistic': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
