@@ -2477,7 +2477,8 @@ if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
-await conn.sendImage(m.chat, response.result, done, m)
+let donatur = `${done}\n\nJanga Lupa Support Kami Dengan Donasi Kak Buat Jajan><\n📱Pulsa Tsel: +6282134110253\n🗄️Dana: 6282134110253\n🥰Thanks You><`
+await conn.sendImage(m.chat, response.result, donatur, m)
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
