@@ -58,21 +58,12 @@ global.wlcmm = []
 global.wait = '「▰▰▰▱▱▱▱▱▱▱」ʟ ᴏ ᴀ ᴅ ɪ ɴ ɢ...'
 global.done = '🤗Done, Oke Desu~'
 global.ownercuy = '❌ Khusus Owner Cuy'
+global.premiumgc = `Fitur ini untuk pengguna grup premium, hubungi pemilik untuk menjadi pengguna premium`
 //messages
 global.mess = {
     success: 'Here you go!', 
 }
 
-// Website Api (jgn di ganti tomlol)
-global.APIs = {
-   alfa: 'https://api.zeeoneofc.my.id', //apabila link api eror, segera laporkan ke owner
-}
-
-//buy apikey premium 0887435047326
-// Free apikey (silahkan login terus ganti V12 dgn apikey lu)
-global.APIKeys = {
-   'https://api.zeeoneofc.my.id': 'Y3Epc4AVX7QAHkG', // 👉 login https://api.zeeoneofc.my.id to get apikey
-}
 global.wtf = 'nerobot' // ubah yang ada didalam tanda petik ini jadi apikey lu
 //=================================================//
 //Gausah Juga

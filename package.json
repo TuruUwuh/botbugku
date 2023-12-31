@@ -36,7 +36,7 @@
 "libsignal-node": "^2.0.1",
 "lodash": "^4.17.21",
 "fluent-ffmpeg": "^2.1.2",
-"jimp": "^0.16.1",
+"jimp": "^0.16.13",
 "javascript-obfuscator": "^4.1.0",
 "fs": "0.0.1-security",
 "g-i-s": "^2.1.7",

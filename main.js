@@ -53,6 +53,7 @@ let tebakkalimat = JSON.parse(fs.readFileSync('./database/kalimat.json'))
 let tebaklirik = JSON.parse(fs.readFileSync('./database/lirik.json'))
 let tebaktebakan = JSON.parse(fs.readFileSync('./database/tebakan.json'))
 const prem = JSON.parse(fs.readFileSync('./database/premium.json'))
+const premgc = JSON.parse(fs.readFileSync('./database/premiumgc.json'))
 const owner = JSON.parse(fs.readFileSync('./database/owner.json'))
 const vnnye = JSON.parse(fs.readFileSync('./database/vnadd.json'))
 const pengguna = JSON.parse(fs.readFileSync('./database/user.json'))
@@ -110,6 +111,7 @@ const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : false
 const antiVirtex = m.isGroup ? ntvirtex.includes(from) : false
 const AntiEval = m.isGroup ? nteval.includes(from) : false
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
+const isPremgc = m.isGroup ? premgc.includes(from) : false
 const isBan = banned.includes(m.sender)
 const content = JSON.stringify(m.message)
 const numberQuery = text.replace(new RegExp("[()+-/ +/]", "gi"), "") + "@s.whatsapp.net"
@@ -440,6 +442,21 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
                     }}}, { quoted: blue})} 
+const replytolak = (teks) => {
+return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝘼𝙘𝙘𝙚𝙨𝙨 𝘿𝙚𝙣𝙞𝙚𝙙 ❌`,
+                contextInfo: {
+                     externalAdReply: {
+                        showAdAttribution: true,
+                        containsAutoReply: true,
+                        title: `𝙋𝙀𝙍𝙈𝙄𝙉𝙏𝘼𝘼𝙉 𝘼𝙉𝘿𝘼 𝘿𝙄𝙏𝙊𝙇𝘼𝙆`,
+                        body: `${tanggal} ××× ${time}`,
+                        mediaType: 1,
+                        previewType: 0,
+                        renderLargerThumbnail: true,
+                        thumbnailUrl: 'https://telegra.ph/file/8b1580614b17b92955133.jpg',
+                        thumbnail: thumb,
+                        sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
+                    }}}, { quoted: m})} 
 const ytreply = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐼𝙔𝙊𝙐𝙏𝙐𝘽𝙀 𝙎𝙀𝘼𝙍𝘾𝙃🐼`,
                 contextInfo: {
@@ -693,6 +710,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ attp
 ➤ attp2
 ➤ sticker
+➤ emojimix (🙂+🥰)
 ➤ qc (Masukan Teks)
 ➤ smeme (reply gambar)
 ━━━━━━━━━━━━━━━━━━━
@@ -1957,6 +1975,35 @@ case 'bot': {
 m.reply('Dah Online Kak><')
 }
 break
+case 'deletesession':
+            case 'delsession':
+            case 'clearsession': {
+                if (!isCreator) return paycall('*Khusus Owner Bot*')
+                fs.readdir("./session", async function(err, files) {
+                    if (err) {
+                        console.log('Unable to scan directory: ' + err);
+                        return m.reply('Unable to scan directory: ' + err);
+                    }
+                    let filteredArray = await files.filter(item => item.startsWith("pre-key") ||
+                        item.startsWith("sender-key") || item.startsWith("session-") || item.startsWith("app-state")
+                    )
+                    console.log(filteredArray.length);
+                    let teks = `Terdeteksi ${filteredArray.length} file sampah\n\n`
+                    if (filteredArray.length == 0) return replygcxeon(teks)
+                    filteredArray.map(function(e, i) {
+                        teks += (i + 1) + `. ${e}\n`
+                    })
+                    m.reply(teks)
+                    await sleep(2000)
+                    m.reply("Hapus file sampah...")
+                    await filteredArray.forEach(function(file) {
+                        fs.unlinkSync(`./session/${file}`)
+                    });
+                    await sleep(2000)
+                    m.reply("Berhasil menghapus semua sampah di folder session")
+                });
+            }
+            break
 case 'delete': case 'del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -2003,6 +2050,7 @@ reply(`The Number ${ya} Has Been Removed Premium!`)
 break
 //========================CHAT GPT VIP=========================//
 case 'bingai': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
   if (!text) return m.reply('Hai saya bing Ai, Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
   let error1;
@@ -2033,6 +2081,7 @@ conn.sendMessage(m.chat, {
 }
 break
 case 'bard': case 'bardai': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
   if (!text) return m.reply('Hai saya Bard Ai, Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
@@ -2059,6 +2108,7 @@ conn.sendMessage(m.chat, {
 }
 break
 case 'gemini': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
   if (!text) return m.reply('Hai saya Gemini Ai, Apa yang bisa saya bantu?')
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
@@ -2138,7 +2188,7 @@ m.reply(global.wait)
 }
 break
 case 'nero': case 'neroai': case 'aibb': case 'blackbox': {
-//if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
 try {
@@ -2433,6 +2483,7 @@ await conn.sendImage(m.chat, hasilnyabg.result, done, m)
 			}
 			break
 case 'txtimg': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -2445,6 +2496,7 @@ await conn.sendImage(m.chat, response, done, m)
 }
 break
 case 'animedif': case 'animediffusion': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -2457,7 +2509,7 @@ await conn.sendImage(m.chat, response, done, m)
 }
 break
 case 'bardimg': {
-//if (!isPrem) return replyprem(mess.premium)
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2472,12 +2524,12 @@ conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
 			}
 			break
 case 'bingimg': {
-//if (!isPrem) return replyprem(mess.premium)
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
-let donatur = `${done}\n\nJanga Lupa Support Kami Dengan Donasi Kak Buat Jajan><\n📱Pulsa Tsel: +6282134110253\n🗄️Dana: 6282134110253\n🥰Thanks You><`
+let donatur = `${done}\n\nJangan Lupa Support Kami Dengan Donasi Kak Buat Jajan><\n📱Pulsa Tsel: +6282134110253\n🗄️Dana: 6282134110253\n🥰Thanks You><\n\n\n📝Teks Promot: ${text}`
 await conn.sendImage(m.chat, response.result, donatur, m)
 } catch (error) {
         console.error(error);
@@ -2547,6 +2599,7 @@ await conn.sendImage(m.chat, response, done, m)
 }
 break*/
 case 'prodia': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -2674,6 +2727,7 @@ if (!text) return m.reply(`${command} smile face with blush and blue hair`)
   //END AI MENU
 break*/
 case 'jadianime': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
   if (!/video/.test(mime) && !/image/.test(mime)) {
     throw `*Send/Reply the Video/Image With Caption* ${prefix + command}`;
   }
@@ -2702,6 +2756,7 @@ try {
 					}
 break
 case 'jadikartun': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2731,6 +2786,7 @@ conn.sendImage(m.chat, hasilanim.img_crop_single, done, m)
 			}
 			break*/
 case 'jadigta': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -4143,11 +4199,9 @@ case 'fbdl': {
       let error35;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resfbdl = await fetchJson(`https://vihangayt.me/download/fb2?url=${args[0]}`)
-let hasildlnya = resfbdl.data
-let fbdlnnya = await hasildlnya.media[1]
-conn.sendMessage(m.chat, { video: { url: fbdlnnya.url }, caption: done }, { quoted: m})
-//await conn.sendFile2(m.chat, hasildlnya.video_hd, '', done, m);
+let resfbdl = await fetchJson(`https://aemt.me/download/fbdl?url=${args[0]}`)
+let hasildlnya = resfbdl.result
+await conn.sendMessage(m.chat, { video: { url: hasildlnya.HD }, caption: done }, { quoted: m})
 } catch (er) {
 error35 = true;
 } finally {
@@ -4157,24 +4211,6 @@ replyerror("Yah Error:(.");
 }
 }
 break
-/*case 'fbdl': {
-			if (args.length == 0) return reply(`Example: ${prefix + command} https://id-id.facebook.com/SamsungGulf/videos/video-bokeh/561108457758458/`)
-			      let error35;
-try {
-m.reply(wait)
-			axios.get(`https://api.lolhuman.xyz/api/facebook?apikey=${apikey}&url=${args[0]}`).then(({ data }) => {
-				//conn.sendMessage(m.chat, { video: { url: data.result }, caption: done }, { quoted: m})
-				conn.sendFile2(m.chat, data.result[0], '', done, m);
-			})
-			} catch (er) {
-error35 = true;
-} finally {
-if (error35) {
-replyerror("Yah Error:(.");
-}
-}
-			}
-			break*/
 case 'twtdl': case 'twt': case 'twitter': {
       if (!args[0]) throw `Input URL`;
       let error36;
@@ -4183,7 +4219,6 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let resdltwt = await fetchJson(`https://vihangayt.me/download/twitter?url=${args[0]}`)
 let dltwtnya = resdltwt.data
 conn.sendMessage(m.chat, { video: { url: dltwtnya.HD }, caption: done }, { quoted: m})
-//await conn.sendFile2(m.chat, dlakuir.url, '', done, m);
 } catch (er) {
 error36 = true;
 } finally {
@@ -4963,7 +4998,17 @@ case 'telestik': {
 	} else throw 'Input Query / Telesticker Url'
 }
 break
-
+case 'emojimix': {
+		let [emoji1, emoji2] = text.split`+`
+		if (!emoji1) return paycall(`Example : ${prefix + command} 😅+🤔`)
+		if (!emoji2) return paycall(`Example : ${prefix + command} 😅+🤔`)
+		let anumojimix = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
+		for (let res of anumojimix.results) {
+		    let encmedia = await conn.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
+		    
+		}
+	    }
+	    break
 case 'toimg': {
 	reply(global.wait)
 	const getRandom = (ext) => {
