@@ -2,8 +2,7 @@
     deps = [
         pkgs.nodejs-18_x
         pkgs.libwebp
-        pkgs.python
-	      pkgs.nodePackages.typescript
+        pkgs.nodePackages.typescript
         pkgs.libuuid
         pkgs.ffmpeg
         pkgs.imagemagick  
