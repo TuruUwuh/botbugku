@@ -1,5 +1,5 @@
 require('./config')
-const { default: makeWASocket, delay, useMultiFileAuthState, PHONENUMBER_MCC, makeCacheableSignalKeyStore, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, makeInMemoryStore, jidDecode, getAggregateVotesInPollMessage, proto } = global.baileys
+const { default: makeWASocket, delay, useMultiFileAuthState, PHONENUMBER_MCC, makeCacheableSignalKeyStore, DisconnectReason, fetchLatestBaileysVersion, generateForwardMessageContent, prepareWAMessageMedia, generateWAMessageFromContent, generateMessageID, downloadContentFromMessage, getContentType, makeInMemoryStore, jidDecode, getAggregateVotesInPollMessage, proto } = global.baileys
 const fs = require('fs')
 const pino = require('pino')
 const chalk = require('chalk')
@@ -14,6 +14,7 @@ const { Boom } = require('@hapi/boom')
 const PhoneNumber = require('awesome-phonenumber')
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
+let { toAudio } = require('./lib/converter')
 //=================================================//
 require("http").createServer((_, res) => res.end("Uptime!")).listen(8080)
 //=================================================//
@@ -138,7 +139,7 @@ return decode.user && decode.server && decode.user + '@' + decode.server || jid
 } else return jid
 }
 //=================================================//
-conn.ev.on('messages.upsert', async chatUpdate => {
+/*conn.ev.on('messages.upsert', async chatUpdate => {
 try {
 mek = chatUpdate.messages[0]
 if (!mek.message) return
@@ -151,8 +152,36 @@ require("./main")(conn, m, chatUpdate, store)
 } catch (err) {
 console.log(err)
 }
-})
-
+})*/
+conn.ev.on('messages.upsert', async chatUpdate => {
+        //console.log(JSON.stringify(chatUpdate, undefined, 2))
+        try {
+        mek = chatUpdate.messages[0]
+        if (!mek.message) return
+			if (mek.key.remoteJid === 'status@broadcast') {
+				let bot = conn.decodeJid(conn.user.id)
+				if (!conn.autosw) return
+				setTimeout(() => {
+					conn.readMessages([mek.key])
+					let mt = getContentType(mek.message)
+					console.log((/protocolMessage/i.test(mt)) ? `${mek.key.participant.split('@')[0]} Telah menghapus Story nya` : 'Melihat story user : '+mek.key.participant.split('@')[0]);
+					if (/protocolMessage/i.test(mt)) conn.sendMessage(conn.sendsw, {text:'Status dari @'+mek.key.participant.split('@')[0]+' Telah dihapus', mentions: [mek.key.participant]})
+					if (/(imageMessage|videoMessage|extendedTextMessage)/i.test(mt)) {
+						let keke = (mt == 'extendedTextMessage') ? `\nStory Teks Berisi : ${mek.message.extendedTextMessage.text}` : (mt == 'imageMessage') ? `\nStory Gambar dengan Caption : ${mek.message.imageMessage.caption}` : (mt == 'videoMessage') ? `\nStory Video dengan Caption : ${mek.message.videoMessage.caption}` : '\nTidak diketahui cek saja langsung!!!'
+						conn.sendMessage(conn.sendsw, {text: 'Melihat story dari @'+mek.key.participant.split('@')[0] + keke, mentions: [mek.key.participant]});
+					}
+				}, 2000);
+			}
+			if (!mek.message) return
+        mek.message = (Object.keys(mek.message)[0] === 'ephemeralMessage') ? mek.message.ephemeralMessage.message : mek.message
+        if (!conn.public && !mek.key.fromMe && chatUpdate.type === 'notify') return
+        if (mek.key.id.startsWith('BAE5') && mek.key.id.length === 16) return
+        m = smsg(conn, mek, store)
+        require("./main")(conn, m, chatUpdate, store)
+        } catch (err) {
+            console.log(err)
+        }
+    })
 //=================================================//
 conn.ev.on('group-participants.update', async (anu) => {
 if (!wlcm.includes(anu.id)) return
@@ -231,6 +260,8 @@ conn.sendMessage(jid, { contacts: { displayName: `${list.length} Kontak`, contac
 //=================================================//
 //Kalau Mau Self Lu Buat Jadi false
 conn.public = true
+conn.autosw = true
+conn.sendsw = '6282134110253@s.whatsapp.net'
 //=================================================//
 conn.serializeM = (m) => smsg(conn, m, store)
 
@@ -278,9 +309,14 @@ let buffer
 if (options && (options.packname || options.author)) {
 buffer = await writeExifImg(buff, options)
 } else {
-buffer = await imageToWebp(buff)}
+buffer = await imageToWebp(buff)
+}
 await conn.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-return buffer}
+.then( response => {
+fs.unlinkSync(buffer)
+return response
+})
+}
 /*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,` [1], 'base64') : /^https?:\/\//.test(path) ? await (await fetch(path)).buffer() : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
