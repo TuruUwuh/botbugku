@@ -7,12 +7,14 @@ const PDFDocument = require('pdfkit')
 const chalk = require('chalk')
 const os = require('os')
 const axios = require('axios')
+const sharp = require('sharp');
 const jimp  = require('jimp')
 const cheerio = require('cheerio')
 const fsx = require('fs-extra')
 const crypto = require('crypto')
 const ffmpeg = require('fluent-ffmpeg')
 const moment = require('moment-timezone')
+const jsobfus = require('javascript-obfuscator')
 const yts = require('yt-search')
 const { JSDOM } = require('jsdom')
 const { color, bgcolor } = require('./lib/color')
@@ -127,6 +129,13 @@ const qtod = m.quoted? "true":"false"
 const vn = false
 const timestampi = speed();
 const latensii = speed() - timestampi
+const totalStorage = Math.floor(os.totalmem() / 1024 / 1024) + 'MB'
+const freeStorage = Math.floor(os.freemem() / 1024 / 1024) + 'MB'
+const cpuModel = os.cpus()[0].model
+const cpuSpeed = os.cpus()[0].speed / 1000
+const cpuCount = os.cpus().length
+const _uptime = process.uptime() * 1000
+const uptime = clockString(_uptime)
 const ini_mark = `0@s.whatsapp.net`
 const dnew = new Date(Date.now())
 const week = dnew.toLocaleDateString('in', {
@@ -396,7 +405,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/0e2b5f224fdcaf4b61d02.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})}
+                    }}}, { quoted: m})}
 const replybrainly = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝘽𝙍𝘼𝙄𝙉𝙇𝙔📖`,
                 contextInfo: {
@@ -411,7 +420,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/8cd68dfc3fa902010e0e6.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})}
+                    }}}, { quoted: m})}
 const replyhentai = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙉𝙃𝙀𝙉𝙏𝘼𝙄 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
@@ -426,7 +435,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/b2d62575b1b5cadaeb1e2.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})}
+                    }}}, { quoted: m})}
 const replyerror = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝙔𝘼𝙃 𝙀𝙍𝙍𝙊𝙍😭`,
                 contextInfo: {
@@ -441,7 +450,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/39ebef0bfdf46f18cb2ff.png',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})} 
+                    }}}, { quoted: m})} 
 const replytolak = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `𝘼𝙘𝙘𝙚𝙨𝙨 𝘿𝙚𝙣𝙞𝙚𝙙 ❌`,
                 contextInfo: {
@@ -471,7 +480,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/97f426edef5a6326065a9.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})} 
+                    }}}, { quoted: m})} 
 const spotifyreply = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐣𝙎𝙋𝙊𝙏𝙄𝙁𝙔 𝙎𝙀𝘼𝙍𝘾𝙃🐣`,
                 contextInfo: {
@@ -486,7 +495,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://www.scdn.co/i/_global/open-graph-default.png',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})} 
+                    }}}, { quoted: m})} 
 
 const replybokep = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙓𝙉𝙓𝙓 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
@@ -502,7 +511,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/6bdd8ea22025d0afe0497.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})} 
+                    }}}, { quoted: m})} 
 const replyxvideos = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🥵𝙓𝙑𝙄𝘿𝙀𝙊𝙎 𝙎𝙀𝘼𝙍𝘾𝙃🥵`,
                 contextInfo: {
@@ -517,7 +526,7 @@ return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./im
                         thumbnailUrl: 'https://telegra.ph/file/dd0982ab9d4d655335a7d.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})} 
+                    }}}, { quoted: m})} 
 const replysimi = (teks) => {
 return conn.sendMessage(m.chat, { caption: teks, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `🐣𝗔𝗸𝘂 𝙎𝙞𝙢𝙎𝙞𝙢𝙞🐣`,
                 contextInfo: {
@@ -581,17 +590,26 @@ Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk 
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤「 \`\`\`𝑫𝑨𝑻𝑨𝑩𝑨𝑺𝑬\`\`\` 」
 ━━━━━━━━━━━━━━━━━━━
-_Status : ${isCreator ? 'Owner' : 'User'}_
-_Nama : ${pushname}_
-_Nomor : @${stod.split('@')[0]}_
-_Sponsored :  @${ini_mark.split('@')[0]}_
+Status : ${isCreator ? 'Owner' : 'User'}
+Nama : ${pushname}
+Nomor : @${stod.split('@')[0]}
+Sponsored :  @${ini_mark.split('@')[0]}
 Prefix :   ${prefix}
-_Speed : ${latensii.toFixed(4)} Second_
-Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
-Hostname : ${os.hostname()}
-Platform : ${os.platform()}
-Type : Node.Js
-Baileys : @whiskeysockets/baileys@^6.5.0
+━━━━━━━━━━━━━━━━━━━
+╰┈➤「 \`\`\`𝑺𝑻𝑨𝑻𝑼𝑺 𝑩𝑶𝑻\`\`\` 」
+━━━━━━━━━━━━━━━━━━━
+[•]Speed : ${latensii.toFixed(4)} Second
+[•]ᴀᴋᴛɪғ sᴇʟᴀᴍᴀ : ${uptime}
+[•]Memory Used : ${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)}MB / ${Math.round(require('os').totalmem / 1024 / 1024)}MB
+[•]Hostname : ${os.hostname()}
+[•]Platform : ${os.platform()}
+[•]Total Storage: ${totalStorage}
+[•]Free Storage: ${freeStorage}
+[•]CPU Model: ${cpuModel}
+[•]CPU Speed: ${cpuSpeed} GHz
+[•]Number of CPU Cores: ${cpuCount}
+[•]Type : Node.Js
+[•]Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
@@ -608,6 +626,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 )
 ━━━━━━━━━━━━━━━━━━━
+➤ pindl (download pinterest)
 ➤ pixiv (perlu code pixiv)
 ➤ spotify (link Spotify)
 ➤ nhentai/ncode (code hentai)
@@ -645,9 +664,14 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ jadianime (Reply Gambar)
 ➤ jadikartun (Reply Gambar)
 ➤ jadigta (Reply Gambar)
+➤ jadizombie (Reply Gambar)
 ➤ txtimg (Masukin teks Prompt)
+➤ txtimg2 (Masukin teks Prompt)
+➤ txtimg3 (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
 ➤ animedif/animediffusion (Masukin teks Prompt)
+➤ sdxl (Masukin teks Prompt)
+➤ dalle (Masukin teks Prompt)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙍𝘼𝙉𝘿𝙊𝙈 𝘼𝙉𝙄𝙈𝙀 )
 ━━━━━━━━━━━━━━━━━━━
@@ -658,12 +682,15 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ enc/encsc (Kirim Code Script Js lu)
+➤ enc2/encsc2 (Kirim Code Script Js lu)
 ➤ carbon (Teks)
 ➤ npmsearch
 ➤ persamaankata/sinonim
 ➤ style/styletext
 ➤ ringtone
 ➤ kalkulator
+➤ ss (screenshot web)
+➤ googlemaps/gmaps
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -693,6 +720,7 @@ Baileys : @whiskeysockets/baileys@^6.5.0
 ➤ latin (translate aksara jawa)
 ➤ ocr (Ambil Teks Foto)
 ➤ brainly (Kirim Soal)
+➤ ruangguru (kirim soal)
 ➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙐𝘼𝙏 𝙀𝙈𝘼𝙄𝙇 𝙍𝘼𝙉𝘿𝙊𝙈 )
@@ -892,6 +920,34 @@ async function shortUrl(url) {
 	return await (await fetch(`https://tinyurl.com/api-create.php?url=${url}`)).text()
 }
 
+//ENC SCRIPT
+async function obfus(query) {
+    return new Promise((resolve, reject) => {
+        try {
+        const obfuscationResult = jsobfus.obfuscate(query,
+        {
+            compact: false,
+            controlFlowFlattening: true,
+            controlFlowFlatteningThreshold: 1,
+            numbersToExpressions: true,
+            simplify: true,
+            stringArrayShuffle: true,
+            splitStrings: true,
+            stringArrayThreshold: 1
+        }
+        )
+        const result = {
+            status: 200,
+            author: `${ownername}`,
+            result: obfuscationResult.getObfuscatedCode()
+        }
+        resolve(result)
+    } catch (e) {
+        reject(e)
+    }
+    })
+}
+
 //SCRAPE YANDERE by ShinChan
 async function getYandeImage(query, page = '') {
   if (query.match(URL_REGEX)) {
@@ -941,6 +997,30 @@ async function Telesticker(url) {
         }
     resolve(hasil)
     })
+}
+
+//SCRAPE GOOGLE MAPS BY SHINCHAN
+async function jarak(dari, ke) {
+const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/116.0';
+    let html = (await axios.get(`https://www.google.com/search?q=${encodeURIComponent('jarak ' + dari + ' ke ' + ke)}&hl=id`, {
+        headers: {
+            'User-Agent': userAgent
+        }
+    })).data;
+    let $ = cheerio.load(html);
+    let obj = {};
+
+    let img = html.split("var s=\'")?.[1]?.split("\'")?.[0];
+    obj.img = /^data:.*?\/.*?;base64,/i.test(img) ? Buffer.from(img.split(',')[1], 'base64') : '';
+    
+    // ngambil waktu jarak
+    obj.captions = [];
+    $('div.BbbuR.uc9Qxb.uE1RRc').each((index, element) => {
+        let caption = $(element).text()?.trim();
+        obj.captions.push(caption);
+    });
+
+    return obj;
 }
 
 //TEST SCRAPE TO KARTUN BY SHINCHAN
@@ -1018,48 +1098,102 @@ async function pixivDl(query) {
 	}
 }
 
-//capcut new
-async function capcut(url) {
-  const response = await fetch(url);
-  const data = await response.text();
-  const $ = cheerio.load(data);
-
-  return {
-    nama: $("img").attr("alt"),
-    used: $("b").text().replace($("img").attr("alt"), ""),
-    thumbnail: $("img").attr("src"),
-    video: $("video").attr("src"),
-  };
+//SCRAPE SSWEB BY SHINCHAN
+async function ssweb(url, device = 'desktop') {
+    return new Promise((resolve, reject) => {
+        const base = 'https://www.screenshotmachine.com';
+      
+        // jika ingin screenshot tidak full, hapus saja simbol //
+        // const param = {
+        //     url: url,
+        //     device: device,
+        //     cacheLimit: 0
+        // };
+      
+        const param = {
+            url: url,
+            device: device,
+            full: 'on',
+            cacheLimit: 0
+        };
+        
+        axios({
+            url: base + '/capture.php',
+            method: 'POST',
+            data: new URLSearchParams(Object.entries(param)),
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            }
+        }).then((data) => {
+            const cookies = data.headers['set-cookie'];
+            
+            if (data.data.status == 'success') {
+                axios.get(base + '/' + data.data.link, {
+                    headers: {
+                        'cookie': cookies.join('')
+                    },
+                    responseType: 'arraybuffer'
+                }).then(({ data }) => {
+                    const result = {
+                        status: 200,
+                        author: 'ShinChan',
+                        result: data
+                    };
+                    resolve(result);
+                });
+            } else {
+                reject({ status: 404, author: 'ShinChan', message: data.data });
+            }
+        }).catch(reject);
+    });
 }
 
-//capcut new
-function capcutdl(Url) {
-	return new Promise((resolve, reject) => {
-		let token = Url.match(/\d+/)[0];
-		axios({
-			url: `https://ssscap.net/api/download/${token}`,
-			method: 'GET',
-			headers: {
-				'Accept': '/',
-				'User-Agent': 'Mozilla/5.0 (Linux; Android 10; AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
-				'X-Requested-With': 'acr.browser.barebones',
-				'Sec-Fetch-Site': 'same-origin',
-				'Sec-Fetch-Mode': 'navigate',
-				'Sec-Fetch-Dest': 'document',
-				'Referer': 'https://ssscap.net/id',
-				'Accept-Encoding': 'gzip, deflate, br',
-				'Accept-Language': 'id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7',
-				'Cookie': 'sign=5a98a026c45682ba8baa7a055af413b2; device-time=1702446760834'
-			}
-		}).then(({ data }) => {
-			console.log(data);
-			resolve(data); // Menyelesaikan janji dengan mengembalikan data
-		}).catch((err) => {
-			console.log(err);
-			reject(err); // Menyelesaikan janji dengan melempar kesalahan
-		});
-	});
+//QC STIKER
+async function Quotly(obj) {
+  let json;
+
+  try {
+    json = await axios.post("https://quote-api.rippanteq7.repl.co/generate", obj, {
+      headers: {
+        "Content-Type": "application/json"
       }
+    });
+  } catch (e) {
+    try {
+      json = await axios.post("https://quote-api-1.jigarvarma2005.repl.co/generate", obj, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    } catch (e) {
+      try {
+        json = await axios.post("https://qc-api.rizzlogy.repl.co/generate", obj, {
+          headers: {
+            "Content-Type": "application/json"
+          }
+        });
+      } catch (e) {
+        try {
+          json = await axios.post("https://quote-api.ghost19ui.repl.co/generate", obj, {
+            headers: {
+              "Content-Type": "application/json"
+            }
+          });
+        } catch (e) {
+          return e;
+        }
+      }
+    }
+  }
+
+  const results = json.data.result.image;
+  const buffer = Buffer.from(results, "base64");
+  return buffer;
+}
+
+function getRandomHexColor() {
+  return "#" + Math.floor(Math.random() * 16777215).toString(16).padStart(6, "0");
+}
 //YTMP3
 const downloadMp3 = async (Link) => {
 try {
@@ -1177,6 +1311,18 @@ conn.readMessages([m.key])
             console.error(util.format(err))
          }
       }
+      
+      //chat counter (console log)
+        if (m.message && m.isGroup) {
+            console.log(color(`\n< ================================================== >\n`, 'cyan'))
+			console.log(color(`Group Chat:`, 'green'))
+            console.log(chalk.black(chalk.bgWhite('[ MESSAGE ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> In'), chalk.green(groupName, m.chat))
+        } else {
+            console.log(color(`\n< ================================================== >\n`, 'cyan'))
+			console.log(color(`Private Chat:`, 'green'))
+            console.log(chalk.black(chalk.bgWhite('[ MESSAGE ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname), chalk.yellow(m.sender))
+        }
+        
 /*let rn = ['recording']
 let jd = rn[Math.floor(Math.random() * rn.length)];
 if (m.message) {
@@ -1714,7 +1860,11 @@ const tiktokData2 = await tryServer1(matches[0]);
 
         if (videoURL2 || videoURLWatermark2) {
             await conn.sendFile2(m.chat, videoURL2, 'tiktok.mp4', `${done}\n\n${infonya_gan2}`, m);
-    };*/
+    } else if (tiktokData2.images) {
+    for (let tt of tiktokData2.images) {
+      await conn.sendImage(m.chat, tt.url, done, m);
+    }
+  }*/
 
 switch(command) {
 case 'menu': {
@@ -1732,7 +1882,7 @@ contextInfo: {
                         thumbnailUrl: 'https://telegra.ph/file/0e2b5f224fdcaf4b61d02.jpg',
                         thumbnail: thumb,
                         sourceUrl: 'https://youtube.com/channel/UCqCZmaSvnbsre9EKEyGtviQ'
-                    }}}, { quoted: blue})}
+                    }}}, { quoted: m})}
                     break
 case 'grupmenu': {
 stod = `${sender}`
@@ -1989,7 +2139,7 @@ case 'deletesession':
                     )
                     console.log(filteredArray.length);
                     let teks = `Terdeteksi ${filteredArray.length} file sampah\n\n`
-                    if (filteredArray.length == 0) return replygcxeon(teks)
+                    if (filteredArray.length == 0) return m.reply(teks)
                     filteredArray.map(function(e, i) {
                         teks += (i + 1) + `. ${e}\n`
                     })
@@ -2087,7 +2237,7 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/bard?text=${text}`)
-    let databardai = await response.result
+    let databardai = response.result
 conn.sendMessage(m.chat, {
     text: databardai, 
     contextInfo: {
@@ -2113,8 +2263,8 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let response = await fetchJson(`https://aemt.me/gemini?text=${text}`)
-    let datagemini = await response.result
+    let response = await fetchJson(`https://vihangayt.me/tools/gemini?q=${text}`)
+    let datagemini = response.data
 conn.sendMessage(m.chat, {
     text: datagemini, 
     contextInfo: {
@@ -2223,7 +2373,7 @@ if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let ainero = await fetchJson(`https://aemt.me/gpt4?text=${text}`)
+    let ainero = await fetchJson(`https://aemt.me/v2/gpt4?text=${text}`)
 conn.sendMessage(m.chat, {
     text: ainero.result, 
     contextInfo: {
@@ -2495,12 +2645,38 @@ await conn.sendImage(m.chat, response, done, m)
     }
 }
 break
+case 'txtimg2': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/v4/text2img?text=${text}`
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'txtimg3': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/v5/text2img?text=${text}`
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
 case 'animedif': case 'animediffusion': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-const response = `https://api.azz.biz.id/api/animediffusion3?q=${text}`
+const response = `https://aemt.me/v6/text2img?text=${text}`
 await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
@@ -2603,8 +2779,35 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-const response = `https://api.akuari.my.id/ai/prodia?prompt=${text}`
+const response = `https://api.akuari.my.id/ai/prodia2?prompt=${text}`
 //await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'sdxl': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://api.akuari.my.id/ai/sdxl?prompt=${text}`
+//await conn.sendFile2(from, response, `image`, done, m)
+await conn.sendImage(m.chat, response, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'dalle': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://api.akuari.my.id/ai/dall-e2?prompt=${text}`
 await conn.sendImage(m.chat, response, done, m)
 } catch (error) {
         console.error(error);
@@ -2737,13 +2940,11 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
   }
   let error;
 try {
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
   let media = await conn.downloadAndSaveMediaMessage(quoted);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
-    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    const resnime = `https://api.lolhuman.xyz/api/imagetoanime?apikey=haikalgans&img=${anu}`
-    
-
+    const resnime = `https://api.akuari.my.id/ai/toanime2?urlimg=${anu}`
    await conn.sendImage(m.chat, resnime, done, m)
   }
 } catch (er) {
@@ -2771,6 +2972,7 @@ await conn.sendImage(m.chat, restoon, done, m)
 			}
 			break
 /*case 'jadianime': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
 let media = await conn.downloadAndSaveMediaMessage(quoted);
 let anu = await TelegraPh(media)
@@ -2778,13 +2980,29 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/toanime?url=${anu}`)
 let hasilanim = response.url
-conn.sendImage(m.chat, hasilanim.img_crop_single, done, m)
+await conn.sendImage(m.chat, hasilanim.img_crop_single, done, m)
 } catch (error) {
         console.error(error);
         replyerror(`Yah Proses Gagal:(`);
     }
 			}
 			break*/
+case 'jadizombie': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
+let media = await conn.downloadAndSaveMediaMessage(quoted);
+let anu = await TelegraPh(media)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/converter/zombie?url=${anu}`)
+let hasilzombie = response.url
+conn.sendImage(m.chat, hasilzombie, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
+			}
+			break			
 case 'jadigta': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command}`)
@@ -3023,7 +3241,7 @@ const i = wallpaper[Math.floor(Math.random() * wallpaper.length)]
 }
 break*/
 case 'wallpaper2':{
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
  waifudd = await axios.get(`https://nekos.life/api/v2/img/wallpaper`)       
             await conn.sendMessage(m.chat, { image: { url:waifudd.data.url} , caption: global.done}, { quoted:m }).catch(err => {
                     return('Error!')
@@ -3061,18 +3279,31 @@ let { lookup } = require('mime-types')
 	await conn.sendMessage(m.chat, { image: { url: res }, caption: `⭔ Result From: ${text}\n⭔ Media Url: ${res}`}, { quoted: m })
 }
 break
+case 'pindl': {
+if (!args[0]) return paycall(`${prefix + command} Masukan url`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`https://aemt.me/download/pindl?url=${args[0]}`)
+let jadinya = response.result
+await conn.sendImage(m.chat, jadinya.data.pin_url, done, m)
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+break
 //========================PINTEREST END=========================//
 case 'pixiv2': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} 63456028`)
 query = args.join(" ")
 let error13;
 try {
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
 let data = await res.json()
 let memek = data.result
 for (let i of memek.images) {
-await conn.sendFile2(from, i, `image`, done, blue)
+await conn.sendFile2(from, i, `image`, done, m)
 }
 } catch (er) {
 					error13 = true;
@@ -3116,6 +3347,7 @@ case 'carihentai':
 if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
 query = args.join(" ")
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${apikey}&query=${query}`)
 get_result = get_result.result
 ini_txt = "🥵𝘿𝘼𝙏𝘼 𝘾𝙊𝘿𝙀 𝙃𝙀𝙉𝙏𝘼𝙄🥵 : \n"
@@ -3615,6 +3847,7 @@ Brainly.initialize();
 var brainly = new Brainly('id');
 let restod = await brainly.search(text, 'id')
 	//console.log(restod)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 	if (restod) {
 		var answer = restod.map(({ question, answers }, i) => `
 *Pertanyaan*${question.grade ? ` (${question.grade})` : ''}\n${question.content}${answers.map((v, i) => `\n
@@ -3651,6 +3884,7 @@ case 'ruangguru': case 'roboguru': {
 			query = args.join(" ")
 			let error31;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 			let { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=${apikey}&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
 			var robgur = 'Beberapa Pembahasan Dari Roboguru :\n\n'
 			for (var x of data.result) {
@@ -3791,6 +4025,7 @@ break
 case 'mediafire': {
 if (!args[0]) throw `Use example ${prefix} ${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
 const { mediafiredl } = require('@bochilteam/scraper');
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let resnyacyy = await mediafiredl(args[0])
     let { url, url2, filename, ext, aploud, filesize, filesizeH } = resnyacyy
     let caption = `
@@ -3823,7 +4058,7 @@ await conn.sendMessage(m.chat, {document: mediafiredl.link, fileName: `${mediafi
 break*/
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let google = require('google-it')
 google({'query': text}).then(res => {
 let teks = `Google Search From : ${text}\n\n`
@@ -3912,24 +4147,6 @@ replyerror(`Yah Proses Gagal:(`);
     }
     }
     break
-/*case 'dlcapcut': {
-      if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.net/sharevideo?template_id=7239111787965205762&language=in&region=ID`;
-      if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
-      let error32;
-try {
-reply(global.wait)
-  let cangcut = await fetchJson(`https://api.yanzbotz.my.id/api/downloader/capcut?url=${args[0]}`)
-  let capcutuwu = `${done}\n📝Tittle : ${cangcut.result.title}\n📄Deskripsi : ${cangcut.result.description}\n👀View : ${cangcut.result.view}`
-conn.sendMessage(m.chat, { video: { url: cangcut.result.originalVideoUrl }, caption: capcutuwu }, { quoted: m})
-} catch (er) {
-error32 = true;
-} finally {
-if (error32) {
-replyerror("Yah Error:(.");
-}
-}
-}
-break*/
 case 'dlcapcut': {
       if (!args[0]) throw `🚩 *Example:* ${command} https://www.capcut.net/sharevideo?template_id=7239111787965205762&language=in&region=ID`;
       if (!text.includes('www.capcut.net')) return paytod(`Ini Bukan Link Capcut goblok😏`)
@@ -4019,9 +4236,9 @@ case 'ringtone': {
 	    break
 //========================BUAT EMAIL============================//
 case 'tempmail': {
-m.reply(`Tunggu Lagi Di Buat Emailnya...`)
 let error37;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let dataemail = await fetchJson(`https://vihangayt.me/tools/tempmail`)
 let emailjadi = dataemail.data[0]
 let idemaile = dataemail.data[1]
@@ -4038,9 +4255,9 @@ replyerror("Yah Error:(.");
 break
 case 'inboxmail': case 'inboxemail': {
 if (!text) return paycall(`Masukan Id Email Yang Sudah kalian buat'`)
-m.reply(`Tunggu Lagi Di Cek Pesan Masuk Emailnya...`)
 let error38;
 try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let hasilemail = await fetchJson(`https://vihangayt.me/tools/get_inbox_tempmail?q=${text}`)
 let infoemail = hasilemail.data[0]
 let inihasilnya = `📄Email: ${infoemail[0].toAddr}\n📝Text: ${infoemail[0].text}\n📊Size: ${infoemail[0].rawSize}\n📈Type: ${infoemail[0].headerSubject}\n📌Link Info: ${infoemail[0].fromAddr}\n🔗Url: ${infoemail[0].downloadUrl}`
@@ -4062,27 +4279,31 @@ wikipedia(`${text}`).then(res => {
   }).catch(() => { m.reply('Tidak Ditemukan') })
 }
 break
+//==========================ENC SCRIPT===============================//
 case 'enc': case 'encsc': {
-const JavaScriptObfuscator = require('javascript-obfuscator')
-if (!text) throw `[!] Masukan textnya`
-let error15;
-try {
-let resenc = JavaScriptObfuscator.obfuscate(text)
-m.reply(resenc.getObfuscatedCode())
-} catch (er) {
-					error15 = true;
-				} finally {
-					if (error15) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
+if (!q) return paycall(`Example ${prefix+command} const ShinChan = require('NERO')`)
+let meg = await obfus(q)
+m.reply(`${meg.result}`)
 }
 break
+case 'enc2': case 'encsc2': {
+if (!text) throw `[!] Example ${prefix+command} const ShinChan = require('NERO')`
+try {
+let resenc = jsobfus.obfuscate(text)
+m.reply(resenc.getObfuscatedCode())
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+}
+break
+//=========================================================//
 case 'searchmusik': {
 if (/document/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 if (!quoted) return paycall(`Kirim/Reply Video/Audio Kamu yang mau di cari judul lagunya dengan Caption ${prefix + command}`)
 try {
+let metadate = `Metadata musik tidak ditemukan.`
 let acrcloud = require('acrcloud')
 m.reply(`Tunggu Lagi Mencari Judul Musik...`)
 let acr = new acrcloud({
@@ -4098,9 +4319,17 @@ let audio = await toAudio(media, 'mp4')
 let ext = mime.split('/')[1]
 fs.writeFileSync(`./src/${m.sender}.${ext}`, media)
 let res = await acr.identify(fs.readFileSync(`./src/${m.sender}.${ext}`))
-let { code, msg } = res.status
+/*let { code, msg } = res.status
 if (code !== 0) throw msg
-let { title, artists, album, genres, release_date } = res.metadata.music[0]
+let { title, artists, album, genres, release_date } = res.metadata.music[0]*/
+let { code, msg } = res.status;
+if (code !== 0) throw msg;
+// Check if the music array exists and is not empty
+if (!res.metadata || !res.metadata.music || res.metadata.music.length === 0) {
+  throw metadate
+}
+// Access the first element of the music array
+let { title, artists, album, genres, release_date } = res.metadata.music[0];
 let txt = `
 🎶𝙅𝙐𝘿𝙐𝙇 𝙈𝙐𝙎𝙄𝙆 𝘿𝙄𝙏𝙀𝙈𝙐𝙆𝘼𝙉🎶
 =============================
@@ -4128,7 +4357,7 @@ conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg'
                     }}}, { quoted: m})}
                         } catch (error) {
         console.error(error);
-        replyerror('Gagal mendeteksi lagu🥺🙏');
+        replyerror('Metadata musik tidak ditemukan🥺🙏');
     }
                     }
 break
@@ -4186,7 +4415,7 @@ case 'sinonim': case 'persamaankata': {
     } else throw query
 
     try {
-        m.reply(wait)
+        await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         let res = await Persamaan_Kata(text)
         await conn.sendMessage(m.chat, { image: { url: res.image }, caption: "*[ Result ]*\n\n" + ArrClean(res.result) }, { quoted: m })
     } catch (e) {
@@ -4435,9 +4664,55 @@ ${listnya}`
        // await conn.sendFile2(m.chat, mek.url, "", `${done}`, m)
        await conn.sendImage(m.chat, mek.url, done, m)
     } catch (e) {
-        await m.reply(eror)
+        await m.reply(error)
     }
 }
+break
+case 'ss': case 'sshp': case 'ssweb': case 'sstablet': case 'sspc': case 'sslaptop': {
+    if (!text) return m.reply(`Gunakan format ${prefix + command} <url>\n\n*Contoh :* ${prefix + command} https://www.google.com\nList:\n${prefix}ss <url> (screenshot via hp)\n${prefix}sshp <url> (screenshot via hp)\n${prefix}ssweb <url> (screenshot via tablet)\n${prefix}sstablet <url> (screenshot via tablet)\n${prefix}sspc <url> (screenshot via pc)\n${prefix}sslaptop <url> (screenshot via laptop)`);
+  
+    //m.reply("_Loading. . ._");
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    
+    const phone = await ssweb(text, 'phone');
+    const desktop = await ssweb(text, 'desktop');
+    const tablet = await ssweb(text, 'tablet');
+    
+    if (command === 'sshp' || command === 'ss') {
+        await conn.sendFile2(m.chat, phone.result, '', done, m, false);
+    }
+    
+    if (command === 'ssweb' || command === 'sstablet') {
+        await conn.sendFile2(m.chat, tablet.result, '', done, m, false);
+    }
+    
+    if (command === 'sspc' || command === 'sslaptop') {
+        await conn.sendFile2(m.chat, desktop.result, '', done, m, false);
+    }
+};
+break
+case 'googlemaps': case 'gmaps': {
+    let [dari, ke] = text.split('|');
+    if (!dari || !ke) throw `Ex: ${prefix + command} pekalongan|sukabumi`;
+    
+    if (dari.toLowerCase() === ke.toLowerCase()) {
+        m.reply("hey bung, kau dari kota mana bodoh ?!\nAWOKAWOAKOAK");
+        return;
+    }
+
+    m.reply("Tunggu sebentar yah, sedang diminta peta nya...");
+
+    let result = await jarak(dari, ke);
+
+    if (result.img) {
+        let imgBuffer = Buffer.from(result.img, 'base64');
+        let resizedImgBuffer = await sharp(imgBuffer).toBuffer();
+
+        conn.sendMessage(m.chat, { image: resizedImgBuffer, caption: result.captions.join('\n') + `\n\nhttps://www.google.com/maps/dir/${encodeURIComponent(dari)}/${encodeURIComponent(ke)}/` }, { quoted: m });
+    } else {
+        m.reply(result.captions.join('\n') + `\n\nhttps://www.google.com/maps/dir/${encodeURIComponent(dari)}/${encodeURIComponent(ke)}/`);
+    }
+};
 break
   //(error41)
   
@@ -4873,7 +5148,7 @@ break
 case 'jadikatalog': {
 if (!isCreator) return paycall(`*khusus Owner*`)
 let media = await quoted.download()
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
 var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
@@ -4905,7 +5180,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 let atas = text.split('|')[0] ? text.split('|')[0] : '-'
 let bawah = text.split('|')[1] ? text.split('|')[1] : '-'
 let media = await quoted.download()
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var messa = await prepareWAMessageMedia({ image: media }, { upload: conn.waUploadToServer })
 var catalog = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
 "productMessage": {
@@ -4938,7 +5213,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
@@ -4959,14 +5234,12 @@ if (quoted.isAnimated) {
                   packname: global.packname,
                   author: global.author
                })
-               await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
                let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
                   packname: global.packname,
                   author: global.author
                })
-               await fs.unlinkSync(encmedia)
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds')
                let media = await quoted.download()
@@ -4974,7 +5247,6 @@ if (quoted.isAnimated) {
                   packname: global.packname,
                   author: global.author
                })
-               await fs.unlinkSync(encmedia)
             } else {
                paycall(`Send/Reply Images/Videos/Gifs With Captions ${prefix+command}\nVideo Duration 1-9 Seconds`)
             }
@@ -5010,7 +5282,7 @@ case 'emojimix': {
 	    }
 	    break
 case 'toimg': {
-	reply(global.wait)
+	await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 	const getRandom = (ext) => {
             return `${Math.floor(Math.random() * 10000)}${ext}`
         }
@@ -5033,7 +5305,7 @@ fs.unlinkSync(name)
 case 'toaud': case 'toaudio': {
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Send/Reply Video/Audio You Want to Use as Audio With Caption ${prefix + command}`)
-            reply(global.wait)
+            await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
@@ -5044,7 +5316,7 @@ case 'toaud': case 'toaudio': {
             if (/document/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
-            reply(global.wait)
+            await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
             let media = await quoted.download()
             let { toAudio } = require('./lib/converter')
             let audio = await toAudio(media, 'mp4')
@@ -5054,7 +5326,7 @@ case 'toaud': case 'toaudio': {
             case 'tovn': case 'toptt': {
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
             if (!quoted) return paycall(`Reply Video/Audio That You Want To Be VN With Caption ${prefix + command}`)
-            reply(global.wait)
+            await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
             let media = await quoted.download()
             let { toPTT } = require('./lib/converter')
             let audio = await toPTT(media, 'mp4')
@@ -5064,12 +5336,21 @@ case 'toaud': case 'toaudio': {
             case 'togif': {
                 if (!quoted) return paycall('Reply video')
                 if (!/webp/.test(mime)) return paycall(`reply sticker with caption *${prefix + command}*`)
-                reply(global.wait)
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 		let { webp2mp4File } = require('./lib/uploader')
                 let media = await conn.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
                 await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
-                await fs.unlinkSync(media)
+            }
+            break
+case 'tomp4': case 'tovideo': {
+                if (!quoted) return paycall('Reply to Sticker')
+                if (!/webp/.test(mime)) return paycall(`reply sticker with caption *${prefix + command}*`)
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+		        let { webp2mp4File } = require('./lib/uploader')
+                let media = await conn.downloadAndSaveMediaMessage(quoted)
+                let webpToMp4 = await webp2mp4File(media)
+                await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' } }, { quoted: m })
             }
             break
 case 'swm': case 'take':
@@ -5082,14 +5363,12 @@ case 'swm': case 'take':
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
-               await fs.unlinkSync(encmedia)
             } else if (/image/.test(mime)) {
                let media = await quoted.download()
                let encmedia = await conn.sendImageAsSticker(m.chat, media, m, {
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
-               await fs.unlinkSync(encmedia)
             } else if (/video/.test(mime)) {
                if ((quoted.msg || quoted).seconds > 11) return paycall('Maximum 10 Seconds!')
                let media = await quoted.download()
@@ -5097,7 +5376,6 @@ case 'swm': case 'take':
                   packname: text.split('|')[0] ? text.split('|')[0] : pushname,
                   author: text.split('|')[1] ? text.split('|')[1] : ''
                })
-               await fs.unlinkSync(encmedia)
             } else {
                paycall(`Photo/Video?`)
             }
@@ -5107,7 +5385,7 @@ case 'swm': case 'take':
                 let respond = `Send/Reply image/sticker with caption ${prefix + command} text1|text2`
                 if (!/image/.test(mime)) return paycall(respond)
                 if (!text) return paycall(respond)
-                reply(global.wait)
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
                 atas = text.split('|')[0] ? text.split('|')[0] : '-'
                 bawah = text.split('|')[1] ? text.split('|')[1] : '-'
                 let dwnld = await conn.downloadAndSaveMediaMessage(qmsg)
@@ -5117,7 +5395,6 @@ case 'swm': case 'take':
                     packname: packname,
                     author: author
                 })
-                fs.unlinkSync(pop)
             }
             break
             case 'qc': {
@@ -5140,7 +5417,7 @@ case 'ttp3':
 case 'ttp4': 
 case 'ttp5': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
 ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
 conn.sendImageAsSticker(m.chat, ini_buffer, m, {
@@ -5152,7 +5429,7 @@ break
 case 'attp': 
 case 'attp2': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
 ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
 conn.sendFile2(m.chat, ini_buffer, 'sticker.webp', '', m)
@@ -5271,17 +5548,8 @@ if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 await loading()
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
-await conn.sendMessage(m.chat,
-			    {
-			        delete: {
-			            remoteJid: m.chat,
-			            fromMe: false,
-			            id: m.key.id,
-			            participant: m.quoted.sender
-			        }
-			    })
 await conn.groupParticipantsUpdate(from, [users], 'remove')
-await conn.sendMessage(m.chat, {text: `\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\``}, {quoted: m})
+m.reply(`\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\``)
 }
 break
 
@@ -5376,7 +5644,7 @@ if (!m.isGroup) return m.reply(`*khusus Grup bodo*`)
 if (!quoted) return paycall(`Send/Reply Images With Captions ${prefix+command}`)
 if (!/image/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
 if (/webp/.test(mime)) return paycall(`Send/Reply Image With Caption ${prefix + command}`)
-m.reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var media = await conn.downloadAndSaveMediaMessage(quoted)
 try {
 if (args[0] == "/full") {
@@ -5807,7 +6075,7 @@ break
 case 'repeat':
 if (!isCreator) return paycall(global.ownercuy)
 if (!text) return paycall('Masukan Text|jumlah')
-reply(global.wait)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var shinchan_kawaii = `${args.join(' ')}`
 var kata = shinchan_kawaii.split("|")[0];
 var angka = shinchan_kawaii.split("|")[1]
@@ -5858,10 +6126,10 @@ form.append("__user", "0")
 form.append("__a", "1")
 form.append("__csr", "")
 form.append("__req", "8")
-form.append("__hs", "19572.BP:whatsapp_www_pkg.2.0.0.0.0")
+form.append("__hs", "19729.BP:whatsapp_www_pkg.2.0.0.0.0")
 form.append("dpr", "1")
 form.append("__ccg", "UNKNOWN")
-form.append("__rev", "1007965968")
+form.append("__rev", "1010701544")
 form.append("__comment_req", "0")
 
 let res = await axioss({
@@ -5879,7 +6147,7 @@ if (payload.includes(`"payload":true`)) {
 reply(`Sukses✓`)
 } else reply(util.format(res.data))
 } catch (err) {reply(`${err}`)}
-} else reply('Masukkan nomor target!')
+} else reply('Masukkan nomor Yang mau di unban!')
 }
 break
 //=================================================//

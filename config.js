@@ -29,7 +29,6 @@ global.doc10 = 'text/html'
 global.doc11 = 'text/css'
 global.doc12 = 'application/x-7z-compressed'
 global.doc13 = 'video/quicktime'
-
 //========================ANTI LINK=========================//
 global.AntiLink = true
 global.AntiLinkInstagram = false
