@@ -655,6 +655,7 @@ Prefix :   ${prefix}
 ➤ bardimg (reply gambar + masukin teks)
 ➤ bingai
 ➤ bingimg
+➤ bingimg2
 ➤ gemini
 ➤ mtk/aimtk (kirim soal mtk)
 ➤ simi
@@ -2638,7 +2639,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://aemt.me/ai/text2img?text=${text}`
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2651,7 +2653,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://aemt.me/v4/text2img?text=${text}`
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2664,7 +2667,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://aemt.me/v5/text2img?text=${text}`
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2677,7 +2681,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://aemt.me/v6/text2img?text=${text}`
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2699,29 +2704,31 @@ conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
     }
 			}
 			break
-case 'bingimg': {
+case 'bingimg2': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
 let donatur = `${done}\n\nJangan Lupa Support Kami Dengan Donasi Kak Buat Jajan><\n📱Pulsa Tsel: +6282134110253\n🗄️Dana: 6282134110253\n🥰Thanks You><\n\n\n📝Teks Promot: ${text}`
-await conn.sendImage(m.chat, response.result, donatur, m)
+//await conn.sendImage(m.chat, response.result, donatur, m)
+await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
     }
 			}
 			break
-/*case 'bingimg': {
-//if (!isPrem) return replyprem(mess.premium)
+case 'bingimg': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
   await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
   let res = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`);
   if (res.data?.length) {
     for (let i = 0; i < res.data?.length; i++) {
-      await conn.sendImage(m.chat, res.data[i], done, m);
+     // await conn.sendImage(m.chat, res.data[i], done, m);
+     await conn.sendMessage(m.chat, { image: { url: res.data[i] }, caption: `${done}`}, { quoted: m })
     }
   } else {
     m.reply('Server sedang sibuk sekarang. Coba lagi nanti !');
@@ -2731,7 +2738,7 @@ try {
   replyerror(`ERROR`);
 }
 }
-break;*/
+break;
 //=========================================================//
 /*case 'realistic': {
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
@@ -2781,7 +2788,8 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://api.akuari.my.id/ai/prodia2?prompt=${text}`
 //await conn.sendFile2(from, response, `image`, done, m)
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2795,7 +2803,8 @@ try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://api.akuari.my.id/ai/sdxl?prompt=${text}`
 //await conn.sendFile2(from, response, `image`, done, m)
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2808,7 +2817,8 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://api.akuari.my.id/ai/dall-e2?prompt=${text}`
-await conn.sendImage(m.chat, response, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -5404,7 +5414,6 @@ case 'swm': case 'take':
                 if (!q) return paycall('Enter Text')
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
                 const rest = await quote(q, pushname, ppnyauser)
-                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
                 conn.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
