@@ -2178,9 +2178,16 @@ reply(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
 break
 case 'owner': case 'creator':{
  conn.sendContact(from, global.owner, blue)
+m.reply(`=====[ *DEVELOPER NERO BOT* ]=====
+• Jangan Chat Sembarangan ke nomor owner maka akan Otomatis di blokir
+• Jangan Call/telepon owner tanpa izin
+• Chat langsung pada intinya
+• Spam Owner Langsung Block
+• Minimal Salam (Wajib)
+=========================================`)
 }
 break
-case 'addprem':
+case 'addprem': {
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 if (!args[0]) return reply(`Use ${prefix+command} number\nExample ${prefix+command} 6282134110253`)
 prrkek = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
@@ -2189,8 +2196,9 @@ if (ceknya.length == 0) return reply(`Enter a valid and registered number on Wha
 prem.push(prrkek)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${prrkek} Has Been Premium!`)
+}
 break
-case 'delprem':
+case 'delprem': {
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 if (!args[0]) return reply(`Use ${prefix+command} nomor\nExample ${prefix+command} 6282134110253`)
 ya = q.split("|")[0].replace(/[^0-9]/g, '')+`@s.whatsapp.net`
@@ -2198,6 +2206,26 @@ unp = prem.indexOf(ya)
 prem.splice(unp, 1)
 fs.writeFileSync('./database/premium.json', JSON.stringify(prem))
 reply(`The Number ${ya} Has Been Removed Premium!`)
+}
+break
+case 'addpremgc': {
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+if (!args[0]) return reply(`Use ${prefix+command} number\nExample ${prefix+command} 120363140614576277`)
+pkntd = q.split("|")[0].replace(/[^0-9]/g, '')+`@g.us`
+premgc.push(pkntd)
+fs.writeFileSync('./database/premiumgc.json', JSON.stringify(premgc))
+reply(`Grup Dengan Id ${pkntd} Sudah Premium!`)
+}
+break
+case 'delpremgc': {
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+if (!args[0]) return reply(`Use ${prefix+command} nomor\nExample ${prefix+command} 120363140614576277`)
+yantod = q.split("|")[0].replace(/[^0-9]/g, '')+`@g.us`
+unpred = premgc.indexOf(yantod)
+premgc.splice(unpred, 1)
+fs.writeFileSync('./database/premiumgc.json', JSON.stringify(premgc))
+reply(`Grup Dengan Id ${yantod} Telah Dihapus Premium!`)
+}
 break
 //========================CHAT GPT VIP=========================//
 case 'bingai': {
