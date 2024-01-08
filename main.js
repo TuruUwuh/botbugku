@@ -2177,14 +2177,15 @@ reply(`*Sukses mengirim pesan Ke ${mem.length} orang*`)
 }
 break
 case 'owner': case 'creator':{
- conn.sendContact(from, global.owner, blue)
-m.reply(`=====[ *DEVELOPER NERO BOT* ]=====
+const ownernero = await conn.sendContact(from, global.owner, blue)
+let aturowner = `=====[ *DEVELOPER NERO BOT* ]=====
 • Jangan Chat Sembarangan ke nomor owner maka akan Otomatis di blokir
 • Jangan Call/telepon owner tanpa izin
 • Chat langsung pada intinya
 • Spam Owner Langsung Block
 • Minimal Salam (Wajib)
-=========================================`)
+=========================================`
+ conn.sendMessage(from, { text : `Hai @${sender.split("@")[0]}\n${aturowner}`, mentions: [sender]}, { quoted: ownernero })
 }
 break
 case 'addprem': {
