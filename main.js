@@ -2264,8 +2264,8 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
   console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let response = await fetchJson(`https://vihangayt.me/tools/gemini?q=${text}`)
-    let datagemini = response.data
+    let response = await fetchJson(`https://aemt.me/gemini?text=${text}`)
+    let datagemini = response.result
 conn.sendMessage(m.chat, {
     text: datagemini, 
     contextInfo: {
@@ -2704,13 +2704,12 @@ conn.sendMessage(m.chat, {text: `${response.result}`}, {quoted: m})
     }
 			}
 			break
-case 'bingimg2': {
+case 'bingimg': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await fetchJson(`https://aemt.me/bingimg?text=${text}`)
-let donatur = `${done}\n\nJangan Lupa Support Kami Dengan Donasi Kak Buat Jajan><\n📱Pulsa Tsel: +6282134110253\n🗄️Dana: 6282134110253\n🥰Thanks You><\n\n\n📝Teks Promot: ${text}`
 //await conn.sendImage(m.chat, response.result, donatur, m)
 await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${done}`}, { quoted: m })
 } catch (error) {
@@ -2719,7 +2718,7 @@ await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${do
     }
 			}
 			break
-case 'bingimg': {
+case 'bingimg2': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
