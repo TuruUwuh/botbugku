@@ -5438,9 +5438,13 @@ case 'swm': case 'take':
                 const {
                     quote
                 } = require('./lib/quote.js')
-                if (!q) return paycall('Enter Text')
+                    if (args.length >= 1) {
+        text = args.slice(0).join(" ")
+    } else if (m.quoted && m.quoted.text) {
+        text = m.quoted.text
+    } else throw "Input teks atau reply teks yang ingin di jadikan quote!"
                 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
-                const rest = await quote(q, pushname, ppnyauser)
+                const rest = await quote(text, pushname, ppnyauser)
                 conn.sendImageAsSticker(m.chat, rest.result, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
