@@ -16,7 +16,7 @@ const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
 let { toAudio } = require('./lib/converter')
 //=================================================//
-require("http").createServer((_, res) => res.end("Uptime!")).listen(8080)
+//require("http").createServer((_, res) => res.end("Uptime!")).listen(8080)
 //=================================================//
 
 var low
@@ -208,14 +208,12 @@ if (anu.action == 'add') {
 conn.sendMessage(anu.id, { image: { url: ppuser }, mentions: [num], caption: `Haii Kak *@${num.split("@")[0]}* Selamat Datang Di Group *${metadata.subject}* 👋
  ▬▭▬▭▬▭▬▭▬▬▭▬▭▬
 Terima Kasih Sudah Bergabung Jangan Lupa Baca Deskripsi Yah
-▬▭▬▭▬▭▬▭▬▬▭▬▭▬
-Creator : https://wa.me/6285890785551`})
+▬▭▬▭▬▭▬▭▬▬▭▬▭▬`})
 } else if (anu.action == 'remove') {
 conn.sendMessage(anu.id, { image: { url: ppuser }, mentions: [num], caption: `Karena Untuk Setiap Ucapan Selamat Datang Akan Selalu Diakhiri Dengan Ucapan Selamat Tinggal 👋
 ▬▭▬▭▬▭▬▭▬▬▭▬▭▬
 Selamat Tinggal *@${num.split("@")[0]}* Di Group *${metadata.subject}*
-▬▭▬▭▬▭▬▭▬▬▭▬▭▬
-Creator : https://wa.me/6285890785551`})
+▬▭▬▭▬▭▬▭▬▬▭▬▭▬`})
 } else if (anu.action == 'promote') {
 conn.sendMessage(anu.id, { image: { url: ppuser }, mentions: [num], caption: `@${num.split('@')[0]} Ciee Jadi Admin Di Group ${metadata.subject} ${metadata.desc}`  })
 } else if (anu.action == 'demote') {

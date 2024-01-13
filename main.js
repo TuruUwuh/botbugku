@@ -650,7 +650,7 @@ Prefix :   ${prefix}
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai4/chatgptv4
 ➤ nero/aibb/blackbox
-➤ zerogpt (Deteksi Tulisan Ai)
+➤ chan
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
 ➤ bingai
@@ -682,8 +682,8 @@ Prefix :   ${prefix}
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
-➤ enc/encsc (Kirim Code Script Js lu)
-➤ enc2/encsc2 (Kirim Code Script Js lu)
+➤ enc/encsc (LOW)
+➤ enc2/encsc2 (HIGH)
 ➤ carbon (Teks)
 ➤ npmsearch
 ➤ persamaankata/sinonim
@@ -742,13 +742,6 @@ Prefix :   ${prefix}
 ➤ emojimix (🙂+🥰)
 ➤ qc (Masukan Teks)
 ➤ smeme (reply gambar)
-━━━━━━━━━━━━━━━━━━━
-╰┈➤( 𝙂𝘼𝙈𝙀 )
-━━━━━━━━━━━━━━━━━━━
-➤ suit (pilih lawan🥶)
-➤ tebak (lagu, kata, gambar, kalimat, lirik, lontong)
-➤ kuismath/math
-➤ tictactoe (Cari Lawan🥶)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘾𝙊𝙉𝙑𝙀𝙍𝙏 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1869,7 +1862,7 @@ const tiktokData2 = await tryServer1(matches[0]);
 
 switch(command) {
 case 'menu': {
-await loading ()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 conn.sendMessage(m.chat, { caption: menulist, document: fs.readFileSync('./image/cheems.xlsx'), fileLength: 999999999999999, mimetype: `${docs}`, fileName: `💖𝙇𝙄𝙎𝙏 𝙈𝙀𝙉𝙐 𝘽𝙊𝙏💖`,
 contextInfo: {
                      externalAdReply: {
@@ -2117,7 +2110,7 @@ process.exit()
 break
 case 'restart':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 await sleep(3000)
 paytod('Sukses Merestart Ulang Bot🙏\nBot Kembali Pulih Tidak Delay Lagi🥰\n\n\nNote: Jika bot mengalami on/off dengan sendirinya, itu tandanya lagi reset sessions biar tidak delay (Jadi harap di tunggu sampai bener bener dipulihkan 😁)')
 await start()
@@ -2286,6 +2279,33 @@ conn.sendMessage(m.chat, {
     }
 }
 break
+case 'chan': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+  if (!text) return m.reply('Hai saya ShinChan Ai, Apa yang bisa saya bantu?')
+  console.log(`[${new Date().toLocaleTimeString()}] ${text}`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let response = await fetchJson(`https://aemt.me/ai/c-ai?prompt=Nama saya ShinChan, saya di tugaskan untuk membantu anda&text=${text}`)
+    let chanai = response.result
+conn.sendMessage(m.chat, {
+    text: chanai, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 𝘼𝙄',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+}
+break
 case 'gemini': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
   if (!text) return m.reply('Hai saya Gemini Ai, Apa yang bisa saya bantu?')
@@ -2424,44 +2444,6 @@ conn.sendMessage(m.chat, {
 					}
 					}
 }
-break
-case 'zerogpt': {
-    if (!text) {
-        throw `Fitur pendeteksi Tulisan yang dibuat oleh AI\nContoh:\n${prefix + command} TextGenerateFromAI`;
-    }
-
-    var options = {
-        method: 'POST',
-        url: 'https://tr.deployers.repl.co/zerogpt',
-        headers: {
-            Accept: '*/*',
-            'User-Agent': 'Thunder Client (https://www.thunderclient.com)',
-            'content-type': 'multipart/form-data; boundary=---011000010111000001101001'
-        },
-        data: `-----011000010111000001101001\r\nContent-Disposition: form-data; name="text"\r\n\r\n${text}\r\n-----011000010111000001101001--\r\n`
-    };
-
-    try {
-    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-        const response = await axios.request(options);
-        const aiWords = response.data.data.aiWords;
-        const detectedLanguage = response.data.data.detected_language;
-        const h = response.data.data.h;
-
-        const replyMessage = `
-🤖AI Words: ${aiWords}
-
-📄Detected Language: ${detectedLanguage}
-
-📝Perkataan AI: ${h}
-`;
-
-        m.reply(replyMessage);
-    } catch (error) {
-        console.error(error);
-        m.reply('An error occurred while processing the request');
-    }
-};
 break
 //========================WAIFU = LOLI========================//
 case 'neko': case 'waifu': {
@@ -4755,7 +4737,7 @@ break
   
 //GAME
 //=================================================
-case 'family100': {
+/*case 'family100': {
  if ('family100'+from in _family100) {
  m.reply('Masih Ada Sesi Yang Belum Diselesaikan!')
  throw false
@@ -4964,7 +4946,7 @@ delete this.suit[id]
 }, 60000), poin, poin_lose, timeout
 }
 }
-break
+break*/
 //========================END============================//
 case 'id': {
         if (!isCreator) return paycall(`*khusus Owner*`)
@@ -5380,7 +5362,7 @@ case 'toaud': case 'toaudio': {
                 await conn.sendMessage(m.chat, { video: { url: webpToMp4.result, caption: 'Convert Webp To Video' }, gifPlayback: true }, { quoted: m })
             }
             break
-case 'tomp4': case 'tovideo': {
+case 'tomp4': case 'tovideo': case 'tovid': {
                 if (!quoted) return paycall('Reply to Sticker')
                 if (!/webp/.test(mime)) return paycall(`reply sticker with caption *${prefix + command}*`)
                 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -5544,7 +5526,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
 case 'linkgroup': case 'linkgc': {
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let response = await conn.groupInviteCode(from)
 conn.sendText(from, `https://chat.whatsapp.com/${response}\n\nLink Group : ${groupMetadata.subject}`, m, { detectLink: true })
 }
@@ -5554,7 +5536,7 @@ case 'resetlinkgc':
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 conn.groupRevokeInvite(from)
 break
 
@@ -5562,7 +5544,7 @@ case 'sendlinkgc': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (!args[0]) return m.reply(`Penggunaan ${prefix+command} nomor\nContoh ${prefix+command} 6281214281312`)
 bnnd = text.split("|")[0]+'@s.whatsapp.net'
 let response = await conn.groupInviteCode(from)
@@ -5582,7 +5564,7 @@ case 'kick': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'remove')
 m.reply(`\`\`\`「 𝙎𝙐𝙆𝙎𝙀𝙎 𝙆𝙄𝘾𝙆 」\`\`\``)
@@ -5593,7 +5575,7 @@ case 'add': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'add')
 }
@@ -5603,7 +5585,7 @@ case 'promote': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'promote')
 }
@@ -5613,7 +5595,7 @@ case 'demote': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.groupParticipantsUpdate(from, [users], 'demote')
 }
@@ -5639,7 +5621,7 @@ if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
 case 'setgc': case 'editgrup': case 'editgroup': {   
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args[0] === 'close'){
 await conn.groupSettingUpdate(from, 'announcement').then((res) => m.reply(`Sukses Menutup Group`)).catch((err) => m.reply(jsonformat(err)))
 } else if (args[0] === 'open'){
@@ -5695,7 +5677,7 @@ break
 case 'editinfo': {
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
  if (args[0] === 'open'){
 await conn.groupSettingUpdate(from, 'unlocked').then((res) => m.reply(`Sukses Membuka Edit Info Group`)).catch((err) => m.reply(jsonformat(err)))
  } else if (args[0] === 'close'){
@@ -5713,7 +5695,7 @@ case 'join': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!text) throw 'Masukkan Link Group!'
 if (!isUrl(args[0]) && !args[0].includes('whatsapp.com')) throw 'Link Invalid!'
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let result = args[0].split('https://chat.whatsapp.com/')[1]
 await conn.groupAcceptInvite(result).then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 }
@@ -5724,7 +5706,7 @@ if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 if (!text) throw 'Text nya ?'
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 await conn.groupUpdateSubject(from, text).then((res)).catch((err) => m.reply(jsonformat(err)))
 }
 break
@@ -5734,7 +5716,7 @@ if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 if (!text) throw 'Text Nya ?'
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 await conn.groupUpdateDescription(from, text).then((res)).catch((err) => m.reply(jsonformat(err)))
 }
 break
@@ -5764,7 +5746,7 @@ paytod(open)
 break
 case 'tagall': {
 if (!m.isGroup) return
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let teks = `══✪〘 *👥 Tag All* 〙✪══
  ➲ *Pesan : ${q ? q : 'kosong'}*\n\n`
 for (let mem of participants) {
@@ -5779,7 +5761,7 @@ if (!isCreator) return m.reply('*Khusus Owner Bot*')
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var groupe = await conn.groupMetadata(from)
 var members = groupe['participants']
 var mems = []
@@ -5794,7 +5776,7 @@ if (!isCreator) return m.reply('*Khusus Owner Bot*')
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 var groupe = await conn.groupMetadata(from)
 var members = groupe['participants']
 var mems = []
@@ -5808,7 +5790,7 @@ case "welcome":
 {
 if (!isCreator) return m.reply('*Khusus Owner Bot*')
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
 if (welcm) return m.reply('Sudah Aktif')
@@ -5831,7 +5813,7 @@ break
 
 case 'bcgc': case 'bcgroup': {
 if (!isCreator) return m.reply('*Khusus Owner Bot*')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (!text) throw `Text mana?\n\nExample : ${prefix + command} fatih-san`
 let getGroups = await conn.groupFetchAllParticipating()
 let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
@@ -5845,26 +5827,6 @@ m.reply(`Sukses Mengirim Broadcast Ke ${anu.length} Group`)
 }
 break
 
-case 'antilink': {
-if (!isCreator) return m.reply(`*khusus Owner*`)
-if (!m.isGroup) return groupon(from)
-if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
-await loading()
-if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
-if (args[0] === "on") {
-if (AntiLink) return m.reply('Sudah Aktif')
-ntilink.push(from)
-m.reply('Succes menyalakan antilink di group ini 🌷')
-} else if (args[0] === "off") {
-if (!AntiLink) return m.reply('Sudah Mati')
-let off = ntilink.indexOf(from)
-ntilink.splice(off, 1)
-m.reply('Succes mematikan antilink di group ini 🌷')
-} else {
-m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
-}
-}
-break
 case 'antilinkinstagram': case 'antilinkig': case 'antilinkinsta': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
@@ -5892,6 +5854,28 @@ paycall('Success in turning off instagram antilink in this group')
   }
   }
   break
+case 'antilink': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
+if (args[0] === "on") {
+if (AntiLink) return m.reply('Sudah Aktif')
+ntilink.push(from)
+fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
+m.reply('Succes menyalakan antilink di group ini 🌷')
+} else if (args[0] === "off") {
+if (!AntiLink) return m.reply('Sudah Mati')
+let off = ntilink.indexOf(from)
+ntilink.splice(off, 1)
+fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
+m.reply('Succes mematikan antilink di group ini 🌷')
+} else {
+m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
+}
+}
+break
   case 'antilinkch': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
@@ -5907,7 +5891,7 @@ var mems = []
 members.map(async adm => {
 mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
 })
-conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan kirimkan link Saluran WhatsApp di grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+//conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nJika Anda bukan admin, jangan kirimkan link Saluran WhatsApp di grup ini atau Anda akan langsung ditendang!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
 if (!AntiLinkChannel) return paycall('Already deactivated')
 let off = ntilinkchannel.indexOf(from)
@@ -5995,7 +5979,7 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
 if (!isBotAdmins) return m.reply('Bot Bukan Admin Cuy')
 if (!isAdmins) return m.reply('Lah Dikira Admin Group Kali')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
 if (welcmm) return m.reply('Sudah Aktif')
@@ -6092,7 +6076,7 @@ case 'toonce':
 
 case 'block': {
 if (!isCreator) return m.reply('*Khusus Owner Bot*')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.updateBlockStatus(users, 'block').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 }
@@ -6100,7 +6084,7 @@ break
 
 case 'unblock': {
 if (!isCreator) return m.reply('*Khusus Owner Bot*')
-await loading()
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 await conn.updateBlockStatus(users, 'unblock').then((res) => m.reply(jsonformat(res))).catch((err) => m.reply(jsonformat(err)))
 }
