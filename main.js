@@ -64,6 +64,7 @@ const zipnye = JSON.parse(fs.readFileSync('./database/zip.json'))
 const apknye = JSON.parse(fs.readFileSync('./database/apk.json'))
 const ntilink = JSON.parse(fs.readFileSync("./lib/antilink.json"))
 const ntilinkall =JSON.parse(fs.readFileSync('./lib/antilinkall.json'))
+let ntwame = JSON.parse(fs.readFileSync('./database/antiwame.json'))
 let ntilinkig =JSON.parse(fs.readFileSync('./database/antilinkinstagram.json'));
 let ntilinkchannel =JSON.parse(fs.readFileSync('./database/antilinkchannelwa.json'));
 let ntvirtex = JSON.parse(fs.readFileSync('./database/antivirus.json'))
@@ -112,6 +113,7 @@ const AntiLinkInstagram = m.isGroup ? ntilinkig.includes(from) : false
 const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : false
 const antiVirtex = m.isGroup ? ntvirtex.includes(from) : false
 const AntiEval = m.isGroup ? nteval.includes(from) : false
+const antiWame = m.isGroup ? ntwame.includes(from) : false
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
 const isPremgc = m.isGroup ? premgc.includes(from) : false
 const isBan = banned.includes(m.sender)
@@ -171,6 +173,13 @@ var shinchantime = `Selamat Siang 🌄`
  if(time2 < "05:00:00"){
 var shinchantime = `Selamat Pagi 🌄`
  } 
+ 
+ //total fitur
+const totalFitur = () =>{
+            var mytext = fs.readFileSync("./main.js").toString()
+            var numUpper = (mytext.match(/case '/g) || []).length;
+            return numUpper
+        }
 //fake quoted
 const ftroli = {
          key: {
@@ -610,6 +619,7 @@ Prefix :   ${prefix}
 [•]Number of CPU Cores: ${cpuCount}
 [•]Type : Node.Js
 [•]Baileys : @whiskeysockets/baileys@^6.5.0
+[•]Total Fitur : ${totalFitur()}
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
 ━━━━━━━━━━━━━━━━━━━
@@ -642,6 +652,8 @@ Prefix :   ${prefix}
 ➤ twitter/twt/twtdl (Link Video Twitter)
 ➤ fbdl (Link Video Facebook)
 ➤ telestik (Link Stiker Telegram)
+➤ tera/terabox (Link Terabox)
+➤ mediafire
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -671,6 +683,7 @@ Prefix :   ${prefix}
 ➤ txtimg3 (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
 ➤ animedif/animediffusion (Masukin teks Prompt)
+➤ animedif2/animediffusion2 (Masukin teks Prompt)
 ➤ sdxl (Masukin teks Prompt)
 ➤ dalle (Masukin teks Prompt)
 ━━━━━━━━━━━━━━━━━━━
@@ -692,6 +705,7 @@ Prefix :   ${prefix}
 ➤ kalkulator
 ➤ ss (screenshot web)
 ➤ googlemaps/gmaps
+➤ lookup
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -1269,7 +1283,7 @@ function start() {
          console.error('Exited with code:', code)
          if (code == '.' || code == 1 || code == 0) start()
       })
-}
+}      
 //auto off
 if (global.autoOff) {
 if (command) {
@@ -1307,7 +1321,7 @@ conn.readMessages([m.key])
       }
       
       //chat counter (console log)
-        /*if (m.message && m.isGroup) {
+        if (m.message && m.isGroup) {
             console.log(color(`\n< ================================================== >\n`, 'cyan'))
 			console.log(color(`Group Chat:`, 'green'))
             console.log(chalk.black(chalk.bgWhite('[ MESSAGE ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname), chalk.yellow(m.sender) + '\n' + chalk.blueBright('=> In'), chalk.green(groupName, m.chat))
@@ -1315,7 +1329,7 @@ conn.readMessages([m.key])
             console.log(color(`\n< ================================================== >\n`, 'cyan'))
 			console.log(color(`Private Chat:`, 'green'))
             console.log(chalk.black(chalk.bgWhite('[ MESSAGE ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname), chalk.yellow(m.sender))
-        }*/
+        }
         
 /*let rn = ['recording']
 let jd = rn[Math.floor(Math.random() * rn.length)];
@@ -1338,7 +1352,7 @@ let isLinkThisGc = new RegExp(gclink, 'i')
 let isgclink = isLinkThisGc.test(m.text)
 if (isgclink) return conn.sendMessage(m.chat, {text: `\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\nAnda tidak akan ditendang oleh bot karena yang Anda kirim adalah link ke grup ini`})
 if (isAdmins) return conn.sendMessage(m.chat, {text: `\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\nAdmin sudah mengirimkan link, admin bebas memposting link apapun`})
-if (isCreator) return conn.sendMessage(m.chat, {text: `\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\Owner telah mengirim link, owner bebas memposting link apa pun`})
+if (isCreator) return conn.sendMessage(m.chat, {text: `\`\`\`「 Group Link Terdeteksi 」\`\`\`\n\nOwner telah mengirim link, owner bebas memposting link apa pun`})
 await conn.sendMessage(m.chat,
 {
 delete: {
@@ -1392,7 +1406,7 @@ if (isCreator) return m.reply(bvl)
 			        }
 			    })
 			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-conn.sendMessage(from, {text:`\`\`\`「 Instagram Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link instagram di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+conn.sendMessage(from, {text:`\`\`\`「 Instagram Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah mengirimkan link instagram di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
 //antilink Channel Wa by ShinChan
@@ -1413,7 +1427,7 @@ if (isCreator) return m.reply(bvl)
 			        }
 			    })
 			//conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
-conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena mengirimkan link Saluran di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+conn.sendMessage(from, {text:`\`\`\`「 Saluran WhatsApp Link Detected 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah mengirimkan link Saluran di grup ini pesan berhasil delete`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
 } else {
 }
 //Anti Eval by ShinChan
@@ -1435,6 +1449,48 @@ if (isCreator) return m.reply(bvl)
 			    })
 			conn.groupParticipantsUpdate(m.chat, [m.sender], 'remove')
 conn.sendMessage(from, {text:`\`\`\`「 Eval Terdeteksi 」\`\`\`\n\n@${m.sender.split("@")[0]} Telah ditendang karena Eval sembarangan di grup ini`, contextInfo:{mentionedJid:[m.sender]}}, {quoted:m})
+} else {
+}
+
+ // Antiwame by ShinChan
+  if (antiWame)
+  if (budy.includes(`Wa.me`)) {
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Wa.me Link Detected 」\`\`\`\n\nAdmin sudah kirim link wa.me, admin bebas kirim link apa saja😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
+kice = m.sender
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+conn.sendMessage(from, {text:`\`\`\`「 Wa.me Link Detected 」\`\`\`\n\n@${kice.split("@")[0]} telah mengirimkan link wa.me dan berhasil dihapus`, contextInfo:{mentionedJid:[kice]}}, {quoted:m})
+} else {
+}
+  if (antiWame)
+  if (budy.includes(`https://wa.me`)) {
+if (!isBotAdmins) return
+bvl = `\`\`\`「 Wa.me Link Detected 」\`\`\`\n\nAdmin sudah kirim link wa.me, admin bebas kirim link apa saja😇`
+if (isAdmins) return m.reply(bvl)
+if (m.key.fromMe) return m.reply(bvl)
+if (XeonTheCreator) return m.reply(bvl)
+kice = m.sender
+        await conn.sendMessage(m.chat,
+			    {
+			        delete: {
+			            remoteJid: m.chat,
+			            fromMe: false,
+			            id: m.key.id,
+			            participant: m.key.participant
+			        }
+			    })
+conn.sendMessage(from, {text:`\`\`\`「 Wa.me Link Detected 」\`\`\`\n\n@${kice.split("@")[0]} telah mengirimkan link wa.me dan berhasil dihapus`, contextInfo:{mentionedJid:[kice]}}, {quoted:m})
 } else {
 }
 //antivirtex by ShinChan
@@ -2102,6 +2158,10 @@ ${wit}
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
 }
 break
+case 'totalfitur': {
+m.reply(`_Total Semua Fitur Bot Nero Md ${totalFitur()}_`)
+}
+        break
 case 'shutdown': case 'stop':
 if (!isCreator) return paycall('*Khusus Owner Bot*')
 paycall(`OKE DONE STOP🥰`)
@@ -2148,6 +2208,15 @@ case 'deletesession':
                 });
             }
             break
+case 'cleartmp': case 'deltmp': {
+if (!isCreator) return paycall('*Khusus Owner Bot*')
+const { readdirSync, rmSync } = require('fs')
+ const dir = './tmp'
+ readdirSync(dir).forEach(f => rmSync(`${dir}/${f}`));
+ let pesan = `Berhasil menghapus semua sampah di \`\`\`folder tmp\`\`\` `
+ await m.reply(pesan)
+}
+break
 case 'delete': case 'del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -2699,6 +2768,20 @@ await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, 
     }
 }
 break
+case 'animedif2': case 'animediffusion2': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://api.azz.biz.id/api/animediffusion3?q=${text}`
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
 case 'bardimg': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!/image/.test(mime)) return paycall(`Send/Reply Foto Dengan Caption ${prefix + command} teksnya`)
@@ -3079,7 +3162,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
         }
 break
 //========================TIKTOK=========================//
-/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
+case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt':
 if (!args[0]) {
         throw 'Uhm... URL-nya mana?';
     }
@@ -3130,7 +3213,7 @@ if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
             // Jika server kedua juga gagal, tangani error di sini
             replyerror(`Error: ${errornya}`);
         };
-break*/
+break
 case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
@@ -3153,7 +3236,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 					}
             }
 break
-case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
+/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
 if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
 try {
@@ -3182,7 +3265,7 @@ console.error(error);
 replyerror(`Yah Proses Gagal:(`);
 }
 }
-break
+break*/
 //========================AKSARA JAWA=========================//
 case 'aksarajawa': {
 if (!text) return paycall( `Ketik sesuatu biar ketikan lu di generate jadi aksarajawa`)
@@ -3441,7 +3524,7 @@ data.images.pages.map((v, i) => {
 			pages.push(`https://external-content.duckduckgo.com/iu/?u=https://i7.nhentai.net/galleries/${data.media_id}/${i + 1}.${ext}`)
 		})
 let buffer = await (await fetch(thumbnya)).buffer()		
-let jpegThumbnail = await fetchBuffer(buffer)		
+let jpegThumbnail = await fetchBuffer(buffer)
 let imagepdf = await toPDF(pages)		
 await conn.sendMessage(m.chat, { document: imagepdf, jpegThumbnail, fileName: data.title.english + '.pdf', mimetype: 'application/pdf' }, { quoted: m })
 } catch (error) {
@@ -3797,6 +3880,38 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 					}
             }
 break
+//========================TERABOX DOWNLOAD============================//
+case 'tera':
+case 'terabox': {
+  if (args.length === 0) return reply(`Example: ${prefix + command} https://terabox.com/s/1ah0l69Zs2pLPH3euBduCig`);
+  
+  try {
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let res = await fetchJson(`https://rest-api.akuari.my.id/downloader/teraboxdl?link=${args[0]}`);
+    
+    for (let x of res.linkdl) {
+      let isVideo = x.includes('.mp4');
+      
+      try {
+        let response = await fetch(x);
+        let buffer = await response.buffer();
+
+      if (isVideo) {
+          await conn.sendMessage(from, { video: buffer, mimetype: 'video/mp4', caption: done }, { quoted: m });
+        } else {
+          await conn.sendMessage(from, { image: buffer, caption: done }, { quoted: m });
+        }
+      } catch (error) {
+        console.error('Error fetching buffer:', error);
+        replyerror(`Error fetching buffer`);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    replyerror(`Error Bang`);
+  }
+}
+break;
 //========================END============================//
 /*case 'anime':
                     if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Hanayome`)
@@ -4336,8 +4451,8 @@ let media = await quoted.download()
 let { toAudio } = require('./lib/converter')
 let audio = await toAudio(media, 'mp4')
 let ext = mime.split('/')[1]
-fs.writeFileSync(`./src/${m.sender}.${ext}`, media)
-let res = await acr.identify(fs.readFileSync(`./src/${m.sender}.${ext}`))
+fs.writeFileSync(`./tmp/${m.sender}.${ext}`, media)
+let res = await acr.identify(fs.readFileSync(`./tmp/${m.sender}.${ext}`))
 /*let { code, msg } = res.status
 if (code !== 0) throw msg
 let { title, artists, album, genres, release_date } = res.metadata.music[0]*/
@@ -4359,7 +4474,7 @@ let txt = `
 • 📆 RELEASE DATE: ${release_date || 'NOT FOUND'}
 =============================
 `.trim()
-fs.unlinkSync(`./src/${m.sender}.${ext}`)
+fs.unlinkSync(`./tmp/${m.sender}.${ext}`)
 conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg', fileName: `${title}.mp3`,
                 contextInfo: {
                      externalAdReply: {
@@ -4731,6 +4846,41 @@ case 'googlemaps': case 'gmaps': {
     } else {
         m.reply(result.captions.join('\n') + `\n\nhttps://www.google.com/maps/dir/${encodeURIComponent(dari)}/${encodeURIComponent(ke)}/`);
     }
+};
+break
+case 'lookup': {
+  if (!text) throw `Masukkan Domain/Sub Domain!\n\n*Contoh:* botcahx.live`;
+
+  if (text.includes('https://') || text.includes('http://')) throw `Tolong masukkan domain/sub domain secara lengkap. Contoh: botcahx.live`;
+
+  try {
+    // fetch pertama
+    const api_key = 'E4/gdcfciJHSQdy4+9+Ryw==JHciNFemGqOVIbyv';
+    const res1 = await fetch(`https://api.api-ninjas.com/v1/dnslookup?domain=${text}`, {
+      headers: { 'X-Api-Key': api_key },
+      contentType: 'application/json'
+    })
+    .then(response => response.text())
+    .catch(error => {
+      console.log(error);
+      return fetch(`https://api.hackertarget.com/dnslookup/?q=${text}`)
+      .then(response => response.text())
+      .then(data => {
+        m.reply(`*Ini Adalah Hasil Dns Lookup Untuk ${text}:*\n${data}`);
+        console.log(data);
+      })
+      .catch(error => {
+        console.error(error);
+        m.reply('*Tidak dapat memproses permintaan DNS Lookup*');
+      });
+    });
+    m.reply(`*Ini Adalah Hasil Dns Lookup Untuk ${text}:*\n${res1}`);
+    console.log(res1);
+
+  } catch (error) {
+    console.log(error);
+    m.reply('*Invalid data!*');
+  }
 };
 break
   //(error41)
@@ -5859,27 +6009,62 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-if (args.length < 1) return m.reply('ketik on untuk mengaktifkan\nketik off untuk menonaktifkan')
 if (args[0] === "on") {
 if (AntiLink) return m.reply('Sudah Aktif')
 ntilink.push(from)
 fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
-m.reply('Succes menyalakan antilink di group ini 🌷')
+paytod('Succes menyalakan antilink di group ini 🌷')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+//conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nNobody is allowed to send group link in this group, one who sends will be kicked immediately!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
 } else if (args[0] === "off") {
 if (!AntiLink) return m.reply('Sudah Mati')
 let off = ntilink.indexOf(from)
 ntilink.splice(off, 1)
 fs.writeFileSync('./database/antilink.json', JSON.stringify(ntilink))
-m.reply('Succes mematikan antilink di group ini 🌷')
+paytod('Succes mematikan antilink di group ini 🌷')
 } else {
-m.reply('on untuk mengaktifkan, off untuk menonaktifkan')
-}
-}
-break
+await paytod(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
+case 'antiwame': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+if (args[0] === "on") {
+if (antiWame) return paytod('Already activated')
+ntwame.push(from)
+fs.writeFileSync('./database/antiwame.json', JSON.stringify(ntwame))
+paytod('Sukses dalam mengaktifkan antiwame dalam grup ini')
+var groupe = await conn.groupMetadata(from)
+var members = groupe['participants']
+var mems = []
+members.map(async adm => {
+mems.push(adm.id.replace('c.us', 's.whatsapp.net'))
+})
+//conn.sendMessage(from, {text: `\`\`\`「 ⚠️Warning⚠️ 」\`\`\`\n\nNobody is allowed to send wa.me in this group, one who sends will be kicked immediately!`, contextInfo: { mentionedJid : mems }}, {quoted:m})
+} else if (args[0] === "off") {
+if (!antiWame) return paytod('Already deactivated')
+let off = nttoxic.indexOf(from)
+ntwame.splice(off, 1)
+fs.writeFileSync('./database/antiwame.json', JSON.stringify(ntwame))
+paytod('Sukses dalam mematikan antiwame dalam grup ini')
+} else {
+  await paytod(`Please Type The Option\n\nExample: ${prefix + command} on\nExample: ${prefix + command} off\n\non to enable\noff to disable`)
+  }
+  }
+  break
   case 'antilinkch': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args[0] === "on") {
 if (AntiLinkChannel) return paycall('Already activated')
 ntilinkchannel.push(from)
@@ -5907,6 +6092,7 @@ paycall('Sukses mematikan antilink Channel WhatsApp di grup ini')
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args[0] === "on") {
 if (AntiEval) return paycall('Already activated')
 nteval.push(from)
@@ -5950,6 +6136,7 @@ break
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 if (args[0] === "on") {
 if (antiVirtex) return paycall('Already activated')
 ntvirtex.push(from)
