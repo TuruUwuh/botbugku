@@ -654,6 +654,8 @@ Prefix :   ${prefix}
 ➤ telestik (Link Stiker Telegram)
 ➤ tera/terabox (Link Terabox)
 ➤ mediafire
+➤ gdrive
+➤ git/gitclone
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -2533,20 +2535,16 @@ try {
 					}
          }
          break
-         case 'loli':{
-let heyy
-if (/loli/.test(command)) heyy = await fetchJson('https://raw.githubusercontent.com/DGXeon/XeonMedia/master/loli.json')
-let error4;
+case 'loli': {
 try {
-let yeha = heyy[Math.floor(Math.random() * heyy.length)]
-conn.sendMessage(m.chat, { image: { url: yeha }, caption : done }, { quoted: m })
-} catch (er) {
-					error4 = true;
-				} finally {
-					if (error4) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let loli = `https://api.shieldid.site/api/loli?apikey=brnMmZCqcvJoNUxv`
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: loli }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
 }
 break
 //========================NSFW=========================//
@@ -3188,7 +3186,8 @@ if (!args[0]) {
 
         if (videoURL || videoURLWatermark) {
             await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
-    };
+    }
+    await conn.sendMessage(m.chat, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
               } catch (errornya) {
             // Jika server kedua juga gagal, tangani error di sini
             replyerror(`Error: ${errornya}`);
@@ -4169,27 +4168,25 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 *📨 Uploaded:* ${aploud}
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
-    //await conn.sendFile2(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
 conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
   }
 break
-/*case 'mediafire': {
-if (!args[0]) throw `Use example ${usedPrefix}${command} https://www.mediafire.com/file/941xczxhn27qbby/GBWA_V12.25FF-By.SamMods-.apk/file`
-try {
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let response = await fetchJson(`https://aemt.me/mediafire?link=${args[0]}`)
-    let mediafiredl = await response.result
-    let caption = `
-*💌 Name:* ${mediafiredl.title}
-*📊 Size:* ${mediafiredl.size}`
-m.reply(caption)
-await conn.sendMessage(m.chat, {document: mediafiredl.link, fileName: `${mediafiredl.title}`}, { quoted : m })
-} catch (error) {
-        console.error(error);
-        replyerror(`ERROR`);
-    }
+case 'gdrive': {
+		if (!args[0]) return paytod(`Enter the Google Drive link`)
+	const fg = require('api-dylux')
+	try {
+	await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+	let res = await fg.GDriveDl(args[0])
+	 await m.reply(`≡ *Google Drive DL*
+▢ *Nama:* ${res.fileName}
+▢ *Size:* ${res.fileSize}
+▢ *Type:* ${res.mimetype}`)
+	conn.sendMessage(m.chat, { document: { url: res.downloadUrl }, fileName: res.fileName, mimetype: res.mimetype }, { quoted: m })
+   } catch {
+	replyerror('Error: Check link or try another link') 
+  }
 }
-break*/
+break
 case 'google': {
 if (!q) return m.reply(`Mau Nyari Informasi Apa?`)
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -4882,6 +4879,17 @@ case 'lookup': {
     m.reply('*Invalid data!*');
   }
 };
+break
+case 'git': case 'gitclone': {
+if (!args[0]) return paytod(`Mana Link Github nya?\nExample :\n${prefix}${command} https://github.com/xxx/xxxx`)
+if (!isUrl(args[0]) && !args[0].includes('github.com')) return paytod(`Link invalid!!`)
+let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
+    let [, user, repo] = args[0].match(regex1) || []
+    repo = repo.replace(/.git$/, '')
+    let url = `https://api.github.com/repos/${user}/${repo}/zipball`
+    let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
+    conn.sendMessage(m.chat, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => m.reply(mess.error))
+    }
 break
   //(error41)
   
@@ -6561,6 +6569,127 @@ Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui 
 } catch (err) {reply(`${err}`)}
 } else reply('Masukkan nomor target!')
 }
+break
+case "unli": {
+if (!isCreator) return m.reply('*khusus Owner*')
+let t = text.split(',');
+if (t.length < 2) return m.reply(`*Format salah!*
+Penggunaan:
+${prefix + command} user,nomer`)
+let username = t[0];
+let u = m.quoted ? m.quoted.sender : t[1] ? t[1].replace(/[^0-9]/g, '') + '@s.whatsapp.net' : m.mentionedJid[0];
+let name = username + "Premium"
+let egg = global.eggsnya
+let loc = global.location
+let memo = "0"
+let cpu = "0"
+let disk = "0"
+let email = username + "1398@gmail.com"
+akunlo = "https://telegra.ph/file/45b3f02531a5a32793366.jpg" 
+if (!u) return
+let d = (await conn.onWhatsApp(u.split`@`[0]))[0] || {}
+let password = username + "001"
+let f = await fetch(domain + "/api/application/users", {
+"method": "POST",
+"headers": {
+"Accept": "application/json",
+"Content-Type": "application/json",
+"Authorization": "Bearer " + apikeyy
+},
+"body": JSON.stringify({
+"email": email,
+"username": username,
+"first_name": username,
+"last_name": username,
+"language": "en",
+"password": password
+})
+})
+let data = await f.json();
+if (data.errors) return m.reply(JSON.stringify(data.errors[0], null, 2));
+let user = data.attributes
+let f2 = await fetch(domain + "/api/application/nests/5/eggs/" + egg, {
+"method": "GET",
+"headers": {
+"Accept": "application/json",
+"Content-Type": "application/json",
+"Authorization": "Bearer " + apikeyy
+}
+})
+m.reply(`SUCCES CREATE USER ID: ${user.id}`)
+ctf = `Hai @${u.split`@`[0]}
+
+⎙─➤ *👤USERNAME* : ${user.username}
+⎙─➤ *🔐PASSWORD* : ${password}
+⎙─➤ *🌐LOGIN* : ${domain}
+
+
+NOTE:
+OWNER HANYA MENGIRIM 1X DATA 
+AKUN ANDA MOHON DI SIMPAN BAIK BAIK
+KALAU DATA AKUN ANDA HILANG OWNER
+TIDAK DAPAT MENGIRIM AKUN ANDA LAGI
+=====================================
+`
+conn.sendMessage(u,{image: {url: akunlo}, caption: ctf }, { quoted: conn.chat })
+let data2 = await f2.json();
+let startup_cmd = data2.attributes.startup
+
+let f3 = await fetch(domain + "/api/application/servers", {
+"method": "POST",
+"headers": {
+"Accept": "application/json",
+"Content-Type": "application/json",
+"Authorization": "Bearer " + apikeyy,
+},
+"body": JSON.stringify({
+"name": name,
+"description": " ",
+"user": user.id,
+"egg": parseInt(egg),
+"docker_image": "ghcr.io/parkervcp/yolks:nodejs_18",
+"startup": startup_cmd,
+"environment": {
+"INST": "npm",
+"USER_UPLOAD": "0",
+"AUTO_UPDATE": "0",
+"CMD_RUN": "npm start"
+},
+"limits": {
+"memory": memo,
+"swap": 0,
+"disk": disk,
+"io": 500,
+"cpu": cpu
+},
+"feature_limits": {
+"databases": 5,
+"backups": 5,
+"allocations": 1
+},
+deploy: {
+locations: [parseInt(loc)],
+dedicated_ip: false,
+port_range: [],
+},
+})
+})
+let res = await f3.json()
+if (res.errors) return m.reply(JSON.stringify(res.errors[0], null, 2))
+let server = res.attributes
+let p = await m.reply(`
+*SUCCESSFULLY ADD USER + SERVER*
+TYPE: user
+ID: ${user.id}
+NAME: ${user.first_name} ${user.last_name}
+MEMORY: ${server.limits.memory === 0 ? 'Unlimited' : server.limits.memory} MB
+DISK: ${server.limits.disk === 0 ? 'Unlimited' : server.limits.disk} MB
+CPU: ${server.limits.cpu}%
+
+`)
+
+}
+
 break
 //=================================================//
 
