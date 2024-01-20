@@ -7,7 +7,7 @@ const PDFDocument = require('pdfkit')
 const chalk = require('chalk')
 const os = require('os')
 const axios = require('axios')
-const sharp = require('sharp');
+const sharp = require('sharp')
 const jimp  = require('jimp')
 const cheerio = require('cheerio')
 const fsx = require('fs-extra')
@@ -618,7 +618,7 @@ Prefix :   ${prefix}
 [•]CPU Speed: ${cpuSpeed} GHz
 [•]Number of CPU Cores: ${cpuCount}
 [•]Type : Node.Js
-[•]Baileys : @whiskeysockets/baileys@^6.5.0
+[•]Baileys : @whiskeysockets/baileys@^6.6.0
 [•]Total Fitur : ${totalFitur()}
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝑹𝑬𝑨𝑳 𝑻𝑰𝑴𝑬 )
@@ -659,6 +659,11 @@ Prefix :   ${prefix}
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘿𝙊𝙒𝙉𝙇𝙊𝘼𝘿 𝘼𝙉𝙄𝙈𝙀 )
+━━━━━━━━━━━━━━━━━━━
+➤ animeid (Judul Anime)
+➤ animedl (tempel id anime)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
@@ -3973,6 +3978,47 @@ animetxt += `❄ *Deskripsi:* ${anime.synopsis}*`
 conn.sendMessage(m.chat,{image:{url:anime.picture}, caption:animetxt},{quoted:m})
                 }
                 break
+                
+case 'animeid': {
+if (!text) return paytod(`Example: ${prefix + command} solo leveling`);  
+  try {
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let res = await fetchJson(`https://rest-api.akuari.my.id/anime/search?query=${text}`);
+    if (res.respon) {
+    for (let x of res.respon) {
+    let capid = `📝Judul: ${x.title}\n🔗Link: ${x.link}\n📌Id: ${x.id}\n📆${x.releaseDate}`
+    conn.sendMessage(m.chat,{image:{url: x.img}, caption: capid},{quoted:m})
+    }
+    } else {
+    m.reply('Anime not found!')
+    }
+    } catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+}
+break
+case 'animedl':{
+if (!text) return paytod(`Masukan id nya, dapatin id anime nya ketik animeid: (judul anime)\nExample: ${prefix + command} solo leveling(id anime)|1(Episode anime nya)`);
+let judul = text.split('|')[0] ? text.split('|')[0] : '-'
+let episode = text.split('|')[1] ? text.split('|')[1] : '-'
+if (!episode) return paytod(`Example: ${prefix + command} solo leveling|1`);
+let resolusi = `854x480`
+  try {
+    await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let res = await fetchJson(`https://rest-api.akuari.my.id/anime/download?id=${judul}&episode=${episode}`);
+    if (res.respon) {
+    let hasildl = res.respon
+await conn.sendMessage(m.chat, { video : { url : hasildl[resolusi] }, mimetype: 'video/mp4', caption : done }, { quoted : m })
+} else {
+m.reply('Id Salah / Anime / episode not found!')
+}
+        } catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+}
+break
 //========================BRAINLY SCRAPE============================//
 case 'brainly':
 if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)

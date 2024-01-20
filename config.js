@@ -33,6 +33,12 @@ global.doc13 = 'video/quicktime'
 global.AntiLink = true
 global.AntiLinkInstagram = false
 global.AntiLinkChannel = true
+//========================PANEL NYA=========================//
+global.domain = '' // Isi Domain Lu
+global.apikeyy = '' // Isi Apikeyy Plta Lu
+global.capikeyy = '' // Isi Apikeyy Pltc Lu
+global.eggsnya = '15' // id eggs yang dipakai
+global.location = '1' // id location
 //=================================================//
 global.owner = ['6282134110253'] // ubah aja pake nomor lu
 
