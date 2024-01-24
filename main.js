@@ -656,6 +656,7 @@ Prefix :   ${prefix}
 ➤ mediafire
 ➤ gdrive
 ➤ git/gitclone
+➤ mega
 ➤ play (cari lagu apa?)
 ➤ ytmp3 (link yt)
 ➤ ytmp4 (link yt)
@@ -991,6 +992,37 @@ async function getYandeImage(query, page = '') {
     if (!data) throw `Query "${query}" not found :/`;
     return data.file_url;
   }
+}
+
+//download Twitter
+async function twitterDl(url) {
+	let id = /twitter\.com\/[^/]+\/status\/(\d+)/.exec(url)[1]
+	if (!id) throw 'Invalid URL'
+	let res = await fetch(`https://tweetpik.com/api/tweets/${id}`)
+	if (res.status !== 200) throw res.statusText
+	let json = await res.json()
+	if (json.media) {
+		let media = []
+		for (let i of json.media) {
+			if (/video|animated_gif/.test(i.type)) {
+				let vid = await (await fetch(`https://tweetpik.com/api/tweets/${id}/video`)).json()
+				vid = vid.variants.pop()
+				media.push({
+					url: vid.url,
+					type: i.type
+				})
+			} else {
+				media.push({
+					url: i.url,
+					type: i.type
+				})
+			}
+		}
+		return {
+			caption: json.text,
+			media 
+		}
+	} else throw 'No media found'
 }
 
 //Scrape Telesticker BY SHINCHAN
@@ -2572,7 +2604,7 @@ break
 case 'pussy' :
 let error5;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/pussy?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/pussy?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error5 = true;
 				} finally {
@@ -2584,7 +2616,7 @@ break
 case 'bdsm' :
 let error6;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/bdsm?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/bdsm?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error6 = true;
 				} finally {
@@ -2596,7 +2628,7 @@ break
 case 'masturbation' :
 let error7;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/masturbation?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/masturbation?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error7 = true;
 				} finally {
@@ -2608,7 +2640,7 @@ break
 case 'oppai':
 let error21;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error21 = true;
 				} finally {
@@ -2620,7 +2652,7 @@ break
 case 'yuri':
 let error22;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error22 = true;
 				} finally {
@@ -2632,7 +2664,7 @@ break
 case 'cum':
 let error28;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zahwazein.xyz/api/morensfw/cum?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/cum?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error28 = true;
 				} finally {
@@ -3190,7 +3222,8 @@ if (!args[0]) {
         const infonya_gan = `Judul: ${tiktokData.title}\n\nUpload: ${tiktokData.created_at}\n\nSTATUS:\n=====================\nLike = ${tiktokData.stats.likeCount}\nKomen = ${tiktokData.stats.commentCount}\nShare = ${tiktokData.stats.shareCount}\nViews = ${tiktokData.stats.playCount}\nSimpan = ${tiktokData.stats.saveCount}\n=====================\n\nUploader: ${tiktokData.author.name || 'Tidak ada informasi penulis'}\n( ${tiktokData.author.unique_id} - https://www.tiktok.com/@${tiktokData.author.unique_id} )\nBio: ${tiktokData.author.signature}\nLagu: ${tiktokData.music.play_url}\nResolusi: ${tiktokData.video.ratio}\nFoto Profile: ${ppTiktok}`;
 
         if (videoURL || videoURLWatermark) {
-            await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
+           // await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
+           await conn.sendMessage(m.chat, { video : { url : videoURL }, mimetype: 'video/mp4', caption : `${done}\n\n${infonya_gan}` }, { quoted : m })
     }
     await conn.sendMessage(m.chat, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
               } catch (errornya) {
@@ -4297,7 +4330,8 @@ replyerror(`Yah Proses Gagal:(`);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
 try {
-    let fetch = await fetchJson(`https://api.zahwazein.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
+    let fetch = await fetchJson(`https://api.zenext.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
+    if (fetch.result) {
     let ini_result = await fetch.result
 let caption = `Anime Source :\n\n`
 for (let i of ini_result) {
@@ -4317,6 +4351,9 @@ caption += `🛠️Material: ${i.raw.data.material}\n`
 caption += `👥Characters: ${i.raw.data.characters}\n\n`
 }
 await conn.sendImage(m.chat, fetch.result[0].thumbnail, caption, m)
+} else {
+m.reply('Not Found!')
+}
 } catch (error) {
 console.error(error);
 replyerror(`Yah Proses Gagal:(`);
@@ -4634,6 +4671,16 @@ replyerror("Yah Error:(.");
 }
 }
 break
+case 'twt2': {
+	if (!text) throw 'Input URL'
+	let res = await twitterDl(text)
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+	for (let x = 0; x < res.media.length; x++) {
+		let caption = x === 0 ? res.caption.replace(/https:\/\/t.co\/[a-zA-Z0-9]+/gi, '').trim() : ''
+		conn.sendFile2(m.chat, res.media[x].url, '', caption, m)
+	}
+}
+break
 case 'yandere': {
 let { lookup } = require('mime-types')
   text = text.endsWith('SMH') ? text.replace('SMH', '') : text;
@@ -4936,6 +4983,88 @@ let regex1 = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i
     let filename = (await fetch(url, {method: 'HEAD'})).headers.get('content-disposition').match(/attachment; filename=(.*)/)[1]
     conn.sendMessage(m.chat, { document: { url: url }, fileName: filename+'.zip', mimetype: 'application/zip' }, { quoted: m }).catch((err) => m.reply(mess.error))
     }
+break
+case 'mega': {
+const { File } = require("megajs")
+    try {
+        if (!text) return m.reply(`Contoh:\n${prefix + command} https://mega.nz/file/0FUA2bzb#vSu3Ud9Ft_HDz6zPvfIg_y62vE1qF8EmoYT3kY16zxo`);
+        const file = File.fromURL(text);
+        await file.loadAttributes();
+     //   if (file.size >= 300000000) return m.reply('Error: ukuran file terlalu besar (Ukuran Max: 300MB)');
+        m.reply(`*_Mohon tunggu beberapa menit..._*\n${file.name} sedang diunduh...`);
+        const data = await file.downloadBuffer();
+        // Menambahkan ekstensi yang didukung (zip, rar, 7z, jpg, png) ke dalam daftar
+        if (/mp4/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "video/mp4",
+                filename: `${file.name}.mp4`
+            }, {
+                quoted: m
+            });
+        } else if (/pdf/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "application/pdf",
+                filename: `${file.name}.pdf`
+            }, {
+                quoted: m
+            });
+        } else if (/apk/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "application/vnd.android.package-archive",
+                filename: `${file.name}`
+            }, {
+                quoted: m
+            });
+            } else if (/zip/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "application/zip",
+                filename: `${file.name}.zip`
+            }, {
+                quoted: m
+            });
+        } else if (/rar/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "application/x-rar-compressed",
+                filename: `${file.name}.rar`
+            }, {
+                quoted: m
+            });
+        } else if (/7z/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "application/x-7z-compressed",
+                filename: `${file.name}.7z`
+            }, {
+                quoted: m
+            });
+        } else if (/jpg|jpeg/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "image/jpeg",
+                filename: `${file.name}.jpg`
+            }, {
+                quoted: m
+            });
+        } else if (/png/.test(file.name)) {
+            await conn.sendMessage(m.chat, {
+                document: data,
+                mimetype: "image/png",
+                filename: `${file.name}.png`
+            }, {
+                quoted: m
+            });
+        } else {
+            return m.reply('Error: Format file tidak didukung');
+        }
+    } catch (error) {
+        return m.reply(`Error: ${error.message}`);
+    }
+}
 break
   //(error41)
   
@@ -5620,7 +5749,7 @@ case 'swm': case 'take':
                 })
             }
             break
-            case 'qc': {
+           /* case 'qc': {
                 const {
                     quote
                 } = require('./lib/quote.js')
@@ -5632,7 +5761,21 @@ case 'swm': case 'take':
                     author: `${global.author}`
                 })
             }
-            break
+            break*/
+case 'qc': {
+    if (!args[0] && !m.quoted) {
+      return paytod(`Where is the text?`)
+    }
+let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
+    const waUserName = pushname
+    const quoteText = m.quoted ? m.quoted.body : args.join(" ")
+let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${waUserName}&text=${quoteText}`)
+let encmedia = await conn.sendImageAsSticker(m.chat, ini_buffer.url, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+       }
+break
 case 'ttp':
 case 'ttp2':
 case 'ttp3':
@@ -5642,7 +5785,7 @@ if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
 ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
-conn.sendImageAsSticker(m.chat, ini_buffer, m, {
+await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
                 })
@@ -5654,7 +5797,7 @@ if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
 ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
-conn.sendFile2(m.chat, ini_buffer, 'sticker.webp', '', m)
+await conn.sendFile2(m.chat, ini_buffer, 'sticker.webp', '', m)
        }
 break
 case 'tts': case 'gtts':{

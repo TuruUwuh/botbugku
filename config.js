@@ -40,6 +40,7 @@ global.capikeyy = '' // Isi Apikeyy Pltc Lu
 global.eggsnya = '15' // id eggs yang dipakai
 global.location = '1' // id location
 //=================================================//
+global.defaultpp = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png?q=60' //default pp wa
 global.owner = ['6282134110253'] // ubah aja pake nomor lu
 
 //--------Jika Tidak Ada Apikey----------
