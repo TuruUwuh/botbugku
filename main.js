@@ -715,6 +715,15 @@ Prefix :   ${prefix}
 ➤ googlemaps/gmaps
 ➤ lookup
 ━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙕𝘾𝙊𝘿𝙀 𝙈𝙀𝙉𝙐 )
+━━━━━━━━━━━━━━━━━━━
+➤ zcodequest
+➤ zcodegen
+➤ zcodebug
+➤ zcoderef
+➤ zcoderev
+➤ zcodedoc
+━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ spotifysearch (search)
@@ -771,6 +780,7 @@ Prefix :   ${prefix}
 ➤ take/wm
 ➤ toaudio
 ➤ tomp3
+➤ towav
 ➤ togif
 ➤ tovn
 ➤ tts/gtts (Masukin Teks)
@@ -1101,6 +1111,48 @@ function GetType(Data) {
 		});
 	});
 }
+//ZCODE
+async function fetchAndParse(payload, tool) {
+    try {
+        const url = 'https://zzzcode.ai/api/tools/' + tool;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload),
+        });
+        const input = await response.text();
+        const match = input.match(/zzzredirectmessageidzzz:\s*([a-zA-Z0-9-]+)/);
+        const id = match ? match[1] : null;
+
+        const url2 = 'https://zzzcode.ai/api/tools/' + tool;
+        const response2 = await fetch(url2, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id
+            })
+        });
+
+        const output = await response2.text();
+        const lines = output
+            .split('\n')
+            .slice(1, -3)
+        const parsedLines = lines.map(line => {
+            if (line.startsWith('data: "')) {
+                return JSON.parse(`{"msg": "${line.slice(7, -1)}"}`);
+            }
+            return JSON.parse(`{"msg": "${line}"}`);
+        });
+        return parsedLines.map(parsedLine => parsedLine.msg).join('')
+    } catch (e) {
+        return null
+    }
+}
+
 //SCRAPE PERSAMAAN KATA BY SHINCHAN
 function ArrClean(str) {
     return str.map((v, index) => ++index + ". " + v).join('\r\n')
@@ -3350,7 +3402,8 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let resocr = await fetch(`https://api.ocr.space/parse/imageurl?apikey=K89553582988957&url=${anu}`)
 let dataocr = await resocr.json()
 let hasilocr = dataocr?.ParsedResults?.[0]?.ParsedText
-  conn.sendText(from, hasilocr, m)
+  //conn.sendText(from, hasilocr, m)
+await conn.sendMessage(m.chat, {text: `${hasilocr}`}, {quoted: m})
     } catch (er) {
 					error12 = true;
 				} finally {
@@ -5066,6 +5119,114 @@ const { File } = require("megajs")
     }
 }
 break
+
+case 'zcodequest': case 'zcodegen': case 'zcodebug': case 'zcoderef': case 'zcoderev': case 'zcodedoc': {
+    if (!(m.quoted && m.quoted.text && text)) return m.reply("*Example:*\n" + prefix + command + " js (with reply code)")
+    const model = text.trim();
+    const question = m.quoted.text;
+
+    if (command === "zcodequest") {
+        try {
+            const payload = {
+                p1: model,
+                p2: question,
+                option1: "3 - A detailed answer",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'answer-question')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+    if (command === "zcodegen") {
+        try {
+            const payload = {
+                p1: model,
+                p2: question,
+                option1: "3 - A detailed answer",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'code-generator')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+    if (command === "zcodebug") {
+        try {
+            const payload = {
+                p1: model,
+                p2: null,
+                p3: question,
+                option1: "find and explain bug",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'code-debug')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+    if (command === "zcoderef") {
+        try {
+            const payload = {
+                p1: model,
+                p2: null,
+                p3: question,
+                option1: "Refactor my code and explain me",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'code-refactor')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+    if (command === "zcoderev") {
+        try {
+            const payload = {
+                p1: model,
+                p2: null,
+                p3: question,
+                option1: "Make a full code review",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'code-review')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+    if (command === "zcodedoc") {
+        try {
+            const payload = {
+                p1: model,
+                p2: null,
+                p3: question,
+                option1: "Add comment everwhere you can",
+                option2: "Professional",
+                option3: "Indonesian"
+            };
+            const msg = await fetchAndParse(payload, 'code-documentation')
+            await m.reply(msg)
+        } catch (e) {
+            return m.reply(eror)
+        }
+    }
+
+}
+break
   //(error41)
   
 //GAME
@@ -5664,6 +5825,17 @@ case 'toaud': case 'toaudio': {
             conn.sendMessage(m.chat, {audio: audio, mimetype: 'audio/mpeg'}, { quoted : m })
             }
             break
+            case 'towav': {
+            if (/document/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
+            if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
+            if (!quoted) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
+            await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+            let media = await quoted.download()
+            let { toWav } = require('./lib/converter')
+            let audio = await toWav(media, 'mp4')
+            conn.sendMessage(m.chat, {document: audio, mimetype: 'audio/x-mav', fileName: `Convert By ${conn.user.name}.wav`}, { quoted : m })
+            }
+            break
             case 'tomp3': {
             if (/document/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
             if (!/video/.test(mime) && !/audio/.test(mime)) return paycall(`Send/Reply Video/Audio You Want to Convert into MP3 With Caption ${prefix + command}`)
@@ -5763,14 +5935,21 @@ case 'swm': case 'take':
             }
             break*/
 case 'qc': {
-    if (!args[0] && !m.quoted) {
-      return paytod(`Where is the text?`)
-    }
+if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
+ini_txt = args.join(" ")
 let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
-    const waUserName = pushname
-    const quoteText = m.quoted ? m.quoted.body : args.join(" ")
-let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${waUserName}&text=${quoteText}`)
-let encmedia = await conn.sendImageAsSticker(m.chat, ini_buffer.url, m, {
+let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${pushname}&text=${ini_txt}`)
+await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
+       }
+break
+case 'fakewa': {
+if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
+ini_txt = args.join(" ")
+let ini_buffer = await fetchBuffer(`https://api.caliph.biz.id/api/fakechat/wa?name=${pushname}&text=${ini_txt}&num=+${stod.split('@')[0]}&apikey=caliphkey`)
+await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
                   packname: global.packname,
                   author: global.author
                })
