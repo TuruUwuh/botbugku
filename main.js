@@ -650,6 +650,7 @@ Prefix :   ${prefix}
 ➤ igimg/igfoto (link foto ig)
 ➤ dlcapcut (link)
 ➤ twitter/twt/twtdl (Link Video Twitter)
+➤ twtimg (Link foto Twitter)
 ➤ fbdl (Link Video Facebook)
 ➤ telestik (Link Stiker Telegram)
 ➤ tera/terabox (Link Terabox)
@@ -694,12 +695,14 @@ Prefix :   ${prefix}
 ➤ animedif2/animediffusion2 (Masukin teks Prompt)
 ➤ sdxl (Masukin teks Prompt)
 ➤ dalle (Masukin teks Prompt)
+➤ seaart (Masukin Yang Mau Dicari)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙍𝘼𝙉𝘿𝙊𝙈 𝘼𝙉𝙄𝙈𝙀 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ loli
 ➤ neko
 ➤ waifu
+➤ foto
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙏𝙊𝙊𝙇𝙎 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -780,6 +783,7 @@ Prefix :   ${prefix}
 ➤ take/wm
 ➤ toaudio
 ➤ tomp3
+➤ tovideo/tomp4
 ➤ towav
 ➤ togif
 ➤ tovn
@@ -1006,33 +1010,37 @@ async function getYandeImage(query, page = '') {
 
 //download Twitter
 async function twitterDl(url) {
-	let id = /twitter\.com\/[^/]+\/status\/(\d+)/.exec(url)[1]
-	if (!id) throw 'Invalid URL'
-	let res = await fetch(`https://tweetpik.com/api/tweets/${id}`)
-	if (res.status !== 200) throw res.statusText
-	let json = await res.json()
-	if (json.media) {
-		let media = []
-		for (let i of json.media) {
-			if (/video|animated_gif/.test(i.type)) {
-				let vid = await (await fetch(`https://tweetpik.com/api/tweets/${id}/video`)).json()
-				vid = vid.variants.pop()
-				media.push({
-					url: vid.url,
-					type: i.type
-				})
-			} else {
-				media.push({
-					url: i.url,
-					type: i.type
-				})
-			}
-		}
-		return {
-			caption: json.text,
-			media 
-		}
-	} else throw 'No media found'
+    const idMatch = /twitter\.com\/[^/]+\/status\/(\d+)/.exec(url);
+    const id = idMatch ? idMatch[1] : null;
+    if (!id) throw 'Invalid URL';
+    const res = await fetch(`https://tweetpik.com/api/tweets/${id}`);
+    if (res.status !== 200) throw res.statusText;
+    const json = await res.json();
+    if (json.media) {
+        const media = await Promise.all(
+            json.media.map(async (i) => {
+                if (/video|animated_gif/.test(i.type)) {
+                    const vids = await (await fetch(`https://tweetpik.com/api/tweets/${id}/video`)).json();
+                    const vid = vids.variants.pop();
+                    return {
+                        url: vid.url,
+                        type: i.type,
+                    };
+                } else {
+                    return {
+                        url: i.url,
+                        type: i.type,
+                    };
+                }
+            })
+        );
+        return {
+            caption: json.text,
+            media,
+        };
+    } else {
+        throw 'No media found';
+    }
 }
 
 //Scrape Telesticker BY SHINCHAN
@@ -1246,6 +1254,40 @@ async function ssweb(url, device = 'desktop') {
         }).catch(reject);
     });
 }
+
+//SEAART
+const pagePre = 40;
+const apiUrl = 'https://www.seaart.ai/api/v1/artwork/list';
+
+const fetchData = async (requestData) => {
+    try {
+        const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const {
+            data
+        } = await response.json();
+        const items = data.items;
+
+        if (!items || !Array.isArray(items) || items.length === 0) {
+            throw new Error('No items found.');
+        }
+        const randomIndex = Math.floor(Math.random() * items.length);
+        return items[randomIndex];
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        throw error;
+    }
+};
 
 //QC STIKER
 async function Quotly(obj) {
@@ -2299,15 +2341,6 @@ case 'deletesession':
                 });
             }
             break
-case 'cleartmp': case 'deltmp': {
-if (!isCreator) return paycall('*Khusus Owner Bot*')
-const { readdirSync, rmSync } = require('fs')
- const dir = './tmp'
- readdirSync(dir).forEach(f => rmSync(`${dir}/${f}`));
- let pesan = `Berhasil menghapus semua sampah di \`\`\`folder tmp\`\`\` `
- await m.reply(pesan)
-}
-break
 case 'delete': case 'del': {
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
@@ -4503,7 +4536,6 @@ case 'ringtone': {
 	    break
 //========================BUAT EMAIL============================//
 case 'tempmail': {
-let error37;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 let dataemail = await fetchJson(`https://vihangayt.me/tools/tempmail`)
@@ -4512,29 +4544,21 @@ let idemaile = dataemail.data[1]
 let tglemail = dataemail.data[2]
 conn.sendMessage(m.chat, {text: `📄Email: ${emailjadi}\n📌Id: ${idemaile}\n📆Tanggal: ${tglemail}`}, {quoted: m})
 } catch (er) {
-error37 = true;
-} finally {
-if (error37) {
-replyerror("Yah Error:(.");
-}
+  console.error(er);
+  replyerror("Yah Error :(");
 }
 }
 break
 case 'inboxmail': case 'inboxemail': {
 if (!text) return paycall(`Masukan Id Email Yang Sudah kalian buat'`)
-let error38;
 try {
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let hasilemail = await fetchJson(`https://vihangayt.me/tools/get_inbox_tempmail?q=${text}`)
-let infoemail = hasilemail.data[0]
-let inihasilnya = `📄Email: ${infoemail[0].toAddr}\n📝Text: ${infoemail[0].text}\n📊Size: ${infoemail[0].rawSize}\n📈Type: ${infoemail[0].headerSubject}\n📌Link Info: ${infoemail[0].fromAddr}\n🔗Url: ${infoemail[0].downloadUrl}`
-conn.sendMessage(m.chat, {text: `${inihasilnya}`}, {quoted: m})
+  let hasilemail = await fetchJson(`https://vihangayt.me/tools/get_inbox_tempmail?q=${text}`);
+    let infoemail = hasilemail.data[0];
+    let inihasilnya = `📄Email: ${infoemail[0].toAddr}\n📝Text: ${infoemail[0].text}\n📊Size: ${infoemail[0].rawSize}\n📈Type: ${infoemail[0].headerSubject}\n📌Link Info: ${infoemail[0].fromAddr}\n🔗Url: ${infoemail[0].downloadUrl}`;
+    conn.sendMessage(m.chat, {text: `${inihasilnya}`}, {quoted: m});
 } catch (er) {
-error38 = true;
-} finally {
-if (error38) {
-replyerror("Yah Error:(.");
-}
+  console.error(er);
+  m.reply("Tidak Ada Pesan Masuk");
 }
 }
 break
@@ -4584,8 +4608,8 @@ let media = await quoted.download()
 let { toAudio } = require('./lib/converter')
 let audio = await toAudio(media, 'mp4')
 let ext = mime.split('/')[1]
-fs.writeFileSync(`./tmp/${m.sender}.${ext}`, media)
-let res = await acr.identify(fs.readFileSync(`./tmp/${m.sender}.${ext}`))
+fs.writeFileSync(`./src/${m.sender}.${ext}`, media)
+let res = await acr.identify(fs.readFileSync(`./src/${m.sender}.${ext}`))
 /*let { code, msg } = res.status
 if (code !== 0) throw msg
 let { title, artists, album, genres, release_date } = res.metadata.music[0]*/
@@ -4607,7 +4631,7 @@ let txt = `
 • 📆 RELEASE DATE: ${release_date || 'NOT FOUND'}
 =============================
 `.trim()
-fs.unlinkSync(`./tmp/${m.sender}.${ext}`)
+fs.unlinkSync(`./src/${m.sender}.${ext}`)
 conn.sendMessage(m.chat, { caption: txt, document: audio, mimetype: 'audio/mpeg', fileName: `${title}.mp3`,
                 contextInfo: {
                      externalAdReply: {
@@ -4709,30 +4733,31 @@ replyerror("Yah Error:(.");
 break
 case 'twtdl': case 'twt': case 'twitter': {
       if (!args[0]) throw `Input URL`;
-      let error36;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resdltwt = await fetchJson(`https://vihangayt.me/download/twitter?url=${args[0]}`)
-let dltwtnya = resdltwt.data
-conn.sendMessage(m.chat, { video: { url: dltwtnya.HD }, caption: done }, { quoted: m})
-} catch (er) {
-error36 = true;
-} finally {
-if (error36) {
-replyerror("Yah Error:(.");
-}
-}
+            let res = await fetchJson(`https://api.caliph.biz.id/api/twitter?url=${args[0]}&apikey=caliphkey`);
+            for (let x = 0; x < res.result?.length; x++) {
+      conn.sendMessage(m.chat, { video: { url: res.result[x].url }, caption: done }, { quoted: m})
+            }
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
 }
 break
-case 'twt2': {
-	if (!text) throw 'Input URL'
-	let res = await twitterDl(text)
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-	for (let x = 0; x < res.media.length; x++) {
-		let caption = x === 0 ? res.caption.replace(/https:\/\/t.co\/[a-zA-Z0-9]+/gi, '').trim() : ''
-		conn.sendFile2(m.chat, res.media[x].url, '', caption, m)
-	}
-}
+case 'twtimg': {
+      if (!args[0]) throw `Input URL`;
+      try {
+      await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+            let res = await fetchJson(`https://api.caliph.biz.id/api/twitter?url=${args[0]}&apikey=caliphkey`);
+            for (let x = 0; x < res.result?.length; x++) {
+      conn.sendMessage(m.chat, { image: { url: res.result[x].url }, caption: done }, { quoted: m})
+            }
+      } catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+            }
 break
 case 'yandere': {
 let { lookup } = require('mime-types')
@@ -5225,6 +5250,180 @@ case 'zcodequest': case 'zcodegen': case 'zcodebug': case 'zcoderef': case 'zcod
         }
     }
 
+}
+break
+case 'seaart': {
+    if (args.length >= 1) {
+        text = args.slice(0).join(" ")
+    } else if (m.quoted && m.quoted.text) {
+        text = m.quoted.text
+    } else return m.reply("Masukkan pesan!")
+    await m.reply(wait)
+    const requestData = {
+        page: 1,
+        page_size: pagePre,
+        order_by: 'new',
+        type: 'community',
+        keyword: text,
+        tags: []
+    };
+    try {
+        const result = await fetchData(requestData);
+        await conn.sendMessage(m.chat, {
+            image: {
+                url: result.banner.url
+            },
+            caption: `Prompt: ${result.prompt}\nModel id: ${result.model_id}\nAuthor: ${result.author.name}`,
+            mentions: [m.sender]
+        }, {
+            quoted: m
+        });
+    } catch (error) {
+        console.error('Error in example usage:', error);
+        await m.reply(`Error Bang`);
+    }
+}
+break
+case 'foto': {
+    var arrlist = [
+        "aesthetic",
+        "ahegao",
+        "akira",
+        "akiyama",
+        "ana",
+        "anjing",
+        "ass",
+        "asuna",
+        "ayuzawa",
+        "bdsm",
+        "blackpink",
+        "blowjob",
+        "boneka",
+        "boruto",
+        "cecan",
+        "cecan2",
+        "cecan3",
+        "cecan4",
+        "cecan5",
+        "chiho",
+        "china",
+        "chitoge",
+        "cogan",
+        "cogan2",
+        "cosplay",
+        "cosplayloli",
+        "cosplaysagiri",
+        "cuckold",
+        "cum",
+        "cyberspace",
+        "deidara",
+        "doraemon",
+        "eba",
+        "elaina",
+        "emilia",
+        "ero",
+        "erza",
+        "femdom",
+        "foot",
+        "gangbang",
+        "gifs",
+        "glasses",
+        "gremory",
+        "hekel",
+        "hentai",
+        "hestia",
+        "hinata",
+        "inori",
+        "Islamic",
+        "isuzu",
+        "itachi",
+        "itori",
+        "jahy",
+        "jeni",
+        "jiso",
+        "justina",
+        "kaga",
+        "kagura",
+        "kakasih",
+        "kaori",
+        "kartun",
+        "katakata",
+        "keneki",
+        "kotori",
+        "kpop",
+        "kucing",
+        "kurumi",
+        "lisa",
+        "loli",
+        "madara",
+        "manga",
+        "masturbation",
+        "megumin",
+        "mikasa",
+        "miku",
+        "minato",
+        "mobil",
+        "montor",
+        "mountain",
+        "naruto",
+        "neko",
+        "neko2",
+        "nekonime",
+        "nezuko",
+        "nsfwloli",
+        "onepiece",
+        "orgy",
+        "panties",
+        "pentol",
+        "pokemon",
+        "ppcouple",
+        "programing",
+        "profilwa",
+        "pubg",
+        "pussy",
+        "rize",
+        "rose",
+        "ryujin",
+        "sagiri",
+        "sakura",
+        "sasuke",
+        "satanic",
+        "shina",
+        "shinka",
+        "shinomiya",
+        "shizuka",
+        "shota",
+        "tatasurya",
+        "tejina",
+        "technology",
+        "tentacles",
+        "thighs",
+        "toukachan",
+        "tsunade",
+        "waifu",
+        "waifu2",
+        "wallhp",
+        "yotsuba",
+        "yuki",
+        "yulibocil",
+        "yumeko",
+        "yuri",
+        "zettai"
+    ]
+    var listnya = arrlist.map((v, index) => `[ ${++index} ] ${prefix + command} ${v}`).join('\n')
+    let nah = `*L I S T*
+_Example: ${prefix + command} yulibocil_
+
+${listnya}`
+    if (!arrlist.includes(text)) throw nah
+try {
+    let ani = await fetchJson('https://raw.githubusercontent.com/AyGemuy/RESTAPI/master/data/' + text + '.json')
+    let result = ani[Math.floor(Math.random() * ani.length)]
+    await conn.sendFile2(m.chat, result, "", done, m) // Mengirim file dengan argumen yang sesuai
+} catch (error) {
+    console.error('Error in example usage:', error);
+    await m.reply(`Error Bang`);
+}
 }
 break
   //(error41)
@@ -5921,35 +6120,22 @@ case 'swm': case 'take':
                 })
             }
             break
-           /* case 'qc': {
-                const {
-                    quote
-                } = require('./lib/quote.js')
-                if (!q) return paycall('Enter Text')
-                let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
-                const rest = await quote(q, pushname, ppnyauser)
-                conn.sendImageAsSticker(m.chat, rest.result, m, {
-                    packname: `${global.packname}`,
-                    author: `${global.author}`
-                })
-            }
-            break*/
 case 'qc': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 ini_txt = args.join(" ")
-let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
-let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${pushname}&text=${ini_txt}`)
-await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
-                  packname: global.packname,
-                  author: global.author
-               })
+let ppnyauser = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
+  let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${pushname}&text=${ini_txt}`)
+  await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
+    packname: global.packname,
+    author: global.author
+  })
        }
 break
 case 'fakewa': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 ini_txt = args.join(" ")
 let ini_buffer = await fetchBuffer(`https://api.caliph.biz.id/api/fakechat/wa?name=${pushname}&text=${ini_txt}&num=+${stod.split('@')[0]}&apikey=caliphkey`)
-await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
+await conn.sendImageAsSticker2(m.chat, ini_buffer, m, {
                   packname: global.packname,
                   author: global.author
                })

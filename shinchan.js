@@ -12,7 +12,7 @@ const yargs = require('yargs/yargs')
 const _ = require('lodash')
 const { Boom } = require('@hapi/boom')
 const PhoneNumber = require('awesome-phonenumber')
-const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
+const { imageToWebp, videoToWebp, sticker6, writeExifImg, writeExifVid } = require('./lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
 let { toAudio } = require('./lib/converter')
 //=================================================//
@@ -301,7 +301,7 @@ conn.sendText = (jid, text, quoted = '', options) => conn.sendMessage(jid, { tex
 //=================================================//
 conn.sendTextWithMentions = async (jid, text, quoted, options = {}) => conn.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
  //=================================================//
-conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+/*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
 let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
 let buffer
 if (options && (options.packname || options.author)) {
@@ -309,7 +309,7 @@ buffer = await writeExifImg(buff, options)
 } else {
 buffer = await imageToWebp(buff)}
 await conn.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-return buffer}
+return buffer}*/
 /*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
 let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
 let buffer
@@ -324,7 +324,7 @@ fs.unlinkSync(buffer)
 return response
 })
 }*/
-/*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,` [1], 'base64') : /^https?:\/\//.test(path) ? await (await fetch(path)).buffer() : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer
         if (options && (options.packname || options.author)) {
@@ -343,7 +343,28 @@ return response
             quoted
         })
         return buffer
-    }*/
+    }
+
+conn.sendImageAsSticker2 = async (jid, path, quoted, options = {}) => {
+        let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,` [1], 'base64') : /^https?:\/\//.test(path) ? await (await fetch(path)).buffer() : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
+        let buffer
+        if (options && (options.packname || options.author)) {
+            buffer = await writeExifImg(buff, options)
+        }
+        else {
+            buffer = await sticker6(buff)
+        }
+
+        await conn.sendMessage(jid, {
+            sticker: {
+                url: buffer
+            },
+            ...options
+        }, {
+            quoted
+        })
+        return buffer
+    }
  //=================================================//
 conn.sendImage = async (jid, path, caption, quoted, options = {}) => {
 let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
@@ -643,7 +664,7 @@ let type = await FileType.fromBuffer(data) || {
 mime: 'application/octet-stream',
 ext: '.bin'
 }
-filename = path.join(__filename, '../tmp/' + new Date * 1 + '.' + type.ext)
+filename = path.join(__filename, '../src/' + new Date * 1 + '.' + type.ext)
 if (data && save) fs.promises.writeFile(filename, data)
 return {
 res,
