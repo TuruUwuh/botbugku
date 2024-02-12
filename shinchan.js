@@ -252,7 +252,7 @@ let list = []
 for (let i of kon) {
 list.push({
 displayName: await conn.getName(i + '@s.whatsapp.net'),
-vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await conn.getName(i + '@s.whatsapp.net')}\nFN:${await conn.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:shinchan.senpai57@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/shinchan.senpai\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`})}
+vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await conn.getName(i + '@s.whatsapp.net')}\nFN:${await conn.getName(i + '@s.whatsapp.net')}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:shinchansenpai57@gmail.com\nitem2.X-ABLabel:Email\nitem3.URL:https://instagram.com/shinchan.senpai\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`})}
 //=================================================//
 conn.sendMessage(jid, { contacts: { displayName: `${list.length} Kontak`, contacts: list }, ...opts }, { quoted })}
 //=================================================//
@@ -301,7 +301,7 @@ conn.sendText = (jid, text, quoted = '', options) => conn.sendMessage(jid, { tex
 //=================================================//
 conn.sendTextWithMentions = async (jid, text, quoted, options = {}) => conn.sendMessage(jid, { text: text, contextInfo: { mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map(v => v[1] + '@s.whatsapp.net') }, ...options }, { quoted })
  //=================================================//
-/*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
 let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
 let buffer
 if (options && (options.packname || options.author)) {
@@ -309,42 +309,7 @@ buffer = await writeExifImg(buff, options)
 } else {
 buffer = await imageToWebp(buff)}
 await conn.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-return buffer}*/
-/*conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
-let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,`[1], 'base64') : /^https?:\/\//.test(path) ? await (await getBuffer(path)) : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-let buffer
-if (options && (options.packname || options.author)) {
-buffer = await writeExifImg(buff, options)
-} else {
-buffer = await imageToWebp(buff)
-}
-await conn.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-.then( response => {
-fs.unlinkSync(buffer)
-return response
-})
-}*/
-conn.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
-        let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,` [1], 'base64') : /^https?:\/\//.test(path) ? await (await fetch(path)).buffer() : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
-        let buffer
-        if (options && (options.packname || options.author)) {
-            buffer = await writeExifImg(buff, options)
-        }
-        else {
-            buffer = await imageToWebp(buff)
-        }
-
-        await conn.sendMessage(jid, {
-            sticker: {
-                url: buffer
-            },
-            ...options
-        }, {
-            quoted
-        })
-        return buffer
-    }
-
+return buffer}
 conn.sendImageAsSticker2 = async (jid, path, quoted, options = {}) => {
         let buff = Buffer.isBuffer(path) ? path : /^data:.*?\/.*?;base64,/i.test(path) ? Buffer.from(path.split`,` [1], 'base64') : /^https?:\/\//.test(path) ? await (await fetch(path)).buffer() : fs.existsSync(path) ? fs.readFileSync(path) : Buffer.alloc(0)
         let buffer

