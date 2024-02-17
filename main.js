@@ -602,7 +602,7 @@ Saya ©ɴᴇʀᴏʙᴏᴛ yang di buat oleh developer ${global.ownername} untuk 
 ━━━━━━━━━━━━━━━━━━━
 Status : ${isCreator ? 'Owner' : 'User'}
 Nama : ${pushname}
-Nomor : @${stod.split('@')[0]}
+Nomor : @${m.sender.split('@')[0]}
 Sponsored :  @${ini_mark.split('@')[0]}
 Prefix :   ${prefix}
 ━━━━━━━━━━━━━━━━━━━
@@ -6605,6 +6605,16 @@ let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender :
 await conn.groupParticipantsUpdate(from, [users], 'demote')
 }
 break
+case 'listpc': {
+                 let anulistp = await store.chats.all().filter(v => v.id.endsWith('.net')).map(v => v.id)
+                 let teks = `🐼 *PERSONAL CHAT LIST*\n\nTotal Chat : ${anulistp.length} Chat\n\n`
+                 for (let i of anulistp) {
+                     let nama = store.messages[i].array[0].pushName
+                     teks += `🐼 *Name :* ${nama}\n🐼 *User :* @${i.split('@')[0]}\n🐼 *Chat :* https://wa.me/${i.split('@')[0]}\n\n────────────────────────\n\n`
+                 }
+                 conn.sendTextWithMentions(m.chat, teks, m)
+             }
+             break
 case 'listgc': {
                  let anulistg = await store.chats.all().filter(v => v.id.endsWith('@g.us')).map(v => v.id)
                  let teks = `🐼*GROUP CHAT LIST*\n\nTotal Group : ${anulistg.length} Group\n\n`
