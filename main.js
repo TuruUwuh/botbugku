@@ -692,7 +692,11 @@ Prefix :   ${prefix}
 ➤ txtimg (Masukin teks Prompt)
 ➤ txtimg2 (Masukin teks Prompt)
 ➤ txtimg3 (Masukin teks Prompt)
+➤ txtimg4 (Masukin teks Prompt)
+➤ txtimg5 (Masukin teks Prompt)
+➤ txtimg6 (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
+➤ simurg (Masukin teks Prompt)
 ➤ animedif/animediffusion (Masukin teks Prompt)
 ➤ animedif2/animediffusion2 (Masukin teks Prompt)
 ➤ sdxl (Masukin teks Prompt)
@@ -755,6 +759,7 @@ Prefix :   ${prefix}
 ➤ imdb (Cek Rating Film)
 ➤ wikipedia
 ➤ yandere (Query)
+➤ png (Cari Apa yang mau di cari)
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘼𝙇𝘼𝙏 𝘽𝘼𝙉𝙏𝙐 )
 ━━━━━━━━━━━━━━━━━━━
@@ -763,6 +768,8 @@ Prefix :   ${prefix}
 ➤ ocr (Ambil Teks Foto)
 ➤ brainly (Kirim Soal)
 ➤ ruangguru (kirim soal)
+➤ pangkat
+➤ akarquadrat
 ➤ translate ( [id] Teks )
 ━━━━━━━━━━━━━━━━━━━
 ╰┈➤( 𝘽𝙐𝘼𝙏 𝙀𝙈𝘼𝙄𝙇 𝙍𝘼𝙉𝘿𝙊𝙈 )
@@ -827,6 +834,8 @@ Prefix :   ${prefix}
 ➤ cum
 ➤ femdom
 ➤ masturbation
+➤ futanari
+➤ ahegao
 ➤ bdsm
 ➤ oppai
 ➤ hentaivid
@@ -2744,17 +2753,43 @@ case 'blowjob' :
     waifudd = await axios.get(`https://waifu.pics/api/nsfw/blowjob`)
 conn.sendMessage(m.chat, { caption: done, image: { url:waifudd.data.url } }, { quoted: m })
 break
-case 'pussy' :
-let error5;
+case 'pussy' : {
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/pussy?apikey=zenzkey_133c4d90d6` } })
-} catch (er) {
-					error5 = true;
-				} finally {
-					if (error5) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
+await conn.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random2/pussy?apikey=GataDios` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'futanari':{
+try {
+await conn.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random2/futanari?apikey=GataDios` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'png': {
+if (!text) return paycall(`${prefix + command} NEZUKO`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+await conn.sendMessage(m.chat, { image: { url: `https://api.azz.biz.id/api/anime/${text}` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('Terjadi Kesalahan Saat Mengambil Gambar');
+        }
+}
+break
+case 'ahegao':{
+try {
+await conn.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/ahegao?apikey=GataDios` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
 break
 case 'bdsm' :
 let error6;
@@ -2813,17 +2848,14 @@ conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/${co
 					}
 					}
 break
-case 'cum':
-let error28;
+case 'cum': {
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/cum?apikey=zenzkey_133c4d90d6` } })
-} catch (er) {
-					error28 = true;
-				} finally {
-					if (error28) {
-						replyerror("Yah Proses Gagal :(");
-					}
-					}
+await conn.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random2/cum_jpg?apikey=GataDios` }, caption: done }, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
 break
 //========================REMINI=========================//
 case 'remini': {
@@ -2918,7 +2950,7 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-const response = `https://aemt.me/v4/text2img?text=${text}`
+const response = `https://aemt.me/v1/text2img?text=${text}`
 //await conn.sendImage(m.chat, response, done, m)
 await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
 } catch (error) {
@@ -2928,6 +2960,48 @@ await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, 
 }
 break
 case 'txtimg3': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/v2/text2img?text=${text}`
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'txtimg4': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/v3/text2img?text=${text}`
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'txtimg5': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://aemt.me/v4/text2img?text=${text}`
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'txtimg6': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
@@ -3066,6 +3140,21 @@ if (!text) return paycall(`${command} smile face with blush and blue hair`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 const response = `https://api.akuari.my.id/ai/prodia2?prompt=${text}`
+//await conn.sendFile2(from, response, `image`, done, m)
+//await conn.sendImage(m.chat, response, done, m)
+await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror('ERROR.');
+    }
+}
+break
+case 'simurg': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${command} smile face with blush and blue hair`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+const response = `https://rest-api.akuari.my.id/ai/simurg?prompt=${text}`
 //await conn.sendFile2(from, response, `image`, done, m)
 //await conn.sendImage(m.chat, response, done, m)
 await conn.sendMessage(m.chat, { image: { url: response }, caption: `${done}`}, { quoted: m })
@@ -3517,6 +3606,37 @@ let data = await response.json()
 						replyerror("Kami mengalami kesalahan internal.\nSilakan coba lagi dalam 30 detik.");
 					}
 					}
+}
+break
+case 'pangkat': {
+if (!text) return paycall( `Cara Pakai: ${prefix + command} 4|2`)
+let [akar, pangkat] = text.split`|`
+if (!akar) return paycall(`Cara Pakai: ${prefix + command} 4|2`)
+if (!pangkat) return paycall(`Cara Pakai: ${prefix + command} 4|2`)
+try{
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetch(`https://rest-api.akuari.my.id/edukasi/pangkat?angka=${akar}&pangkat=${pangkat}`)
+let data = await response.json()
+let soalnya = await `Soal: ${data.soal}\nHasil: ${data.hasil}`
+  conn.sendText(from, soalnya, m)
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
+}
+break
+case 'akarquadrat': {
+if (!text) return paycall( `Cara Pakai: ${prefix + command} 25`)
+try{
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetch(`https://rest-api.akuari.my.id/edukasi/akar?angka=${text}`)
+let data = await response.json()
+let soalnya = await `Soal: ${data.soal}\nHasil: ${data.hasil}`
+  conn.sendText(from, soalnya, m)
+} catch (error) {
+        console.error(error);
+        replyerror('Yah Error');
+    }
 }
 break
 case 'ocr': {
@@ -4102,6 +4222,7 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 break*/
 case 'igvid': case 'igvideo': case 'igreels': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+if (!text.includes('instagram.com')) return paytod(`Kirim Link Instagram nya bodoh`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     if (!isCreator) {
@@ -4119,6 +4240,7 @@ await m.reply(`Hai @${m.sender.split('@')[0]} Video akan Dikirim dalam obrolan p
 break
 case 'igimg': case 'igfoto': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+if (!text.includes('instagram.com')) return paytod(`Kirim Link Instagram nya bodoh`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     if (!isCreator) {
@@ -4136,6 +4258,7 @@ await m.reply(`Hai @${m.sender.split('@')[0]} Foto akan Dikirim dalam obrolan pr
 break
 case 'igdl': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
+if (!text.includes('instagram.com')) return paytod(`Kirim Link Instagram nya bodoh`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
     if (!isCreator) {
@@ -4871,19 +4994,15 @@ case 'sinonim': case 'persamaankata': {
 break
 case 'fbdl': {
       if (!args[0]) throw `Input URL`;
-      let error35;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resfbdl = await fetchJson(`https://aemt.me/download/fbdl?url=${args[0]}`)
-let hasildlnya = resfbdl.result
-await conn.sendMessage(m.chat, { video: { url: hasildlnya.HD }, caption: done }, { quoted: m})
-} catch (er) {
-error35 = true;
-} finally {
-if (error35) {
-replyerror("Yah Error:(.");
-}
-}
+let resfbdl = await fetchJson(`https://vihangayt.me/download/fb?url=${args[0]}`)
+let hasildlnya = resfbdl.data
+await conn.sendMessage(m.chat, { video: { url: hasildlnya.video_hd }, caption: done }, { quoted: m})
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
 }
 break
 case 'twtdl': case 'twt': case 'twitter': {
@@ -5929,11 +6048,11 @@ if (!text) throw `Masukkan URL!\n\n*Contoh:* ${command} www.google.com|60`;
 let [urlnya, jumlahe] = text.split`|`
 if (!urlnya) return paycall(`Example : ${prefix + command} www.google.com|60`)
 if (!jumlahe) return paycall(`Example : ${prefix + command} www.google.com|60`)
-let nyeh = await fetchJson(`https://simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
-let nyeh2 = await fetchJson(`https://shieldid.site/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
-let nyeh3 = await fetchJson(`https://api2.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
-let nyeh4 = await fetchJson(`https://api3.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
-let nyeh5 = await fetchJson(`https://api4.simanbumbu.shop/rapid?time=${jumlahe}&th=16&ra=250&url=${urlnya}`);
+let nyeh = await fetchJson(`https://simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
+let nyeh2 = await fetchJson(`https://shieldid.site/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
+let nyeh3 = await fetchJson(`https://api2.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
+let nyeh4 = await fetchJson(`https://api3.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
+let nyeh5 = await fetchJson(`https://api4.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
 try {
 await conn.sendMessage(from, {text: done }, {quoted: m})
 } catch (error) {
@@ -7269,6 +7388,60 @@ form.append("__hs", "19572.BP:whatsapp_www_pkg.2.0.0.0.0")
 form.append("dpr", "1")
 form.append("__ccg", "UNKNOWN")
 form.append("__rev", "1007965968")
+form.append("__comment_req", "0")
+
+let res = await axioss({
+url,
+method: "POST",
+data: form,
+headers: {
+cookie
+}
+
+})
+reply(`Tunggu 1-24 Jam an untuk proses unbanned dari bot dan tunggu ±30 Detik an untuk melihat balasan email dari WhatsApp🥰💖`)
+let payload = String(res.data)
+if (payload.includes(`"payload":true`)) {
+reply(`Sukses✓`)
+} else reply(util.format(res.data))
+} catch (err) {reply(`${err}`)}
+} else reply('Masukkan nomor Yang mau di unban!')
+}
+break
+
+case 'unbanned3': {
+if (!isCreator) return
+if (m.quoted || q) {
+var tosend = m.quoted ? m.quoted.sender : q.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
+var targetnya = tosend.split('@')[0]
+
+try {
+var axioss = require('axios')
+let ntah = await axioss.get("https://www.whatsapp.com/contact/noclient/")
+let email = await axioss.get("https://www.1secmail.com/api/v1/?action=genRandomMailbox&count=1")
+let cookie = ntah.headers["set-cookie"].join("; ")
+const cheerio = require('cheerio');
+let $ = cheerio.load(ntah.data)
+let $form = $("form");
+let url = new URL($form.attr("action"), "https://www.whatsapp.com").href
+let form = new URLSearchParams()
+form.append("jazoest", $form.find("input[name=jazoest]").val())
+form.append("lsd", $form.find("input[name=lsd]").val())
+form.append("step", "submit")
+form.append("country_selector", "+")
+form.append("phone_number", `+${targetnya}`,)
+form.append("email", email.data[0])
+form.append("email_confirm", email.data[0])
+form.append("platform", "ANDROID")
+form.append("your_message", `Olá Admin WhatsApp, quero perguntar sobre minha conta do WhatsApp que é proibida permanentemente, não sei o que fez com que minha conta do WhatsApp fosse proibida. Eu quero perguntar ou não na minha conta do WhatsApp para ser reativado. Eu imploro que você realmente reabre minha conta do WhatsApp, porque nunca realizei atividades contrárias às disposições do serviço do WhatsApp, quando minha conta do WhatsApp está sendo invadida por pessoas irresponsáveis e fazendo essas atividades (+${targetnya})`)
+form.append("__user", "0")
+form.append("__a", "1")
+form.append("__csr", "")
+form.append("__req", "8")
+form.append("__hs", "19574.BP:whatsapp_www_pkg.2.0.0.0.0")
+form.append("dpr", "1")
+form.append("__ccg", "UNKNOWN")
+form.append("__rev", "1007982238")
 form.append("__comment_req", "0")
 
 let res = await axioss({

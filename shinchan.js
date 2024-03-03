@@ -12,7 +12,7 @@ const yargs = require('yargs/yargs')
 const _ = require('lodash')
 const { Boom } = require('@hapi/boom')
 const PhoneNumber = require('awesome-phonenumber')
-const { imageToWebp, videoToWebp, sticker6, writeExifImg, writeExifVid } = require('./lib/exif')
+const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require('./lib/exif')
 const { smsg, isUrl, generateMessageTag, getBuffer, getSizeMedia, fetchJson, await, sleep } = require('./lib/myfunc')
 let { toAudio } = require('./lib/converter')
 //=================================================//
@@ -317,7 +317,7 @@ conn.sendImageAsSticker2 = async (jid, path, quoted, options = {}) => {
             buffer = await writeExifImg(buff, options)
         }
         else {
-            buffer = await sticker6(buff)
+            buffer = await imageToWebp(buff)
         }
 
         await conn.sendMessage(jid, {
