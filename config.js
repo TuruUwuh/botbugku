@@ -53,7 +53,7 @@ Cara Pemasangan Apikey
 3. ubah "YOUR_APIKEY_HERE" menjadi apikey yang diperoleh
 `
 //-----------------------------------
-global.botname = '〔 ıll ⫹⫺ ©ɴᴇʀᴏʙᴏᴛ ²⁰²³/²⁰²⁴ 浤 llı 〕' //ubah jadi nama bot mu, note tanda ' gausah di hapus!
+global.botname = '〔 ıll ⫹⫺ ©ɴᴇʀᴏʙᴏᴛ ²⁰²⁴/²⁰²⁵ 浤 llı 〕' //ubah jadi nama bot mu, note tanda ' gausah di hapus!
 global.packname = '' // ubah aja ini nama sticker
 global.author = '\n\n\n\n\n\n\n\n\n\n〔 ıll ❬ 𝙎𝙃𝙄𝙉𝘾𝙃𝘼𝙉 メ 𝐒𝐄𝐍𝐏𝐀𝐈 仫 ❭ llı 〕\n 〔 ıll ⫹⫺ 𝙉𝙀𝙍𝙊メ𝐖𝐈𝐁𝐔𝐒𝐎𝐅𝐓 浤 llı 〕\n\n\n\n\n\n\n\n\n\n\n\n' // ubah aja ini nama sticker
 global.prefa = ['','!','.',',','🐤','🗿']

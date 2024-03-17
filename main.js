@@ -71,6 +71,7 @@ let ntilinkchannel =JSON.parse(fs.readFileSync('./database/antilinkchannelwa.jso
 let ntvirtex = JSON.parse(fs.readFileSync('./database/antivirus.json'))
 let nteval = JSON.parse(fs.readFileSync('./database/antieval.json'))
 let autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
+let antisticker = JSON.parse(fs.readFileSync('./database/antisticker.json'))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
 const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
@@ -115,6 +116,7 @@ const AntiLinkChannel = m.isGroup ? ntilinkchannel.includes(from) : false
 const antiVirtex = m.isGroup ? ntvirtex.includes(from) : false
 const AntiEval = m.isGroup ? nteval.includes(from) : false
 const antiWame = m.isGroup ? ntwame.includes(from) : false
+const AntiSticker = m.isGroup ? antisticker.includes(from) : false
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
 const isPremgc = m.isGroup ? premgc.includes(from) : false
 const isBan = banned.includes(m.sender)
@@ -141,6 +143,8 @@ const _uptime = process.uptime() * 1000
 const uptime = clockString(_uptime)
 const ini_mark = `0@s.whatsapp.net`
 const dnew = new Date(Date.now())
+//anti media
+const isXeonMedia = m.mtype
 const week = dnew.toLocaleDateString('in', {
                weekday: 'long'
             })
@@ -644,6 +648,7 @@ Prefix :   ${prefix}
 ➤ xnxx/xnxxdl (link bokep xnxx)
 ➤ xvideos/xvideosdl (link bokep xvideos)
 ➤ tiktok (link)
+➤ tiktok2 (Backup'an)
 ➤ tiktokmp3 (link)
 ➤ ttimg/tiktokslide/ttslide (link)
 ➤ igdl (link)
@@ -1652,7 +1657,7 @@ if (!isBotAdmins) return
 bvl = `\`\`\`「 Wa.me Link Detected 」\`\`\`\n\nAdmin sudah kirim link wa.me, admin bebas kirim link apa saja😇`
 if (isAdmins) return m.reply(bvl)
 if (m.key.fromMe) return m.reply(bvl)
-if (XeonTheCreator) return m.reply(bvl)
+if (isCreator) return m.reply(bvl)
 kice = m.sender
         await conn.sendMessage(m.chat,
 			    {
@@ -1695,6 +1700,16 @@ if (isAdmins) return conn.sendMessage(m.chat, {text: `\`\`\`「 Virtex Terdeteks
                 await conn.sendVideoAsSticker(from, mediac, m, { packname: global.packname, author: global.author })
             }
         }
+        //ANTISTICKER TESTING
+        if (AntiSticker && isXeonMedia) {
+    if(isXeonMedia === "stickerMessage"){
+        if (isCreator || isAdmins || !isBotAdmins){		  
+        } else {
+         // paytod(`\`\`\`「 Sticker Detected 」\`\`\`\n\nMaaf, tapi saya harus menghapusnya, karena admin/pemilik telah mengaktifkan anti-sticker untuk grup ini`)
+    return conn.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: false, id: m.key.id, participant: m.key.participant }})
+        }
+    }
+  }
 // Respon Cmd with media
 if (isMedia && m.msg.fileSha256 && (m.msg.fileSha256.toString('base64') in global.db.data.sticker)) {
 let hash = global.db.data.sticker[m.msg.fileSha256.toString('base64')]
@@ -2310,6 +2325,7 @@ conn.relayMessage(from, scheduledCallCreationMessage.message, { messageId: sched
 break
 
 case 'realtime': case 'datajam': {
+if (!isCreator) return paycall('*Khusus Owner Bot*')
 var mundur = await hitungmundur(4, 23)
 var scheduledCallCreationMessage = generateWAMessageFromContent(from, proto.Message.fromObject({
 "scheduledCallCreationMessage": {
@@ -2794,7 +2810,7 @@ break
 case 'bdsm' :
 let error6;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/bdsm?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.ouzen.xyz/api/morensfw/bdsm?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error6 = true;
 				} finally {
@@ -2805,7 +2821,7 @@ conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/bdsm
 break
 case 'femdom': {
 try {
-conn.sendMessage(m.chat, { image: { url: `https://api.zenext.xyz/api/morensfw/femdom?apikey=zenzkey_133c4d90d6` }, caption: done }, { quoted: m })
+conn.sendMessage(m.chat, { image: { url: `https://api.ouzen.xyz/api/morensfw/femdom?apikey=zenzkey_133c4d90d6` }, caption: done }, { quoted: m })
 } catch (error) {
         console.error(error);
         replyerror('ERROR.');
@@ -2815,7 +2831,7 @@ break
 case 'masturbation' :
 let error7;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/masturbation?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.ouzen.xyz/api/morensfw/masturbation?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error7 = true;
 				} finally {
@@ -2827,7 +2843,7 @@ break
 case 'oppai':
 let error21;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.ouzen.xyz/randomanime/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error21 = true;
 				} finally {
@@ -2839,7 +2855,7 @@ break
 case 'yuri':
 let error22;
 try {
-conn.sendMessage(from, { image: { url: `https://api.zenext.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
+conn.sendMessage(from, { image: { url: `https://api.ouzen.xyz/api/morensfw/${command}?apikey=zenzkey_133c4d90d6` } })
 } catch (er) {
 					error22 = true;
 				} finally {
@@ -3543,22 +3559,22 @@ const tiktokData = await tryServer1(args[0]);
     }
             }
 break
-/*case 'tiktoknowm': case 'ttnowm': case 'tiktok': case 'tt': {
+case 'tiktoknowm2': case 'ttnowm2': case 'tiktok2': case 'tt2': {
 if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let res = await fetchJson(`https://aemt.me/download/tikdl?url=${args[0]}`)
+let res = await fetchJson(`https://aemt.me/download/ttdl?url=${args[0]}`)
 let ttk = res.result
-let captionnya = `${done}\n\n📝Judul : ${ttk.info_video.title || 'ShinChan Senpai'}\n👤Creator : ${ttk.author_info.nickname}\n💖Wilayah : ${ttk.info_video.region}\n🔖Durasi : ${ttk.info_video.duration}\n📥Total Download : ${ttk.info_video.total_download}\n📲Total Play : ${ttk.info_video.total_play}\n📊Total Share : ${ttk.info_video.total_share}\n📖Total Komentar : ${ttk.info_video.total_comment}`
-await conn.sendFile2(m.chat, ttk.url.nowm, 'mp4', captionnya, m);
+//await conn.sendFile2(m.chat, ttk.url.nowm, 'mp4', captionnya, m);
+await conn.sendMessage(m.sender, { video : { url : ttk.video[0] }, mimetype: 'video/mp4', caption : `${done}` }, { quoted : m });
 } catch (error) {
 console.error(error);
 replyerror(`Yah Proses Gagal:(`);
 }
 }
 break
-case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
+/*case 'tiktokmp3': case 'ttmp3': case 'ttaudio': {
 if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
 try {
@@ -4256,7 +4272,7 @@ await m.reply(`Hai @${m.sender.split('@')[0]} Foto akan Dikirim dalam obrolan pr
   }
             }
 break
-case 'igdl': {
+case 'ig': case 'igdl': {
 if (args.length == 0) return reply(`Example: ${prefix + command} https://www.instagram.com/p/CzGnVBMsVdD/?igshid=NTc4MTIwNjQ2YQ==`)
 if (!text.includes('instagram.com')) return paytod(`Kirim Link Instagram nya bodoh`)
 try {
@@ -4638,7 +4654,7 @@ m.reply(teks)
 })
 }
 break
-case 'translate': {
+case 'tr': case 'translate': {
 	let lang
 	if (args.length >= 2) {
 		lang = args[0] ? args[0] : 'id', text = args.slice(1).join(' ')
@@ -4687,7 +4703,7 @@ replyerror(`Yah Proses Gagal:(`);
   if (/image/.test(mime)) {
     let anu = await TelegraPh(media);
 try {
-    let fetch = await fetchJson(`https://api.zenext.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
+    let fetch = await fetchJson(`https://api.ouzen.xyz/animeweb/sauce?url=${anu}&apikey=zenzkey_133c4d90d6`);
     if (fetch.result) {
     let ini_result = await fetch.result
 let caption = `Anime Source :\n\n`
@@ -4992,13 +5008,13 @@ case 'sinonim': case 'persamaankata': {
     }
 }
 break
-case 'fbdl': {
+case 'fb': case 'fbdl': {
       if (!args[0]) throw `Input URL`;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resfbdl = await fetchJson(`https://vihangayt.me/download/fb?url=${args[0]}`)
-let hasildlnya = resfbdl.data
-await conn.sendMessage(m.chat, { video: { url: hasildlnya.video_hd }, caption: done }, { quoted: m})
+let resfbdl = await fetchJson(`https://aemt.me/download/fbdown?url=${args[0]}`)
+let hasildlnya = resfbdl.result.url.urls[0]
+await conn.sendMessage(m.chat, { video: { url: hasildlnya.hd }, caption: done }, { quoted: m})
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
@@ -6888,6 +6904,37 @@ paytod(open)
 }, timer)
 }
 break
+case 'bc':
+            case 'broadcast': {
+               if (!isCreator) return m.reply('*Khusus Owner Bot*')
+               if (!text) return paytod('Text?')
+               let teksnya = `${text}\n\n\nTanggal: ${tanggal}\nJam: ${time}`
+               let getGroups = await conn.groupFetchAllParticipating()
+               let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
+               let anu = groups.map(v => v.id)
+               for (let i of anu) {
+               await sleep(1500)
+                  if (/image/.test(mime)) {
+                     var media = await quoted.download()
+                     await conn.sendMessage(i, { 
+                        image:media,
+                        caption: teksnya
+                     })
+                  } else if (/video/.test(mime)) {
+                     var media = await quoted.download()
+                     await conn.sendMessage(i, {
+                        video: media,
+                        caption: teksnya
+                     })
+                  } else if (text) {
+                     await conn.sendMessage(i, {
+                        text: teksnya
+                     })
+                  }
+               }
+               m.reply(`Success`)
+            }
+            break
 case 'tagall': {
 if (!m.isGroup) return
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
@@ -6965,7 +7012,22 @@ let anu = groups.map(v => v.id)
 m.reply(`Mengirim Broadcast Ke ${anu.length} Group Chat, Waktu Selesai ${anu.length * 1.5} detik`)
 for (let i of anu) {
 await sleep(1500)
-conn.sendMessage(i, {text: `${text}`}, {quoted:m})
+//conn.sendMessage(i, {text: `${text}`}, {quoted: fkontak})
+let a = `${ownername}'s Broadcast\n\n` + '```' + `Message: ${text}\n\n\n𝐓𝐚𝐧𝐠𝐠𝐚𝐥: ${tanggal}\n𝐉𝐚𝐦: ${time}\n𝐉𝐚𝐦: ${wita}\n𝐉𝐚𝐦: ${wit}\n` + '```'
+                    conn.sendMessage(i, {
+                        text: a,
+                        contextInfo: {
+                            externalAdReply: {
+                                showAdAttribution: true,
+                                title: botname,
+                                body: `Sent in ${i.length} Group`,
+                                thumbnailUrl: 'https://telegra.ph/file/b529b1098a8399e834b52.jpg',
+                                sourceUrl: ig,
+                                mediaType: 1,
+                                renderLargerThumbnail: true
+                            }
+                        }
+                    })
     }
 m.reply(`Sukses Mengirim Broadcast Ke ${anu.length} Group`)
 }
