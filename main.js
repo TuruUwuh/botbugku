@@ -702,6 +702,7 @@ Prefix :   ${prefix}
 ➤ txtimg6 (Masukin teks Prompt)
 ➤ prodia (Masukin teks Prompt)
 ➤ simurg (Masukin teks Prompt)
+➤ cartoon (Masukin teks Prompt)
 ➤ animedif/animediffusion (Masukin teks Prompt)
 ➤ animedif2/animediffusion2 (Masukin teks Prompt)
 ➤ sdxl (Masukin teks Prompt)
@@ -3088,16 +3089,30 @@ await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${do
     }
 			}
 			break
+case 'cartoon': {
+if (!isPremgc && !isCreator) return replytolak(premiumgc)
+if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
+try {
+await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
+let response = await fetchJson(`http://api.dimasbotzz.my.id/api/ai/render3d?prompt=${text}`)
+//await conn.sendImage(m.chat, response.result, donatur, m)
+await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${done}`}, { quoted: m })
+} catch (error) {
+        console.error(error);
+        replyerror(`ERROR`);
+    }
+			}
+			break
 case 'bingimg2': {
 if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
   await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-  let res = await fetchJson(`https://vihangayt.me/tools/ai-bingimg?q=${text}`);
-  if (res.data?.length) {
-    for (let i = 0; i < res.data?.length; i++) {
+  let res = await fetchJson(`http://api.dimasbotzz.my.id/api/text2img/bing-image2?prompt=${text}`);
+  if (res.result?.length) {
+    for (let i = 0; i < res.result?.length; i++) {
      // await conn.sendImage(m.chat, res.data[i], done, m);
-     await conn.sendMessage(m.chat, { image: { url: res.data[i] }, caption: `${done}`}, { quoted: m })
+     await conn.sendMessage(m.chat, { image: { url: res.result[i] }, caption: `${done}`}, { quoted: m })
     }
   } else {
     m.reply('Server sedang sibuk sekarang. Coba lagi nanti !');
@@ -5012,9 +5027,9 @@ case 'fb': case 'fbdl': {
       if (!args[0]) throw `Input URL`;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let resfbdl = await fetchJson(`https://aemt.me/download/fbdown?url=${args[0]}`)
-let hasildlnya = resfbdl.result.url.urls[0]
-await conn.sendMessage(m.chat, { video: { url: hasildlnya.hd }, caption: done }, { quoted: m})
+let resfbdl = await fetchJson(`https://api.lolhuman.xyz/api/facebook?apikey=GataDios&url=${args[0]}`)
+let hasildlnya = resfbdl.result[0]
+await conn.sendMessage(m.chat, { video: { url: hasildlnya }, caption: done }, { quoted: m})
 } catch (error) {
         console.error(error);
         replyerror(`ERROR`);
